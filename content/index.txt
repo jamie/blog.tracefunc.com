@@ -5,5 +5,4 @@ dirty:      true
 #articles
   - articles = @pages.find(:all, :in_directory => @page.dir, :recursive => true,  :sort_by => "created_at", :reverse => true, :layout => 'article')
   - paginate(articles, 5) do |page|
-    %div{:id => "article_#{page.id}"}
-      = render :partial => 'article', :locals => {:page => page}
+    = render :partial => '/article', :locals => {:page => page}

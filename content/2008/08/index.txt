@@ -1,15 +1,7 @@
 ---
-title:      08
-filter:     erb
-dirty:      true
+filter: haml
+dirty:  true
 ---
-<h2><%= h(@page.title) %></h2>
-
-<%
-  articles = @pages.find(:all, :in_directory => @page.dir, :recursive => true,
-      :sort_by => "created_at", :reverse => true, :blog_post => true)
-  articles.delete(@page)
-  paginate(articles, 10) do |page|
--%>
-<%= render :partial => '/blog', :locals => {:page => page} %>
-<% end -%>
+- articles = @pages.find(:all, :in_directory => @page.dir, :recursive => true,  :sort_by => "created_at", :reverse => true, :layout => 'article')
+- paginate(articles, 10) do |page|
+  = render :partial => '/article', :locals => {:page => page}

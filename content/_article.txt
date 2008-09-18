@@ -3,7 +3,7 @@ filter:     haml
 ---
 .article.hentry
   %h3.entry-title{:rel => 'bookmark'}= link_to_page(page)
-  .entry-content= render(page)
+  .entry-content~ render(page)
   .footer
     %abbr.published.date{:title => page.created_at.strftime('%Y-%m-%dT%H:%M:%S%Z')}= page.created_at.strftime('%b %e, %Y at %H:%M')
     &nbsp; | &nbsp; tagged:
