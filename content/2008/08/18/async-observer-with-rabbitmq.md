@@ -80,6 +80,6 @@ Create the new worker the same way you would for the AO::Worker, and you're set:
 
 Note: I'm maintaining a [merb port][] of async-observer on github.
 
-[merb port]: https://github.com/jamie/async-observer
+[merb port]: http://github.com/jamie/async-observer
 
 Note 2: This worker is somewhat fragile, if the RabbitMQ server goes down it will just hang forever waiting for more jobs.  I'll need to figure out a solution to that before we move this into production (and I wrap it up in a gem), but I thought I'd get this out and about now.
