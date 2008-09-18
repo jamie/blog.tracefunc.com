@@ -1,0 +1,42 @@
+--- 
+extension: html
+filter: haml
+--- 
+!!!
+%html
+  %head
+    %title= ['set_trace_func', @title].compact.join(' ~ ')
+    %meta{'http-equiv' => 'content-type', 'content' => 'text/html; charset=utf-8'}
+    = css 'blueprint'
+    /[if IE]
+      = css 'blueprint-ie'
+    = css 'master'
+    %link{:href => 'http://feeds.feedburner.com/set_trace_func', :rel => 'alternate', :type => 'application/atom+xml'}
+    = js 'jquery-1.2.3'
+    = js 'prettify'
+    = js 'blog'
+  %body
+    .container
+      #header.span-20.last
+        %h1
+          %a{:href => '/'} set_trace_func
+        %h2 veni, vidi, didici
+      #content-wrap
+        #content.span-13
+          ~ @content
+        #sidebar.span-5
+          %h4 About
+          %p Hi, I'm Jamie.  This is my blog.
+          %p Feel free to send me an email, I am jamie at this domain.
+          %p <a href="http://feeds.feedburner.com/set_trace_func"><img src="http://feeds.feedburner.com/~fc/set_trace_func?bg=0099ff&amp;fg=000000&amp;anim=0" height="26" width="88" style="border: 1px; margin: 0 42px;" alt="" /></a><br class="clear"/>
+          %hr
+          #github-badge
+          :javascript
+            GITHUB_USERNAME="jamie";
+            GITHUB_TITLE = "Projects";
+          %script{:type => 'text/javascript', :src => "http://drnicjavascript.rubyforge.org/github_badge/dist/github-badge-launcher.js"}
+      #footer.span-20.last
+        %p 
+          &copy; 2006-2008 <span class="author vcard"><span class="fn">Jamie Macey</span></span>
+          |
+          Original design: <a href="http://www.styleshout.com/templates/preview/CoolWater1-0/index.html">CoolWater</a> by <a href="http://www.styleshout.com/">styleshout</a>
