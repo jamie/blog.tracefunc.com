@@ -20,7 +20,7 @@ namespace :blog do
     _, _, dir = Webby::Builder.new_page_info
     dir = File.join(dir, Time.now.strftime(dir_fmt))
 
-    fn = File.join(dir, 'index.txt')
+    fn = File.join(dir, 'index.haml')
     tmpl = Dir.glob(File.join(Webby.site.template_dir, template)).first.to_s
 
     if test(?f, tmpl) and not test(?f, File.join(Webby.site.content_dir, fn))
