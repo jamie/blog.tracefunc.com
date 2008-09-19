@@ -5,7 +5,7 @@ filter:     haml
   %h3.entry-title{:rel => 'bookmark'}= link_to_page(page)
   .entry-content~ render(page)
   .footer
-    %abbr.published.date{:title => page.created_at.strftime('%Y-%m-%dT%H:%M:%S%Z')}= page.created_at.strftime('%b %e, %Y at %H:%M')
+    = atom_datestamp(page.created_at)
     &nbsp; | &nbsp; tagged:
     - page.tags.each do |tag|
       == <a href="/tags/#{tag}">#{tag}</a>
