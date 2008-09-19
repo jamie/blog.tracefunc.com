@@ -5,11 +5,11 @@ namespace :blog do
     next if name =~ %r/^(month|year)$/  # skip month/year blog entries
 
     desc "Create a new blog #{name}"
-    task name => [:create_year_index, :create_month_index] do |t|
+    task name do |t| #=> [:create_year_index, :create_month_index] do |t|
       page, title, dir = Webby::Builder.new_page_info
-      dir = File.join(dir, Time.now.strftime('%Y/%m/%d'))
+      dir = File.join(dir, 'blog')
 
-      page = File.join(dir, File.basename(page))
+      page = File.join(dir, Time.now.strftime('draft-') + File.basename(page))
       page = Webby::Builder.create(page, :from => template,
                  :locals => {:title => title, :directory => dir})
       exec(::Webby.editor, page) unless ::Webby.editor.nil?

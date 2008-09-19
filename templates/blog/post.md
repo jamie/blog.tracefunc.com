@@ -1,11 +1,15 @@
---- 
+---
 title:      <%= title %>
 created_at: <%= Time.now.to_y %>
-extension:  html
-layout:     article
 tags:       []
+
+directory:  draft
+filename:   driving
+extension:  html
+
+layout:     article
 filter:
   - markdown
---- 
+---
 Post Goes Here
 (in markdown)
