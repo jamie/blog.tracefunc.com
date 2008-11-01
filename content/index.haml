@@ -3,7 +3,7 @@ filter:     haml
 dirty:      true
 ---
 #articles
-  - articles = @pages.find(:all, :in_directory => @page.dir, :recursive => true,  :sort_by => "created_at", :reverse => true, :layout => 'article')
+  - articles = @pages.find(:all, :in_directory => @page.dir, :recursive => true, :sort_by => "created_at", :reverse => true, :layout => 'article')
   - paginate(articles, 5) do |page|
     = render :partial => '/article', :locals => {:page => page}
-/  = link_to "More", @pager.next if @pager.next?
+  = link_to "More", @pager.next if @pager.next?

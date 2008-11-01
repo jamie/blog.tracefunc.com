@@ -1,0 +1,11 @@
+---
+filter:     haml
+dirty:      true
+---
+#articles
+  - articles = @pages.find(:all, :in_directory => @page.dir, :recursive => true, :sort_by => "created_at", :layout => 'article').reverse
+  %table
+    - articles.each do |page|
+      %tr
+        %td= link_to page.title, page.url
+        %td= page.created_at
