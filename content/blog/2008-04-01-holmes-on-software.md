@@ -5,7 +5,7 @@ tags:       [programming, holmes]
 
 directory:  2008/04/01
 filename:   holmes-on-software
-extension:  html
+extension:  
 
 layout:     article
 filter:

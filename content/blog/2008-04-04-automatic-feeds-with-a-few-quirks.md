@@ -5,7 +5,7 @@ tags:       [blog]
 
 directory:  2008/04/04
 filename:   automatic-feeds-with-a-few-quirks
-extension:  html
+extension:  
 
 layout:     article
 filter:

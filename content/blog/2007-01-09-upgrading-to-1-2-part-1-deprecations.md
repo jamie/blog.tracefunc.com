@@ -2,9 +2,11 @@
 title:      'Upgrading to 1.2, Part 1: Deprecations'
 created_at: 2007-01-09 20:53:00 -0400
 tags:       [programming, rails]
+
 directory:  2007/01/09
 filename:   upgrading-to-1-2-part-1-deprecations
-extension:  html
+extension:  
+
 layout:     article
 filter:
   - markdown

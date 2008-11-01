@@ -5,7 +5,7 @@ tags:       [programming, ruby]
 
 directory:  2006/06/08
 filename:   rapid-prototyping-with-openstruct
-extension:  html
+extension:  
 
 layout:     article
 filter:

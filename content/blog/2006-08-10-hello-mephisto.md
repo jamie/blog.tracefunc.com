@@ -5,7 +5,7 @@ tags:       [blog]
 
 directory:  2006/08/10
 filename:   hello-mephisto
-extension:  html
+extension:  
 
 layout:     article
 filter:

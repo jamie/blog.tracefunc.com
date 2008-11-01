@@ -5,7 +5,7 @@ tags:       [programming, merb]
 
 directory:  2008/07/11
 filename:   embedding-gems-in-merb
-extension:  html
+extension:  
 
 layout:     article
 filter:

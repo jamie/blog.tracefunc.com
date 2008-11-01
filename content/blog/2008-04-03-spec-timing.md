@@ -5,7 +5,7 @@ tags:       [programming, ruby]
 
 directory:  2008/04/03
 filename:   spec-timing
-extension:  html
+extension:  
 
 layout:     article
 filter:

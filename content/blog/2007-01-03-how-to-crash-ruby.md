@@ -5,7 +5,7 @@ tags:       [programming, ruby]
 
 directory:  2007/01/03
 filename:   how-to-crash-ruby
-extension:  html
+extension:  
 
 layout:     article
 filter:

@@ -5,7 +5,7 @@ tags:       [holmes]
 
 directory:  draft
 filename:   holmes-soggy-sorority
-extension:  html
+extension:  
 
 layout:     article
 filter:

@@ -5,7 +5,7 @@ tags:       [programming, rails]
 
 directory:  2006/05/16
 filename:   fun-with-routes
-extension:  html
+extension:  
 
 layout:     article
 filter:

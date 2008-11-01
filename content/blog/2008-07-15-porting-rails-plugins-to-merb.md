@@ -5,7 +5,7 @@ tags:       [rails, merb]
 
 directory:  2008/07/15
 filename:   porting-rails-plugins-to-merb
-extension:  html
+extension:  
 
 layout:     article
 filter:

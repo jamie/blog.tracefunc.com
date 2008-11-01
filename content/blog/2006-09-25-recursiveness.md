@@ -5,7 +5,7 @@ tags:       [programming, ruby]
 
 directory:  2006/09/25
 filename:   recursiveness
-extension:  html
+extension:  
 
 layout:     article
 filter:

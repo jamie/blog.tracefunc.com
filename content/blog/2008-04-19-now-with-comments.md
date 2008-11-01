@@ -5,7 +5,7 @@ tags:       [blog]
 
 directory:  2008/04/19
 filename:   now-with-comments
-extension:  html
+extension:  
 
 layout:     article
 filter:

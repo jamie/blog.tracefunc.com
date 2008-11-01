@@ -5,7 +5,7 @@ tags:       [programming, rails]
 
 directory:  2007/01/23
 filename:   test-timing
-extension:  html
+extension:  
 
 layout:     article
 filter:

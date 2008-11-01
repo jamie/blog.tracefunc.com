@@ -5,7 +5,7 @@ tags:       [programming, merb, specs]
 
 directory:  2008/05/09
 filename:   specifying-merb-mailers
-extension:  html
+extension:  
 
 layout:     article
 filter:

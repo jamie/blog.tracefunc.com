@@ -3,7 +3,7 @@ filter:     haml
 dirty:      true
 ---
 #articles
-  - articles = @pages.find(:all, :in_directory => @page.dir, :recursive => true, :sort_by => "created_at", :layout => 'article').reverse
+  - articles = @pages.find(:all, :in_directory => @page.dir, :recursive => true, :sort_by => "created_at", :reverse => true, :layout => 'article')
   %table
     - articles.each do |page|
       %tr

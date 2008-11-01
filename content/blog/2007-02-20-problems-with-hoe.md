@@ -5,7 +5,7 @@ tags:       [programming, ruby]
 
 directory:  2007/02/20
 filename:   problems-with-hoe
-extension:  html
+extension:  
 
 layout:     article
 filter:

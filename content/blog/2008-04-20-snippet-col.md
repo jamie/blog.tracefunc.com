@@ -5,7 +5,7 @@ tags:       [ruby, snippet]
 
 directory:  2008/04/20
 filename:   snippet-col
-extension:  html
+extension:  
 
 layout:     article
 filter:

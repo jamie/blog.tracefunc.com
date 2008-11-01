@@ -5,7 +5,7 @@ tags:       [linux]
 
 directory:  2007/01/15
 filename:   reinstall
-extension:  html
+extension:  
 
 layout:     article
 filter:

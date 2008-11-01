@@ -5,7 +5,7 @@ tags:       [rails, merb, datamapper]
 
 directory:  2008/07/15
 filename:   porting-rails-plugins-to-datamapper
-extension:  html
+extension:  
 
 layout:     article
 filter:

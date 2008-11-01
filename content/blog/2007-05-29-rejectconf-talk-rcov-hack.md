@@ -5,7 +5,7 @@ tags:       [programming, ruby, rails]
 
 directory:  2007/05/29
 filename:   rejectconf-talk-rcov-hack
-extension:  html
+extension:  
 
 layout:     article
 filter:

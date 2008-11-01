@@ -5,7 +5,7 @@ tags:       [programming, rails, merb]
 
 directory:  draft
 filename:   rest-less-on-the-web
-extension:  html
+extension:  
 
 layout:     article
 filter:

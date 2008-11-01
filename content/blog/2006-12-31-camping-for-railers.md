@@ -5,7 +5,7 @@ tags:       [camping, programming, rails]
 
 directory:  2006/12/31
 filename:   camping-for-railers
-extension:  html
+extension:  
 
 layout:     article
 filter:

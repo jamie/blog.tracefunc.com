@@ -5,7 +5,7 @@ tags:       [blog]
 
 directory:  2006/06/17
 filename:   typo-is-being-evil
-extension:  html
+extension:  
 
 layout:     article
 filter:

@@ -5,7 +5,7 @@ tags:       [blog]
 
 directory:  2008/03/23
 filename:   yet-another-blog-reboot
-extension:  html
+extension:  
 
 layout:     article
 filter:

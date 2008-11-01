@@ -5,7 +5,7 @@ tags:       [blog]
 
 directory:  2006/12/28
 filename:   resolutions
-extension:  html
+extension:  
 
 layout:     article
 filter:

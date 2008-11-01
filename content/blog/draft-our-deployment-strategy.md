@@ -5,7 +5,7 @@ tags:       [programming, hosting]
 
 directory:  draft
 filename:   our-deployment-strategy
-extension:  html
+extension:  
 
 layout:     article
 filter:

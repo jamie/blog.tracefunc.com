@@ -5,7 +5,7 @@ tags:       [blog]
 
 directory:  2007/01/06
 filename:   holding-pattern
-extension:  html
+extension:  
 
 layout:     article
 filter:

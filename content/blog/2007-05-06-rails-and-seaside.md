@@ -5,7 +5,7 @@ tags:       [programming, rails, seaside]
 
 directory:  2007/05/06
 filename:   rails-and-seaside
-extension:  html
+extension:  
 
 layout:     article
 filter:

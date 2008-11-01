@@ -5,7 +5,7 @@ tags:       [ruby]
 
 directory:  2008/07/14
 filename:   two-questions
-extension:  html
+extension:  
 
 layout:     article
 filter:

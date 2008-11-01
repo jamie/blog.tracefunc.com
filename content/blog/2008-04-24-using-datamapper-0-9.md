@@ -5,7 +5,7 @@ tags:       [datamapper, merb]
 
 directory:  2008/04/24
 filename:   using-datamapper-0-9
-extension:  html
+extension:  
 
 layout:     article
 filter:

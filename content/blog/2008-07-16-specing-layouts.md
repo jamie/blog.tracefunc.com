@@ -5,7 +5,7 @@ tags:       [merb, specs]
 
 directory:  2008/07/16
 filename:   specing-layouts
-extension:  html
+extension:  
 
 layout:     article
 filter:

@@ -5,7 +5,7 @@ tags:       [holmes]
 
 directory:  2008/04/01
 filename:   holmes-additional-grief
-extension:  html
+extension:  
 
 layout:     article
 filter:

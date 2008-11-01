@@ -5,7 +5,7 @@ tags:       [ruby]
 
 directory:  2007/04/04
 filename:   ruby-of-the-future
-extension:  html
+extension:  
 
 layout:     article
 filter:

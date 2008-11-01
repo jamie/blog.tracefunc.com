@@ -5,7 +5,7 @@ tags:       [ruby, rails, merb]
 
 directory:  2008/08/08
 filename:   async-observer-with-rabbitmq
-extension:  html
+extension:  
 
 layout:     article
 filter:

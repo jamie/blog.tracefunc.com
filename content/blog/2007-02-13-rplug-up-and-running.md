@@ -5,7 +5,7 @@ tags:       [programming, ruby, rails]
 
 directory:  2007/02/13
 filename:   rplug-up-and-running
-extension:  html
+extension:  
 
 layout:     article
 filter:

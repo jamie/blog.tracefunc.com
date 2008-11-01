@@ -5,7 +5,7 @@ tags:       [rails]
 
 directory:  2008/06/21
 filename:   rails-rest-helpers-fail
-extension:  html
+extension:  
 
 layout:     article
 filter:

@@ -5,7 +5,7 @@ tags:       [ruby, rails, merb]
 
 directory:  draft
 filename:   converting-hashes-to-params
-extension:  html
+extension:  
 
 layout:     article
 filter:

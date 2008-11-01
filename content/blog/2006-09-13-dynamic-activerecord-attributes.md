@@ -5,7 +5,7 @@ tags:       [programming, rails]
 
 directory:  2006/09/13
 filename:   dynamic-activerecord-attributes
-extension:  html
+extension:  
 
 layout:     article
 filter:

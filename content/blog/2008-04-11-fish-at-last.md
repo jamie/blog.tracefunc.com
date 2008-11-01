@@ -5,7 +5,7 @@ tags:       [osx]
 
 directory:  2008/04/11
 filename:   fish-at-last
-extension:  html
+extension:  
 
 layout:     article
 filter:
