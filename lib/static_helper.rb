@@ -1,10 +1,10 @@
 module StaticHelper
   def css(file)
-    %(<link rel="stylesheet" href="/css/#{file}.css" type="text/css">)
+    %(<link rel="stylesheet" href="#{file}.css" type="text/css">)
   end
   
   def js(file)
-    %(<script type='text/javascript' src="/js/#{file}.js"></script>)
+    %(<script type='text/javascript' src="#{file}.js"></script>)
   end
   
   def atom_datestamp(date)
