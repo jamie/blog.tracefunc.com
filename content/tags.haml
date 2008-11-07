@@ -1,0 +1,19 @@
+---
+title:  Articles by Tag
+filter: haml
+dirty:  true
+---
+#articles
+  - articles = @pages.find(:all, :in_directory => @page.dir, :recursive => true, :sort_by => "created_at", :reverse => true, :layout => 'article')
+  - articles = by_tag(articles)
+  %table
+    - articles.keys.sort.each do |tag|
+      - pages = articles[tag]
+      %tr
+        %th= tag
+        %th
+          %a{:name => tag, :class => 'anchor'} &nbsp;
+      - pages.sort.each do |page|
+        %tr
+          %td= Time.parse(page.created_at).strftime('%b %e, %Y')
+          %td= link_to page.title, page.url

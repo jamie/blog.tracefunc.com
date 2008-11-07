@@ -11,7 +11,7 @@ filter: haml
       = atom_datestamp(@page.created_at)
       &nbsp; | &nbsp; tagged:
       - @page.tags.each do |tag|
-        == <a href="/tags/#{tag}">#{tag}</a>
+        == <a href="/tags.html##{tag}">#{tag}</a>
 
   #disqus_thread
   :javascript

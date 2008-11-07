@@ -1,11 +1,18 @@
 ---
-filter:     haml
-dirty:      true
+title:  Articles by Date
+filter: haml
+dirty:  true
 ---
 #articles
-  - articles = @pages.find(:all, :in_directory => @page.dir, :recursive => true, :sort_by => "created_at", :reverse => true, :layout => 'article')
+  - articles = @pages.find(:all, :sort_by => "created_at", :reverse => true)
+  - articles = by_year(articles)
   %table
-    - articles.each do |page|
+    - articles.keys.sort.reverse.each do |year|
+      - pages = articles[year]
       %tr
-        %td= link_to page.title, page.url
-        %td= page.created_at
+        %th= year
+        %th &nbsp;
+      - pages.each do |page|
+        %tr
+          %td= Time.parse(page.created_at).strftime('%b %e')
+          %td= link_to page.title, page.url

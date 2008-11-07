@@ -15,6 +15,33 @@ module StaticHelper
   rescue
     "<abbr>draft</abbr>"
   end
+  
+  def by_year(articles)
+    articles.inject({}) do |hash, article|
+      year = Time.parse(article.created_at).year
+      hash[year] ||= []
+      hash[year] << article
+      hash
+    end
+  end
+
+  def by_tag(articles)
+    articles.inject({}) do |hash, article|
+      article.tags.each do |tag|
+        hash[tag] ||= []
+        hash[tag] << article
+      end
+      hash
+    end
+  end
+  
+  def by_status(projects)
+    projects.inject({}) do |hash, project|
+      hash[project.status] ||= []
+      hash[project.status] << project
+      hash
+    end
+  end
 end
 
 Webby::Helpers.register(StaticHelper)

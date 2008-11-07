@@ -128,7 +128,9 @@ pre.prettylines {
 	background: inherit;
 	color: #93C600;
 }
-
+a.anchor {
+  text-decoration: none;
+}
 
 
 /********************************************
@@ -232,7 +234,10 @@ body {
 #menu ul li#current a {
   color: #3b5e0b;
 }
-
+#menu #feedburner {
+  float: right;
+  margin: 8px 12px;
+}
 
 /* Main Column */
 #content {
