@@ -1,7 +1,7 @@
 ---
 title:      Gem Cleanup
-created_at: 
-tags:       [ruby osx]
+created_at: 2008-11-25 19:00:00 -0500
+tags:       [ruby, osx]
 
 directory:  2008/11/25
 filename:   gem-cleanup
