@@ -14,8 +14,6 @@ filter: haml
         == <a href="/tags.html##{tag}">#{tag}</a>
 
   #disqus_thread
-  :javascript
-    var disqus_developer = 1;
   %script{:type => "text/javascript", :src => "http://disqus.com/forums/tracefunc/embed.js"}
   %noscript
     %a{:href => "http://tracefunc.disqus.com/?url=ref"} View the discussion thread.
