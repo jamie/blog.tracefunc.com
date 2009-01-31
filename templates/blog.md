@@ -4,7 +4,7 @@ created_at:
 tags:       []
 
 directory:  draft
-filename:   <%= title.downcase.gsub(/[^a-z0-9]+/, '-') %>
+filename:   <%= basename %>
 extension:  
 
 layout:     article
