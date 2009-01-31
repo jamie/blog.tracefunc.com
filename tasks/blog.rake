@@ -1,21 +1,59 @@
+BLOG_EXT = "md"
+
 class BlogPage
   def initialize(filename)
-    _, headers, @body = File.read(filename).split(/---\r?\n/)
+    @original_filename = filename
+    _, headers, @body = File.read(filename).split(/--- *\r?\n/)
     @headers = YAML.load(headers)
   end
   
   def title
     @headers['title']
   end
+  
+  def headers
+    ([
+      "title:      #{@headers['title']}",
+      "created_at: #{@headers['created_at']}",
+      "tags:       [#{@headers['tags'].join(', ')}]",
+      "",
+      "directory:  #{@headers['directory']}",
+      "filename:   #{@headers['filename']}",
+      "extension:  #{@headers['extension']}",
+      "",
+      "layout:     #{@headers['layout']}",
+      "filter:     "
+    ] + @headers['filter'].map{|f| "  - #{f}"} + [""]).join("\n")
+  end
+  
+  def filename
+    "#{@headers['directory']}-#{@headers['filename']}.#{BLOG_EXT}"
+  end
+  
+  def delete
+    FileUtils.rm(@original_filename)
+  end
+  
+  def publish
+    @headers['created_at'] = Time.now.strftime('%Y-%m-%d %H:%M:%S %z')
+    @headers['directory'] = Time.now.strftime('%Y-%m-%d')
+  end
+  
+  def publish_to(target_dir)
+    publish
+    File.open(File.join(target_dir, filename), 'w') do |outfile|
+      outfile << ['', headers, @body].join("---\n")
+    end
+    delete
+  end
 end
 
 namespace :blog do
   desc 'Create a new draft titled [NAME]'
-  task :new do
-    page, title, dir = Webby::Builder.new_page_info
-    basename = File.basename(page)
-    ext = "md" # for markdown syntax highlight
-    target = File.join(dir, 'blog', 'draft-' + basename + ".#{ext}")
+  task :new, :title do |task, args|
+    title = args[:title]
+    basename = title.downcase.gsub(/[^a-z0-9]+/, '-')
+    target = File.join('blog', 'draft-' + basename + ".#{BLOG_EXT}")
     
     result = Webby::Builder.create(
       target,
@@ -41,9 +79,9 @@ namespace :blog do
   end
   
   desc 'Publish draft #N (see blog:drafts)'
-  task :publish do |id|
-    p id
-    puts 'publish post'
+  task :publish, :draft_id do |task, args|
+    page = BlogPage.new(Dir['content/blog/draft*'][args[:draft_id].to_i])
+    page.publish_to('content/blog')
   end
   
   desc 'Publish draft #N (see blog:drafts), then publish site'
