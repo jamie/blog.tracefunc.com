@@ -1,4 +1,13 @@
 namespace :blog do
+  desc 'Create a new draft titled [NAME]'
+  task :new
+  
+  desc 'List current draft posts'
+  task :drafts
+  
+  desc 'Publish draft #N (see blog:drafts)'
+  task :publish
+  
   FileList["#{Webby.site.template_dir}/blog/*"].each do |template|
     next unless test(?f, template)
     name = template.pathmap('%n')
