@@ -1,53 +1,3 @@
-BLOG_EXT = "md"
-
-class BlogPage
-  def initialize(filename)
-    @original_filename = filename
-    _, headers, @body = File.read(filename).split(/--- *\r?\n/)
-    @headers = YAML.load(headers)
-  end
-  
-  def title
-    @headers['title']
-  end
-  
-  def headers
-    ([
-      "title:      #{@headers['title']}",
-      "created_at: #{@headers['created_at']}",
-      "tags:       [#{@headers['tags'].join(', ')}]",
-      "",
-      "directory:  #{@headers['directory']}",
-      "filename:   #{@headers['filename']}",
-      "extension:  #{@headers['extension']}",
-      "",
-      "layout:     #{@headers['layout']}",
-      "filter:     "
-    ] + @headers['filter'].map{|f| "  - #{f}"} + [""]).join("\n")
-  end
-  
-  def filename
-    "#{@headers['directory']}-#{@headers['filename']}.#{BLOG_EXT}"
-  end
-  
-  def delete
-    FileUtils.rm(@original_filename)
-  end
-  
-  def publish
-    @headers['created_at'] = Time.now.strftime('%Y-%m-%d %H:%M:%S %z')
-    @headers['directory'] = Time.now.strftime('%Y-%m-%d')
-  end
-  
-  def publish_to(target_dir)
-    publish
-    File.open(File.join(target_dir, filename), 'w') do |outfile|
-      outfile << ['', headers, @body].join("---\n")
-    end
-    delete
-  end
-end
-
 namespace :blog do
   desc 'Create a new draft titled [NAME]'
   task :new, :title do |task, args|
@@ -58,10 +8,7 @@ namespace :blog do
     result = Webby::Builder.create(
       target,
       :from => 'templates/blog.md',
-      :locals => {
-        :title => title,
-        :basename => basename
-      }
+      :locals => {:title => title, :basename => basename}
     )
     unless Webby.editor.nil?
       editor = Webby.editor
@@ -87,6 +34,6 @@ namespace :blog do
   desc 'Publish draft #N (see blog:drafts), then publish site'
   task :publish! do
     Rake::Task['blog:publish'].invoke
-    Rake::Task['publish'].invoke
+    Rake::Task['publish!'].invoke
   end
 end
