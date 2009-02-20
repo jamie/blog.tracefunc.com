@@ -59,7 +59,7 @@ class BlogPage
   
   def publish
     @headers['created_at'] = Time.now.strftime('%Y-%m-%d %H:%M:%S %z')
-    @headers['directory'] = Time.now.strftime('%Y-%m-%d')
+    @headers['directory'] = Time.now.strftime('%Y/%m/%d')
   end
   
   def publish_to(target_dir)
