@@ -32,8 +32,8 @@ namespace :blog do
   end
   
   desc 'Publish draft #N (see blog:drafts), then publish site'
-  task :publish! do
-    Rake::Task['blog:publish'].invoke
+  task :publish!, :draft_id do |task, args|
+    Rake::Task['blog:publish'].invoke(args[:draft_id])
     Rake::Task['publish!'].invoke
   end
 end
