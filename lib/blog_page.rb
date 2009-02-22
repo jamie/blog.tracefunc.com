@@ -64,7 +64,7 @@ class BlogPage
   
   def publish_to(target_dir)
     publish
-    File.open(File.join(target_dir, filename), 'w') do |outfile|
+    File.open(File.join(target_dir, filename.gsub('/','-')), 'w') do |outfile|
       outfile << ['', headers, @body].join("---\n")
     end
     delete
