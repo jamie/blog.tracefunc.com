@@ -1,14 +1,14 @@
 ---
 title:      Fib for Fun
-created_at: 
+created_at: 2009-02-21 22:31:41 -0500
 tags:       [programming]
 
-directory:  draft
+directory:  2009/02/21
 filename:   fib-for-fun
 extension:  
 
 layout:     article
-filter:
+filter:     
   - markdown
 ---
 
