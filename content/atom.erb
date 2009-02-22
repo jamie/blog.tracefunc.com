@@ -1,7 +1,7 @@
 ---
 title:     set_trace_func
 subtitle:  veni, vidi, didici
-site:      tracefunc.com
+site:      blog.tracefunc.com
 author:    Jamie Macey
 email:     jamie at tracefunc.com
 extension: xml
@@ -14,7 +14,7 @@ filter:    erb
  
   <title><%= h(@page.title) %></title>
   <subtitle><%= h(@page.subtitle) %></subtitle>
-  <link href="http://<%= @page.site %>/blog/" rel="self" />
+  <link href="http://<%= @page.site %>/" rel="self" />
   <link href="http://<%= @page.site %>/" />
   <updated><%= Time.now.xmlschema %></updated>
   <author>
@@ -32,7 +32,7 @@ filter:    erb
   %>
   <entry>
     <title><%= h(article.title) %></title>
-    <link href="<%= article.url %>" />
+    <link href="http://<%= @page.site %><%= article.url %>" />
     <id>tag:<%= @page.site %>,<%= atime.strftime('%Y-%m-%d') %>:<%= atime.to_i %></id>
     <updated><%= atime.xmlschema %></updated>
     <content type="html"><%= h(render(article)) %></content>
