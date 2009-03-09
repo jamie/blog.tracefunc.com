@@ -5,7 +5,8 @@ filter: haml
 ---
 #article
   .article.hentry
-    %h3.entry-title{:rel => 'bookmark'}= link_to_page(@page)
+    /%h3.entry-title{:rel => 'bookmark'}= link_to_page(@page)
+    %h3.entry-title= link_to_page(@page)
     .entry-content~ @content
     .footer
       = atom_datestamp(@page.created_at)
@@ -17,4 +18,4 @@ filter: haml
   %script{:type => "text/javascript", :src => "http://disqus.com/forums/tracefunc/embed.js"}
   %noscript
     %a{:href => "http://tracefunc.disqus.com/?url=ref"} View the discussion thread.
-  %a.dsq-brlink{:a => "http://disqus.com"} blog comments powered by <span class="logo-disqus">Disqus</span>
+  %a.dsq-brlink{:href => "http://disqus.com"} blog comments powered by <span class="logo-disqus">Disqus</span>

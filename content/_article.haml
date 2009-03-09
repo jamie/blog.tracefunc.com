@@ -2,7 +2,8 @@
 filter:     haml
 ---
 .article.hentry
-  %h3.entry-title{:rel => 'bookmark'}= link_to_page(page)
+  /%h3.entry-title{:rel => 'bookmark'}= link_to_page(page)
+  %h3.entry-title= link_to_page(page)
   .entry-content~ render(page)
   .footer
     = atom_datestamp(page.created_at)
