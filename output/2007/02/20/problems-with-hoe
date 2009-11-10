@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>set_trace_func ~ Problems with Hoe</title>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <link rel="stylesheet" href="/css/blueprint.css" type="text/css"/>
+    <!--[if IE]> 
+      <link rel="stylesheet" href="/css/blueprint-ie.css" type="text/css"/>
+    <![endif]-->
+    <link rel="stylesheet" href="/css/master.css" type="text/css"/>
+    <link href='http://feeds.feedburner.com/set_trace_func' rel='alternate' type='application/atom+xml' />
+    <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script type='text/javascript' src="/js/prettify.js"></script>
+    <script type='text/javascript' src="/js/blog.js"></script>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='span-20 last' id='header'>
+        <h1>
+          <a href='/'>set_trace_func</a>
+        </h1>
+        <h2>veni, vidi, didici</h2>
+      </div>
+      <div class='span-20 last' id='menu'>
+        <div id='feedburner'>
+          <a href='http://feeds.feedburner.com/set_trace_func'>
+            <img alt='RSS Feed' src='http://feeds.feedburner.com/~fc/set_trace_func?bg=0099ff&amp;fg=000000&amp;anim=0' />
+          </a>
+        </div>
+        <ul style='float: right;'>
+          <li>
+            <a>&#8203;</a>
+          </li>
+          <li>
+            <a href='/about.html'>About Me</a>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <a href='/archive.html'>Archive</a>
+          </li>
+          <li>
+            <a href='/tags.html'>Tags</a>
+          </li>
+          <li>
+            <a href='/projects.html'>Projects</a>
+          </li>
+        </ul>
+      </div>
+      <div id='content-wrap'>
+        <div class='span-18' id='content'>
+          <div id='article'>
+            <div class='article hentry'>
+              <!-- %h3.entry-title{:rel => 'bookmark'}= link_to_page(@page) -->
+              <h3 class='entry-title'><a href="/2007/02/20/problems-with-hoe">Problems with Hoe</a></h3>
+              <div class='entry-content'>
+                <p><a href="http://rubyforge.org/projects/rplug">RPlug</a> and <a href="http://rubyforge.org/projects/sourcecontrol">SourceControl</a> now officially have Gems out. SourceControl is probably useless for anybody at the moment, but if you are working on a rails repository under SVK and want to manage SVN-backed plugins, RPlug should handle it just fine. Just gem install rplug -y. More compatability to come in the future.</p>
+                
+                <p>[Updates below]</p>
+                
+                <p>I've been having problems getting SourceControl deployed, turns out (unsurprisingly) to be user error - I'm new to this whole rubyforge/gem scene.</p>
+                
+                <p>So, for the record, prior to releasing a gem using Hoe, one needs to get rubyforge configured. For me, this wound up being:</p>
+                
+                <pre><code>$ rubyforge setup&#x000A;$ rubyforge config rplug&#x000A;$ rubyforge config sourcecontrol&#x000A;</code></pre>
+                
+                <p>After all that, SourceControl is deploying just fine.</p>
+                
+                <p>I'm presuming that the initial problem was that the gem (and internal file structure) is source_control, but due to limitations on rubyforge the project name is sourcecontrol - somewhere along the way that confusion stopped it from working.</p>
+                
+                <p>Today, I went mucking around with the packages for it, removed the old one named 'sourcecontrol' and added 'source_control' - removing ~/.rubyforge/auto-config.yml and re-running the rubyforge setup/config picked up the new package id, and everything seems to run just fine now.</p>
+              </div>
+              <div class='footer'>
+                <abbr class="published date" title="2007-02-20T10:12:00-04:00">Feb 20, 2007 at 10:12</abbr>
+                &nbsp; | &nbsp; tagged:
+                <a href="/tags.html#programming">programming</a>
+                <a href="/tags.html#ruby">ruby</a>
+              </div>
+            </div>
+            <div id='disqus_thread'></div>
+            <script src='http://disqus.com/forums/tracefunc/embed.js' type='text/javascript'></script>
+            <noscript>
+              <a href='http://tracefunc.disqus.com/?url=ref'>View the discussion thread.</a>
+            </noscript>
+            <a class='dsq-brlink' href='http://disqus.com'>blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </div>
+        </div>
+      </div>
+      <div class='span-20 last' id='footer'>
+        <p>
+          &copy; 2006-2008 <span class="author vcard"><span class="fn">Jamie Macey</span></span>
+          |
+          Original design: <a href="http://www.styleshout.com/templates/preview/CoolWater1-0/index.html">CoolWater</a> by <a href="http://www.styleshout.com/">styleshout</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

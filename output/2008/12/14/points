@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>set_trace_func ~ Points</title>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <link rel="stylesheet" href="/css/blueprint.css" type="text/css">
+    <!--[if IE]> 
+      <link rel="stylesheet" href="/css/blueprint-ie.css" type="text/css">
+    <![endif]-->
+    <link rel="stylesheet" href="/css/master.css" type="text/css">
+    <link href='http://feeds.feedburner.com/set_trace_func' rel='alternate' type='application/atom+xml' />
+    <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script type='text/javascript' src="/js/prettify.js"></script>
+    <script type='text/javascript' src="/js/blog.js"></script>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='span-20 last' id='header'>
+        <h1>
+          <a href='/'>set_trace_func</a>
+        </h1>
+        <h2>veni, vidi, didici</h2>
+      </div>
+      <div class='span-20 last' id='menu'>
+        <div id='feedburner'>
+          <a href='http://feeds.feedburner.com/set_trace_func'>
+            <img src='http://feeds.feedburner.com/~fc/set_trace_func?bg=0099ff&amp;fg=000000&amp;anim=0' />
+          </a>
+        </div>
+        <ul>
+          <li>
+            <a href='/archive.html'>Archive</a>
+          </li>
+          <li>
+            <a href='/tags.html'>Tags</a>
+          </li>
+          <li>
+            <a href='/projects.html'>Projects</a>
+          </li>
+          <li>
+            <a href='/about.html'>About Me</a>
+          </li>
+        </ul>
+      </div>
+      <div id='content-wrap'>
+        <div class='span-18' id='content'>
+          <div id='article'>
+            <div class='article hentry'>
+              <h3 class='entry-title' rel='bookmark'><a href="/2008/12/14/points">Points</a></h3>
+              <div class='entry-content'>
+                <p>A mistake I made early on in my Agile experience was to try and figure out how many hours, or "ideal hours" a point was worth when estimating stories.  I think it's a mistake a lot of people make, trying to convince either themselves or their boss/client that they'll be able to meet a schedule with confidence.  Unfortunately, it winds up being a case of putting the cart before the horse.  Defining points in terms of time makes them redundant, you might as well just use time to begin with.  The value in points is when you run the translation to time the other way.</p>
+                
+                <p>A better way is to treat a point as an abstraction.  It's an estimated measure of difficulty, relative to other stories you're working on now, or in the recent past.  The important thing to keep in mind is that it's just an estimate.  When we complete an iteration and look back at the stories completed, some estimates will have been high, needing less work to complete, others will have been low, the tasks winding up having been more involved than you'd thought.</p>
+                
+                <p>That's OK.  Over time, the high and the low estimates will average out, and you'll also get better at performing the estimates, so there'll be less variance.</p>
+                
+                <p>The real value comes when you've completed the first few iterations of a project, and look back at the number of points worth of stories that were completed in each.  When we average those values to produce a velocity metric, we don't care about the absolute value of the number, so much as how it relates to the remaining stories in the backlog.  From the velocity, we can then vaguely point-box future stories into iterations, giving us an estimated date of completion for any particular group of stories.</p>
+                
+                <p>It's important to remember that this is <em>also</em> an estimate.  It's painful to hear from management that we're "not going to <em>make</em> our velocity" this iteration, when that's exactly what we want to happen sometimes - if something's changed in the workplace (and something's always changing) that has affected our development speed, we want to know about it as soon as possible, and that's one of the reasons for </p>
+              </div>
+              <div class='footer'>
+                <abbr>draft</abbr>
+                &nbsp; | &nbsp; tagged:
+                <a href="/tags.html#programming">programming</a>
+                <a href="/tags.html#agile">agile</a>
+              </div>
+            </div>
+            <div id='disqus_thread'></div>
+            <script src='http://disqus.com/forums/tracefunc/embed.js' type='text/javascript'></script>
+            <noscript>
+              <a href='http://tracefunc.disqus.com/?url=ref'>View the discussion thread.</a>
+            </noscript>
+            <a a='http://disqus.com' class='dsq-brlink'>blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </div>
+        </div>
+      </div>
+      <div class='span-20 last' id='footer'>
+        <p>
+          &copy; 2006-2008 <span class="author vcard"><span class="fn">Jamie Macey</span></span>
+          |
+          Original design: <a href="http://www.styleshout.com/templates/preview/CoolWater1-0/index.html">CoolWater</a> by <a href="http://www.styleshout.com/">styleshout</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

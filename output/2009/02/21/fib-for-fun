@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>set_trace_func ~ Fib for Fun</title>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <link rel="stylesheet" href="/css/blueprint.css" type="text/css"/>
+    <!--[if IE]> 
+      <link rel="stylesheet" href="/css/blueprint-ie.css" type="text/css"/>
+    <![endif]-->
+    <link rel="stylesheet" href="/css/master.css" type="text/css"/>
+    <link href='http://feeds.feedburner.com/set_trace_func' rel='alternate' type='application/atom+xml' />
+    <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script type='text/javascript' src="/js/prettify.js"></script>
+    <script type='text/javascript' src="/js/blog.js"></script>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='span-20 last' id='header'>
+        <h1>
+          <a href='/'>set_trace_func</a>
+        </h1>
+        <h2>veni, vidi, didici</h2>
+      </div>
+      <div class='span-20 last' id='menu'>
+        <div id='feedburner'>
+          <a href='http://feeds.feedburner.com/set_trace_func'>
+            <img alt='RSS Feed' src='http://feeds.feedburner.com/~fc/set_trace_func?bg=0099ff&amp;fg=000000&amp;anim=0' />
+          </a>
+        </div>
+        <ul style='float: right;'>
+          <li>
+            <a>&#8203;</a>
+          </li>
+          <li>
+            <a href='/about.html'>About Me</a>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <a href='/archive.html'>Archive</a>
+          </li>
+          <li>
+            <a href='/tags.html'>Tags</a>
+          </li>
+          <li>
+            <a href='/projects.html'>Projects</a>
+          </li>
+        </ul>
+      </div>
+      <div id='content-wrap'>
+        <div class='span-18' id='content'>
+          <div id='article'>
+            <div class='article hentry'>
+              <!-- %h3.entry-title{:rel => 'bookmark'}= link_to_page(@page) -->
+              <h3 class='entry-title'><a href="/2009/02/21/fib-for-fun">Fib for Fun</a></h3>
+              <div class='entry-content'>
+                <p>A little math can be a dangerous thing.  Here's a quick benchmark for Fibonacci numbers (Y axis in seconds, 20,000 iterations):</p>
+                
+                <p><img src="http://img.skitch.com/20090222-p4e42eew9gbknfis86pdms813f.png" alt="Graph" /></p>
+                
+                <p>The line on the left, marked A, is the typical naive recursive solution, based as directly as possible on the mathematical definition of the function:</p>
+                
+                <pre><code>def fib_r(n)&#x000A;  return 1 if n &lt;= 2&#x000A;  fib_r(n-1) + fib_r(n-2)&#x000A;end&#x000A;</code></pre>
+                
+                <p>Note the telltale exponential curve - this is what we call Very Bad.  The line there stops at Fib(10).</p>
+                
+                <p>A little jiggery lets us convert the recursive solution into an iterative one, line B:</p>
+                
+                <pre><code>def fib_i(n)&#x000A;  x = y = 1&#x000A;  (n-1).times do&#x000A;    x, y = y, x+y&#x000A;  end&#x000A;  x&#x000A;end&#x000A;</code></pre>
+                
+                <p>My personal favorite Fib function is (ab)using a hash's default value function to act as a memoizer.  Line C is the fastest of the bunch (constant time of ~0.012s) but does have some extra memory overhead.</p>
+                
+                <pre><code>def fib_h(n)&#x000A;  @h ||= Hash.new{ |h,k|&#x000A;    if k &lt; 2&#x000A;      h[k] = k&#x000A;    else&#x000A;      h[k] = h[k-1] + h[k-2]&#x000A;    end&#x000A;  }&#x000A;  @h[n]&#x000A;end&#x000A;</code></pre>
+                
+                <p>If we were in an embedded system or something, the memory overhead would probably be bad, but fear not!  Math can save us!</p>
+                
+                <p>Line D is also constant time, but about 0.037s.  It's a fun little bit of math mentioned in <a href="http://mitpress.mit.edu/sicp/">SICP</a>, and turns Fibonacci numbers into a very simple (if unintuitive) bit of math:</p>
+                
+                <pre><code>SQRT5 = Math.sqrt(5.0)&#x000A;PHI = (1 + SQRT5) / 2&#x000A;PSI = (1 - SQRT5) / 2&#x000A;&#x000A;def fib_m(n)&#x000A;  ((PHI ** n - PSI ** n) / SQRT5).to_i&#x000A;end&#x000A;</code></pre>
+              </div>
+              <div class='footer'>
+                <abbr class="published date" title="2009-02-21T22:31:41-05:00">Feb 21, 2009 at 22:31</abbr>
+                &nbsp; | &nbsp; tagged:
+                <a href="/tags.html#programming">programming</a>
+              </div>
+            </div>
+            <div id='disqus_thread'></div>
+            <script src='http://disqus.com/forums/tracefunc/embed.js' type='text/javascript'></script>
+            <noscript>
+              <a href='http://tracefunc.disqus.com/?url=ref'>View the discussion thread.</a>
+            </noscript>
+            <a class='dsq-brlink' href='http://disqus.com'>blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </div>
+        </div>
+      </div>
+      <div class='span-20 last' id='footer'>
+        <p>
+          &copy; 2006-2008 <span class="author vcard"><span class="fn">Jamie Macey</span></span>
+          |
+          Original design: <a href="http://www.styleshout.com/templates/preview/CoolWater1-0/index.html">CoolWater</a> by <a href="http://www.styleshout.com/">styleshout</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

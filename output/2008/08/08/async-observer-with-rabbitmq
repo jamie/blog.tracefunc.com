@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>set_trace_func ~ Async-Observer with RabbitMQ</title>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <link rel="stylesheet" href="/css/blueprint.css" type="text/css"/>
+    <!--[if IE]> 
+      <link rel="stylesheet" href="/css/blueprint-ie.css" type="text/css"/>
+    <![endif]-->
+    <link rel="stylesheet" href="/css/master.css" type="text/css"/>
+    <link href='http://feeds.feedburner.com/set_trace_func' rel='alternate' type='application/atom+xml' />
+    <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script type='text/javascript' src="/js/prettify.js"></script>
+    <script type='text/javascript' src="/js/blog.js"></script>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='span-20 last' id='header'>
+        <h1>
+          <a href='/'>set_trace_func</a>
+        </h1>
+        <h2>veni, vidi, didici</h2>
+      </div>
+      <div class='span-20 last' id='menu'>
+        <div id='feedburner'>
+          <a href='http://feeds.feedburner.com/set_trace_func'>
+            <img alt='RSS Feed' src='http://feeds.feedburner.com/~fc/set_trace_func?bg=0099ff&amp;fg=000000&amp;anim=0' />
+          </a>
+        </div>
+        <ul style='float: right;'>
+          <li>
+            <a>&#8203;</a>
+          </li>
+          <li>
+            <a href='/about.html'>About Me</a>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <a href='/archive.html'>Archive</a>
+          </li>
+          <li>
+            <a href='/tags.html'>Tags</a>
+          </li>
+          <li>
+            <a href='/projects.html'>Projects</a>
+          </li>
+        </ul>
+      </div>
+      <div id='content-wrap'>
+        <div class='span-18' id='content'>
+          <div id='article'>
+            <div class='article hentry'>
+              <!-- %h3.entry-title{:rel => 'bookmark'}= link_to_page(@page) -->
+              <h3 class='entry-title'><a href="/2008/08/08/async-observer-with-rabbitmq">Async-Observer with RabbitMQ</a></h3>
+              <div class='entry-content'>
+                <p><strong>Update:</strong> This code is stale, I've extracted a gem of it and posted on <a href="http://github.com/jamie/async-observer-amqp">github</a>.</p>
+                
+                <p><a href="http://github.com/kr/async-observer/tree">Async-observer</a> is great.  Fast, easy to use API, and it Just Works.  The downside is that the backend, Beanstalkd, doesn't support persistent messages in case the server crashes.  I hear it's on the roadmap, though.</p>
+                
+                <p>However, there's another messaging backend, <a href="http://www.rabbitmq.com/">RabbitMQ</a>, that seems just as easy to get set up, and does support persistent messages.  So, how to get these two bits of tech working together?  Well, if you're hosting your app on <a href="http://code.macournoyer.com/thin/">Thin</a> (or another app server that runs in <a href="http://rubyeventmachine.com/">EventMachine</a>), it's pretty straightforward.</p>
+                
+                <p>First, install the <a href="http://github.com/tmm1/amqp">amqp</a> ruby library to connect to rabbit, and then add a tiny bit of setup.</p>
+                
+                <p>In config/environment.rb:</p>
+                
+                <pre><code>require 'mq'&#x000A;class BeanstalkPoolImpersonator&#x000A;  def initialize(opts={})&#x000A;    @opts = opts&#x000A;  end&#x000A;&#x000A;  def connect&#x000A;    connection = AMQP.connect(@opts)&#x000A;    @channel = channel = MQ.new(connection)&#x000A;  end&#x000A;&#x000A;  def use(queue)&#x000A;    @queue = MQ::Queue.new(@channel, queue)&#x000A;  end&#x000A;&#x000A;  def yput(obj, pri, delay, ttr)&#x000A;    p [obj, pri, delay, ttr]&#x000A;    @queue.publish(YAML.dump(obj))&#x000A;  end&#x000A;&#x000A;  def last_server&#x000A;    :last_server_stub&#x000A;  end&#x000A;&#x000A;  def subscribe(*args, &amp;blk)&#x000A;    @queue.subscribe(*args, &amp;blk)&#x000A;  end&#x000A;end&#x000A;</code></pre>
+                
+                <p>Then, instead of connecting via <code>Beanstalk::Pool.new</code>, do this:</p>
+                
+                <pre><code>AsyncObserver::Queue.queue = BeanstalkPoolImpersonator.new()&#x000A;</code></pre>
+                
+                <p>You can pass an options hash to the <code>new</code> call, providing user, pass, vhost, host, or port as necessary.</p>
+                
+                <p>Then, in your workers, load up the async_observer worker class, and extend like so:</p>
+                
+                <pre><code>class RabbitWorker &lt; AsyncObserver::Worker&#x000A;  def run()&#x000A;    EM.run do&#x000A;      AsyncObserver::Queue.queue.connect&#x000A;      AsyncObserver::Queue.queue.use('1.0')&#x000A;      AsyncObserver::Queue.queue.subscribe do |headers, msg|&#x000A;        job = OpenStruct.new(:ybody =&gt; YAML.load(msg), :body =&gt; msg, :stats =&gt; [])&#x000A;        job.id = headers.properties[:delivery_tag]&#x000A;        safe_dispatch(job)&#x000A;      end&#x000A;    end&#x000A;  end&#x000A;end&#x000A;</code></pre>
+                
+                <p>Create the new worker the same way you would for the AO::Worker, and you're set:</p>
+                
+                <pre><code>RabbitWorker.new(binding).run()&#x000A;</code></pre>
+                
+                <p>Note: I'm maintaining a <a href="https://github.com/jamie/async-observer">merb port</a> of async-observer on github.</p>
+                
+                <p>Note 2: This worker is somewhat fragile, if the RabbitMQ server goes down it will just hang forever waiting for more jobs.  I'll need to figure out a solution to that before we move this into production (and I wrap it up in a gem), but I thought I'd get this out and about now.</p>
+              </div>
+              <div class='footer'>
+                <abbr class="published date" title="2008-08-08T16:00:00-04:00">Aug  8, 2008 at 16:00</abbr>
+                &nbsp; | &nbsp; tagged:
+                <a href="/tags.html#ruby">ruby</a>
+                <a href="/tags.html#rails">rails</a>
+                <a href="/tags.html#merb">merb</a>
+              </div>
+            </div>
+            <div id='disqus_thread'></div>
+            <script src='http://disqus.com/forums/tracefunc/embed.js' type='text/javascript'></script>
+            <noscript>
+              <a href='http://tracefunc.disqus.com/?url=ref'>View the discussion thread.</a>
+            </noscript>
+            <a class='dsq-brlink' href='http://disqus.com'>blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </div>
+        </div>
+      </div>
+      <div class='span-20 last' id='footer'>
+        <p>
+          &copy; 2006-2008 <span class="author vcard"><span class="fn">Jamie Macey</span></span>
+          |
+          Original design: <a href="http://www.styleshout.com/templates/preview/CoolWater1-0/index.html">CoolWater</a> by <a href="http://www.styleshout.com/">styleshout</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

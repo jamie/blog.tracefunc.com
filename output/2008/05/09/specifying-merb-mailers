@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>set_trace_func ~ Specifying Merb Mailers</title>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <link rel="stylesheet" href="/css/blueprint.css" type="text/css"/>
+    <!--[if IE]> 
+      <link rel="stylesheet" href="/css/blueprint-ie.css" type="text/css"/>
+    <![endif]-->
+    <link rel="stylesheet" href="/css/master.css" type="text/css"/>
+    <link href='http://feeds.feedburner.com/set_trace_func' rel='alternate' type='application/atom+xml' />
+    <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script type='text/javascript' src="/js/prettify.js"></script>
+    <script type='text/javascript' src="/js/blog.js"></script>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='span-20 last' id='header'>
+        <h1>
+          <a href='/'>set_trace_func</a>
+        </h1>
+        <h2>veni, vidi, didici</h2>
+      </div>
+      <div class='span-20 last' id='menu'>
+        <div id='feedburner'>
+          <a href='http://feeds.feedburner.com/set_trace_func'>
+            <img alt='RSS Feed' src='http://feeds.feedburner.com/~fc/set_trace_func?bg=0099ff&amp;fg=000000&amp;anim=0' />
+          </a>
+        </div>
+        <ul style='float: right;'>
+          <li>
+            <a>&#8203;</a>
+          </li>
+          <li>
+            <a href='/about.html'>About Me</a>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <a href='/archive.html'>Archive</a>
+          </li>
+          <li>
+            <a href='/tags.html'>Tags</a>
+          </li>
+          <li>
+            <a href='/projects.html'>Projects</a>
+          </li>
+        </ul>
+      </div>
+      <div id='content-wrap'>
+        <div class='span-18' id='content'>
+          <div id='article'>
+            <div class='article hentry'>
+              <!-- %h3.entry-title{:rel => 'bookmark'}= link_to_page(@page) -->
+              <h3 class='entry-title'><a href="/2008/05/09/specifying-merb-mailers">Specifying Merb Mailers</a></h3>
+              <div class='entry-content'>
+                <p>This helper is based on some other controller/view helpers I've been working on and planning on blogging soon, with a nod to the specs present in the merb-mailer library itself.</p>
+                
+                <p>I'm still considering the idea of separate specs for UserMailer and its views, but I think the overhead is too much for mailers, compared to the benefits we get for regular controllers/views.  I think this is a result of the way the send_mail helper functions.</p>
+                
+                <h3>in a controller</h3>
+                
+                <pre><code>send_mail UserMailer, :hello, {&#x000A;  :from =&gt; "greeter@example.com",&#x000A;  :to =&gt; @person.email,&#x000A;  :subject =&gt; "Greetings"&#x000A;}, {&#x000A;  :name =&gt; @person.name&#x000A;}&#x000A;</code></pre>
+                
+                <p>The controller spec can simply stub/mock the send_mail call as appropriate.</p>
+                
+                <h3>spec/spec_helper.rb</h3>
+                
+                <pre><code>Merb::Mailer.delivery_method = :test_send&#x000A;def describe_mail(mailer, template, &amp;block)&#x000A;  describe "/#{mailer.to_s.downcase}/#{template}" do&#x000A;    before :each do&#x000A;      @mailer_class, @template = mailer, template&#x000A;      @assigns = {}&#x000A;    end&#x000A;&#x000A;    def deliver(send_params={}, mail_params={})&#x000A;      mail_params = {:from =&gt; "from@example.com", :to =&gt; "to@example.com", :subject =&gt; "Subject Line"}.merge(mail_params)&#x000A;      @mailer_class.new(send_params).dispatch_and_deliver @template.to_sym, mail_params&#x000A;      @mail = Merb::Mailer.deliveries.last&#x000A;    end&#x000A;&#x000A;    instance_eval &amp;block&#x000A;  end&#x000A;end&#x000A;</code></pre>
+                
+                <h3>spec/mailers/user_mailer_spec.rb</h3>
+                
+                <pre><code>require File.join(File.dirname(__FILE__),'..','spec_helper')&#x000A;&#x000A;describe_mail UserMailer, :hello do&#x000A;  it "should say hello" do&#x000A;    deliver :name =&gt; "Jamie"&#x000A;    @mail.text.should == "Hello Jamie"&#x000A;  end&#x000A;end&#x000A;</code></pre>
+                
+                <p>I'm a big fan of custom rspec describers, as above.  The fact that before and after blocks are transparently inherited is a <em>huge</em> win over test/unit, where you'd need to explicitly call super.</p>
+                
+                <h3>app/mailers/user_mailer.rb</h3>
+                
+                <pre><code>class UserMailer &lt; Merb::MailController&#x000A;  def hello&#x000A;    render_mail&#x000A;  end  &#x000A;end&#x000A;</code></pre>
+                
+                <h3>app/mailers/views/user_mailer/hello.text.erb</h3>
+                
+                <pre><code>Hello &lt;%= params[:name] %&gt;&#x000A;</code></pre>
+              </div>
+              <div class='footer'>
+                <abbr class="published date" title="2008-05-09T20:18:00-04:00">May  9, 2008 at 20:18</abbr>
+                &nbsp; | &nbsp; tagged:
+                <a href="/tags.html#programming">programming</a>
+                <a href="/tags.html#merb">merb</a>
+                <a href="/tags.html#specs">specs</a>
+              </div>
+            </div>
+            <div id='disqus_thread'></div>
+            <script src='http://disqus.com/forums/tracefunc/embed.js' type='text/javascript'></script>
+            <noscript>
+              <a href='http://tracefunc.disqus.com/?url=ref'>View the discussion thread.</a>
+            </noscript>
+            <a class='dsq-brlink' href='http://disqus.com'>blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </div>
+        </div>
+      </div>
+      <div class='span-20 last' id='footer'>
+        <p>
+          &copy; 2006-2008 <span class="author vcard"><span class="fn">Jamie Macey</span></span>
+          |
+          Original design: <a href="http://www.styleshout.com/templates/preview/CoolWater1-0/index.html">CoolWater</a> by <a href="http://www.styleshout.com/">styleshout</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

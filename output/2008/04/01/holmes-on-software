@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>set_trace_func ~ Holmes on... software?</title>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <link rel="stylesheet" href="/css/blueprint.css" type="text/css"/>
+    <!--[if IE]> 
+      <link rel="stylesheet" href="/css/blueprint-ie.css" type="text/css"/>
+    <![endif]-->
+    <link rel="stylesheet" href="/css/master.css" type="text/css"/>
+    <link href='http://feeds.feedburner.com/set_trace_func' rel='alternate' type='application/atom+xml' />
+    <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script type='text/javascript' src="/js/prettify.js"></script>
+    <script type='text/javascript' src="/js/blog.js"></script>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='span-20 last' id='header'>
+        <h1>
+          <a href='/'>set_trace_func</a>
+        </h1>
+        <h2>veni, vidi, didici</h2>
+      </div>
+      <div class='span-20 last' id='menu'>
+        <div id='feedburner'>
+          <a href='http://feeds.feedburner.com/set_trace_func'>
+            <img alt='RSS Feed' src='http://feeds.feedburner.com/~fc/set_trace_func?bg=0099ff&amp;fg=000000&amp;anim=0' />
+          </a>
+        </div>
+        <ul style='float: right;'>
+          <li>
+            <a>&#8203;</a>
+          </li>
+          <li>
+            <a href='/about.html'>About Me</a>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <a href='/archive.html'>Archive</a>
+          </li>
+          <li>
+            <a href='/tags.html'>Tags</a>
+          </li>
+          <li>
+            <a href='/projects.html'>Projects</a>
+          </li>
+        </ul>
+      </div>
+      <div id='content-wrap'>
+        <div class='span-18' id='content'>
+          <div id='article'>
+            <div class='article hentry'>
+              <!-- %h3.entry-title{:rel => 'bookmark'}= link_to_page(@page) -->
+              <h3 class='entry-title'><a href="/2008/04/01/holmes-on-software">Holmes on... software?</a></h3>
+              <div class='entry-content'>
+                <p>HGTV in Canada produces a tv show called <a href="http://www.holmesonhomes.com/">Holmes on Homes</a> that follows general contractor Mike Holmes as he visits failed renovations, provides commentary on the sorry situation of the work done, and then goes about fixing them.</p>
+                
+                <p>I was recommended to the series by a friend of mine, who has suggested that the shows and situations very often have a correlation to the world of software development.  After seeing the first four episodes, I decided he was right, that all the episodes I've seen have direct quotes that are applicable, and that I should start blogging them.</p>
+                
+                <p>So, consider this the "front page" article on this, I'll fill in the individual episode links as I get around to them.  The list of episodes is just the ones I have available to watch (on <a href="http://www.amazon.ca/x/s/ref=sr_nr_n_1/702-5155926-0284824?rs=952768&amp;rh=n%3A952768%2Ck%3AHolmes%20on%20Homes%2Cn%3A953128">DVD</a> or from <a href="http://www.hgtv.ca/holmesonhomes/video.aspx">HGTV</a>) at the moment.</p>
+                
+                <h3>Season One</h3>
+                
+                <ol>
+                <li><a href="/2008/04/01/holmes-additional-grief">Additional Grief</a></li>
+                <li>Soggy Sorority</li>
+                <li>Botched Basement</li>
+                <li>Attica! Attica / Crappy Capping</li>
+                <li>Flimsy Floor</li>
+                <li>Kitchen Catastrophe</li>
+                <li>Window Pain</li>
+                <li>Faulty Showers</li>
+                <li>Tiles and Tribulations</li>
+                <li>Site Unseen</li>
+                <li>Sweet Home Abandoned</li>
+                <li>Whole House Disaster</li>
+                </ol>
+                
+                
+                <h3>Season Two</h3>
+                
+                <ol>
+                <li>Terrible Terrace</li>
+                <li>Drafty Ducting</li>
+                <li>Ramp Revamp</li>
+                <li>Flooded Foundation</li>
+                <li>Garage Grievance</li>
+                <li>Lamin-Ain't</li>
+                <li>Roof Goof</li>
+                <li>Floor Fiasco</li>
+                <li>Doozy Jacuzzi</li>
+                <li>No Grout About It</li>
+                <li>Jacking the Box</li>
+                <li>Access Denied</li>
+                <li>Hell's Kitchen</li>
+                <li>Holmes for the Holidays</li>
+                </ol>
+                
+                
+                <h3>Season Five</h3>
+                
+                <ul>
+                <li>Holmes Inspection</li>
+                <li>Showing the Cracks</li>
+                <li>What a Mesh</li>
+                </ul>
+                
+                
+                <h3>Season Six</h3>
+                
+                <ul>
+                <li>Due Date</li>
+                <li>Frozen Assets</li>
+                <li>Gone to Pot</li>
+                <li>Lack of Truss</li>
+                <li>Clean Slate</li>
+                <li>Completely Incomplete</li>
+                <li>Nashville Kitchen</li>
+                <li>Pasadena 911</li>
+                <li>Shaky Foundation</li>
+                <li>Stone Walled</li>
+                <li>Third Time Lucky</li>
+                </ul>
+                
+                
+                <h3>Season Seven</h3>
+                
+                <ul>
+                <li>Hit the Deck</li>
+                <li>Rocky Reno</li>
+                <li>Paradise Island</li>
+                </ul>
+                
+                
+                <h3>Specials/Unaired</h3>
+                
+                <ul>
+                <li>Lien on Me</li>
+                </ul>
+              </div>
+              <div class='footer'>
+                <abbr class="published date" title="2008-04-01T09:00:00-04:00">Apr  1, 2008 at 09:00</abbr>
+                &nbsp; | &nbsp; tagged:
+                <a href="/tags.html#programming">programming</a>
+                <a href="/tags.html#holmes">holmes</a>
+              </div>
+            </div>
+            <div id='disqus_thread'></div>
+            <script src='http://disqus.com/forums/tracefunc/embed.js' type='text/javascript'></script>
+            <noscript>
+              <a href='http://tracefunc.disqus.com/?url=ref'>View the discussion thread.</a>
+            </noscript>
+            <a class='dsq-brlink' href='http://disqus.com'>blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </div>
+        </div>
+      </div>
+      <div class='span-20 last' id='footer'>
+        <p>
+          &copy; 2006-2008 <span class="author vcard"><span class="fn">Jamie Macey</span></span>
+          |
+          Original design: <a href="http://www.styleshout.com/templates/preview/CoolWater1-0/index.html">CoolWater</a> by <a href="http://www.styleshout.com/">styleshout</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

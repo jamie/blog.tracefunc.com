@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>set_trace_func ~ Rails and Seaside?</title>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <link rel="stylesheet" href="/css/blueprint.css" type="text/css"/>
+    <!--[if IE]> 
+      <link rel="stylesheet" href="/css/blueprint-ie.css" type="text/css"/>
+    <![endif]-->
+    <link rel="stylesheet" href="/css/master.css" type="text/css"/>
+    <link href='http://feeds.feedburner.com/set_trace_func' rel='alternate' type='application/atom+xml' />
+    <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script type='text/javascript' src="/js/prettify.js"></script>
+    <script type='text/javascript' src="/js/blog.js"></script>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='span-20 last' id='header'>
+        <h1>
+          <a href='/'>set_trace_func</a>
+        </h1>
+        <h2>veni, vidi, didici</h2>
+      </div>
+      <div class='span-20 last' id='menu'>
+        <div id='feedburner'>
+          <a href='http://feeds.feedburner.com/set_trace_func'>
+            <img alt='RSS Feed' src='http://feeds.feedburner.com/~fc/set_trace_func?bg=0099ff&amp;fg=000000&amp;anim=0' />
+          </a>
+        </div>
+        <ul style='float: right;'>
+          <li>
+            <a>&#8203;</a>
+          </li>
+          <li>
+            <a href='/about.html'>About Me</a>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <a href='/archive.html'>Archive</a>
+          </li>
+          <li>
+            <a href='/tags.html'>Tags</a>
+          </li>
+          <li>
+            <a href='/projects.html'>Projects</a>
+          </li>
+        </ul>
+      </div>
+      <div id='content-wrap'>
+        <div class='span-18' id='content'>
+          <div id='article'>
+            <div class='article hentry'>
+              <!-- %h3.entry-title{:rel => 'bookmark'}= link_to_page(@page) -->
+              <h3 class='entry-title'><a href="/2007/05/06/rails-and-seaside">Rails and Seaside?</a></h3>
+              <div class='entry-content'>
+                <p>I'm coming late to the <a href="http://www.loudthinking.com/arc/000609.html">controversy</a>, I know. I was talking with a co-worker about Rails and Seaside the other day, and after describing the Seaside structure and philosophy compared to Rails I got to thinking that there's really not as much overlap as some people think between the two.</p>
+                
+                <p>Rails, at least since v1.2, has a focus on information. It says, I have a bunch of knowledge I'd like to share with the world. Working with routes makes accessing that information fairly uniform, and also allows for deep linking - a reference to that piece of information that won't change. It recognizes that while it's possible to provide access to this information with simple flat files, if you want to provide dynamic views, or frequently updating data, or even provide for display customizations, Rails has facilities for getting you most of the way there.</p>
+                
+                <p>Seaside, on the other hand, has more of a focus on the application. It provides for a workflow, and pauses in that workflow every so often to display a web page to the user. It says, I want to let you get something done, here, go to it. It provides a framework that lets you write an application similar to a desktop application, but which uses a web browser for its UI and can provide a centralized storage system for the data it manipulates.</p>
+                
+                <p>Just looking at these, it's easy to see where one framework shines and the other would require more work to get there.</p>
+                
+                <p>Anything working with a data-centric view or large-scale multi-user behaviour could run very well in Rails. The Blog example is ubiquitous, but also a forum, or news site, or many other applications involving user feedback and the option to deep-link to pages.</p>
+                
+                <p>Sites with a more workflow-driven, single-user view would do well by Seaside. For example, I think doing an internet banking front-end in Seaside would be excellent. One user working through steps for a number of actions (think of paying a bill - usually 3-4 page loads in sequence), without the need to reference any specific page in the system. Users log in, and can essentially ignore the URL in the address bar for the duration of their visit.</p>
+                
+                <p>While both kinds of applications can (and have) been done with the other framework, it seems silly to bolt on extraneous features (like meaningful URLs in Seaside, or managing serious page flow in Rails) when you could switch and play to the strengths of the framework. Given the somewhat orthogonal strengths of Seaside and Rails, I can only see the increased choice they bring as a good thing.</p>
+              </div>
+              <div class='footer'>
+                <abbr class="published date" title="2007-05-06T10:41:00-04:00">May  6, 2007 at 10:41</abbr>
+                &nbsp; | &nbsp; tagged:
+                <a href="/tags.html#programming">programming</a>
+                <a href="/tags.html#rails">rails</a>
+                <a href="/tags.html#seaside">seaside</a>
+              </div>
+            </div>
+            <div id='disqus_thread'></div>
+            <script src='http://disqus.com/forums/tracefunc/embed.js' type='text/javascript'></script>
+            <noscript>
+              <a href='http://tracefunc.disqus.com/?url=ref'>View the discussion thread.</a>
+            </noscript>
+            <a class='dsq-brlink' href='http://disqus.com'>blog comments powered by <span class="logo-disqus">Disqus</span></a>
+          </div>
+        </div>
+      </div>
+      <div class='span-20 last' id='footer'>
+        <p>
+          &copy; 2006-2008 <span class="author vcard"><span class="fn">Jamie Macey</span></span>
+          |
+          Original design: <a href="http://www.styleshout.com/templates/preview/CoolWater1-0/index.html">CoolWater</a> by <a href="http://www.styleshout.com/">styleshout</a>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
