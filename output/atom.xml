@@ -5,12 +5,47 @@
   <subtitle>veni, vidi, didici</subtitle>
   <link href="http://blog.tracefunc.com/" rel="self" />
   <link href="http://blog.tracefunc.com/" />
-  <updated>2009-11-09T21:18:12-05:00</updated>
+  <updated>2009-11-09T21:28:53-05:00</updated>
   <author>
     <name>Jamie Macey</name>
     <email>jamie at tracefunc.com</email>
   </author>
   <id>http://blog.tracefunc.com/</id>
+  
+  <entry>
+    <title>Heroku</title>
+    <link href="http://blog.tracefunc.com/2006/05/01/heroku" />
+    <id>tag:blog.tracefunc.com,2009-11-09:1257800820</id>
+    <updated>2009-11-09T16:07:00-05:00</updated>
+    <content type="html">&lt;p&gt;&lt;a href=&quot;http://heroku.com&quot;&gt;Heroku&lt;/a&gt; kicks ass. Very nifty tech running the show, and a really simple interface for deploying - just push up your git repository.&lt;/p&gt;
+
+&lt;p&gt;I run this blog through &lt;a href=&quot;http://webby.rubyforge.org&quot;&gt;webby&lt;/a&gt;, which translates some boring old markdown into html so that I can serve it as static files. I like that amount of snappiness.  Heroku wants to run something ruby - rails, merb, or barebones rack.&lt;/p&gt;
+
+&lt;p&gt;Turns out, setting up rack to pass static files through is pretty easy, and since I think it just uses send_file behind the scenes, it should be all set up for Heroku to cache it in their Varnish layer, if I ever happen to get a traffic spike.&lt;/p&gt;
+
+&lt;p&gt;All you need is a config.ru file like so, and then be sure to include the generated output dir in your git repository:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# I don't have file extensions on entry permalinks
+Rack::Mime::MIME_TYPES.merge!(&quot;&quot; =&amp;gt; &quot;text/html&quot;)
+
+class DefaultIndexFile
+  def initialize(app, &amp;amp;block)
+    @app = app
+    yield self if block_given?
+  end
+
+  def call(env)
+    env['PATH_INFO'] &amp;lt;&amp;lt; 'index.html' if env['PATH_INFO'] =~ /\/$/
+    @app.call(env)
+  end
+end
+
+use DefaultIndexFile
+
+run Rack::File.new('output')
+&lt;/code&gt;&lt;/pre&gt;
+</content>
+  </entry>
   
   <entry>
     <title>Installing Wifi without Internet</title>
@@ -429,38 +464,6 @@ end
 &lt;h2&gt;ORM Integration&lt;/h2&gt;
 
 &lt;p&gt;Check back next time, as I write up my experience writing an ActiveRecord shim for the latest DataMapper.  It's vaguely ugly.  I &lt;em&gt;highly&lt;/em&gt; recommend if you're working on a plugin now that interacts with models to abstract any access to the database into a module, and include it appropriately.  This goes double if you're using any AR magic ;)&lt;/p&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title>Two Questions</title>
-    <link href="http://blog.tracefunc.com/2008/07/14/two-questions" />
-    <id>tag:blog.tracefunc.com,2008-07-14:1216072440</id>
-    <updated>2008-07-14T17:54:00-04:00</updated>
-    <content type="html">&lt;p&gt;&lt;strong&gt;Question #1:&lt;/strong&gt; Why is Symbol#to_proc so popular?&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class Array
-  alias old_map map
-
-  def map(method=nil, *args, &amp;amp;blk)
-    return old_each(&amp;amp;blk) if block_given?
-    old_map do |e|
-      e.send(method, *args)
-    end
-  end
-end
-
-ary = %w(hello world)
-puts ary.map(:reverse).join(&quot; &quot;)
-puts ary.map(:*, 2).join(&quot; &quot;)
-puts ary.map(:slice, 1, 3).join(&quot; &quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;It should be trivial to do this for the other common enumerable methods, the only places I see Symbol#to_proc used, anyway.&lt;/p&gt;
-
-&lt;p&gt;I posit that the answer is question 2.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Question #2:&lt;/strong&gt; Why do I need to do this method hackery in Array instead of Enumerable?  I can understand Array having its own definitions of the standard collection methods for performance reasons, but in a properly OO system, that should be transparent to me.&lt;/p&gt;
 </content>
   </entry>
   

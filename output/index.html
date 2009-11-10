@@ -52,6 +52,26 @@
           <div id='articles'>
             <div class='article hentry'>
               <!-- %h3.entry-title{:rel => 'bookmark'}= link_to_page(page) -->
+              <h3 class='entry-title'><a href="/2006/05/01/heroku">Heroku</a></h3>
+              <div class='entry-content'>
+                <p><a href="http://heroku.com">Heroku</a> kicks ass. Very nifty tech running the show, and a really simple interface for deploying - just push up your git repository.</p>
+                
+                <p>I run this blog through <a href="http://webby.rubyforge.org">webby</a>, which translates some boring old markdown into html so that I can serve it as static files. I like that amount of snappiness.  Heroku wants to run something ruby - rails, merb, or barebones rack.</p>
+                
+                <p>Turns out, setting up rack to pass static files through is pretty easy, and since I think it just uses send_file behind the scenes, it should be all set up for Heroku to cache it in their Varnish layer, if I ever happen to get a traffic spike.</p>
+                
+                <p>All you need is a config.ru file like so, and then be sure to include the generated output dir in your git repository:</p>
+                
+                <pre><code># I don't have file extensions on entry permalinks&#x000A;Rack::Mime::MIME_TYPES.merge!("" =&gt; "text/html")&#x000A;&#x000A;class DefaultIndexFile&#x000A;  def initialize(app, &amp;block)&#x000A;    @app = app&#x000A;    yield self if block_given?&#x000A;  end&#x000A;&#x000A;  def call(env)&#x000A;    env['PATH_INFO'] &lt;&lt; 'index.html' if env['PATH_INFO'] =~ /\/$/&#x000A;    @app.call(env)&#x000A;  end&#x000A;end&#x000A;&#x000A;use DefaultIndexFile&#x000A;&#x000A;run Rack::File.new('output')&#x000A;</code></pre>
+              </div>
+              <div class='footer'>
+                <abbr class="published date" title="2009-11-09T17:07:00-04:00">Nov  9, 2009 at 17:07</abbr>
+                &nbsp; | &nbsp; tagged:
+                <a href="/tags.html#programming">programming</a>
+              </div>
+            </div>
+            <div class='article hentry'>
+              <!-- %h3.entry-title{:rel => 'bookmark'}= link_to_page(page) -->
               <h3 class='entry-title'><a href="/2009/06/21/installing-wifi-without-internet">Installing Wifi without Internet</a></h3>
               <div class='entry-content'>
                 <p>I picked up a <a href="http://www.ncix.com/products/?sku=33671">new machine</a> this week to turn into a home media server, and had a small hoop to jump through with the Broadcom <a href="http://www.ncix.com/products/?sku=24255">wifi card</a> I picked up. Problem being, office and all my monitors were upstairs, wifi was downstairs, and it's difficult to install new drivers without net access.</p>
@@ -167,29 +187,6 @@
                 &nbsp; | &nbsp; tagged:
                 <a href="/tags.html#clojure">clojure</a>
                 <a href="/tags.html#sicp">sicp</a>
-              </div>
-            </div>
-            <div class='article hentry'>
-              <!-- %h3.entry-title{:rel => 'bookmark'}= link_to_page(page) -->
-              <h3 class='entry-title'><a href="/2008/11/25/gem-cleanup">Gem Cleanup</a></h3>
-              <div class='entry-content'>
-                <p>The latest version of rubygems seems to be more gung-ho about trying to clean up old versions of gems.  This is fine, except that OSX seems to be <em>very</em> protective of its bundled gem directory, refusing to uninstall gems located there even though I'm running the gem command via sudo.</p>
-                
-                <p>As a result, while gem list tells me that I've got activerecord v 2.2.2 and 1.15.6 installed, gem cleanup fails miserably:</p>
-                
-                <pre><code>jamie@juliet ~&gt; sudo gem cleanup&#x000A;Cleaning up installed gems...&#x000A;Attempting to uninstall activerecord-1.15.6&#x000A;ERROR:  While executing gem ... (Gem::InstallError)&#x000A;    Unknown gem activerecord = 1.15.6&#x000A;</code></pre>
-                
-                <p>I appreciate Leopard not wanting to break the bundled versions of gems, but having a functioning <code>gem cleanup</code> is helpful to me.  Turns out it's pretty easy to just prevent rubygems from checking the Ruby.framework gem path, just create (or edit) ~/.gemrc and include the following:</p>
-                
-                <pre><code>gempath:&#x000A;  - /Library/Ruby/Gems/1.8&#x000A;  - /Users/jamie/.gem/ruby/1.8&#x000A;</code></pre>
-                
-                <p>Of course, you'll need to use your own username on the last line there, and you might want to double-check the existing GEM PATH values from <code>gem env</code> output so you don't accidentally clobber anything else.  Also, if you've got a previously-generated .gemrc, the gempath key needs to be a string, not a symbol, or else it won't get picked up.  Whee.</p>
-              </div>
-              <div class='footer'>
-                <abbr class="published date" title="2008-11-25T19:00:00-05:00">Nov 25, 2008 at 19:00</abbr>
-                &nbsp; | &nbsp; tagged:
-                <a href="/tags.html#ruby">ruby</a>
-                <a href="/tags.html#osx">osx</a>
               </div>
             </div>
           </div>
