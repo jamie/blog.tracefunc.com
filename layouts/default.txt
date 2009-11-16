@@ -47,3 +47,14 @@ filter: haml
           &copy; 2006-2008 <span class="author vcard"><span class="fn">Jamie Macey</span></span>
           |
           Original design: <a href="http://www.styleshout.com/templates/preview/CoolWater1-0/index.html">CoolWater</a> by <a href="http://www.styleshout.com/">styleshout</a>
+    %script{:type => 'text/javascript'}
+      :plain
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    %script{:type => 'text/javascript'}
+      :plain
+        try {
+        var pageTracker = _gat._getTracker("UA-11614297-1");
+        pageTracker._setDomainName(".tracefunc.com");
+        pageTracker._trackPageview();
+        } catch(err) {}
