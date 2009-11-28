@@ -88,10 +88,10 @@ pre.prettylines {
 .article {
   margin-bottom: 20px;
 }
-.article .footer {
+.article .meta {
   background: #F4F8FD;
   padding: 5px 5px 5px 10px;
-  margin: 20px 25px 0 25px;
+  margin: 0 25px 20px 25px;
   border: 1px solid #E5F0FB;
   font-size: 95%;
 }
@@ -113,8 +113,8 @@ pre.prettylines {
 /* Links */
 .entry-content a,
 .entry-content a:visited,
-.article .footer a,
-.article .footer a:visited,
+.article .meta a,
+.article .meta a:visited,
 #sidebar p a,
 #sidebar p a:visited {
 	text-decoration: none;
@@ -122,7 +122,7 @@ pre.prettylines {
 	color: #FB9233;
 }
 .entry-content a:hover,
-.article .footer a:hover,
+.article .meta a:hover,
 #sidebar p a:hover {
 	text-decoration: underline;
 	background: inherit;
