@@ -1,8 +1,0 @@
----
-filter:     haml
-dirty:      true
----
-#articles
-  - articles = @pages.find(:all, :in_directory => @page.dir, :recursive => true, :sort_by => "created_at", :reverse => true, :layout => 'article', :limit => 5)
-  - articles.each do |page|
-    = render :partial => '/article', :locals => {:page => page}

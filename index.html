@@ -1,0 +1,21 @@
+---
+layout: base
+---
+<div id="articles">
+  {% for post in site.posts limit:5 %}
+    <div class="article hentry">
+      <h3 class="entry-title"><a href="{{ post.url }}">{{ post.title }}</a></h3>
+      <div class="meta">
+        {{ post.date | date: '%B %d, %Y' }}
+        {% if post.tags %}
+          |
+          Tags:
+          {% for tag in post.tags %}
+            <a href="/tags.html#{{ tag }}">{{ tag }}</a>
+          {% endfor %}
+        {% endif %}
+      </div>
+      <div class="entry-content">{{ post.content }}</div>
+    </div>
+  {% endfor %}
+</div>

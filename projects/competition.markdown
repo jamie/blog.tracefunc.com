@@ -1,9 +1,6 @@
 ---
 title:  Competitive Programming
-status: inactive
-
-filter:
-  - markdown
+layout: base
 ---
 
 http://www.rubyquiz.com/
