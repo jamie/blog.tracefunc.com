@@ -2,468 +2,95 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
  
   <title>set_trace_func</title>
-  <subtitle>veni, vidi, didici</subtitle>
+  <subtitle>blog.tracefunc.com</subtitle>
   <link href="http://blog.tracefunc.com/" rel="self" />
   <link href="http://blog.tracefunc.com/" />
-  <updated>2009-11-15T21:42:18-05:00</updated>
+  <updated>2009-12-01T21:43:24-05:00</updated>
   <author>
     <name>Jamie Macey</name>
-    <email>jamie at tracefunc.com</email>
+    <email>jamie.blog@tracefunc.com</email>
   </author>
   <id>http://blog.tracefunc.com/</id>
   
   <entry>
-    <title>Heroku</title>
-    <link href="http://blog.tracefunc.com/2006/05/01/heroku" />
-    <id>tag:blog.tracefunc.com,2009-11-09:1257800820</id>
-    <updated>2009-11-09T16:07:00-05:00</updated>
-    <content type="html">&lt;p&gt;&lt;a href=&quot;http://heroku.com&quot;&gt;Heroku&lt;/a&gt; kicks ass. Very nifty tech running the show, and a really simple interface for deploying - just push up your git repository.&lt;/p&gt;
+    <title>Hoptoad v2 in Merb</title>
+    <link href="http://blog.tracefunc.com/2009/12/01/hoptoad-v2-in-merb/" />
+    <id>tag:blog.tracefunc.com,2009-12-01T00:00:00-05:00:1259720641</id>
+    <updated>2009-12-01T21:24:01-05:00</updated>
+    <content type="html">&lt;p&gt;&lt;a href=&quot;http://hoptoadapp.com&quot;&gt;Hoptoad&lt;/a&gt; has been bugging us for a week or two now to upgrade to v2 of its API, so we did that this week for our project at work. Except we're running Merb, not Rails.&lt;/p&gt;
 
-&lt;p&gt;I run this blog through &lt;a href=&quot;http://webby.rubyforge.org&quot;&gt;webby&lt;/a&gt;, which translates some boring old markdown into html so that I can serve it as static files. I like that amount of snappiness.  Heroku wants to run something ruby - rails, merb, or barebones rack.&lt;/p&gt;
+&lt;p&gt;Previously, we've been using Atmos' &lt;a href=&quot;http://github.com/atmos/merb_hoptoad_notifier&quot;&gt;merb_hoptoad plugin&lt;/a&gt;, but it looks like it's been abandoned now in favor of a rack handler, and we needed to hack it a bit to support running multiple sites (with different API keys) off our single codebase. I'm always happy throwing code away, though, so I thought I'd try using the official &lt;a href=&quot;http://github.com/thoughtbot/hoptoad_notifier&quot;&gt;Hoptoad Notifier plugin&lt;/a&gt; and see how hard it is to get working. It wasn't.&lt;/p&gt;
 
-&lt;p&gt;Turns out, setting up rack to pass static files through is pretty easy, and since I think it just uses send_file behind the scenes, it should be all set up for Heroku to cache it in their Varnish layer, if I ever happen to get a traffic spike.&lt;/p&gt;
+&lt;p&gt;First, you probably want to make a gem of the plugin. &lt;a href=&quot;http://github.com/thoughtbot/hoptoad_notifier&quot;&gt;I forked it&lt;/a&gt; a few days back, and just added a jeweller task to create the gem locally. Install in the local gems directory (or system-wide in production if you want to do it the hard way) and add it as a dependency.&lt;/p&gt;
 
-&lt;p&gt;All you need is a config.ru file like so, and then be sure to include the generated output dir in your git repository:&lt;/p&gt;
+&lt;p&gt;Then, to actually use it, just add the following in the right places:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;# I don't have file extensions on entry permalinks
-Rack::Mime::MIME_TYPES.merge!(&quot;&quot; =&amp;gt; &quot;text/html&quot;)
+&lt;pre&gt;&lt;code&gt;# init.rb, in Merb::Bootloader.after_app_loads
 
-class DefaultIndexFile
-  def initialize(app, &amp;amp;block)
-    @app = app
-    yield self if block_given?
-  end
-
-  def call(env)
-    env['PATH_INFO'] &amp;lt;&amp;lt; 'index.html' if env['PATH_INFO'] =~ /\/$/
-    @app.call(env)
-  end
+HoptoadNotifier.configure do |config|
+  config.api_key = '...'
+  config.environment_name = Merb.env
+  config.project_root = Merb.root
+  # See http://github.com/thoughtbot/hoptoad_notifier/ README.rdoc
+  # for other config settings. You probably want to think about
+  # params_filters and maybe ignore.
 end
 
-use DefaultIndexFile
+# application.rb, if you want available manually.
+# If you just want it for completely unexpected errors you can stick it in
+# exceptions.rb instead
 
-run Rack::File.new('output')
-&lt;/code&gt;&lt;/pre&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title>Installing Wifi without Internet</title>
-    <link href="http://blog.tracefunc.com/2009/06/21/installing-wifi-without-internet" />
-    <id>tag:blog.tracefunc.com,2009-06-21:1245627420</id>
-    <updated>2009-06-21T19:37:00-04:00</updated>
-    <content type="html">&lt;p&gt;I picked up a &lt;a href=&quot;http://www.ncix.com/products/?sku=33671&quot;&gt;new machine&lt;/a&gt; this week to turn into a home media server, and had a small hoop to jump through with the Broadcom &lt;a href=&quot;http://www.ncix.com/products/?sku=24255&quot;&gt;wifi card&lt;/a&gt; I picked up. Problem being, office and all my monitors were upstairs, wifi was downstairs, and it's difficult to install new drivers without net access.&lt;/p&gt;
+def notify_hoptoad(error=nil)
+  error ||= request.exceptions.first
 
-&lt;p&gt;But, &lt;a href=&quot;http://www.linuxmint.com&quot;&gt;Linux Mint&lt;/a&gt; popped up a &quot;new hardware&quot; dialog, saying it wanted to use b43-fwripper to set up the drivers. Good news, it gave me the url it failed to download from. Manually download &lt;a href=&quot;http://archive.ubuntu.com/ubuntu/pool/main/b/b43-fwcutter/b43-fwcutter_011-5_i386.deb&quot;&gt;the deb&lt;/a&gt;, open it up on my other machine using Archive Manager (rather than GDebi), and navigate through to the postinstall script, at data.tar.gz/./usr/share/b43-fwcutter/, and I find a reference to two &lt;a href=&quot;http://downloads.openwrt.org/sources/wl_apsta-3.130.20.0.o&quot;&gt;other&lt;/a&gt; &lt;a href=&quot;http://mirror2.openwrt.org/sources/broadcom-wl-4.150.10.5.tar.bz2&quot;&gt;files&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;After downloading those, copy all three files to the new box. Copy the .deb to /var/cache/apt/archives, and then apt-get install b43-fwripper. Ignore the failure, then go to the dir with the other two files, and manually run the 3 useful lines from the install script (don't forget to add sudo to the last one):&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;b43-fwcutter -w /lib/firmware wl_apsta-3.130.20.0.o
-tar xfvj broadcom-wl-4.150.10.5.tar.bz2
-b43-fwcutter --unsupported -w /lib/firmware broadcom-wl-4.150.10.5/driver/wl_apsta_mimo.o
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Reboot, and voila - local wifi networks show up in the tray applet. I presume these steps will work for an Ubuntu install as well, since Mint is based on Ubuntu, but I haven't tried it as yet - in fact, the required .deb is on the Ubuntu 9.04 livecd. I also don't know if these files will work for other Broadcom wireless adapters, but if your modern linux system can do a hardware detect and tell you what driver it's trying to pull down, that should be a good starting point.&lt;/p&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title>Fib for Fun</title>
-    <link href="http://blog.tracefunc.com/2009/02/21/fib-for-fun" />
-    <id>tag:blog.tracefunc.com,2009-02-21:1235273501</id>
-    <updated>2009-02-21T22:31:41-05:00</updated>
-    <content type="html">&lt;p&gt;A little math can be a dangerous thing.  Here's a quick benchmark for Fibonacci numbers (Y axis in seconds, 20,000 iterations):&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://img.skitch.com/20090222-p4e42eew9gbknfis86pdms813f.png&quot; alt=&quot;Graph&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The line on the left, marked A, is the typical naive recursive solution, based as directly as possible on the mathematical definition of the function:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;def fib_r(n)
-  return 1 if n &amp;lt;= 2
-  fib_r(n-1) + fib_r(n-2)
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Note the telltale exponential curve - this is what we call Very Bad.  The line there stops at Fib(10).&lt;/p&gt;
-
-&lt;p&gt;A little jiggery lets us convert the recursive solution into an iterative one, line B:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;def fib_i(n)
-  x = y = 1
-  (n-1).times do
-    x, y = y, x+y
-  end
-  x
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;My personal favorite Fib function is (ab)using a hash's default value function to act as a memoizer.  Line C is the fastest of the bunch (constant time of ~0.012s) but does have some extra memory overhead.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;def fib_h(n)
-  @h ||= Hash.new{ |h,k|
-    if k &amp;lt; 2
-      h[k] = k
-    else
-      h[k] = h[k-1] + h[k-2]
-    end
+  data = {
+    :controller       =&amp;gt; params[:controller],
+    :action           =&amp;gt; params[:action],
+    :url              =&amp;gt; &quot;#{request.protocol}://#{request.host}#{request.uri}&quot;,
+    # Looks like hoptoad is filtering these itself, we don't need to worry about it
+    # other than configuring what needs to be filtered
+    :parameters       =&amp;gt; params.to_hash,
+    :session_data     =&amp;gt; session.to_hash,
+    :cgi_data         =&amp;gt; request.env.to_hash,
+    :environment_vars =&amp;gt; ENV.to_hash.merge(:RAILS_ENV =&amp;gt; Merb.env)
   }
-  @h[n]
+
+  HoptoadNotifier.notify(error, data)
+end
+
+# exceptions.rb, override default error handlers to submit to hoptoad
+
+def internal_server_error
+  notify_hoptoad
+  render
+end
+
+def standard_error
+  notify_hoptoad
+  render
+end    
+
+# other spots you handle exceptions inline, just pass in the exception
+
+begin
+ ...
+rescue =&amp;gt; e
+  notify_hoptoad(e)
 end
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;If we were in an embedded system or something, the memory overhead would probably be bad, but fear not!  Math can save us!&lt;/p&gt;
-
-&lt;p&gt;Line D is also constant time, but about 0.037s.  It's a fun little bit of math mentioned in &lt;a href=&quot;http://mitpress.mit.edu/sicp/&quot;&gt;SICP&lt;/a&gt;, and turns Fibonacci numbers into a very simple (if unintuitive) bit of math:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;SQRT5 = Math.sqrt(5.0)
-PHI = (1 + SQRT5) / 2
-PSI = (1 - SQRT5) / 2
-
-def fib_m(n)
-  ((PHI ** n - PSI ** n) / SQRT5).to_i
-end
-&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It's not exactly as magical as the Rails plugin's auto-including, but it looks like it's getting the job done for us.&lt;/p&gt;
 </content>
   </entry>
   
   <entry>
-    <title>geoip_city on Leopard</title>
-    <link href="http://blog.tracefunc.com/2009/02/20/geoip-city-on-leopard" />
-    <id>tag:blog.tracefunc.com,2009-02-20:1235150870</id>
-    <updated>2009-02-20T12:27:50-05:00</updated>
-    <content type="html">&lt;p&gt;I've been trying to figure out a minimal way of getting the geoip_city gem installed on my mac, and having &lt;a href=&quot;http://snippets.aktagon.com/snippets/179-Geolocation-with-MaxMind-s-GeoIP-and-the-geoip-city-RubyGem&quot;&gt;seen&lt;/a&gt; a few &lt;a href=&quot;http://www.rubynarails.com/22/8/2008/how-to-install-geoip_city-gem-on-leopard&quot;&gt;ideas&lt;/a&gt; on google, I'm gonna consolidate into a minimal solution.  I originally wanted to work with the macports version of libgeoip, but had absolutely no luck with that, so here's something a bit more manual:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# we need to be root for the ARCHFLAGS later to stick
-sudo su
-
-mkdir -p /usr/local/src
-cd /usr/local/src
-
-# Download and install latest geoip
-curl -O http://geolite.maxmind.com/download/geoip/api/c/GeoIP-1.4.5.tar.gz
-tar -xzf GeoIP-1.4.5.tar.gz
-cd GeoIP-1.4.5
-./configure
-make
-make check
-make install
-
-# install the gem
-export ARCHFLAGS='-arch i386'
-gem install geoip_city
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The main sticking point for me was that setting ARCHFLAGS doesn't continue through to a &lt;code&gt;sudo gem install&lt;/code&gt;, so we need to do the whole thing as root.&lt;/p&gt;
-
-&lt;p&gt;But, now that we've done that, we can grab the GeoLiteCity database and point our app at it:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;curl -O http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
-gunzip GeoLiteCity.dat.gz
-&lt;/code&gt;&lt;/pre&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title>Going Functional</title>
-    <link href="http://blog.tracefunc.com/2009/01/17/going-functional" />
-    <id>tag:blog.tracefunc.com,2009-01-17:1232204400</id>
-    <updated>2009-01-17T10:00:00-05:00</updated>
-    <content type="html">&lt;p&gt;So, some &lt;a href=&quot;http://news.ycombinator.com/&quot;&gt;Hacker News&lt;/a&gt; users recently &lt;a href=&quot;http://news.ycombinator.com/item?id=428248&quot;&gt;decided&lt;/a&gt; that it'd be a good idea to &lt;a href=&quot;http://groups.google.com/group/hacker-news-reads-sicp/&quot;&gt;work through&lt;/a&gt; the &lt;a href=&quot;http://mitpress.mit.edu/sicp/&quot;&gt;SICP&lt;/a&gt; together and make a kind of book club out of the deal over irc.&lt;/p&gt;
-
-&lt;p&gt;When I heard of it, I thought it'd be a good excuse to work through the text myself (since it was just sitting on my bookshelf), and also stretch my brain a bit more teaching myself &lt;a href=&quot;http://clojure.org/&quot;&gt;Clojure&lt;/a&gt;.  I'm almost done the reading and &lt;a href=&quot;http://github.com/jamie/sicp/&quot;&gt;exercises&lt;/a&gt; for section 1.1, and I'm already finding it a valuable exercise.&lt;/p&gt;
-
-&lt;p&gt;The third exercise asks us to &quot;define a procedure that takes three numbers as arguments and returns the sum of the squares of the two larger numbers.&quot;  At either extremity are two solutions.  The straightforward solution a new programmer can generate based solely on the first 20 pages of the text looks something like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;(defn sum-largest-squares [a b c]
-  (cond (and (&amp;lt; a b) (&amp;lt; a c)) (+ (* b b) (* c c))
-        (and (&amp;lt; b a) (&amp;lt; b c)) (+ (* a a) (* c c))
-        (and (&amp;lt; c a) (&amp;lt; c b)) (+ (* a a) (* b b))))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Some tests to prove correctness, returning 2^2 + 3^2, or 13, are:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;(sum-largest-squares 1 2 3)
-(sum-largest-squares 2 3 1)
-(sum-largest-squares 3 1 2)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;An interesting (and enlightening) exercise is to take our naive function, and just start randomly refactoring, and see where it takes us.  One step at a time, making sure we are always passing our handful of test cases.  The goal is to decompose and abstract the function into more manageable pieces, with less repetition.  To start:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;(defn sum-largest-squares [a b c]
-  (cond (and (&amp;lt; a b) (&amp;lt; a c)) (+ (square b) (square c))
-        (and (&amp;lt; b a) (&amp;lt; b c)) (+ (square a) (square c))
-        (and (&amp;lt; c a) (&amp;lt; c b)) (+ (square a) (square b))))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The square function is trivially pulling out (* x x), and conveniently is already present in Clojure.&lt;/p&gt;
-
-&lt;p&gt;Second step is to pull out the three conditional clauses into sum-of-squares:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;(defn sum-of-squares [a b]
-  (+ (square a) (square b)))
-
-(defn sum-largest-squares [a b c]
-  (cond (and (&amp;lt; a b) (&amp;lt; a c)) (sum-of-squares b c)
-        (and (&amp;lt; b a) (&amp;lt; b c)) (sum-of-squares a c)
-        (and (&amp;lt; c a) (&amp;lt; c b)) (sum-of-squares a b)))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Next, we can probably abstract the conditionals themselves, since what we're looking for is the smallest of three elements (min is also provided by clojure):&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;(defn sum-largest-squares [a b c]
-  (cond (= a (min a b c)) (sum-of-squares b c)
-        (= b (min a b c)) (sum-of-squares a c)
-        (= c (min a b c)) (sum-of-squares a b)))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now, we've got a much more parallel structure here, so we should be able to collapse the conditional, and process the values first.&lt;/p&gt;
-
-&lt;p&gt;I'll stop here, but there are a few different ways to get started with the next step - most involve transitioning our three arguments into a list at some point.  I've found it instructive to play around with the different ways of decomposing the problem (including a few side steps along the way to the route I've followed above).  I'm thinking that as I continue with the SICP exercies, I'll try and make a habit of not stopping with the first solution that springs out of my text editor, but to try and explore the structure of the code through refactoring.&lt;/p&gt;
-
-&lt;p&gt;Also, while I never managed to figure out refactoring steps that would produce it, I think the most straightforward functional solution (rather than the semi-iterative solution we started with above) winds up being this - it has a certain elegance to it, no?&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;(defn sum-largest-squares [a b c]
-  (apply + (map square (rest (sort (list a b c))))))
-&lt;/code&gt;&lt;/pre&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title>Gem Cleanup</title>
-    <link href="http://blog.tracefunc.com/2008/11/25/gem-cleanup" />
-    <id>tag:blog.tracefunc.com,2008-11-25:1227657600</id>
-    <updated>2008-11-25T19:00:00-05:00</updated>
-    <content type="html">&lt;p&gt;The latest version of rubygems seems to be more gung-ho about trying to clean up old versions of gems.  This is fine, except that OSX seems to be &lt;em&gt;very&lt;/em&gt; protective of its bundled gem directory, refusing to uninstall gems located there even though I'm running the gem command via sudo.&lt;/p&gt;
-
-&lt;p&gt;As a result, while gem list tells me that I've got activerecord v 2.2.2 and 1.15.6 installed, gem cleanup fails miserably:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;jamie@juliet ~&amp;gt; sudo gem cleanup
-Cleaning up installed gems...
-Attempting to uninstall activerecord-1.15.6
-ERROR:  While executing gem ... (Gem::InstallError)
-    Unknown gem activerecord = 1.15.6
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I appreciate Leopard not wanting to break the bundled versions of gems, but having a functioning &lt;code&gt;gem cleanup&lt;/code&gt; is helpful to me.  Turns out it's pretty easy to just prevent rubygems from checking the Ruby.framework gem path, just create (or edit) ~/.gemrc and include the following:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;gempath:
-  - /Library/Ruby/Gems/1.8
-  - /Users/jamie/.gem/ruby/1.8
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Of course, you'll need to use your own username on the last line there, and you might want to double-check the existing GEM PATH values from &lt;code&gt;gem env&lt;/code&gt; output so you don't accidentally clobber anything else.  Also, if you've got a previously-generated .gemrc, the gempath key needs to be a string, not a symbol, or else it won't get picked up.  Whee.&lt;/p&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title>Async-Observer with RabbitMQ</title>
-    <link href="http://blog.tracefunc.com/2008/08/08/async-observer-with-rabbitmq" />
-    <id>tag:blog.tracefunc.com,2008-08-08:1218225600</id>
-    <updated>2008-08-08T16:00:00-04:00</updated>
-    <content type="html">&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; This code is stale, I've extracted a gem of it and posted on &lt;a href=&quot;http://github.com/jamie/async-observer-amqp&quot;&gt;github&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://github.com/kr/async-observer/tree&quot;&gt;Async-observer&lt;/a&gt; is great.  Fast, easy to use API, and it Just Works.  The downside is that the backend, Beanstalkd, doesn't support persistent messages in case the server crashes.  I hear it's on the roadmap, though.&lt;/p&gt;
-
-&lt;p&gt;However, there's another messaging backend, &lt;a href=&quot;http://www.rabbitmq.com/&quot;&gt;RabbitMQ&lt;/a&gt;, that seems just as easy to get set up, and does support persistent messages.  So, how to get these two bits of tech working together?  Well, if you're hosting your app on &lt;a href=&quot;http://code.macournoyer.com/thin/&quot;&gt;Thin&lt;/a&gt; (or another app server that runs in &lt;a href=&quot;http://rubyeventmachine.com/&quot;&gt;EventMachine&lt;/a&gt;), it's pretty straightforward.&lt;/p&gt;
-
-&lt;p&gt;First, install the &lt;a href=&quot;http://github.com/tmm1/amqp&quot;&gt;amqp&lt;/a&gt; ruby library to connect to rabbit, and then add a tiny bit of setup.&lt;/p&gt;
-
-&lt;p&gt;In config/environment.rb:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;require 'mq'
-class BeanstalkPoolImpersonator
-  def initialize(opts={})
-    @opts = opts
-  end
-
-  def connect
-    connection = AMQP.connect(@opts)
-    @channel = channel = MQ.new(connection)
-  end
-
-  def use(queue)
-    @queue = MQ::Queue.new(@channel, queue)
-  end
-
-  def yput(obj, pri, delay, ttr)
-    p [obj, pri, delay, ttr]
-    @queue.publish(YAML.dump(obj))
-  end
-
-  def last_server
-    :last_server_stub
-  end
-
-  def subscribe(*args, &amp;amp;blk)
-    @queue.subscribe(*args, &amp;amp;blk)
-  end
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Then, instead of connecting via &lt;code&gt;Beanstalk::Pool.new&lt;/code&gt;, do this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;AsyncObserver::Queue.queue = BeanstalkPoolImpersonator.new()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You can pass an options hash to the &lt;code&gt;new&lt;/code&gt; call, providing user, pass, vhost, host, or port as necessary.&lt;/p&gt;
-
-&lt;p&gt;Then, in your workers, load up the async_observer worker class, and extend like so:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class RabbitWorker &amp;lt; AsyncObserver::Worker
-  def run()
-    EM.run do
-      AsyncObserver::Queue.queue.connect
-      AsyncObserver::Queue.queue.use('1.0')
-      AsyncObserver::Queue.queue.subscribe do |headers, msg|
-        job = OpenStruct.new(:ybody =&amp;gt; YAML.load(msg), :body =&amp;gt; msg, :stats =&amp;gt; [])
-        job.id = headers.properties[:delivery_tag]
-        safe_dispatch(job)
-      end
-    end
-  end
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Create the new worker the same way you would for the AO::Worker, and you're set:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;RabbitWorker.new(binding).run()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Note: I'm maintaining a &lt;a href=&quot;https://github.com/jamie/async-observer&quot;&gt;merb port&lt;/a&gt; of async-observer on github.&lt;/p&gt;
-
-&lt;p&gt;Note 2: This worker is somewhat fragile, if the RabbitMQ server goes down it will just hang forever waiting for more jobs.  I'll need to figure out a solution to that before we move this into production (and I wrap it up in a gem), but I thought I'd get this out and about now.&lt;/p&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title>Specing Layouts</title>
-    <link href="http://blog.tracefunc.com/2008/07/16/specing-layouts" />
-    <id>tag:blog.tracefunc.com,2008-07-16:1216240620</id>
-    <updated>2008-07-16T16:37:00-04:00</updated>
-    <content type="html">&lt;p&gt;Just a quick little snippet for those trying to write specs for their layout.&lt;/p&gt;
-
-&lt;p&gt;Create your spec in &lt;code&gt;spec/views/layout/application.html.erb_spec.html&lt;/code&gt;, and add this class to it:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;class Layout &amp;lt; Application
-  layout nil
-  def application; render; end
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Then just test it as you would any other ordinary view.&lt;/p&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title>Porting Rails Plugins to DataMapper</title>
-    <link href="http://blog.tracefunc.com/2008/07/15/porting-rails-plugins-to-datamapper" />
-    <id>tag:blog.tracefunc.com,2008-07-15:1216151940</id>
-    <updated>2008-07-15T15:59:00-04:00</updated>
-    <content type="html">&lt;p&gt;As a follow-up to my &lt;a href=&quot;http://blog.tracefunc.com/2008/07/15/porting-rails-plugins-to-merb&quot;&gt;previous post&lt;/a&gt;, here's some gotchas to be aware of if you're looking to support both ActiveRecord and DataMapper in a Merb (and/or Rails) plugin.&lt;/p&gt;
-
-&lt;h2&gt;The Strategy&lt;/h2&gt;
-
-&lt;p&gt;The best way I've found to handle multiple ORM support in your plugin is not to start monkeypatching around to make one ORM handle like another.  I've done it, and can tell you that wrapping one ORM's backend into another is &lt;a href=&quot;http://pastie.org/233178&quot;&gt;ugly&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The better way is to localize the points where your plugin interacts with the data model, with an eye to swapping them out.  For the above example, I would be better off taking the method that &lt;em&gt;used&lt;/em&gt; the reflection method and putting it inside an ActiveRecord-specific module.  Then, create a DataMapper-specific module that defines the same method, but instead relies on the DM backend to get at the association information.  Finally, when the plugin was loaded I could just include one of the modules based on which ORM was loaded into the runtime.&lt;/p&gt;
-
-&lt;h2&gt;Basic Translation&lt;/h2&gt;
-
-&lt;p&gt;Now that we have a plan, we can start translating our extracted functions from AR bits to DM bits.  There's a bunch of fairly straightforward transformations we can make.&lt;/p&gt;
-
-&lt;p&gt;It's unfortunate that there isn't more unity between the two, as from a library-developer's perspective it would make this sort of thing much easier, but the DM team is pretty vocal about wanting the best API they can get, and not worrying about being hobbled by how AR does things.  I don't particularly disagree.&lt;/p&gt;
-
-&lt;table&gt;
-  &lt;tr&gt;&lt;td&gt;ActiveRecord&lt;/td&gt;&lt;td&gt;DataMapper&lt;/td&gt;&lt;/tr&gt;
-  &lt;tr&gt;&lt;td&gt;.find(:all, ...)   &lt;/td&gt;&lt;td&gt;.all(...)         &lt;/td&gt;&lt;/tr&gt;
-  &lt;tr&gt;&lt;td&gt;.find(:first, ...) &lt;/td&gt;&lt;td&gt;.first(...)       &lt;/td&gt;&lt;/tr&gt;
-  &lt;tr&gt;&lt;td&gt;.find(id)          &lt;/td&gt;&lt;td&gt;.get(...)         &lt;/td&gt;&lt;/tr&gt;
-  &lt;tr&gt;&lt;td&gt;.find_all_by_id(id)&lt;/td&gt;&lt;td&gt;.all(:id =&gt; ids)  &lt;/td&gt;&lt;/tr&gt;
-  &lt;tr&gt;&lt;td&gt;.table_name        &lt;/td&gt;&lt;td&gt;.storage_name     &lt;/td&gt;&lt;/tr&gt;
-  &lt;tr&gt;&lt;td&gt;.primary_key       &lt;/td&gt;&lt;td&gt;.key.first.name   &lt;/td&gt;&lt;/tr&gt;
-  &lt;tr&gt;&lt;td&gt;.connection        &lt;/td&gt;&lt;td&gt;repository.adapter&lt;/td&gt;&lt;/tr&gt;
-
-  &lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;/table&gt;
-
-
-&lt;h2&gt;Raw SQL&lt;/h2&gt;
-
-&lt;p&gt;If you're running raw SQL queries, firstly, I'm sorry.  Secondly, you want to run &lt;code&gt;.query&lt;/code&gt; instead of &lt;code&gt;.execute&lt;/code&gt;.  Thirdly, if you care about getting the results of the query back, AR returns an array of arrays, DM returns an array of hashlike objects, so you want to map them for their values array.  The hashlike object in question is order-preserving, so you'll get things out in the right order.  If you're concerned, grab one of the result objects and verify that the keys array is in the correct order.&lt;/p&gt;
-
-&lt;h2&gt;Hooks&lt;/h2&gt;
-
-&lt;p&gt;ActiveRecord defines a few hook points, along the lines of &lt;code&gt;before_create&lt;/code&gt; and &lt;code&gt;after_save&lt;/code&gt;.  DataMapper uses (a modified version of) the Extlib gem, allowing it to hook pretty much any method.  The syntax is like &lt;code&gt;before(:create)&lt;/code&gt; and &lt;code&gt;after(:save)&lt;/code&gt;.  AR's hooks pass in the object to work with, DM's have the object available as &lt;code&gt;self&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;In before hooks, the AR hook chain stops if your method returns false, in DM you must &lt;code&gt;throw :halt&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2&gt;Things You Shouldn't Be Doing Anyways&lt;/h2&gt;
-
-&lt;p&gt;If you're manually setting &lt;code&gt;@attribute&lt;/code&gt; values in your AR code, you'll need to use &lt;code&gt;instance_variable_set&lt;/code&gt; for DataMapper.  I recommend writing manual accessor methods to wrap it for abstraction.&lt;/p&gt;
-
-&lt;p&gt;If you're wanting some arbitrary data structures back, I recommend using OpenStruct (&lt;code&gt;require 'ostruct'&lt;/code&gt;) to pass structured data back and forth.  This was especially handy when I wanted some results from DM to look like AR, because I was just doing an adapter (bad me!) and the client code wanted to interact with the AR object.  Just be aware that OpenStruct doesn't quite clear out all its methods, so you might want to define some custom readers anyway.  I had problems with &lt;code&gt;type&lt;/code&gt; in particular, which is a deprecated alias of &lt;code&gt;class&lt;/code&gt; - redefining the method to return &lt;code&gt;@table[:type]&lt;/code&gt; fixed that up nicely.&lt;/p&gt;
-</content>
-  </entry>
-  
-  <entry>
-    <title>Porting Rails Plugins to Merb</title>
-    <link href="http://blog.tracefunc.com/2008/07/15/porting-rails-plugins-to-merb" />
-    <id>tag:blog.tracefunc.com,2008-07-15:1216097700</id>
-    <updated>2008-07-15T00:55:00-04:00</updated>
-    <content type="html">&lt;p&gt;We're about to start up a new project at work, and we've decided to go with &lt;a href=&quot;http://merbivore.com/&quot;&gt;Merb&lt;/a&gt; (yay!) rather than &lt;a href=&quot;http://rubyonrails.com/&quot;&gt;Rails&lt;/a&gt;. Before we get started, though, we wanted to make sure that we'd be able to integrate well with the various plugins available for Rails.&lt;/p&gt;
-
-&lt;p&gt;The first two libraries we wanted to use were &lt;a href=&quot;http://github.com/fauna/ultrasphinx/&quot;&gt;ultrasphinx&lt;/a&gt;, an interface to the &lt;a href=&quot;http://sphinxsearch.com/&quot;&gt;Sphinx&lt;/a&gt; fulltext search engine, and &lt;a href=&quot;http://github.com/kr/async-observer/&quot;&gt;async-observer&lt;/a&gt;, an abstraction library using the &lt;a href=&quot;http://xph.us/software/beanstalkd/&quot;&gt;beanstalkd&lt;/a&gt; work queue library to delay actions to be processed at a later time, rather than while processing the page.&lt;/p&gt;
-
-&lt;p&gt;The good news is that both of the projects are available on GitHub, which means easy forks, and easy contributions back to the source if my changes are as good as I think they are.&lt;/p&gt;
-
-&lt;p&gt;So, today I'd like to talk about the basic changes you'll need to make to a Rails plugin so that it will play nicely with Merb, and a few of the extra hooks that come into play.  In the near future, I hope to provide a bit of a primer on adapting a plugin that uses ActiveRecord so that it will also work with Datamapper.  Preview tip from that post, if you're calling any methods provided by ActiveRecord, &lt;em&gt;please&lt;/em&gt; make an adapter class/module to pass those methods through, as it makes ports like these &lt;em&gt;much&lt;/em&gt; easier.&lt;/p&gt;
-
-&lt;h2&gt;Basics&lt;/h2&gt;
-
-&lt;p&gt;To get your plugin to get picked up properly, Rails requires an &lt;code&gt;init.rb&lt;/code&gt; file in the plugin root.  The equivalent for Merb is a file named after your plugin, in the &lt;code&gt;/lib&lt;/code&gt; directory.  Copying &lt;code&gt;/init.rb&lt;/code&gt; to &lt;code&gt;/lib/async_observer.rb&lt;/code&gt; worked for that one, Ultrasphinx is somewhat better behaved in that its init.rb just required ultrasphinx, so both Rails and Merb worked for me out of the box.&lt;/p&gt;
-
-&lt;p&gt;If you depend on anything in Merb, you'll need to add to the docs that applications should add the plugin dependency inside a &lt;code&gt;Merb::BootLoader.before_app_loads&lt;/code&gt; block - otherwise nothing in Merb is defined yet.  This is of particular importance if you want to switch behaviour based on whether the Rails or Merb constants are defined.  As Rails handles loading plugins itself, there's no concern for keeping things special for Rails.&lt;/p&gt;
-
-&lt;p&gt;If you plan on dealing with the app directory structure or environment, an easy way to do it is:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;if defined?(Rails)
-  ROOT = RAILS_ROOT
-  ENV = RAILS_ENV
-elsif defined?(Merb)
-  ROOT = Merb.root
-  ENV = (Merb.env == 'rake' ? 'development' : Merb.env)
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The additional rake environment transparently proxies to the development db connection, so if you just want to compare your plugin's interpretation of &lt;code&gt;ENV&lt;/code&gt; the above will make that cleaner.&lt;/p&gt;
-
-&lt;h2&gt;Rake Tasks&lt;/h2&gt;
-
-&lt;p&gt;Rails automatically loads any files matching &lt;code&gt;tasks/*.rake&lt;/code&gt; in the plugin dir.&lt;/p&gt;
-
-&lt;p&gt;Merb needs to be told explicitly, relative to the lib directory.  The canonical example from the docs is:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;if defined?(Merb::Plugins)
-  Merb::Plugins.add_rakefiles &quot;merb_sequel&quot; / &quot;merbtasks&quot;
-end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Unfortunately, it seems that it wants specified a single file with a &lt;code&gt;.rb&lt;/code&gt; extension, which is incompatible with the Rails Way.  The easiest fix I've found is to add a file called &lt;code&gt;tasks.rb&lt;/code&gt; under &lt;code&gt;/lib&lt;/code&gt;, inside which you just manually require the individual rake files:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;load File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'tasks', 'merb_sequel.rake'))
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Do note that the &lt;code&gt;load&lt;/code&gt; is necessary, &lt;code&gt;require&lt;/code&gt; doesn't pick the file up properly.&lt;/p&gt;
-
-&lt;p&gt;Finally, if you have any tasks that depend on environment, the easiest way to get compatability with both frameworks is to add &lt;code&gt;task :environment =&amp;gt; :merb_env&lt;/code&gt; to your &lt;code&gt;merbtasks.rb&lt;/code&gt; file.&lt;/p&gt;
-
-&lt;h2&gt;Generators&lt;/h2&gt;
-
-&lt;p&gt;I haven't looked into generators in too much depth, but the API between Rails::Generator::Base and Merb::GeneratorBase seem different enough to warrant not reusing the generation script.  If you conditionally define a generator based on the &lt;code&gt;defined?&lt;/code&gt;ness of those two base classes, you should be able to reuse all your generation templates, and both Rails and Merb look in the same place for generators, so that should be the only adaptation necessary.&lt;/p&gt;
-
-&lt;h2&gt;ORM Integration&lt;/h2&gt;
-
-&lt;p&gt;Check back next time, as I write up my experience writing an ActiveRecord shim for the latest DataMapper.  It's vaguely ugly.  I &lt;em&gt;highly&lt;/em&gt; recommend if you're working on a plugin now that interacts with models to abstract any access to the database into a module, and include it appropriately.  This goes double if you're using any AR magic ;)&lt;/p&gt;
+    <title>Enter Jekyll</title>
+    <link href="http://blog.tracefunc.com/2009/11/30/enter-jekyll/" />
+    <id>tag:blog.tracefunc.com,2009-11-30T00:00:00-05:00:1259719311</id>
+    <updated>2009-12-01T21:01:51-05:00</updated>
+    <content type="html">&lt;p&gt;So I've gone and switched up blogging platforms again. This time, it's &lt;a href=&quot;http://github.com/mojombo/jekyll&quot;&gt;Jekyll&lt;/a&gt;. It's not that I had any problems with &lt;a href=&quot;http://github.com/TwP/webby/&quot;&gt;webby&lt;/a&gt;, just thought I'd try it out. After spending a few hours porting things over (mostly layout and helpers, my posts are already in &lt;a href=&quot;http://daringfireball.net/projects/markdown/&quot;&gt;markdown&lt;/a&gt;) I think I'm going to stick with it.&lt;/p&gt;
+
+&lt;p&gt;Being blog-aware is looking like a huge win - if I'm ok with my posts just being recorded by date, rather than date+time, there's a lot less overhead that needs to get done to push a new post up. I have smaller YAML preambles, and the only custom code I'm maintaining is some custom Liquid filters. With less time being spent worrying about the blog software, I might be more successful at the whole blog-writing bit. Maybe.&lt;/p&gt;
 </content>
   </entry>
   

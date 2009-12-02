@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>set_trace_func - Camping for Railers</title>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <link rel="stylesheet" href="/css/blueprint.css" type="text/css"/>
+    <!--[if IE]>
+      <link rel="stylesheet" href="/css/blueprint-ie.css" type="text/css"/>
+    <![endif]-->
+    <link rel="stylesheet" href="/css/master.css" type="text/css"/>
+    <link href='http://feeds.feedburner.com/set_trace_func' rel='alternate' type='application/atom+xml' />
+
+    <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script type='text/javascript' src="/js/prettify.js"></script>
+    <script type='text/javascript' src="/js/blog.js"></script>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='span-20 last' id='header'>
+
+        <h1>
+          <a href='/'>set_trace_func</a>
+        </h1>
+        <h2>veni, vidi, didici</h2>
+      </div>
+      <div class='span-20 last' id='menu'>
+        <div id='feedburner'>
+          <a href='http://feeds.feedburner.com/set_trace_func'><img alt='RSS Feed' src='http://feeds.feedburner.com/~fc/set_trace_func?bg=0099ff&amp;fg=000000&amp;anim=0' /></a>
+        </div>
+        <ul style='float: right;'>
+          <li><a>&#8203;</a></li>
+          <li><a href='/about/'>About Me</a></li>
+        </ul>
+        <ul>
+          <li><a href='/archive/'>Archive</a></li>
+          <li><a href='/tags/'>Tags</a></li>
+          <li><a href='/projects/'>Projects</a></li>
+        </ul>
+      </div>
+      <div id='content-wrap'>
+        <div class='span-18' id='content'>
+          <div id="article">
+  <div class="article hentry">
+    <h3 class="entry-title"><a href="">Camping for Railers</a></h3>
+    <div class="meta">
+      December 31, 2006
+      
+        |
+        Tags:
+        
+          <a href="/tags.html#camping">camping</a>
+        
+          <a href="/tags.html#programming">programming</a>
+        
+          <a href="/tags.html#rails">rails</a>
+        
+      
+    </div>
+    <div class="entry-content"><p>Well, I managed to get the weight-tracking app functional (graph and all) in about 220 lines, just tweaking the look now. It's a single-script Camping app using Gruff for graphing, with SQLite for data storage. Not exactly the most efficient app (I'm cheating by using a lot of mostly-null records in the database) but it gets the job done.
+There were a few things that got me stuck for a bit that weren't obviously mentioned in the camping docs, so I thought I'd put them down here.</p>
+
+<p>If you're planning on letting Camping handle migrations for you (class Weight::Models::CreateEntries &lt; V 0.1) be sure to require 'camping/db', which is what defines the V method.
+The equivalent of Rails' /params/ method for get and post variables is /input/ in Camping. Found that one by accident on a JRuby tutorial, of all things.</p>
+
+<p>Not exactly a camping thing, but if you want a non 4:3 ratio gruff graph, send a string '1000x350' or similar.</p>
+
+<p>That being all that I can think of browsing over the source, I think I'm safe recommending camping for quick prototyping. The best part is that if you want to switch over to a full-fledged rails app, you can just copy/paste the models and migrations (Rails and Camping both use ActiveRecord) and if you want to use markaby for your rails views, you can copy them over as well. A little more work organizing the views and correcting urls and such, but mostly painless. Just don't forget to do the testing ;)</p>
+</div>
+  </div>
+  
+  <div id="disqus_thread"></div>
+  <script type="text/javascript" src="http://disqus.com/forums/tracefunc/embed.js"></script>
+  <noscript>
+    <a href="http://tracefunc.disqus.com/?url=ref">View the discussion thread</a>
+  </noscript>
+  <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+        </div>
+      </div>
+      <div class='span-20 last' id='footer'>
+        <p>
+          &copy; 2006-2008 <span class="author vcard"><span class="fn">Jamie Macey</span></span>
+          |
+          Original design: <a href="http://www.styleshout.com/templates/preview/CoolWater1-0/index.html">CoolWater</a> by <a href="http://www.styleshout.com/">styleshout</a>
+        </p>
+      </div>
+    </div>
+
+    <script type='text/javascript'>
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type='text/javascript'>
+      try {
+        var pageTracker = _gat._getTracker("UA-11614297-1");
+        pageTracker._setDomainName(".tracefunc.com");
+        pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
+  </body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>set_trace_func - Fun with Routes</title>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <link rel="stylesheet" href="/css/blueprint.css" type="text/css"/>
+    <!--[if IE]>
+      <link rel="stylesheet" href="/css/blueprint-ie.css" type="text/css"/>
+    <![endif]-->
+    <link rel="stylesheet" href="/css/master.css" type="text/css"/>
+    <link href='http://feeds.feedburner.com/set_trace_func' rel='alternate' type='application/atom+xml' />
+
+    <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script type='text/javascript' src="/js/prettify.js"></script>
+    <script type='text/javascript' src="/js/blog.js"></script>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='span-20 last' id='header'>
+
+        <h1>
+          <a href='/'>set_trace_func</a>
+        </h1>
+        <h2>veni, vidi, didici</h2>
+      </div>
+      <div class='span-20 last' id='menu'>
+        <div id='feedburner'>
+          <a href='http://feeds.feedburner.com/set_trace_func'><img alt='RSS Feed' src='http://feeds.feedburner.com/~fc/set_trace_func?bg=0099ff&amp;fg=000000&amp;anim=0' /></a>
+        </div>
+        <ul style='float: right;'>
+          <li><a>&#8203;</a></li>
+          <li><a href='/about/'>About Me</a></li>
+        </ul>
+        <ul>
+          <li><a href='/archive/'>Archive</a></li>
+          <li><a href='/tags/'>Tags</a></li>
+          <li><a href='/projects/'>Projects</a></li>
+        </ul>
+      </div>
+      <div id='content-wrap'>
+        <div class='span-18' id='content'>
+          <div id="article">
+  <div class="article hentry">
+    <h3 class="entry-title"><a href="">Fun with Routes</a></h3>
+    <div class="meta">
+      May 16, 2006
+      
+        |
+        Tags:
+        
+          <a href="/tags.html#programming">programming</a>
+        
+          <a href="/tags.html#rails">rails</a>
+        
+      
+    </div>
+    <div class="entry-content"><p>Rails' routing framework is a pretty capable beast, but it does sometimes still need a bit of help doing more exotic things.</p>
+
+<p>I ran across an example from someone a few months back (either on the mailing list or in a blog post, I can't find any trace of it now) that was using multiple routes to match the same thing - a GUID that could belong to one of many different models. This was done with an overloaded Regexp subclass that pattern matched the GUID, and then looked it up to see if it existed for that model. I wanted to do something similar to that for a project I'm working on, and since I couldn't find an example to copy off of, I went delving inside routing.rb on my own.</p>
+
+<p>The long and short of it is that the following code seems to be a workable solution for me, while being generic enough (the only real custom line is the last one inside the module def) for anyone to incorporate into their code.</p>
+
+<pre><code>module ActionController::Routing
+  module ConditionConstants; end
+
+  class CustomCondition &lt; Regexp
+    def initialize(name, &amp;match)
+      super '^$' # pretend we're a regular empty string regexp
+      @name, @match = name, match
+    end
+    def =~(other); @match.call(other); end
+    def inspect;   @name;              end
+  end
+
+  def self.custom_condition(name, &amp;block)
+    ConditionConstants.const_set(name, CustomCondition.new(name, &amp;block))
+  end
+
+  custom_condition('ProjectCondition'){|other| Project.find_by_url(other) }
+end
+</code></pre>
+
+<p>The only other thing to do is include ActionController::Routing::ConditionConstants inside the block attached to draw so your connect calls can see the constants being defined - AC::Routing seems to have no problem seeing them, even though they're inside a module of their own.</p>
+
+<p>Anyone interested in the hows and whys, feel free to read on...</p>
+
+<p>The goal then, is to come up with an object that can perform an arbitrary condition for use in routes. My usage is a simple lookup in one of my ActiveRecord models, but really you could do anything you wanted. So let's take a look through the generation of a route.</p>
+
+<p>First off, you create routes using the draw method of ActionController::Routing::Routes, which accepts a block detailing the routes you want to connect. Routes is actually not a class with a class method draw, but rather is an instance of AC::Routing::RouteSet. draw yields the RouteSet to the content block, so let's take a look at it for a moment.</p>
+
+<p>The RouteSet#connect method takes a bunch of arguments, and passes them directly into the constructor of AC::Routing::Route. Route accepts two parameters: a path, and an options hash. The path can be either a string (which is split on '/') or an array. The options hash is populated with either defaults or conditions for the various parts of the path.</p>
+
+<p>While you can explicitly define :defaults and :conditions with their own subhashes, but Route is smart enough to do some thinking for you: if the value for a given key is_a?(Regexp), it is treated as a condition, otherwise it is considered a default. Therefore, this is the first test that our custom condition must pass. Fortunately, it's trivial to write an is_a? method on whatever class we end up writing that returns true for Regexp, so it's not a big stumbling block.</p>
+
+<p>Now, I have to admit I snuck a bit ahead of the game here - when Route was doing data massaging on the path, it is creating AC::Routing::Components to store each part of the path. There are actually four different subclasses of components, each created by the base Component class. The one we're interested in is DynamicComponent, which is created when the path looks like a symbol. ControllerComponent matches on the explicit symbol :controller so that it can deal with modules, so we don't need to worry about it.</p>
+
+<p>This comes in later on in RouteSet#draw. After creating the various Routes, it calls methods named write_generation and write_recognition. write_generation sets up rules for turning a params hash into an actual URL. write_recognition does the other way, which is what we want.</p>
+
+<p>write_recognition then, assembles the recognition rules for each of its Routes, which through a roundabout way calls the same on each Component. The DynamicComponent we were looking at then calls the class method Routing.test_condition with its condition. This leads us to our second constraint on our custom class - test_condition runs the condition through a case statement, putting classes on the whens. The when Regexp condition behaves the same as if Regexp === condition, which only evaluates true when condition is an instance of Regexp or a subclass.</p>
+
+<p>This is significantly more difficult to fake than being able to redefine is_a?, and I really didn't want to come up with a solution that required hacking into Regexp to get anything done. The next two lines after the when (that's 38 and 39, for those playing at home with Rails 1.1.2) add two other wrinkles in the behaviour.</p>
+
+<p>The first is that if the Regexp instance is not bookended by beginning-of-string and end-of-string matchers, a new instance is created that is wrapped so. However, this isn't as bad as it looks at first. Since we're not actually using the Regexp source for any pattern matching, we can satisfy this criteria by setting the pattern to /^$/, which matches an empty string.</p>
+
+<p>The second is significantly trickier, in that when our matcher is inspected, it needs to output as a string the ruby code used to create it. This is fine for normal regular expressions, as /^$/.inspect does actually print out "/^$/", but if we want our matcher to be highly dynamic, it effectively rules out using blocks or procs directly as we would expect. Additionally, the output of the inspect call is then directly sent an =~ call with the part of the path it is trying to match.</p>
+
+<p>My first thought on this was to use classes, since I could create an instance that would pass the "is a subclass of Regexp" test, output the name of the class, and use a class method to do the actual matching (coming later), but that was looking much too ugly. Then I realized that the reason I was drawn to classes is that it is a constant that knows how to look itself up. If I were to teach a Regexp subclass the name I'm about to assign to it, it will know how to reference itself directly, and storing it in a constant means I should be able to get easy access to it by the time we get that deep into the code.</p>
+
+<p>Thus began my CustomCondition class.</p>
+
+<p>I first set up an empty module named ConditionConstants that I would use to house my constants.</p>
+
+<p>Next up was the class - a subclass of Regexp to pass the is_a? and === tests, but with an overoaded initialize. This first set up the Regexp base to use the empty string regex listed above to prevent Routing from stepping over the constant. initialize also accepted the name of the constant it is about to be stored in, and a block of code to execute later on.</p>
+
+<p>CustomCondition#inspect did the obvious, and output the name we were to be remembering.</p>
+
+<p>CustomCondition#=~ simply called the stored block with the argument we are trying to match, allowing the creation of the object to completely drive its purpose.</p>
+
+<p>Lastly, since all the work was being done in the ActionController::Routing module, I created a class method that would do the creation and assignment for me so that I was doing less direct repetition.</p>
+
+<p>Once that was all in place, I simply called my helper method with the name of the constant, and a block encapsulating the behaviour. Done and done.</p>
+</div>
+  </div>
+  
+  <div id="disqus_thread"></div>
+  <script type="text/javascript" src="http://disqus.com/forums/tracefunc/embed.js"></script>
+  <noscript>
+    <a href="http://tracefunc.disqus.com/?url=ref">View the discussion thread</a>
+  </noscript>
+  <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+        </div>
+      </div>
+      <div class='span-20 last' id='footer'>
+        <p>
+          &copy; 2006-2008 <span class="author vcard"><span class="fn">Jamie Macey</span></span>
+          |
+          Original design: <a href="http://www.styleshout.com/templates/preview/CoolWater1-0/index.html">CoolWater</a> by <a href="http://www.styleshout.com/">styleshout</a>
+        </p>
+      </div>
+    </div>
+
+    <script type='text/javascript'>
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type='text/javascript'>
+      try {
+        var pageTracker = _gat._getTracker("UA-11614297-1");
+        pageTracker._setDomainName(".tracefunc.com");
+        pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
+  </body>
+</html>

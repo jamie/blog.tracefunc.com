@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>set_trace_func - Dynamic ActiveRecord Attributes</title>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <link rel="stylesheet" href="/css/blueprint.css" type="text/css"/>
+    <!--[if IE]>
+      <link rel="stylesheet" href="/css/blueprint-ie.css" type="text/css"/>
+    <![endif]-->
+    <link rel="stylesheet" href="/css/master.css" type="text/css"/>
+    <link href='http://feeds.feedburner.com/set_trace_func' rel='alternate' type='application/atom+xml' />
+
+    <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script type='text/javascript' src="/js/prettify.js"></script>
+    <script type='text/javascript' src="/js/blog.js"></script>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='span-20 last' id='header'>
+
+        <h1>
+          <a href='/'>set_trace_func</a>
+        </h1>
+        <h2>veni, vidi, didici</h2>
+      </div>
+      <div class='span-20 last' id='menu'>
+        <div id='feedburner'>
+          <a href='http://feeds.feedburner.com/set_trace_func'><img alt='RSS Feed' src='http://feeds.feedburner.com/~fc/set_trace_func?bg=0099ff&amp;fg=000000&amp;anim=0' /></a>
+        </div>
+        <ul style='float: right;'>
+          <li><a>&#8203;</a></li>
+          <li><a href='/about/'>About Me</a></li>
+        </ul>
+        <ul>
+          <li><a href='/archive/'>Archive</a></li>
+          <li><a href='/tags/'>Tags</a></li>
+          <li><a href='/projects/'>Projects</a></li>
+        </ul>
+      </div>
+      <div id='content-wrap'>
+        <div class='span-18' id='content'>
+          <div id="article">
+  <div class="article hentry">
+    <h3 class="entry-title"><a href="">Dynamic ActiveRecord Attributes</a></h3>
+    <div class="meta">
+      September 13, 2006
+      
+        |
+        Tags:
+        
+          <a href="/tags.html#programming">programming</a>
+        
+          <a href="/tags.html#rails">rails</a>
+        
+      
+    </div>
+    <div class="entry-content"><p>Chris Abad wrote yesterday about his experience with <a href="http://blog.integralimpressions.com/articles/2006/09/12/dynamically-adding-attributes-to-your-model">dynamic attributes</a>, and I thought I'd share mine.</p>
+
+<p>I'm doing something similar to collect data POSTed to a form, but my data is slightly more structured than Chris'. I have a few fields that I expect to be populated most of the time, and the possiblity of arbitrary fields being set as well. My models look like this:</p>
+
+<pre><code>create_table "leads", :force =&gt; true do |t|
+  t.column "email", :string, :default =&gt; "", :null =&gt; false
+  t.column "firstname", :string
+  t.column "lastname", :string
+  t.column "ip", :string, :default =&gt; "", :null =&gt; false
+end
+create_table "lead_infos", :force =&gt; true do |t|
+  t.column "lead_id", :integer, :default =&gt; 0, :null =&gt; false
+  t.column "name", :string, :default =&gt; "", :null =&gt; false
+  t.column "value", :string, :default =&gt; "", :null =&gt; false
+end
+</code></pre>
+
+<p>Lead, of course, has_many :lead_infos. Thus, I can assume that most leads will have an email, first and last name, and an IP address. The name fields are optional, but common enough to warrant being in the main table (also makes for easier lookups and duplicate checking). Other things, like address, city, zip, etc. I want to hang on to if provided, so I store them as a LeadInfo.</p>
+
+<p>I'm in the same boat as Chris though, as I want to provide uniform access to the data points in a Lead, as well as its LeadInfos, using the 'name' field as a key. Chris added an after_find hook that moved all the correct data in, but since I'm such a fan of metaprogramming, I decided that I would use method_missing like so:</p>
+
+<pre><code>class Lead &lt; ActiveRecord::Base
+  has_many :lead_infos, :dependent =&gt; true
+
+  def method_missing(methodname, *args)
+    begin
+      super
+    rescue NameError
+      name = methodname.to_s.chomp('=')
+      if (methodname.to_s =~ /=$/)
+        LeadInfo.create(:name =&gt; name, :value =&gt; args.first, :lead_id =&gt; self.id)
+        self
+      else
+        LeadInfo.find(:first, :conditions =&gt; ['name = ?', name]) or raise
+        lead_infos.find_by_name(name).value rescue ''
+      end
+    end
+  end
+
+  ...
+end
+</code></pre>
+
+<p>Walking through this, I first make sure to call super so that ActiveRecord's method_missing gets run first. If it can't find anything to do, then it is the Lead's turn to try.</p>
+
+<p>We start by stripping a trailing = if it exists to get the correct name to use. If the = existed, it's being used as a setter, so we just create the new LeadInfo record based off the current Lead, and return self so that we can chain calls if we desire.</p>
+
+<p>Otherwise, it's a getter, so I first verify that there is at least one LeadInfo with the supplied name - if not, then something is very wrong and we want to re-raise the NameError. Elsewise we so a search for the given value and return it, or an empty string if it is not set (the empty string catch-all is specific for the things I'm doing with this bit of hackery, so might not be applicable to everybody).</p>
+
+<p>The performance difference between my code and Chris' is that I take 2 DB queries for each access to the LeadInfo data, but only when you ask for it. I'm not caching the result (which would take some strain away) because my use of it is solely one access each time I load the Lead from the DB, so caching wouldn't help me. On the other hand, if I do a grand find of a bunch of leads (and in a few places in my code that's quite a lot) I'm not getting hit with extra db hits that I'm not going to use most of the time.</p>
+
+<p>There's benefits to both what I've done and what Chris has done, so anyone reading these can take their pick :)</p>
+
+<h2>Comments</h2>
+
+<p>Nice write up. I was going to go the MethodMissing route if it weren't for my requirement to have all the attributes insterted into the objects attributes hash. I think you're write about the catch-all being specific to you. Most people would probably want to re-raise the error and deal with that appropriately elsewhere.</p>
+
+<ul>
+<li>Chris Abad, at 18:45, Sep 13 2006</li>
+</ul>
+
+</div>
+  </div>
+  
+  <div id="disqus_thread"></div>
+  <script type="text/javascript" src="http://disqus.com/forums/tracefunc/embed.js"></script>
+  <noscript>
+    <a href="http://tracefunc.disqus.com/?url=ref">View the discussion thread</a>
+  </noscript>
+  <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+        </div>
+      </div>
+      <div class='span-20 last' id='footer'>
+        <p>
+          &copy; 2006-2008 <span class="author vcard"><span class="fn">Jamie Macey</span></span>
+          |
+          Original design: <a href="http://www.styleshout.com/templates/preview/CoolWater1-0/index.html">CoolWater</a> by <a href="http://www.styleshout.com/">styleshout</a>
+        </p>
+      </div>
+    </div>
+
+    <script type='text/javascript'>
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type='text/javascript'>
+      try {
+        var pageTracker = _gat._getTracker("UA-11614297-1");
+        pageTracker._setDomainName(".tracefunc.com");
+        pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
+  </body>
+</html>

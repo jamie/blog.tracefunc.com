@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>set_trace_func - RPlug Up and Running</title>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <link rel="stylesheet" href="/css/blueprint.css" type="text/css"/>
+    <!--[if IE]>
+      <link rel="stylesheet" href="/css/blueprint-ie.css" type="text/css"/>
+    <![endif]-->
+    <link rel="stylesheet" href="/css/master.css" type="text/css"/>
+    <link href='http://feeds.feedburner.com/set_trace_func' rel='alternate' type='application/atom+xml' />
+
+    <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script type='text/javascript' src="/js/prettify.js"></script>
+    <script type='text/javascript' src="/js/blog.js"></script>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='span-20 last' id='header'>
+
+        <h1>
+          <a href='/'>set_trace_func</a>
+        </h1>
+        <h2>veni, vidi, didici</h2>
+      </div>
+      <div class='span-20 last' id='menu'>
+        <div id='feedburner'>
+          <a href='http://feeds.feedburner.com/set_trace_func'><img alt='RSS Feed' src='http://feeds.feedburner.com/~fc/set_trace_func?bg=0099ff&amp;fg=000000&amp;anim=0' /></a>
+        </div>
+        <ul style='float: right;'>
+          <li><a>&#8203;</a></li>
+          <li><a href='/about/'>About Me</a></li>
+        </ul>
+        <ul>
+          <li><a href='/archive/'>Archive</a></li>
+          <li><a href='/tags/'>Tags</a></li>
+          <li><a href='/projects/'>Projects</a></li>
+        </ul>
+      </div>
+      <div id='content-wrap'>
+        <div class='span-18' id='content'>
+          <div id="article">
+  <div class="article hentry">
+    <h3 class="entry-title"><a href="">RPlug Up and Running</a></h3>
+    <div class="meta">
+      February 13, 2007
+      
+        |
+        Tags:
+        
+          <a href="/tags.html#programming">programming</a>
+        
+          <a href="/tags.html#ruby">ruby</a>
+        
+          <a href="/tags.html#rails">rails</a>
+        
+      
+    </div>
+    <div class="entry-content"><p>Well, it's got the basic functionality it needs, so I'm about to put out a 0.1.0 gem for <a href="http://rubyforge.org/projects/rplug">RPlug</a>. It has a dependency on <a href="http://rubyforge.org/projects/sourcecontrol">SourceControl</a>, which I think only deserves a 0.0.5 release because it only does the bare minimum to support RPlug at the moment.</p>
+
+<p>Both projects are entirely up in subversion if anyone wants to check them out, but they're not quite ready for public consumption at the moment.</p>
+
+<p>Example usage and output follows.</p>
+
+<pre><code>% rplug install exception_logger http://svn.techno-weenie.net/projects/plugins/exception_logger svn
+Recorded exception_logger, run 'rplug update' to pull the latest revision
+
+% rplug update
+Working in project dir /home/jamie/dev/redvase
+Updating exception_logger...
+  upgrading to revision 2733
+  updating local repository
+  Done.
+Updating mocha...
+  Done.
+Updating helper_test...
+  Done.
+Updating arts...
+  Done.
+Updating liquid...
+  Done.
+
+% rplug status
+Working in project dir /home/jamie/dev/redvase
+Managing the following plugins:
+  arts, revision 70
+  exception_logger, revision 2
+  helper_test, revision 85
+  liquid, revision 140
+  mocha, revision 99
+Not Managing the following plugins:
+  test_timer
+
+% rplug update -p exception_logger -r 2563
+Working in project dir /home/jamie/dev/redvase
+Updating exception_logger...
+  upgrading to revision 2563
+  updating local repository
+  Done.
+</code></pre>
+
+<p>For those new to the blog, I'm currently reinventing a few wheels here - RPlug is a replacement for Piston that stores meta-info in config/plugins.yml rather than the version control system, and which does not tie itself directly to Subversion even when given a compatible system (like SVK). It does this by using SourceControl (itself intended as a replacement for RSCM) to handle the interface to the SCM system.</p>
+</div>
+  </div>
+  
+  <div id="disqus_thread"></div>
+  <script type="text/javascript" src="http://disqus.com/forums/tracefunc/embed.js"></script>
+  <noscript>
+    <a href="http://tracefunc.disqus.com/?url=ref">View the discussion thread</a>
+  </noscript>
+  <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+        </div>
+      </div>
+      <div class='span-20 last' id='footer'>
+        <p>
+          &copy; 2006-2008 <span class="author vcard"><span class="fn">Jamie Macey</span></span>
+          |
+          Original design: <a href="http://www.styleshout.com/templates/preview/CoolWater1-0/index.html">CoolWater</a> by <a href="http://www.styleshout.com/">styleshout</a>
+        </p>
+      </div>
+    </div>
+
+    <script type='text/javascript'>
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type='text/javascript'>
+      try {
+        var pageTracker = _gat._getTracker("UA-11614297-1");
+        pageTracker._setDomainName(".tracefunc.com");
+        pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
+  </body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>set_trace_func - Upgrading to 1.2, Part 1: Deprecations</title>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <link rel="stylesheet" href="/css/blueprint.css" type="text/css"/>
+    <!--[if IE]>
+      <link rel="stylesheet" href="/css/blueprint-ie.css" type="text/css"/>
+    <![endif]-->
+    <link rel="stylesheet" href="/css/master.css" type="text/css"/>
+    <link href='http://feeds.feedburner.com/set_trace_func' rel='alternate' type='application/atom+xml' />
+
+    <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script type='text/javascript' src="/js/prettify.js"></script>
+    <script type='text/javascript' src="/js/blog.js"></script>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='span-20 last' id='header'>
+
+        <h1>
+          <a href='/'>set_trace_func</a>
+        </h1>
+        <h2>veni, vidi, didici</h2>
+      </div>
+      <div class='span-20 last' id='menu'>
+        <div id='feedburner'>
+          <a href='http://feeds.feedburner.com/set_trace_func'><img alt='RSS Feed' src='http://feeds.feedburner.com/~fc/set_trace_func?bg=0099ff&amp;fg=000000&amp;anim=0' /></a>
+        </div>
+        <ul style='float: right;'>
+          <li><a>&#8203;</a></li>
+          <li><a href='/about/'>About Me</a></li>
+        </ul>
+        <ul>
+          <li><a href='/archive/'>Archive</a></li>
+          <li><a href='/tags/'>Tags</a></li>
+          <li><a href='/projects/'>Projects</a></li>
+        </ul>
+      </div>
+      <div id='content-wrap'>
+        <div class='span-18' id='content'>
+          <div id="article">
+  <div class="article hentry">
+    <h3 class="entry-title"><a href="">Upgrading to 1.2, Part 1: Deprecations</a></h3>
+    <div class="meta">
+      January 09, 2007
+      
+        |
+        Tags:
+        
+          <a href="/tags.html#programming">programming</a>
+        
+          <a href="/tags.html#rails">rails</a>
+        
+      
+    </div>
+    <div class="entry-content"><p>So I've been spending some time lately working on upgrading the existing codebase for some projects at work such that they'll work in Rails 1.2 once it's released. Sadly, the upgrade process is not without its rough edges, and after two days of poking at it (it being a 5800 LOC app with 8800 LOC of tests) I'm still not completely done - the test run does not pass cleanly.</p>
+
+<p>However, I have managed to get rid of most of the niggly deprecation warnings, so the output of the rake run is down to 450k from a high of about 2.2mb. Fun times. The changes required to silence most of the warnings are...</p>
+
+<h2>ActiveRecord</h2>
+
+<p>find_all and find_first are deprecated. Use find(:all) and find(:first) instead.</p>
+
+<p>If you have a has_many which is :dependent, make sure you're specifying :destroy or :delete_all, rather than true. If you've got true you probably want to replace it with :destroy. Slower, but safer.</p>
+
+<h2>Routes</h2>
+
+<p>Just a short note here, :requirements regexps no longer accept anchors. We have something along these lines:</p>
+
+<pre><code>map.connect ':controller/:action/:foo', :requirements =&gt; { :foo =&gt; /^(bar|baz)$/ }
+</code></pre>
+
+<p>Such that that route only fires if the third url part is exactly bar or baz. To silence 1.2, just remove the ^ and $ anchors.</p>
+
+<h2>Controllers/Views</h2>
+
+<p>The instance variables @params, @session, @request, and @flash are deprecated in controllers and views, use the version without the @. Note, don't try and change this globally in your tests, or all hell will break loose. Oddly, assigns(:flash) in a test seems to trigger the warning for accessing @flash.</p>
+
+<p>If you want to have your link_to go by post instead of get, use :method => :post instead of :post => true.</p>
+
+<p>(Update: This will not throw errors, but won't work in 1.1.6, so wait until you're actually running 1.2 to do this change.)</p>
+
+<p>Rendering with a string (render 'template') is no longer allowed. The deprecation warning says to render :file => 'template' instead, but if you want your code to continue to work in Rails 1.1.6 you'll need to add a :use_full_path => true to the call.</p>
+
+<p>start_form_tag and end_form_tag are now deprecated. The suggested replacement is to pass a block to a form_tag call, but that does not work at all in Rails 1.1.6. My preferred fix is to use a bare form_tag to start the form, and a hard-coded to finish it. Same goes with remote_form_tag for those AJAXy forms. That shuts up all the deprecation warnings, and allows for a fairly simple multiline regexp to blockify them up in the future. I was looking at something like &lt;%= ?(remote_)?form_tag([^%]<em>) ?%>(.</em>?) and replacing with _&lt;% $1form_tag$2 do %>$3&lt;% end %></p>
+
+<p>We've got a few places where we're redirecting to a named route: redirect_to :login_url. This calls url_for, which is deprecated. I think the correct solution is to just drop the colon and redirect_to login_url, but this doesn't work in 1.1.6 and I haven't quite tested it yet.</p>
+
+<h2>Tests</h2>
+
+<p>Lastly, a change which I completely disagree with, assert_template_has and friends are now deprecated. Use assert(@response.has_session_object?(key)) instead, my ass. This changes removes a useful failure message like &lt;:login> is not a template object and brings me back to the glory days of is not true. I know I'll be rewriting those as custom assertions for my test_helper, thank you very much.</p>
+
+<h2>To Be Continued</h2>
+
+<p>Like I said, I'm only half done this migration, but when I get the rest of it sorted, I'll be posting a follow-up right here. See you then.</p>
+</div>
+  </div>
+  
+  <div id="disqus_thread"></div>
+  <script type="text/javascript" src="http://disqus.com/forums/tracefunc/embed.js"></script>
+  <noscript>
+    <a href="http://tracefunc.disqus.com/?url=ref">View the discussion thread</a>
+  </noscript>
+  <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+        </div>
+      </div>
+      <div class='span-20 last' id='footer'>
+        <p>
+          &copy; 2006-2008 <span class="author vcard"><span class="fn">Jamie Macey</span></span>
+          |
+          Original design: <a href="http://www.styleshout.com/templates/preview/CoolWater1-0/index.html">CoolWater</a> by <a href="http://www.styleshout.com/">styleshout</a>
+        </p>
+      </div>
+    </div>
+
+    <script type='text/javascript'>
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type='text/javascript'>
+      try {
+        var pageTracker = _gat._getTracker("UA-11614297-1");
+        pageTracker._setDomainName(".tracefunc.com");
+        pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
+  </body>
+</html>

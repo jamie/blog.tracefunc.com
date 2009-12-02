@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>set_trace_func - Porting Rails Plugins to Merb</title>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <link rel="stylesheet" href="/css/blueprint.css" type="text/css"/>
+    <!--[if IE]>
+      <link rel="stylesheet" href="/css/blueprint-ie.css" type="text/css"/>
+    <![endif]-->
+    <link rel="stylesheet" href="/css/master.css" type="text/css"/>
+    <link href='http://feeds.feedburner.com/set_trace_func' rel='alternate' type='application/atom+xml' />
+
+    <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script type='text/javascript' src="/js/prettify.js"></script>
+    <script type='text/javascript' src="/js/blog.js"></script>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='span-20 last' id='header'>
+
+        <h1>
+          <a href='/'>set_trace_func</a>
+        </h1>
+        <h2>veni, vidi, didici</h2>
+      </div>
+      <div class='span-20 last' id='menu'>
+        <div id='feedburner'>
+          <a href='http://feeds.feedburner.com/set_trace_func'><img alt='RSS Feed' src='http://feeds.feedburner.com/~fc/set_trace_func?bg=0099ff&amp;fg=000000&amp;anim=0' /></a>
+        </div>
+        <ul style='float: right;'>
+          <li><a>&#8203;</a></li>
+          <li><a href='/about/'>About Me</a></li>
+        </ul>
+        <ul>
+          <li><a href='/archive/'>Archive</a></li>
+          <li><a href='/tags/'>Tags</a></li>
+          <li><a href='/projects/'>Projects</a></li>
+        </ul>
+      </div>
+      <div id='content-wrap'>
+        <div class='span-18' id='content'>
+          <div id="article">
+  <div class="article hentry">
+    <h3 class="entry-title"><a href="">Porting Rails Plugins to Merb</a></h3>
+    <div class="meta">
+      July 15, 2008
+      
+        |
+        Tags:
+        
+          <a href="/tags.html#rails">rails</a>
+        
+          <a href="/tags.html#merb">merb</a>
+        
+      
+    </div>
+    <div class="entry-content"><p>We're about to start up a new project at work, and we've decided to go with <a href="http://merbivore.com/">Merb</a> (yay!) rather than <a href="http://rubyonrails.com/">Rails</a>. Before we get started, though, we wanted to make sure that we'd be able to integrate well with the various plugins available for Rails.</p>
+
+<p>The first two libraries we wanted to use were <a href="http://github.com/fauna/ultrasphinx/">ultrasphinx</a>, an interface to the <a href="http://sphinxsearch.com/">Sphinx</a> fulltext search engine, and <a href="http://github.com/kr/async-observer/">async-observer</a>, an abstraction library using the <a href="http://xph.us/software/beanstalkd/">beanstalkd</a> work queue library to delay actions to be processed at a later time, rather than while processing the page.</p>
+
+<p>The good news is that both of the projects are available on GitHub, which means easy forks, and easy contributions back to the source if my changes are as good as I think they are.</p>
+
+<p>So, today I'd like to talk about the basic changes you'll need to make to a Rails plugin so that it will play nicely with Merb, and a few of the extra hooks that come into play.  In the near future, I hope to provide a bit of a primer on adapting a plugin that uses ActiveRecord so that it will also work with Datamapper.  Preview tip from that post, if you're calling any methods provided by ActiveRecord, <em>please</em> make an adapter class/module to pass those methods through, as it makes ports like these <em>much</em> easier.</p>
+
+<h2>Basics</h2>
+
+<p>To get your plugin to get picked up properly, Rails requires an <code>init.rb</code> file in the plugin root.  The equivalent for Merb is a file named after your plugin, in the <code>/lib</code> directory.  Copying <code>/init.rb</code> to <code>/lib/async_observer.rb</code> worked for that one, Ultrasphinx is somewhat better behaved in that its init.rb just required ultrasphinx, so both Rails and Merb worked for me out of the box.</p>
+
+<p>If you depend on anything in Merb, you'll need to add to the docs that applications should add the plugin dependency inside a <code>Merb::BootLoader.before_app_loads</code> block - otherwise nothing in Merb is defined yet.  This is of particular importance if you want to switch behaviour based on whether the Rails or Merb constants are defined.  As Rails handles loading plugins itself, there's no concern for keeping things special for Rails.</p>
+
+<p>If you plan on dealing with the app directory structure or environment, an easy way to do it is:</p>
+
+<pre><code>if defined?(Rails)
+  ROOT = RAILS_ROOT
+  ENV = RAILS_ENV
+elsif defined?(Merb)
+  ROOT = Merb.root
+  ENV = (Merb.env == 'rake' ? 'development' : Merb.env)
+end
+</code></pre>
+
+<p>The additional rake environment transparently proxies to the development db connection, so if you just want to compare your plugin's interpretation of <code>ENV</code> the above will make that cleaner.</p>
+
+<h2>Rake Tasks</h2>
+
+<p>Rails automatically loads any files matching <code>tasks/*.rake</code> in the plugin dir.</p>
+
+<p>Merb needs to be told explicitly, relative to the lib directory.  The canonical example from the docs is:</p>
+
+<pre><code>if defined?(Merb::Plugins)
+  Merb::Plugins.add_rakefiles "merb_sequel" / "merbtasks"
+end
+</code></pre>
+
+<p>Unfortunately, it seems that it wants specified a single file with a <code>.rb</code> extension, which is incompatible with the Rails Way.  The easiest fix I've found is to add a file called <code>tasks.rb</code> under <code>/lib</code>, inside which you just manually require the individual rake files:</p>
+
+<pre><code>load File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'tasks', 'merb_sequel.rake'))
+</code></pre>
+
+<p>Do note that the <code>load</code> is necessary, <code>require</code> doesn't pick the file up properly.</p>
+
+<p>Finally, if you have any tasks that depend on environment, the easiest way to get compatability with both frameworks is to add <code>task :environment =&gt; :merb_env</code> to your <code>merbtasks.rb</code> file.</p>
+
+<h2>Generators</h2>
+
+<p>I haven't looked into generators in too much depth, but the API between Rails::Generator::Base and Merb::GeneratorBase seem different enough to warrant not reusing the generation script.  If you conditionally define a generator based on the <code>defined?</code>ness of those two base classes, you should be able to reuse all your generation templates, and both Rails and Merb look in the same place for generators, so that should be the only adaptation necessary.</p>
+
+<h2>ORM Integration</h2>
+
+<p>Check back next time, as I write up my experience writing an ActiveRecord shim for the latest DataMapper.  It's vaguely ugly.  I <em>highly</em> recommend if you're working on a plugin now that interacts with models to abstract any access to the database into a module, and include it appropriately.  This goes double if you're using any AR magic ;)</p>
+</div>
+  </div>
+  
+  <div id="disqus_thread"></div>
+  <script type="text/javascript" src="http://disqus.com/forums/tracefunc/embed.js"></script>
+  <noscript>
+    <a href="http://tracefunc.disqus.com/?url=ref">View the discussion thread</a>
+  </noscript>
+  <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+        </div>
+      </div>
+      <div class='span-20 last' id='footer'>
+        <p>
+          &copy; 2006-2008 <span class="author vcard"><span class="fn">Jamie Macey</span></span>
+          |
+          Original design: <a href="http://www.styleshout.com/templates/preview/CoolWater1-0/index.html">CoolWater</a> by <a href="http://www.styleshout.com/">styleshout</a>
+        </p>
+      </div>
+    </div>
+
+    <script type='text/javascript'>
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type='text/javascript'>
+      try {
+        var pageTracker = _gat._getTracker("UA-11614297-1");
+        pageTracker._setDomainName(".tracefunc.com");
+        pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
+  </body>
+</html>
