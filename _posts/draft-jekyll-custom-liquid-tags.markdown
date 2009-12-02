@@ -82,7 +82,7 @@ Now, a few extra liquid filters later, it looks like this:
     <div id="articles">
       <table>
         {% for post in site.posts %}
-          {% if post.next|is_null or post.next|year != post|year %}
+          {% if post.next|last_of_year? %}
             <tr><th>{{ post.date | date: '%Y' }}</th><th>&nbsp;</th></tr>
           {% endif %}
       
