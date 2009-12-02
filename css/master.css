@@ -113,8 +113,8 @@ pre.prettylines {
 /* Links */
 .entry-content a,
 .entry-content a:visited,
-.article .meta a,
-.article .meta a:visited,
+.meta a,
+.meta a:visited,
 #sidebar p a,
 #sidebar p a:visited {
 	text-decoration: none;
