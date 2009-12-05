@@ -5,7 +5,7 @@
   <subtitle>blog.tracefunc.com</subtitle>
   <link href="http://blog.tracefunc.com/" rel="self" />
   <link href="http://blog.tracefunc.com/" />
-  <updated>2009-12-04T19:43:28-05:00</updated>
+  <updated>2009-12-04T19:44:59-05:00</updated>
   <author>
     <name>Jamie Macey</name>
     <email>jamie.blog@tracefunc.com</email>
@@ -14,8 +14,8 @@
   
   <entry>
     <title>Jekyll: Custom Liquid Tags</title>
-    <link href="http://blog.tracefunc.com/2009/12/02/jekyll-custom-liquid-tags/" />
-    <id>tag:blog.tracefunc.com,2009-12-02T00:00:00-05:00:1259973735</id>
+    <link href="http://blog.tracefunc.com/2009/12/04/jekyll-custom-liquid-tags/" />
+    <id>tag:blog.tracefunc.com,2009-12-04T00:00:00-05:00:1259973735</id>
     <updated>2009-12-04T19:42:15-05:00</updated>
     <content type="html">&lt;p&gt;The base install of &lt;a href=&quot;http://github.com/mojombo/jekyll&quot;&gt;Jekyll&lt;/a&gt; at the moment doesn't let you run &lt;em&gt;any&lt;/em&gt; arbitrary ruby code. This is so that they can use it for github pages and not need to worry about making a super-secure sandbox just to generate some HTML.&lt;/p&gt;
 
