@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>set_trace_func - Jekyll: Custom Liquid Tags</title>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <link rel="stylesheet" href="/css/blueprint.css" type="text/css"/>
+    <!--[if IE]>
+      <link rel="stylesheet" href="/css/blueprint-ie.css" type="text/css"/>
+    <![endif]-->
+    <link rel="stylesheet" href="/css/master.css" type="text/css"/>
+    <link href='http://feeds.feedburner.com/set_trace_func' rel='alternate' type='application/atom+xml' />
+
+    <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script type='text/javascript' src="/js/prettify.js"></script>
+    <script type='text/javascript' src="/js/blog.js"></script>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='span-20 last' id='header'>
+
+        <h1>
+          <a href='/'>set_trace_func</a>
+        </h1>
+        <h2>veni, vidi, didici</h2>
+      </div>
+      <div class='span-20 last' id='menu'>
+        <div id='feedburner'>
+          <a href='http://feeds.feedburner.com/set_trace_func'><img alt='RSS Feed' src='http://feeds.feedburner.com/~fc/set_trace_func?bg=0099ff&amp;fg=000000&amp;anim=0' /></a>
+        </div>
+        <ul style='float: right;'>
+          <li><a>&#8203;</a></li>
+          <li><a href='/about/'>About Me</a></li>
+        </ul>
+        <ul>
+          <li><a href='/archive/'>Archive</a></li>
+          <li><a href='/tags/'>Tags</a></li>
+          <li><a href='/projects/'>Projects</a></li>
+        </ul>
+      </div>
+      <div id='content-wrap'>
+        <div class='span-18' id='content'>
+          <div id="article">
+  <div class="article hentry">
+    <h3 class="entry-title"><a href="">Jekyll: Custom Liquid Tags</a></h3>
+    <div class="meta">
+      December 02, 2009
+      
+        |
+        Tags:
+        
+          <a href="/tags.html#blog">blog</a>
+        
+      
+    </div>
+    <div class="entry-content"><p>The base install of <a href="http://github.com/mojombo/jekyll">Jekyll</a> at the moment doesn't let you run <em>any</em> arbitrary ruby code. This is so that they can use it for github pages and not need to worry about making a super-secure sandbox just to generate some HTML.</p>
+
+<p>Unfortunately, that means we're out of luck for creating custom liquid filters. The most annoying deficiency for me is tags. The way the default liquid <code>map</code> filter works isn't friendly with @site.tags, so to generate my <a href="/tags/">Tags</a> page I had to do some really crazy stuff with <code>capture</code>:</p>
+
+<pre><code>&lt;div id="articles"&gt;
+  &lt;table&gt;
+    {% for tag_ in @site.tags %}
+      {% capture tag %}{{ tag_ | first }}{% endcapture %}
+      &lt;tr&gt;&lt;th&gt;{{ tag }}&lt;/th&gt;
+          &lt;th&gt;&lt;a name="{{ tag }}" class="anchor"&gt;&amp;nbsp;&lt;/th&gt;&lt;/tr&gt;
+      {% for post in @site.posts %}
+        {% if post.tags contains tag %}
+          &lt;tr&gt;&lt;td&gt;{{ post.date | date: '%b %e, %Y' }}&lt;/td&gt;
+              &lt;td&gt;&lt;a href="{{ post.url }}"&gt;{{ post.title }}&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  &lt;/table&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>Fortunately, it wasn't to hard to make a fork, and in <a href="http://github.com/jamie/jekyll">my fork</a> I added a super simple code loading option. Now, I can add a quick extension in <code>_lib/filters.rb</code> like so:</p>
+
+<pre><code>module Jekyll
+  module Filters
+    def keys(input)
+      input.keys
+    end
+
+    def tagged(input, tag)
+      input.select{|post| post.tags.include? tag}
+    end
+  end
+end
+</code></pre>
+
+<p>Now <code>tags.html</code> looks like this:</p>
+
+<pre><code>&lt;div id="articles"&gt;
+  &lt;table&gt;
+    {% for tag in @site.tags|keys|sort %}
+      &lt;tr&gt;&lt;th&gt;{{ tag }}&lt;/th&gt;
+          &lt;th&gt;&lt;a name="{{ tag }}" class="anchor"&gt;&amp;nbsp;&lt;/th&gt;&lt;/tr&gt;
+      {% for post in @site.posts|tagged:tag %}
+        &lt;tr&gt;&lt;td&gt;{{ post.date | date: '%b %e, %Y' }}&lt;/td&gt;
+            &lt;td&gt;&lt;a href="{{ post.url }}"&gt;{{ post.title }}&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+      {% endfor %}
+    {% endfor %}
+  &lt;/table&gt;
+&lt;/div&gt;
+</code></pre>
+
+
+
+<p>Similarly, I had some ugly code in my regular <a href="/archive/">archive</a> page to group by year and put headings in:</p>
+
+<pre><code>{% for post in site.posts %}
+  {% unless post.next %}
+    &lt;tr&gt;&lt;th&gt;{{ post.date | date: '%Y' }}&lt;/th&gt;&lt;th&gt;&amp;nbsp;&lt;/th&gt;&lt;/tr&gt;
+  {% else %}
+    {% capture year %}{{ post.date | date: '%Y' }}{% endcapture %}
+    {% capture nyear %}{{ post.next.date | date: '%Y' }}{% endcapture %}
+    {% if year != nyear %}
+      &lt;tr&gt;&lt;th&gt;{{ post.date | date: '%Y' }}&lt;/th&gt;&lt;th&gt;&amp;nbsp;&lt;/th&gt;&lt;/tr&gt;
+    {% endif %}
+  {% endunless %}
+
+  ...
+{% endfor %}
+</code></pre>
+
+<p>Now, a few extra liquid filters later, it looks like this:</p>
+
+<pre><code>{% for post in site.posts %}
+  {% if post.next|last_of_year? %}
+    &lt;tr&gt;&lt;th&gt;{{ post.date | date: '%Y' }}&lt;/th&gt;&lt;th&gt;&amp;nbsp;&lt;/th&gt;&lt;/tr&gt;
+  {% endif %}
+
+  ...
+{% endfor %}
+</code></pre>
+
+<p>If you want to get easy extensions in your own project, rather than maintaining Yet Another Jekyll Fork, please vote up <a href="http://github.com/mojombo/jekyll/issues#issue/100">my merge request</a> on github.</p>
+
+<hr />
+
+<p>As a side note, blogging about liquid is a pain. The least pain I've found so far is to use liquid to output the leading open brace for all tags. Looks like garbage in my text editor, but it gets the job done:</p>
+
+<pre><code>{{'{'}}{ post.title }}
+</code></pre>
+
+<p>Blogging about blogging about liquid (as above) I leave as an exercise to the reader.</p>
+</div>
+  </div>
+  
+  <div id="disqus_thread"></div>
+  <script type="text/javascript" src="http://disqus.com/forums/tracefunc/embed.js"></script>
+  <noscript>
+    <a href="http://tracefunc.disqus.com/?url=ref">View the discussion thread</a>
+  </noscript>
+  <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+        </div>
+      </div>
+      <div class='span-20 last' id='footer'>
+        <p>
+          &copy; 2006-2008 <span class="author vcard"><span class="fn">Jamie Macey</span></span>
+          |
+          Original design: <a href="http://www.styleshout.com/templates/preview/CoolWater1-0/index.html">CoolWater</a> by <a href="http://www.styleshout.com/">styleshout</a>
+        </p>
+      </div>
+    </div>
+
+    <script type='text/javascript'>
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type='text/javascript'>
+      try {
+        var pageTracker = _gat._getTracker("UA-11614297-1");
+        pageTracker._setDomainName(".tracefunc.com");
+        pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
+  </body>
+</html>
