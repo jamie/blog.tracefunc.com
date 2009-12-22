@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>set_trace_func - Migrating Disqus</title>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <link rel="stylesheet" href="/css/blueprint.css" type="text/css"/>
+    <!--[if IE]>
+      <link rel="stylesheet" href="/css/blueprint-ie.css" type="text/css"/>
+    <![endif]-->
+    <link rel="stylesheet" href="/css/master.css" type="text/css"/>
+    <link href='http://feeds.feedburner.com/set_trace_func' rel='alternate' type='application/atom+xml' />
+
+    <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+    <script type='text/javascript' src="/js/prettify.js"></script>
+    <script type='text/javascript' src="/js/blog.js"></script>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='span-20 last' id='header'>
+
+        <h1>
+          <a href='/'>set_trace_func</a>
+        </h1>
+        <h2>veni, vidi, didici</h2>
+      </div>
+      <div class='span-20 last' id='menu'>
+        <div id='feedburner'>
+          <a href='http://feeds.feedburner.com/set_trace_func'><img alt='RSS Feed' src='http://feeds.feedburner.com/~fc/set_trace_func?bg=0099ff&amp;fg=000000&amp;anim=0' /></a>
+        </div>
+        <ul style='float: right;'>
+          <li><a>&#8203;</a></li>
+          <li><a href='/about/'>About Me</a></li>
+        </ul>
+        <ul>
+          <li><a href='/archive/'>Archive</a></li>
+          <li><a href='/tags/'>Tags</a></li>
+          <li><a href='/projects/'>Projects</a></li>
+        </ul>
+      </div>
+      <div id='content-wrap'>
+        <div class='span-18' id='content'>
+          <div id="article">
+  <div class="article hentry">
+    <h3 class="entry-title"><a href="">Migrating Disqus</a></h3>
+    <div class="meta">
+      December 22, 2009
+      
+        |
+        Tags:
+        
+          <a href="/tags.html#blog">blog</a>
+        
+      
+    </div>
+    <div class="entry-content"><p>In changing this blog over to jekyll, my urls changed (there's now a trailing slash). Easy enough to tell google about it, just set up redirects, but there's no easy way to tell <a href="http://disqus.com/">Disqus</a> about it so my comments migrate over.</p>
+
+<p>The good news is that it's pretty straightforward using their API, the only bad news is that I can't delete the new threads auto-generated for the new urls, so I'm just moving them out of the way.</p>
+
+<p>I'm using the <a href="http://httparty.rubyforge.org">HTTParty</a> gem to wrap API access, like so:</p>
+
+<pre><code>require 'rubygems'
+require 'httparty'
+require 'json'
+
+class Disqus
+  include HTTParty
+  base_uri 'disqus.com'
+  format :json
+
+  def initialize(key, version='1.1')
+    @key = key
+    @version = version
+  end
+
+  def auth
+    {:user_api_key =&gt; @key, :api_version =&gt; @version}
+  end
+
+  def get(action, opts={})
+    result = self.class.get("/api/#{action}/", :query =&gt; opts.merge(auth))
+    result["message"]
+  end
+
+  def post(action, opts={})
+    result = self.class.post("/api/#{action}/", :body =&gt; opts.merge(auth).to_params)
+    p result
+    result["message"]
+  end
+end
+</code></pre>
+
+<p>Do note that I'm adding trailing slashes to the api calls to avoid a redirect. Doesn't matter for the GET, but the redirect on POST was causing issues.</p>
+
+<p>With this in hand, I'm grabbing my forum, looping through the threads, and renaming any that have comments (a whopping 3 of them).</p>
+
+<pre><code>key = "secret" # get yours at http://disqus.com/api/get_my_key/
+disqus = Disqus.new(key)
+
+forum = disqus.get(:get_forum_list).first # I just have one
+forum_api_key = disqus.get(:get_forum_api_key, :forum_id =&gt; forum["id"])
+
+start = 0 # manual pagination, eww
+loop do
+  threads = disqus.get(:get_thread_list, :forum_id =&gt; forum["id"], :start =&gt; start)
+  break if threads.empty?
+
+  threads.each do |thread|
+    posts = disqus.get(:get_thread_posts, :thread_id =&gt; thread["id"])
+    next if !posts.empty?
+
+    target_url = thread["url"]+"/"
+
+    # There's another thread in the way...
+    if other_thread = disqus.get(
+      :get_thread_by_url, 
+      :forum_api_key =&gt; forum_api_key,
+      :url =&gt; target_url
+    )
+      # free up the url we want to use
+      disqus.post(
+        :update_thread,
+        :forum_api_key =&gt; forum_api_key,
+        :thread_id =&gt; other_thread["id"],
+        :url =&gt; target_url + 'old'
+      )
+    end
+
+    # update thread url
+    disqus.post(
+      :update_thread,
+      :forum_api_key =&gt; forum_api_key,
+      :thread_id =&gt; thread["id"],
+      :url =&gt; target_url
+    )
+  end
+
+  start += 25
+end
+</code></pre>
+
+<p>Et voilà, old comments are in the right place now.</p>
+</div>
+  </div>
+  
+  <div id="disqus_thread"></div>
+  <script type="text/javascript" src="http://disqus.com/forums/tracefunc/embed.js"></script>
+  <noscript>
+    <a href="http://tracefunc.disqus.com/?url=ref">View the discussion thread</a>
+  </noscript>
+  <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+
+        </div>
+      </div>
+      <div class='span-20 last' id='footer'>
+        <p>
+          &copy; 2006-2008 <span class="author vcard"><span class="fn">Jamie Macey</span></span>
+          |
+          Original design: <a href="http://www.styleshout.com/templates/preview/CoolWater1-0/index.html">CoolWater</a> by <a href="http://www.styleshout.com/">styleshout</a>
+        </p>
+      </div>
+    </div>
+
+    <script type='text/javascript'>
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type='text/javascript'>
+      try {
+        var pageTracker = _gat._getTracker("UA-11614297-1");
+        pageTracker._setDomainName(".tracefunc.com");
+        pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
+  </body>
+</html>

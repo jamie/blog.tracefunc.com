@@ -5,12 +5,107 @@
   <subtitle>blog.tracefunc.com</subtitle>
   <link href="http://blog.tracefunc.com/" rel="self" />
   <link href="http://blog.tracefunc.com/" />
-  <updated>2009-12-04T19:44:59-05:00</updated>
+  <updated>2009-12-22T18:22:41-05:00</updated>
   <author>
     <name>Jamie Macey</name>
     <email>jamie.blog@tracefunc.com</email>
   </author>
   <id>http://blog.tracefunc.com/</id>
+  
+  <entry>
+    <title>Migrating Disqus</title>
+    <link href="http://blog.tracefunc.com/2009/12/22/migrating-disqus/" />
+    <id>tag:blog.tracefunc.com,2009-12-22T00:00:00-05:00:1261523888</id>
+    <updated>2009-12-22T18:18:08-05:00</updated>
+    <content type="html">&lt;p&gt;In changing this blog over to jekyll, my urls changed (there's now a trailing slash). Easy enough to tell google about it, just set up redirects, but there's no easy way to tell &lt;a href=&quot;http://disqus.com/&quot;&gt;Disqus&lt;/a&gt; about it so my comments migrate over.&lt;/p&gt;
+
+&lt;p&gt;The good news is that it's pretty straightforward using their API, the only bad news is that I can't delete the new threads auto-generated for the new urls, so I'm just moving them out of the way.&lt;/p&gt;
+
+&lt;p&gt;I'm using the &lt;a href=&quot;http://httparty.rubyforge.org&quot;&gt;HTTParty&lt;/a&gt; gem to wrap API access, like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;require 'rubygems'
+require 'httparty'
+require 'json'
+
+class Disqus
+  include HTTParty
+  base_uri 'disqus.com'
+  format :json
+
+  def initialize(key, version='1.1')
+    @key = key
+    @version = version
+  end
+
+  def auth
+    {:user_api_key =&amp;gt; @key, :api_version =&amp;gt; @version}
+  end
+
+  def get(action, opts={})
+    result = self.class.get(&quot;/api/#{action}/&quot;, :query =&amp;gt; opts.merge(auth))
+    result[&quot;message&quot;]
+  end
+
+  def post(action, opts={})
+    result = self.class.post(&quot;/api/#{action}/&quot;, :body =&amp;gt; opts.merge(auth).to_params)
+    p result
+    result[&quot;message&quot;]
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Do note that I'm adding trailing slashes to the api calls to avoid a redirect. Doesn't matter for the GET, but the redirect on POST was causing issues.&lt;/p&gt;
+
+&lt;p&gt;With this in hand, I'm grabbing my forum, looping through the threads, and renaming any that have comments (a whopping 3 of them).&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;key = &quot;secret&quot; # get yours at http://disqus.com/api/get_my_key/
+disqus = Disqus.new(key)
+
+forum = disqus.get(:get_forum_list).first # I just have one
+forum_api_key = disqus.get(:get_forum_api_key, :forum_id =&amp;gt; forum[&quot;id&quot;])
+
+start = 0 # manual pagination, eww
+loop do
+  threads = disqus.get(:get_thread_list, :forum_id =&amp;gt; forum[&quot;id&quot;], :start =&amp;gt; start)
+  break if threads.empty?
+
+  threads.each do |thread|
+    posts = disqus.get(:get_thread_posts, :thread_id =&amp;gt; thread[&quot;id&quot;])
+    next if !posts.empty?
+
+    target_url = thread[&quot;url&quot;]+&quot;/&quot;
+
+    # There's another thread in the way...
+    if other_thread = disqus.get(
+      :get_thread_by_url, 
+      :forum_api_key =&amp;gt; forum_api_key,
+      :url =&amp;gt; target_url
+    )
+      # free up the url we want to use
+      disqus.post(
+        :update_thread,
+        :forum_api_key =&amp;gt; forum_api_key,
+        :thread_id =&amp;gt; other_thread[&quot;id&quot;],
+        :url =&amp;gt; target_url + 'old'
+      )
+    end
+
+    # update thread url
+    disqus.post(
+      :update_thread,
+      :forum_api_key =&amp;gt; forum_api_key,
+      :thread_id =&amp;gt; thread[&quot;id&quot;],
+      :url =&amp;gt; target_url
+    )
+  end
+
+  start += 25
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Et voilà, old comments are in the right place now.&lt;/p&gt;
+</content>
+  </entry>
   
   <entry>
     <title>Jekyll: Custom Liquid Tags</title>

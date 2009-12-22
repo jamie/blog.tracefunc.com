@@ -22,7 +22,7 @@ filter:    erb
     <email>jamie.blog@tracefunc.com</email>
   </author>
   <id>http://blog.tracefunc.com/</id>
-  {% for post in @site.posts limit:3 %}
+  {% for post in @site.posts limit:4 %}
   <entry>
     <title>{{ post.title }}</title>
     <link href="http://blog.tracefunc.com{{ post.url }}" />
