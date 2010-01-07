@@ -82,7 +82,7 @@ Similarly, I had some ugly code in my regular [archive][] page to group by year 
 Now, a few extra liquid filters later, it looks like this:
 
     {{'{'}}% for post in site.posts %}
-      {{'{'}}% if post.next|last_of_year? %}
+      {{'{'}}% if post|last_of_year? %}
         <tr><th>{{'{'}}{ post.date | date: '%Y' }}</th><th>&nbsp;</th></tr>
       {{'{'}}% endif %}
       

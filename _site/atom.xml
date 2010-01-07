@@ -5,7 +5,7 @@
   <subtitle>blog.tracefunc.com</subtitle>
   <link href="http://blog.tracefunc.com/" rel="self" />
   <link href="http://blog.tracefunc.com/" />
-  <updated>2009-12-22T18:22:41-05:00</updated>
+  <updated>2010-01-07T11:24:34-05:00</updated>
   <author>
     <name>Jamie Macey</name>
     <email>jamie.blog@tracefunc.com</email>
@@ -15,8 +15,8 @@
   <entry>
     <title>Migrating Disqus</title>
     <link href="http://blog.tracefunc.com/2009/12/22/migrating-disqus/" />
-    <id>tag:blog.tracefunc.com,2009-12-22T00:00:00-05:00:1261523888</id>
-    <updated>2009-12-22T18:18:08-05:00</updated>
+    <id>tag:blog.tracefunc.com,2009-12-22T00:00:00-05:00:1262870456</id>
+    <updated>2010-01-07T08:20:56-05:00</updated>
     <content type="html">&lt;p&gt;In changing this blog over to jekyll, my urls changed (there's now a trailing slash). Easy enough to tell google about it, just set up redirects, but there's no easy way to tell &lt;a href=&quot;http://disqus.com/&quot;&gt;Disqus&lt;/a&gt; about it so my comments migrate over.&lt;/p&gt;
 
 &lt;p&gt;The good news is that it's pretty straightforward using their API, the only bad news is that I can't delete the new threads auto-generated for the new urls, so I'm just moving them out of the way.&lt;/p&gt;
@@ -110,8 +110,8 @@ end
   <entry>
     <title>Jekyll: Custom Liquid Tags</title>
     <link href="http://blog.tracefunc.com/2009/12/04/jekyll-custom-liquid-tags/" />
-    <id>tag:blog.tracefunc.com,2009-12-04T00:00:00-05:00:1259973735</id>
-    <updated>2009-12-04T19:42:15-05:00</updated>
+    <id>tag:blog.tracefunc.com,2009-12-04T00:00:00-05:00:1262870456</id>
+    <updated>2010-01-07T08:20:56-05:00</updated>
     <content type="html">&lt;p&gt;The base install of &lt;a href=&quot;http://github.com/mojombo/jekyll&quot;&gt;Jekyll&lt;/a&gt; at the moment doesn't let you run &lt;em&gt;any&lt;/em&gt; arbitrary ruby code. This is so that they can use it for github pages and not need to worry about making a super-secure sandbox just to generate some HTML.&lt;/p&gt;
 
 &lt;p&gt;Unfortunately, that means we're out of luck for creating custom liquid filters. The most annoying deficiency for me is tags. The way the default liquid &lt;code&gt;map&lt;/code&gt; filter works isn't friendly with @site.tags, so to generate my &lt;a href=&quot;/tags/&quot;&gt;Tags&lt;/a&gt; page I had to do some really crazy stuff with &lt;code&gt;capture&lt;/code&gt;:&lt;/p&gt;
@@ -186,7 +186,7 @@ end
 &lt;p&gt;Now, a few extra liquid filters later, it looks like this:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;{% for post in site.posts %}
-  {% if post.next|last_of_year? %}
+  {% if post|last_of_year? %}
     &amp;lt;tr&amp;gt;&amp;lt;th&amp;gt;{{ post.date | date: '%Y' }}&amp;lt;/th&amp;gt;&amp;lt;th&amp;gt;&amp;amp;nbsp;&amp;lt;/th&amp;gt;&amp;lt;/tr&amp;gt;
   {% endif %}
 
@@ -210,8 +210,8 @@ end
   <entry>
     <title>Hoptoad v2 in Merb</title>
     <link href="http://blog.tracefunc.com/2009/12/01/hoptoad-v2-in-merb/" />
-    <id>tag:blog.tracefunc.com,2009-12-01T00:00:00-05:00:1259720641</id>
-    <updated>2009-12-01T21:24:01-05:00</updated>
+    <id>tag:blog.tracefunc.com,2009-12-01T00:00:00-05:00:1262870456</id>
+    <updated>2010-01-07T08:20:56-05:00</updated>
     <content type="html">&lt;p&gt;&lt;a href=&quot;http://hoptoadapp.com&quot;&gt;Hoptoad&lt;/a&gt; has been bugging us for a week or two now to upgrade to v2 of its API, so we did that this week for our project at work. Except we're running Merb, not Rails.&lt;/p&gt;
 
 &lt;p&gt;Previously, we've been using Atmos' &lt;a href=&quot;http://github.com/atmos/merb_hoptoad_notifier&quot;&gt;merb_hoptoad plugin&lt;/a&gt;, but it looks like it's been abandoned now in favor of a rack handler, and we needed to hack it a bit to support running multiple sites (with different API keys) off our single codebase. I'm always happy throwing code away, though, so I thought I'd try using the official &lt;a href=&quot;http://github.com/thoughtbot/hoptoad_notifier&quot;&gt;Hoptoad Notifier plugin&lt;/a&gt; and see how hard it is to get working. It wasn't.&lt;/p&gt;
@@ -281,8 +281,8 @@ end
   <entry>
     <title>Enter Jekyll</title>
     <link href="http://blog.tracefunc.com/2009/11/30/enter-jekyll/" />
-    <id>tag:blog.tracefunc.com,2009-11-30T00:00:00-05:00:1259719311</id>
-    <updated>2009-12-01T21:01:51-05:00</updated>
+    <id>tag:blog.tracefunc.com,2009-11-30T00:00:00-05:00:1262870456</id>
+    <updated>2010-01-07T08:20:56-05:00</updated>
     <content type="html">&lt;p&gt;So I've gone and switched up blogging platforms again. This time, it's &lt;a href=&quot;http://github.com/mojombo/jekyll&quot;&gt;Jekyll&lt;/a&gt;. It's not that I had any problems with &lt;a href=&quot;http://github.com/TwP/webby/&quot;&gt;webby&lt;/a&gt;, just thought I'd try it out. After spending a few hours porting things over (mostly layout and helpers, my posts are already in &lt;a href=&quot;http://daringfireball.net/projects/markdown/&quot;&gt;markdown&lt;/a&gt;) I think I'm going to stick with it.&lt;/p&gt;
 
 &lt;p&gt;Being blog-aware is looking like a huge win - if I'm ok with my posts just being recorded by date, rather than date+time, there's a lot less overhead that needs to get done to push a new post up. I have smaller YAML preambles, and the only custom code I'm maintaining is some custom Liquid filters. With less time being spent worrying about the blog software, I might be more successful at the whole blog-writing bit. Maybe.&lt;/p&gt;

@@ -126,7 +126,7 @@ end
 <p>Now, a few extra liquid filters later, it looks like this:</p>
 
 <pre><code>{% for post in site.posts %}
-  {% if post.next|last_of_year? %}
+  {% if post|last_of_year? %}
     &lt;tr&gt;&lt;th&gt;{{ post.date | date: '%Y' }}&lt;/th&gt;&lt;th&gt;&amp;nbsp;&lt;/th&gt;&lt;/tr&gt;
   {% endif %}
 
