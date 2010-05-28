@@ -1,4 +1,14 @@
-class RedirectPostsWithSlash
+require 'toto'
+
+# Rack config
+use Rack::Static, :urls => ['/css', '/js', '/images', '/favicon.ico'], :root => 'public'
+use Rack::CommonLogger
+
+if ENV['RACK_ENV'] == 'development'
+  use Rack::ShowExceptions
+end
+
+class CanonicalPaths
   def initialize(app, &block)
     @app = app
     yield self if block_given?
@@ -12,20 +22,23 @@ class RedirectPostsWithSlash
     end
   end
 end
-use RedirectPostsWithSlash
+use CanonicalPaths
 
-class DefaultIndexFile
-  def initialize(app, &block)
-    @app = app
-    yield self if block_given?
-  end
-  
-  def call(env)
-    env['PATH_INFO'] << '/' if env['PATH_INFO'] =~ %r(/[0-9]{4}/[0-9]{2}/[0-9]{2}/[^/]+$)
-    env['PATH_INFO'] << 'index.html' if env['PATH_INFO'] =~ %r{/$}
-    @app.call(env)
-  end
+toto = Toto::Server.new do
+  #
+  # Add your settings here
+  # set [:setting], [value]
+  # 
+  # set :author,    ENV['USER']                               # blog author
+  # set :title,     Dir.pwd.split('/').last                   # site title
+  # set :root,      "index"                                   # page to load on /
+  # set :date,      lambda {|now| now.strftime("%d/%m/%Y") }  # date format for articles
+  # set :summary,   :max => 150, :delim => /~/                # length of article summary and delimiter
+
+  set :markdown,  true
+  set :disqus,    'tracefunc'
+  set :ext,       'md'
+
+  set :date, lambda {|now| now.strftime("%B #{now.day.ordinal} %Y") }
 end
-use DefaultIndexFile
-
-run Rack::File.new('_site')
+run toto

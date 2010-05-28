@@ -1,6 +1,0 @@
-permalink: pretty
-markdown: rdiscount
-extensions: true
-exclude:
-    - Rakefile
-    - config.ru
