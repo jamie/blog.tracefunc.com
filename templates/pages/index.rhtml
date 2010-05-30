@@ -1,0 +1,19 @@
+<div id="articles">
+  <% for article in articles[0..5] %>
+    <div class="article hentry">
+      <h3 class="entry-title"><a href="<%= article.path %>"><%= article.title %></a></h3>
+      <div class="meta">
+        <span class="date"><%= article.date %></span>
+        <% if defined? tags %>
+          |
+          Tags:
+          <% for tag in tags %>
+            <a href="/tags/#<%= tag %>"><%= tag %></a>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="entry-content"><%= article.body %></div>
+    </div>
+    <hr />
+  <% end %>
+</div>
