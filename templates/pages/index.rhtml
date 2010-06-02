@@ -1,5 +1,5 @@
 <div id="articles">
-  <% for article in articles[0..5] %>
+  <% articles.select{|a|a[:date] <= Date.today}[0..5].each do |article| %>
     <div class="article hentry">
       <h3 class="entry-title"><a href="<%= article.path %>"><%= article.title %></a></h3>
       <div class="meta">
