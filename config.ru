@@ -29,6 +29,23 @@ toto = Toto::Server.new do
   set :disqus,    'tracefunc'
   set :ext,       'md'
   set :summary,   :delim => /~~/, :max => nil
+  # returns an html, from a path & context
+  set :to_html, (lambda {|path, page, ctx|
+    if File.exist?("#{path}/#{page}.rhtml")
+      ERB.new(File.read("#{path}/#{page}.rhtml")).result(ctx)
+    elsif File.exist?("#{path}/#{page}.md")
+      text = File.read("#{path}/#{page}.md")
+
+      yaml, body = text.split("\n\n", 2)
+      meta = YAML.load(yaml) rescue ""
+      meta, body = {}, text unless meta.kind_of? Hash # implies no yaml preamble
+
+      # VOODOO! Pull the extracted YAML preamble out, and merge into the parent page
+      eval "@context.merge!(#{meta.inspect})", ctx
+      Toto::Site::Context.new(meta, self, "#{path}/#{page}.md").markdown body
+    end
+  })
+
 
   set :date, lambda {|now| now.strftime("%B #{now.day.ordinal} %Y") }
 end
