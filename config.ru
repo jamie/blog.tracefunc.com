@@ -1,5 +1,5 @@
 require 'toto'
-require 'lib/canonical_paths'
+require 'rack-rewrite'
 
 # Rack config
 use Rack::Static, :urls => ['/css', '/js', '/images', '/favicon.ico'], :root => 'public'
@@ -9,7 +9,10 @@ if ENV['RACK_ENV'] == 'development'
   use Rack::ShowExceptions
 end
 
-use CanonicalPaths
+use Rack::Rewrite do
+  r301 %r{/(\d+/\d+/\d+/.*[^/])$}, '/$1/'
+  rewrite '/atom.xml', '/index.xml'
+end
 
 toto = Toto::Server.new do
   #
