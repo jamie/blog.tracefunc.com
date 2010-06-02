@@ -1,16 +1,5 @@
----
 title:      Points
-created_at: 
 tags:       [programming, agile]
-
-directory:  draft
-filename:   points
-extension:  
-
-layout:     article
-filter:
-  - markdown
----
 
 A mistake I made early on in my Agile experience was to try and figure out how many hours, or "ideal hours" a point was worth when estimating stories.  I think it's a mistake a lot of people make, trying to convince either themselves or their boss/client that they'll be able to meet a schedule with confidence.  Unfortunately, it winds up being a case of putting the cart before the horse.  Defining points in terms of time makes them redundant, you might as well just use time to begin with.  The value in points is when you run the translation to time the other way.
 

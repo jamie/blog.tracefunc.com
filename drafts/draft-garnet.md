@@ -1,16 +1,6 @@
----
 title:      Garnet
-created_at: 
 tags:       [programming, ruby]
 
-directory:  draft
-filename:   garnet
-extension:  
-
-layout:     article
-filter:
-  - markdown
----
 Dave Thomas' keynote, introducing ruby lite
 rip out the cruft, modularize
 
