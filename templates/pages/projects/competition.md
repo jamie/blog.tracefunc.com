@@ -1,7 +1,4 @@
----
 title:  Competitive Programming
-layout: base
----
 
 http://www.rubyquiz.com/
 

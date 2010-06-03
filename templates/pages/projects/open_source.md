@@ -1,7 +1,4 @@
----
 title:  Open Source Contributions
-layout: base
----
 
 Besides the projects on my [github](http://github.com/jamie) account, I've had contributions accepted to the following projects:
 
