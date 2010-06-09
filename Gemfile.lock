@@ -1,0 +1,18 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    builder (2.1.2)
+    rack (1.1.0)
+    rack-rewrite (1.0.0)
+    rdiscount (1.6.3.2)
+    toto (0.4.6)
+      builder
+      rack
+      rdiscount
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rack-rewrite
+  toto
