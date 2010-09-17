@@ -1,0 +1,9 @@
+gem "builder"
+gem "rack"
+gem "rack-rewrite"
+gem "rdiscount"
+gem "toto"
+
+env :development do
+  gem "isolate-heroku"
+end

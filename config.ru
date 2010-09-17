@@ -1,6 +1,6 @@
 require 'rubygems'
-require 'bundler'
-Bundler.setup
+require 'isolate/now'
+require 'isolate/heroku'
 
 require 'toto'
 require 'rack-rewrite'

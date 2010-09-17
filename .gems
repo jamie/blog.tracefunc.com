@@ -1,0 +1,6 @@
+isolate --version '= 2.1.2'
+builder --version '>= 0'
+rack --version '>= 0'
+rack-rewrite --version '>= 0'
+rdiscount --version '>= 0'
+toto --version '>= 0'
