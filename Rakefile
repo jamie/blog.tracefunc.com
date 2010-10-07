@@ -1,3 +1,5 @@
+require 'isolate/now'
+require 'isolate/heroku'
 require 'toto'
 
 @config = Toto::Config::Defaults
