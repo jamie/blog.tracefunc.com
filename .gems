@@ -1,4 +1,4 @@
-isolate --version '= 2.1.2'
+isolate --version '= 3.0.0'
 builder --version '>= 0'
 isolate-heroku --version '>= 0'
 rack --version '>= 0'
