@@ -2,7 +2,7 @@
 <div class="article">
   <div class="meta">
   <% for tag in @articles.map{|e|e[:tags] || []}.flatten.uniq.sort %>
-  <a href="#<%= tag %>"><%= tag %></a>
+  <a href="#<%= tag %>"><%= tag %></a> &nbsp;
   <% end %>
   </div>
 </div>
@@ -13,7 +13,7 @@
       <tr><th><%= tag %></th><th><a name="<%= tag %>" class="anchor">&nbsp;</th></tr>
       <% for entry in @articles %>
         <% next unless (entry[:tags]||[]).include? tag %>
-        <tr><td><%= entry[:date].strftime('%b %e') %></td>
+        <tr><td><%= entry[:date].strftime('%Y %b %e') %></td>
             <td><a href="<%= entry.path %>"><%= entry.title %></td></tr>
       <% end %>
     <% end %>
