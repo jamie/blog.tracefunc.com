@@ -26,6 +26,8 @@ toto = Toto::Server.new do
   # set :root,      "index"                                   # page to load on /
   # set :date,      lambda {|now| now.strftime("%d/%m/%Y") }  # date format for articles
 
+  set :url,       'http://blog.tracefunc.com'
+
   set :author,    'Jamie Macey'
   set :email,     'jamie.blog@tracefunc.com'
   set :title,     'set_trace_func'
