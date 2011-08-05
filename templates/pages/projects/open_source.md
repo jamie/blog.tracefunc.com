@@ -19,6 +19,7 @@ polish to be fit for general use.
 I have had patches accepted into the following open source projects.
 
 - [Ruby on Rails](http://rubyonrails.org/)
+- [ActiveMerchant](http://www.activemerchant.org/)
 - [vlad](http://blog.zenspider.com/2009/03/vlad-version-130-has-been-rele.html)
 - [memcache-client](http://github.com/mperham/memcache-client/tree/master)
 - [ambethia/recaptcha](http://ambethia.com/recaptcha/)
