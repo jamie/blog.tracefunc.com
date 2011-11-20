@@ -1,6 +1,9 @@
 require 'rubygems'
+begin
 require 'isolate/now'
 require 'isolate/heroku'
+rescue LoadError
+end
 
 require 'toto'
 require 'rack-rewrite'
