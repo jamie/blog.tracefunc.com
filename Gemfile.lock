@@ -1,0 +1,35 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    addressable (2.2.6)
+    builder (3.0.0)
+    heroku (2.14.0)
+      launchy (>= 0.3.2)
+      rest-client (~> 1.6.1)
+      rubyzip
+      term-ansicolor (~> 1.0.5)
+    launchy (2.0.5)
+      addressable (~> 2.2.6)
+    mime-types (1.17.2)
+    rack (1.3.5)
+    rack-rewrite (1.2.1)
+    rdiscount (1.6.8)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
+    rubyzip (0.9.4)
+    term-ansicolor (1.0.7)
+    toto (0.4.9)
+      builder
+      rack
+      rdiscount
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  builder
+  heroku
+  rack
+  rack-rewrite
+  rdiscount
+  toto

@@ -1,10 +1,12 @@
+source "http://rubygems.org"
+
 gem "builder"
-gem "isolate-heroku"
 gem "rack"
 gem "rack-rewrite"
 gem "rdiscount"
 gem "toto"
 
-environment :development do
+#environment :development do
   gem "heroku"
-end
+#end
+
