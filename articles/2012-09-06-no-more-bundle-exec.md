@@ -16,7 +16,15 @@ I'm a fan of simpler solutions wherever possible. I use [zsh][] as my shell, whi
         ~/bin/command-not-found $*
     }
 
-My script happens to be in ruby, but it could just as easily be a standard shell script as all I'm doing is some file existence tests:
+I know [bash][] supports this kind of handler ([Ubuntu][] uses it to provide command helpers for not-yet-installed programs) but I don't know the exact details. Alas, my favorite shell ever, [fish][], only provides the executable to its corresponding helper, so while it can suggest an alternate command, it can't auto-correct it.
+
+[bash]: http://www.gnu.org/software/bash/manual/bashref.html
+[Ubuntu]: http://www.ubuntu.com/
+[fish]: http://ridiculousfish.com/shell/
+
+My script happens to be in [Ruby][], but it could just as easily be a standard shell script as all I'm doing is some file existence tests:
+
+[Ruby]: http://www.ruby-lang.org/en/
 
     #!/usr/bin/env ruby
 
