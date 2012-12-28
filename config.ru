@@ -9,8 +9,8 @@ use Rack::Rewrite do
   rewrite '/atom.xml', '/index.xml'
 
   # For www cloning
-  rewrite '/', '/www/index.html', :host => '127.0.0.1'
-  rewrite %r{/(.+)}, '/www/$1', :host => '127.0.0.1'
+  rewrite '/', '/www/index.html', :host => 'tracefunc.com'
+  rewrite %r{/(.+)}, '/www/$1', :host => 'tracefunc.com'
 end
 
 # Rack config
