@@ -4,17 +4,21 @@ require 'bundler/setup'
 require 'toto'
 require 'rack-rewrite'
 
+use Rack::Rewrite do
+  r301 %r{/(\d+/\d+/\d+/.*[^/])$}, '/$1/'
+  rewrite '/atom.xml', '/index.xml'
+
+  # For www cloning
+  rewrite '/', '/www/index.html', :host => '127.0.0.1'
+  rewrite %r{/(.+)}, '/www/$1', :host => '127.0.0.1'
+end
+
 # Rack config
-use Rack::Static, :urls => ['/css', '/js', '/images', '/static', '/favicon.ico'], :root => 'public'
+use Rack::Static, :urls => ['/css', '/js', '/images', '/static', '/www', '/favicon.ico'], :root => 'public'
 use Rack::CommonLogger
 
 if ENV['RACK_ENV'] == 'development'
   use Rack::ShowExceptions
-end
-
-use Rack::Rewrite do
-  r301 %r{/(\d+/\d+/\d+/.*[^/])$}, '/$1/'
-  rewrite '/atom.xml', '/index.xml'
 end
 
 toto = Toto::Server.new do
