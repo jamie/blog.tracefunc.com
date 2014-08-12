@@ -5,17 +5,21 @@ require 'toto'
 require './lib/toto' # Official repo hasn't released a fix for 1.9.
 require 'rack-rewrite'
 
+use Rack::Rewrite do
+  r301 %r{/(\d+/\d+/\d+/.*[^/])$}, '/$1/'
+  rewrite '/atom.xml', '/index.xml'
+
+  # For www cloning
+  rewrite '/', '/www/index.html', :host => 'tracefunc.com'
+  rewrite %r{/(.+)}, '/www/$1', :host => 'tracefunc.com'
+end
+
 # Rack config
-use Rack::Static, :urls => ['/css', '/js', '/images', '/static', '/favicon.ico'], :root => 'public'
+use Rack::Static, :urls => ['/css', '/js', '/images', '/static', '/www', '/favicon.ico'], :root => 'public'
 use Rack::CommonLogger
 
 if ENV['RACK_ENV'] == 'development'
   use Rack::ShowExceptions
-end
-
-use Rack::Rewrite do
-  r301 %r{/(\d+/\d+/\d+/.*[^/])$}, '/$1/'
-  rewrite '/atom.xml', '/index.xml'
 end
 
 toto = Toto::Server.new do
