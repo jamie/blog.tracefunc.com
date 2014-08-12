@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 require 'toto'
+require './lib/toto' # Official repo hasn't released a fix for 1.9.
 require 'rack-rewrite'
 
 # Rack config
@@ -21,7 +22,7 @@ toto = Toto::Server.new do
   #
   # Add your settings here
   # set [:setting], [value]
-  # 
+  #
   # set :root,      "index"                                   # page to load on /
   # set :date,      lambda {|now| now.strftime("%d/%m/%Y") }  # date format for articles
 
