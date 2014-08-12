@@ -1,5 +1,4 @@
-require 'isolate/now'
-require 'isolate/heroku'
+require 'bundler/setup'
 require 'toto'
 
 @config = Toto::Config::Defaults
@@ -41,4 +40,3 @@ def ask message
   print message
   STDIN.gets.chomp
 end
-
