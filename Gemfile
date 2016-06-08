@@ -1,13 +1,7 @@
 source "http://rubygems.org"
 
-ruby "2.2.4"
+gem 'middleman', '>= 4.0.0'
+gem 'middleman-blog'
 
-gem "builder"
-gem "rack"
-gem "rack-rewrite"
-gem "rdiscount"
-gem "toto"
-
-#environment :development do
-  gem "heroku"
-#end
+# Development
+gem 'middleman-livereload'
