@@ -1,0 +1,11 @@
+image: ruby2.3
+
+pages:
+  script:
+  - bundle install
+  - bundle exec middleman build
+  artifacts:
+    paths:
+    - build
+  only:
+  - master
