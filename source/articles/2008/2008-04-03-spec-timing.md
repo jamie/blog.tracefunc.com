@@ -1,5 +1,7 @@
+---
 title:  Spec Timing
 tags:   [programming, ruby]
+---
 
 As an update to a [previous article](http://blog.tracefunc.com/2007/01/23/test-timing),
 

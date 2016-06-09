@@ -1,5 +1,7 @@
+---
 title:  No More Bundle Exec
 tags:   [programming, ruby]
+---
 
 [Bundler][] is pretty darn good. Installing all your gems globally sucks. `bundle install --path` does a great job of fixing that but it means you need to `bundle exec` any shell commands you want to run, which again sucks. There are lots of [attempts][] to [fix this][], but they're all fairly convoluted.
 

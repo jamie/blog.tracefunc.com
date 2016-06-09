@@ -1,5 +1,7 @@
+---
 title:  Reinstall
 tags:   [linux]
+---
 
 I'm running Ubuntu 6.10 on my laptop, and a few weeks back the sound decided that it would just stop working. I finally got fed up enough with it to do a reinstall. I thought I'd try out the new beta for [Feisty][], but the installer repeatedly froze on me at 63% on the install, so I gave up and put 6.10 back on. I try to keep tabs on what software I install as extras to ease reinstalls, and tweaked my reinstall scripts from last time to the final forms shown below.
 

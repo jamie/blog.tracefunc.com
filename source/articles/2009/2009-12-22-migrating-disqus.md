@@ -1,5 +1,7 @@
+---
 title:  Migrating Disqus
 tags:   [blog]
+---
 
 In changing this blog over to jekyll, my urls changed (there's now a trailing slash). Easy enough to tell google about it, just set up redirects, but there's no easy way to tell [Disqus](http://disqus.com/) about it so my comments migrate over.
 

@@ -1,5 +1,7 @@
+---
 title:  Problems with Hoe
 tags:   [programming, ruby]
+---
 
 [RPlug][] and [SourceControl][] now officially have Gems out. SourceControl is probably useless for anybody at the moment, but if you are working on a rails repository under SVK and want to manage SVN-backed plugins, RPlug should handle it just fine. Just gem install rplug -y. More compatability to come in the future.
 

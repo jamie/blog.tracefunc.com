@@ -1,5 +1,7 @@
+---
 title:  Now with comments
 tags:   [blog]
+---
 
 I've got comments done up now, and I'm mostly happy with them.  They **should** show up on all the articles added this year.
 

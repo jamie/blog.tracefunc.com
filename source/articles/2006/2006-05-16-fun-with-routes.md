@@ -1,5 +1,7 @@
+---
 title:  Fun with Routes
 tags:   [programming, rails]
+---
 
 Rails' routing framework is a pretty capable beast, but it does sometimes still need a bit of help doing more exotic things.
 

@@ -1,5 +1,7 @@
+---
 title: Async-Observer with RabbitMQ
 tags:  [ruby, rails, merb]
+---
 
 **Update:** This code is stale, I've extracted a gem of it and posted on [github](http://github.com/jamie/async-observer-amqp).
 

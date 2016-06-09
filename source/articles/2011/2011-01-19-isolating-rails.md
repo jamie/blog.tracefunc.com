@@ -1,5 +1,7 @@
+---
 title: Isolating Rails
 tags:  [rails, ruby]
+---
 
 Rails 3 is now very friendly with regards to dropping Bundler support,
 only loading it if it's installed and a Gemfile exists. Since [Isolate]

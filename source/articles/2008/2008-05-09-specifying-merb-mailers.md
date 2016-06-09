@@ -1,5 +1,7 @@
+---
 title:  Specifying Merb Mailers
 tags:   [programming, merb, specs]
+---
 
 This helper is based on some other controller/view helpers I've been working on and planning on blogging soon, with a nod to the specs present in the merb-mailer library itself.
 

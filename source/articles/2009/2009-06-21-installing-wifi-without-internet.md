@@ -1,5 +1,7 @@
+---
 title:  Installing Wifi without Internet
 tags:   [linux]
+---
 
 I picked up a [new machine][] this week to turn into a home media server, and had a small hoop to jump through with the Broadcom [wifi card][] I picked up. Problem being, office and all my monitors were upstairs, wifi was downstairs, and it's difficult to install new drivers without net access.
 

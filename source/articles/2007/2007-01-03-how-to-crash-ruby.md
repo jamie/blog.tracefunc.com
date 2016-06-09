@@ -1,5 +1,7 @@
+---
 title:  How to crash Ruby
 tags:   [programming, ruby]
+---
 
       class BrokenError < StandardError
         def backtrace

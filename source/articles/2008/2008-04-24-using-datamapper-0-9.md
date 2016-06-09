@@ -1,5 +1,7 @@
+---
 title:  Using Datamapper 0.9
 tags:   [datamapper, merb]
+---
 
 So, DataMapper 0.3 was behaving weirdly for me, and I thought I'd try upgrading to 0.9 to see how things are there.  Overall I'm quite liking it, but there's a few catches:
 

@@ -1,5 +1,7 @@
+---
 title:  Fish at Last!
 tags:   [osx]
+---
 
 Somehow, the last update of [MacPorts][] has let me install [Fish][] cleanly, rather than obtusely blowing up as it has in the past.
 

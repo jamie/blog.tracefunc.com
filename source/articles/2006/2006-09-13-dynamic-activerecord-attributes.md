@@ -1,5 +1,7 @@
+---
 title:  Dynamic ActiveRecord Attributes
 tags:   [programming, rails]
+---
 
 Chris Abad wrote yesterday about his experience with [dynamic attributes][], and I thought I'd share mine.
 

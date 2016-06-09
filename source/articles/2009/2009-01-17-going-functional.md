@@ -1,5 +1,7 @@
+---
 title:  Going Functional
 tags:   [clojure, sicp]
+---
 
 So, some [Hacker News][] users recently [decided][] that it'd be a good idea to [work through][] the [SICP][] together and make a kind of book club out of the deal over irc.
 

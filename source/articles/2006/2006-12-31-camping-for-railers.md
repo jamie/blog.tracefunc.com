@@ -1,5 +1,7 @@
+---
 title:  Camping for Railers
 tags:   [camping, programming, rails]
+---
 
 Well, I managed to get the weight-tracking app functional (graph and all) in about 220 lines, just tweaking the look now. It's a single-script Camping app using Gruff for graphing, with SQLite for data storage. Not exactly the most efficient app (I'm cheating by using a lot of mostly-null records in the database) but it gets the job done.
 There were a few things that got me stuck for a bit that weren't obviously mentioned in the camping docs, so I thought I'd put them down here.

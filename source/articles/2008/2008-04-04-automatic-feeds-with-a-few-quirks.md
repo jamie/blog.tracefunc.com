@@ -1,5 +1,7 @@
+---
 title:  Automatic Feeds with a few Quirks
 tags:   [blog]
+---
 
 So, in the interest of keeping this blog as simple as possible (for me), I'm providing feed information on the front page as [hAtom][] marked-up data.
 

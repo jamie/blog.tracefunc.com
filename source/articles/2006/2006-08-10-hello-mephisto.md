@@ -1,5 +1,7 @@
+---
 title:  Hello, Mephisto
 tags:   [blog]
+---
 
 Well, I've got Mephisto up and running now, so we'll leave it as is for the time being.
 

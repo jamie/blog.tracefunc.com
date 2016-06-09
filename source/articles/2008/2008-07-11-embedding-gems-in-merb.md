@@ -1,5 +1,7 @@
+---
 title:  Embedding Gems in Merb
 tags:   [programming, merb]
+---
 
 Daniel Manges did up instructions on [storing explicit versions of gems in your rails app](http://www.dcmanges.com/blog/rails-first-class-vendor-gems).  If instead you're using merb, you probably want to do that too, as it makes for much easier deploys.
 

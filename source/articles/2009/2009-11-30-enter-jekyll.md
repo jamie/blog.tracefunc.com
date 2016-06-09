@@ -1,5 +1,7 @@
+---
 title:  Enter Jekyll
 tags:   [blog]
+---
 
 So I've gone and switched up blogging platforms again. This time, it's [Jekyll][]. It's not that I had any problems with [webby][], just thought I'd try it out. After spending a few hours porting things over (mostly layout and helpers, my posts are already in [markdown][]) I think I'm going to stick with it.
 

@@ -1,5 +1,7 @@
+---
 title:      Gem Cleanup
 tags:       [ruby, osx]
+---
 
 The latest version of rubygems seems to be more gung-ho about trying to clean up old versions of gems.  This is fine, except that OSX seems to be *very* protective of its bundled gem directory, refusing to uninstall gems located there even though I'm running the gem command via sudo.
 

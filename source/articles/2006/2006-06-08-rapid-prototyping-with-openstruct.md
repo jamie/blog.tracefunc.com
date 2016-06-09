@@ -1,5 +1,7 @@
+---
 title:  Rapid Prototyping with OpenStruct
 tags:   [programming, ruby]
+---
 
 I was doing a bit of data processing the other night. A little copying here, a bit of typing there, formatting into YAML, then loaded into a Ruby script. Loop through the hashes YAML loaded, and try to make some sense out of it.
 

@@ -1,5 +1,7 @@
+---
 title:  Specing Layouts
 tags:   [merb, specs]
+---
 
 Just a quick little snippet for those trying to write specs for their layout.
 

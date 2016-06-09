@@ -1,5 +1,7 @@
+---
 title: Joining Git Repositoires
 tags: [git]
+---
 
 At work, we provide an API for our app and maintain web-based
 documentation for said API. We originally had the documentation in a

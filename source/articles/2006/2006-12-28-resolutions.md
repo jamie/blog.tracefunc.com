@@ -1,5 +1,7 @@
+---
 title:  Resolutions
 tags:   [blog]
+---
 
 Well, it's that time of the year again, but I thought I'd put up the New Years Resolutions a bit early, since there's one that applies here.
 

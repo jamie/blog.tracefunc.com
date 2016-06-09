@@ -1,5 +1,7 @@
+---
 title:  'Holmes: Additional Grief'
 tags:   [holmes]
+---
 
 Part of [a series](http://blog.tracefunc.com/2008/04/01/holmes-on-software).
 

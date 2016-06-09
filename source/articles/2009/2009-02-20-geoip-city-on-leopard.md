@@ -1,5 +1,7 @@
+---
 title:  geoip_city on Leopard
 tags:   [osx]
+---
 
 I've been trying to figure out a minimal way of getting the geoip_city gem installed on my mac, and having [seen][] a few [ideas][] on google, I'm gonna consolidate into a minimal solution.  I originally wanted to work with the macports version of libgeoip, but had absolutely no luck with that, so here's something a bit more manual:
 

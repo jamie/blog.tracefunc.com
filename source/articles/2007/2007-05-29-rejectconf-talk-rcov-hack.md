@@ -1,5 +1,7 @@
+---
 title:  RejectConf Talk - RCov Hack
 tags:   [programming, ruby, rails]
+---
 
 It seems that there were people making both [audio][] and [video][] recordings of talks at RejectConf this year.
 

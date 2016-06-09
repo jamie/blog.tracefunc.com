@@ -1,5 +1,7 @@
+---
 title: Parsing JSON in SQL
 tags:  [ruby, rails, sql]
+---
 
 **The Problem:** You have a database column with some data serialzed as JSON
 in it that you'd like to pull out into its own column to index it.

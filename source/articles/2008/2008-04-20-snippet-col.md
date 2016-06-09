@@ -1,5 +1,7 @@
+---
 title:  'Snippet: col'
 tags:   [ruby, snippet]
+---
 
     #!/usr/bin/env ruby
     col = ARGV.pop.to_i-1

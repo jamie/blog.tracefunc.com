@@ -1,5 +1,7 @@
+---
 title:  Rails REST Helpers Fail
 tags:   [rails]
+---
 
 This is why I hate Rails' hackery to interact RESTfully from the browser, where it's not exactly natively supported.
 

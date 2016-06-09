@@ -1,5 +1,7 @@
+---
 title:  'Jekyll: Custom Liquid Tags'
 tags:   [blog]
+---
 
 The base install of [Jekyll][] at the moment doesn't let you run _any_ arbitrary ruby code. This is so that they can use it for github pages and not need to worry about making a super-secure sandbox just to generate some HTML.
 

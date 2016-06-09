@@ -1,5 +1,7 @@
+---
 title:  RPlug Up and Running
 tags:   [programming, ruby, rails]
+---
 
 Well, it's got the basic functionality it needs, so I'm about to put out a 0.1.0 gem for [RPlug][]. It has a dependency on [SourceControl][], which I think only deserves a 0.0.5 release because it only does the bare minimum to support RPlug at the moment.
 

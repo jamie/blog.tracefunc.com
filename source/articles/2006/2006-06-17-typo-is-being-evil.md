@@ -1,5 +1,7 @@
+---
 title:  Typo is being Evil
 tags:   [blog]
+---
 
 So, it seems that [Robby](http://www.robbyonrails.com/) has posted a list of everyone going to RailsConf on the Argon Express. Should be lots of fun.
 

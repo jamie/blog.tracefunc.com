@@ -1,5 +1,7 @@
+---
 title:  Ruby of the Future
 tags:   [ruby]
+---
 
 Pat Eyler's April [contest][] asks what changes could improve Ruby without losing the feel of the language. I've got four ideas. Even I would consider them quite radical, and don't think they're likely to occur, but if in the future Matz decided that sweeping changes were in order and that backwards compatability wasn't an issue, they'd be on my wish list.
 

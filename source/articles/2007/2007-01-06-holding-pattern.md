@@ -1,5 +1,7 @@
+---
 title:  Holding Pattern
 tags:   [blog]
+---
 
 Two quick notes for today.
 

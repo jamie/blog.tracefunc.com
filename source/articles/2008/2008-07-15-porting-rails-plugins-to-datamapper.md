@@ -1,5 +1,7 @@
+---
 title:  Porting Rails Plugins to DataMapper
 tags:   [rails, merb, datamapper]
+---
 
 As a follow-up to my [previous post][], here's some gotchas to be aware of if you're looking to support both ActiveRecord and DataMapper in a Merb (and/or Rails) plugin.
 

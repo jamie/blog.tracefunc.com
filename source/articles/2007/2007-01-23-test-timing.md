@@ -1,5 +1,7 @@
+---
 title:  Test Timing
 tags:   [programming, rails]
+---
 
 Since [Geoff's][] gem wasn't working for me, I whipped up a test timing utility based off of it.
 

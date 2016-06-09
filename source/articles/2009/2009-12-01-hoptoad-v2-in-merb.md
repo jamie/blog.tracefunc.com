@@ -1,5 +1,7 @@
+---
 title:  Hoptoad v2 in Merb
 tags:   [hoptoad, merb]
+---
 
 [Hoptoad](http://hoptoadapp.com) has been bugging us for a week or two now to upgrade to v2 of its API, so we did that this week for our project at work. Except we're running Merb, not Rails.
 

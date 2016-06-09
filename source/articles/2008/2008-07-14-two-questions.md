@@ -1,5 +1,7 @@
+---
 title:  Two Questions
 tags:   [ruby]
+---
 
 **Question #1:** Why is Symbol#to_proc so popular?
 

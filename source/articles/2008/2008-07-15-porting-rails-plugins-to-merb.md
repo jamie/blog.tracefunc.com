@@ -1,5 +1,7 @@
+---
 title:  Porting Rails Plugins to Merb
 tags:   [rails, merb]
+---
 
 We're about to start up a new project at work, and we've decided to go with [Merb][] (yay!) rather than [Rails][]. Before we get started, though, we wanted to make sure that we'd be able to integrate well with the various plugins available for Rails.
 

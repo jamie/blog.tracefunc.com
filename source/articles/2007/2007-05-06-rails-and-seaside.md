@@ -1,5 +1,7 @@
+---
 title:  Rails and Seaside?
 tags:   [programming, rails, seaside]
+---
 
 I'm coming late to the [controversy][], I know. I was talking with a co-worker about Rails and Seaside the other day, and after describing the Seaside structure and philosophy compared to Rails I got to thinking that there's really not as much overlap as some people think between the two.
 

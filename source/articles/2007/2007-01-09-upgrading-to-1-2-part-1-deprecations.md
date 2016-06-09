@@ -1,5 +1,7 @@
+---
 title:  'Upgrading to 1.2, Part 1: Deprecations'
 tags:   [programming, rails]
+---
 
 So I've been spending some time lately working on upgrading the existing codebase for some projects at work such that they'll work in Rails 1.2 once it's released. Sadly, the upgrade process is not without its rough edges, and after two days of poking at it (it being a 5800 LOC app with 8800 LOC of tests) I'm still not completely done - the test run does not pass cleanly.
 

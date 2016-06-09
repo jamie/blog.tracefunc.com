@@ -1,5 +1,7 @@
+---
 title:  Recursiveness
 tags:   [programming, ruby]
+---
 
 One of the big things I learned at University was that while "Recursion is a Wonderful Thing" (Thank you, Dr. Roelants), sometimes the performance can really hurt. Those times, it can pay to spend the effort turning that recursive function into a simple loop. Sure, it might not be as clean, or as elegant, or as natural to understand, but we're looking at performance here, right?
 

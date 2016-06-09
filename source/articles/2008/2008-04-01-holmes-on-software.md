@@ -1,5 +1,7 @@
+---
 title:  Holmes on... software?
 tags:   [programming, holmes]
+---
 
 HGTV in Canada produces a tv show called [Holmes on Homes][] that follows general contractor Mike Holmes as he visits failed renovations, provides commentary on the sorry situation of the work done, and then goes about fixing them.
 

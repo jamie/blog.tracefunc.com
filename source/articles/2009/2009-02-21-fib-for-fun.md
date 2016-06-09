@@ -1,5 +1,7 @@
+---
 title:  Fib for Fun
 tags:   [programming]
+---
 
 A little math can be a dangerous thing.  Here's a quick benchmark for Fibonacci numbers (Y axis in seconds, 20,000 iterations):
 
