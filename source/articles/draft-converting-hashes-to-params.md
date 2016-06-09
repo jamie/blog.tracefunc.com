@@ -1,5 +1,7 @@
+---
 title:      Converting Hashes to Params
 tags:       [ruby, rails, merb]
+---
 
 When...
 

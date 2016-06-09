@@ -1,3 +1,8 @@
+---
+title: Draft
+tags:  []
+---
+
 Having trouble with transient errors in a sinatra app led me to the
 following:
 

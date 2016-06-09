@@ -1,3 +1,8 @@
+---
+title: Draft
+tags:  []
+---
+
 I like having all my stuff in one spot. So, installing all my gems
 inside the homebrew directory sounds like it makes sense.
 
