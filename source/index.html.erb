@@ -26,15 +26,6 @@ per_page: 6
       <div class="entry-content"><%= article.body %></div>
     </div>
     <hr/>
-
-    <% if page_articles.size == 1 %>
-      <div id="disqus_thread"></div>
-      <script type="text/javascript" src="http://disqus.com/forums/tracefunc/embed.js"></script>
-      <noscript>
-        <a href="http://tracefunc.disqus.com/?url=ref">View the discussion thread</a>
-      </noscript>
-      <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
-    <% end %>
   <% end %>
 </div>
 
