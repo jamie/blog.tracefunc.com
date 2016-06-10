@@ -1,0 +1,17 @@
+---
+title: Archives by Date
+---
+<div id="articles">
+  <table>
+    <% year = nil %>
+    <% blog.articles.each_with_index do |entry, i| %>
+      <% if entry.date.year != year %>
+        <% year = entry.date.year %>
+        <tr><th><%= year %></th><th>&nbsp;</th></tr>
+      <% end %>
+      
+      <tr><td><%= entry.date.strftime('%b %e') %></td>
+          <td><%= link_to entry.title, entry %></td></tr>
+    <% end %>
+  </table>
+</div>
