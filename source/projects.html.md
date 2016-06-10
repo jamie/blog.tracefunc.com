@@ -1,4 +1,6 @@
+---
 title: Projects
+---
 
 ### Major
 
@@ -21,7 +23,7 @@ I have had patches accepted into the following open source projects.
 - [Ruby on Rails](http://rubyonrails.org/)
 - [vlad](http://blog.zenspider.com/2009/03/vlad-version-130-has-been-rele.html)
 - [memcache-client](http://github.com/mperham/memcache-client/tree/master)
-- [ambethia/recaptcha](http://ambethia.com/recaptcha/)
+- [recaptcha (ruby gem)](http://github.com/ambethia/recaptcha)
 
 ### Problems / Competitions
 
@@ -29,5 +31,3 @@ Competitions, or just random problem sets.
 
 - [SICP problems](http://github.com/jamie/sicp) in Clojure, intending to solve in Racket as well.
 - [puzzlebook](http://github.com/jamie/puzzlebook) solves some puzzles from PennyPress books.
-
-
