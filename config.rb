@@ -61,11 +61,21 @@ page "/feed.xml", layout: false
 # end
 
 # Methods defined in the helpers block are available in templates
-# helpers do
-#   def some_helper
-#     "Helping"
-#   end
-# end
+helpers do
+  def format_date(date)
+    format = case date.day
+    when 1, 21, 31
+      '%B %est %Y'
+    when 2, 22
+      '%B %end %Y'
+    when 3, 23
+      '%B %erd %Y'
+    else
+      '%B %eth %Y'
+    end
+    date.strftime(format)
+  end
+end
 
 # Build-specific configuration
 configure :build do
