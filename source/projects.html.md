@@ -29,3 +29,4 @@ Competitions, or just random problem sets.
 - [SICP problems](http://github.com/jamie/sicp) in Clojure, intending to solve in Racket as well.
 - [puzzlebook](http://github.com/jamie/puzzlebook) solves some puzzles from PennyPress books.
 - [ICFP Contest](http://www.icfpconference.org/contest.html) After working on problem sets in the past, I finally competed live with some friends in 2015.
+- [Advent of Code](https://adventofcode.com/), now an annual tradition.
