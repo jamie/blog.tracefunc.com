@@ -17,7 +17,7 @@ title: Archives by Tag
       <% for entry in blog.articles %>
         <% next unless (entry.tags||[]).include? tag %>
         <tr><td><%= entry.date.strftime('%Y %b %e') %></td>
-            <td><a href="<%= entry.path %>"><%= entry.title %></td></tr>
+            <td><%= link_to entry.title, entry %></td></tr>
       <% end %>
     <% end %>
   </table>
