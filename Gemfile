@@ -1,13 +1,13 @@
 source "http://rubygems.org"
 
 # Middleman Gems
-gem "middleman", "~> 4.3"
+gem "middleman"
 gem "middleman-blog"
 
-gem 'redcarpet', '~> 3.4'
+gem 'redcarpet'
 
 # For feed.xml.builder
-gem "builder", "~> 3.0"
+gem "builder"
 
 gem 'mini_racer' # For gitlab deploys
 

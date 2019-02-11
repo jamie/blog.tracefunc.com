@@ -116,12 +116,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  builder (~> 3.0)
-  middleman (~> 4.3)
+  builder
+  middleman
   middleman-blog
   middleman-livereload
   mini_racer
-  redcarpet (~> 3.4)
+  redcarpet
 
 BUNDLED WITH
    1.17.2
