@@ -15,7 +15,7 @@ So, I could do this manually:
     $ git commit ...
     # again, repeat until complete
 
-Howerver, this is a pain in the neck because it’s all manual, and it loses the commit metadata (timestamps, but also author info if you’re moving commits from multiple people). Also, because I prefer small merges to big merges, I've merged master into my branch a few times, and that means deciding to commit or wipe commits.
+However, this is a pain in the neck because it’s all manual, and it loses the commit metadata (timestamps, but also author info if you’re moving commits from multiple people). Also, because I prefer small merges to big merges, I've merged master into my branch a few times, and that means deciding to commit or wipe commits.
 
 Instead, let's git do all the work, and use `git rebase` to move my commits to their new home, and also filter out those merges.
 
