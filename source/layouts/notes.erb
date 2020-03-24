@@ -1,0 +1,15 @@
+<% wrap_layout :layout do %>
+  <h3>Note page</h3>
+  <%= yield %>
+  Hi
+  <br/>
+  <% if pages_linking_here.size > 0 %>
+    <h4>Pages Linking Here</h4>
+    <ul>
+      <% pages_linking_here.each do |r| %>
+        <li><a href="/<%= r.path %>"><%=h r.metadata.dig(:page, :title) %></a></li>
+      <% end %>
+    </ul>
+    <br/>
+  <% end %>
+<% end %>

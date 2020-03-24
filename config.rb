@@ -58,6 +58,46 @@ end
 
 page "/feed.xml", layout: false
 
+class Wiki < Middleman::Extension
+  # TODO: {{wikilinks}}
+  option :path, //, 'Path to apply manipulations'
+
+  def initialize(app, options_hash={}, &block)
+    super
+  end
+
+  def manipulate_resource_list(resources)
+    resources.each do |r|
+      next unless r.path =~ options.path
+
+      r.metadata[:options][:layout] = "notes"
+      r.metadata[:options][:content_type] = "text/html"
+
+      pagename = r.path.split('/').last
+      r.metadata[:page][:pagename] = pagename
+
+      if r.metadata.dig(:page, :title).blank?
+        title = r.path.split('/').last.gsub('_',' ').titleize
+        r.metadata[:page][:title] = title
+      end
+    end
+
+    resources
+  end
+
+  helpers do
+    def pages_linking_here
+      pagename = current_page.metadata.dig(:page, :pagename)
+      linking_here = sitemap.resources.select do |r|
+        r.path =~ /notes/ && File.read(r.source_file) =~ /{{#{pagename}}}/i
+      end
+    end
+  end
+end
+::Middleman::Extensions.register(:wiki, Wiki)
+
+activate :wiki, path: %r{^notes/}
+
 # Methods defined in the helpers block are available in templates
 helpers do
   def format_date(date)
