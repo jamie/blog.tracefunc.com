@@ -60,7 +60,7 @@ page "/feed.xml", layout: false
 
 class Wiki < Middleman::Extension
   # TODO: {{wikilinks}}
-  option :path, //, 'Path to apply manipulations'
+  option :root, 'wiki', 'Root path for the wiki'
 
   def initialize(app, options_hash={}, &block)
     super
@@ -68,7 +68,7 @@ class Wiki < Middleman::Extension
 
   def manipulate_resource_list(resources)
     resources.each do |r|
-      next unless r.path =~ options.path
+      next unless r.path =~ %r{^#{options.root}/}
 
       r.metadata[:options][:layout] = "notes"
       r.metadata[:options][:content_type] = "text/html"
@@ -96,7 +96,7 @@ class Wiki < Middleman::Extension
 end
 ::Middleman::Extensions.register(:wiki, Wiki)
 
-activate :wiki, path: %r{^notes/}
+activate :wiki, root: 'notes'
 
 # Methods defined in the helpers block are available in templates
 helpers do
