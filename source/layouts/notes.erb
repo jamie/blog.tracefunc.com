@@ -1,8 +1,7 @@
 <% wrap_layout :layout do %>
-  <h3>Note page</h3>
+  <h3><%= current_page.metadata.dig(:page, :title) %></h3>
   <%= yield %>
-  Hi
-  <br/>
+  <hr>
   <% if pages_linking_here.size > 0 %>
     <h4>Pages Linking Here</h4>
     <ul>

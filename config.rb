@@ -70,11 +70,12 @@ class Wiki < Middleman::Extension
     resources.each do |r|
       next unless r.path =~ %r{^#{options.root}/}
 
+      # General metadata
       r.metadata[:options][:layout] = "notes"
       r.metadata[:options][:content_type] = "text/html"
 
-      pagename = r.path.split('/').last
-      r.metadata[:page][:pagename] = pagename
+      # Auto-generate some frontmatter
+      r.metadata[:page][:pagename] = r.path.split('/').last
 
       if r.metadata.dig(:page, :title).blank?
         title = r.path.split('/').last.gsub('_',' ').titleize
@@ -88,6 +89,8 @@ class Wiki < Middleman::Extension
   helpers do
     def pages_linking_here
       pagename = current_page.metadata.dig(:page, :pagename)
+      return [] unless pagename
+
       linking_here = sitemap.resources.select do |r|
         r.path =~ /notes/ && File.read(r.source_file) =~ /{{#{pagename}}}/i
       end
