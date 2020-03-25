@@ -2,7 +2,9 @@
   <p><span class="text-base md:text-sm text-teal-500 font-bold">&lt;<span> <a href="/"
         class="text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">BACK TO BLOG</a></p>
 
-  <%= partial 'layouts/article', locals: {article: current_article} %>
+  <div id="article">
+    <%= partial 'layouts/article', locals: {article: current_article} %>
+  </div>
 
   <!--Disqus Comments--
   <div id="disqus_thread"></div>

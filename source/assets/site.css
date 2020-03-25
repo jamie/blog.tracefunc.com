@@ -4,7 +4,7 @@
 
 /* Prettier */
 .prettycontainer {
-  @apply text-xs
+  @apply text-xs;
 }
 pre.prettylines {
   font: 1.3em 'Lucida Console', 'courier new', monospace;
@@ -38,85 +38,13 @@ pre.prettylines {
 .atv { color:#181 }
 .dec { color:#606 }
 
-
-/* Other Crap */
-label {
-  float: left;
-  width: 100px;
-  line-height: 33px;
+/* Apply some styles globally to markdown-converted content */
+#articles p, #article p {
+  @apply my-4;
 }
-select {
-  width: 300px;
-  height: 19px;
-  margin: 7px;
-}
-.datetime select {
-  width: auto;
-  margin: 7px 3px;
-}
-
-
-/* Headers */
-.entry-content h1, .entry-content h2, .entry-content h3 { font-family: 'Trebuchet MS', Tahoma, Sans-serif;  }
-.entry-content h1 {
-	font-size: 180%;	
-	font-weight: normal;	
-	color: #ff1c00;
-}
-.entry-content h2 {
-	font-size: 160%;
-	color: #ff6600;
-	font-weight: normal;
-}
-.entry-content h3 {
-	font-size: 135%;	
-	color: #88ac0b;
-}
-
-/* Articles */
-.article {
-  margin-bottom: 20px;
-}
-.article .meta {
-  background: #F4F8FD;
-  padding: 5px 5px 5px 10px;
-  margin: 0 25px 20px 25px;
-  border: 1px solid #E5F0FB;
-  font-size: 95%;
-}
-.article .by {
-  font-size: .95em;
-  margin-top: 0;
-  margin-left: 10px;
-}
-#articles .extended {
-  display: none;
-}
-
-/* Comments */
-
-#article #comments .what {
-  display: none;
-}
-
-/* Links */
-.entry-content a,
-.entry-content a:visited,
-.meta a,
-.meta a:visited,
-#sidebar p a,
-#sidebar p a:visited {
-	text-decoration: none;
-	background: inherit;
-	color: #FB9233;
-}
-.entry-content a:hover,
-.article .meta a:hover,
-#sidebar p a:hover {
-	text-decoration: underline;
-	background: inherit;
-	color: #93C600;
-}
-a.anchor {
-  text-decoration: none;
+p code {
+  @apply text-base;
+  @apply px-1;
+  color: #369;
+  border: 1px solid #ccc;
 }
