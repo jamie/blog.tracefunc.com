@@ -1,3 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Prettier */
+.prettycontainer {
+  @apply text-xs
+}
+pre.prettylines {
+  font: 1.3em 'Lucida Console', 'courier new', monospace;
+  float: left;
+  padding: 0 3px;
+  margin: 0px;
+  text-align: right;
+  margin-right: 10px;
+}
+.prettyprint code, blockquote {
+  padding: 1em;
+  border: 1px solid #E5F0FB;
+  background: #F4F8FD;
+}
+.prettyprint code {
+  display: block;
+  overflow: auto;
+  font: 1.3em 'Lucida Console', 'courier new', monospace;
+  /* white-space: pre; */
+}
+
+.str { color:#181; font-style:italic }
+.kwd { color:#369 }
+.com { color:#666 }
+.typ { color:#c40 }
+.lit { color:#900 }
+.pun { color:#000; font-weight:bold  }
+.pln { color:#333 }
+.tag { color:#369; font-weight:bold  }
+.atn { color:#939; font-weight:bold  }
+.atv { color:#181 }
+.dec { color:#606 }
+
+
+/* Other Crap */
 label {
   float: left;
   width: 100px;
@@ -11,59 +53,6 @@ select {
 .datetime select {
   width: auto;
   margin: 7px 3px;
-}
-
-
-.prettyprint code, blockquote {
-  padding: 1em;
-  border: 1px solid #E5F0FB;
-  background: #F4F8FD;
-}
-.prettyprint code {
-  display: block;
-  overflow: auto;
-  font: 1.3em 'Lucida Console', 'courier new', monospace;
-  /* white-space: pre; */
-}
-blockquote {
-  margin: 10px 15px;
-  padding-left: 45px;
-  padding-bottom: 0;
-  background-image: url(/assets/images/quote.jpg);
-  background-repeat: no-repeat;
-  background-position: 8px 6px;
-}
-
-
-/* utility classes */
-.float-left  { float: left; }
-.float-right { float: right; }
-.align-left  { text-align: left; }
-.align-right { text-align: right; }
-.clear       { clear: both; }
-
-
-
-/* Code blocks */
-.str { color:#181; font-style:italic }
-.kwd { color:#369 }
-.com { color:#666 }
-.typ { color:#c40 }
-.lit { color:#900 }
-.pun { color:#000; font-weight:bold  }
-.pln { color:#333 }
-.tag { color:#369; font-weight:bold  }
-.atn { color:#939; font-weight:bold  }
-.atv { color:#181 }
-.dec { color:#606 }
-
-pre.prettylines {
-  font: 1.3em 'Lucida Console', 'courier new', monospace;
-  float: left;
-  padding: 0 3px;
-  margin: 0px;
-  text-align: right;
-  margin-right: 10px;
 }
 
 

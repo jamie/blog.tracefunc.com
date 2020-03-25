@@ -9,15 +9,13 @@
     <meta name="author" content="Jamie Macey">
     <meta name="description" content="Personal Blog and Knowledge Base">
     <meta name="keywords" content="ruby,rails,developer,technical,blog">
-    <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
-    <!--Replace with your tailwind.css once created-->
 
-    <link rel="stylesheet" href="/assets/css/master.css">
+    <link rel="stylesheet" href="/styles.css">
     <%= feed_tag :atom, "#{blog.options.prefix.to_s}/index.xml", title: "Atom Feed" %>
 
     <script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
-    <script type='text/javascript' src="/assets/js/prettify.js"></script>
-    <script type='text/javascript' src="/assets/js/blog.js"></script>
+    <script type='text/javascript' src="/assets/prettify.js"></script>
+    <script type='text/javascript' src="/application.js"></script>
   </head>
 
   <body class="bg-gray-100 font-sans leading-normal tracking-normal">

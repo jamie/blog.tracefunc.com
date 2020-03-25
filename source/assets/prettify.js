@@ -1041,3 +1041,14 @@ function prettyPrint(opt_whenDone) {
 
   doWork();
 }
+
+// Above is the original library
+// Below is added to call it
+
+$(document).ready(function () {
+  $("pre code").parent().each(function () {
+    $(this).addClass('prettyprint');
+  });
+
+  prettyPrint();
+});
