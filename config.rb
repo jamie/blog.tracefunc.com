@@ -101,6 +101,12 @@ end
 
 activate :wiki, root: 'notes'
 
+activate :external_pipeline,
+  name: :webpack,
+  command: build? ? './node_modules/webpack/bin/webpack.js --bail' : './node_modules/webpack/bin/webpack.js --watch -d --color',
+  source: ".tmp/dist",
+  latency: 1
+
 # Methods defined in the helpers block are available in templates
 helpers do
   def format_date(date)
