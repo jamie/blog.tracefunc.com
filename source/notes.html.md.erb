@@ -1,0 +1,13 @@
+---
+title: Notes
+---
+
+## Notes
+
+I've started keeping a knowledge base of miscellaneous notes and thoughts,
+presented here.
+
+<% sitemap.resources.sort_by(&:path).each do |r| -%>
+<%   next unless r.path =~ %r{^notes/.} -%>
+- <a href="/<%= r.path %>" class="wikilink"><%= r.metadata.dig(:page, :title) %></a>
+<% end -%>

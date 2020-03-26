@@ -91,8 +91,8 @@ class Wiki < Middleman::Extension
       pagename = current_page.metadata.dig(:page, :pagename)
       return [] unless pagename
 
-      linking_here = sitemap.resources.select do |r|
-        r.path =~ /notes/ && File.read(r.source_file) =~ /{{#{pagename}}}/i
+      linking_here = sitemap.resources.sort_by(&:path).select do |r|
+        r.path =~ /notes/ && File.read(r.source_file) =~ /\[\[#{pagename}\]\]/i
       end
     end
   end

@@ -39,7 +39,9 @@ pre.prettylines {
 .dec { color:#606 }
 
 /* Apply some styles globally to markdown-converted content */
-#articles p, #article p {
+a.wikilink { @apply text-orange-600; }
+
+#content p {
   @apply my-4;
 }
 p code {
@@ -48,3 +50,8 @@ p code {
   color: #369;
   border: 1px solid #ccc;
 }
+
+#content h2 { @apply font-bold font-sans break-normal text-gray-800 pt-4 pb-2 text-3xl; }
+#content h3 { @apply font-bold font-sans break-normal text-gray-800 pt-2 pb-2 text-2xl; }
+#content h4 { @apply font-bold font-sans break-normal text-gray-600 pt-1 pb-2 text-xl; }
+#content ul { @apply list-disc list-inside; }

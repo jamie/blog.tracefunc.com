@@ -1,14 +1,16 @@
 <% wrap_layout :layout do %>
   <h3><%= current_page.metadata.dig(:page, :title) %></h3>
-  <%= yield %>
-  <hr>
+
   <% if pages_linking_here.size > 0 %>
-    <h4>Pages Linking Here</h4>
-    <ul>
-      <% pages_linking_here.each do |r| %>
-        <li><a href="/<%= r.path %>"><%=h r.metadata.dig(:page, :title) %></a></li>
-      <% end %>
-    </ul>
-    <br/>
+    <div class="float-right mx-4 px-4 pb-2 border-solid border-l-2 border-gray-500">
+      <h4 class="pt-0">Pages Linking Here</h4>
+      <ul>
+        <% pages_linking_here.each do |r| %>
+          <li><a class="wikilink" href="/<%= r.path %>"><%=h r.metadata.dig(:page, :title) %></a></li>
+        <% end %>
+      </ul>
+    </div>
   <% end %>
+
+  <%= yield %>
 <% end %>
