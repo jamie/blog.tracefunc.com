@@ -12,4 +12,9 @@
   </p>
 </div>
 
+<% if defined?(summary) %>
+<%= article.summary(500) %>
+<p><a><%= link_to "&raquo; Read more...", article %></a></p>
+<% else %>
 <%= article.body %>
+<% end %>

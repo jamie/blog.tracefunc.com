@@ -5,6 +5,7 @@ gem "middleman"
 gem "middleman-blog"
 
 gem 'redcarpet'
+gem 'nokogiri'
 
 # For feed.xml.builder
 gem "builder"
