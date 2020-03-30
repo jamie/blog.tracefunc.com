@@ -55,34 +55,11 @@
     </nav>
 
     <!--Container-->
-    <div class="container w-full md:max-w-3xl mx-auto pt-20">
+    <div class="container w-full md:max-w-3xl mx-auto pt-20 pb-10">
 
       <div id="content" class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
         <%= yield %>
       </div>
-
-      <!--Divider-->
-      <hr class="border-b-2 border-gray-400 mb-8 mx-4 my-4">
-
-      <!--Author-->
-      <div class="flex w-full items-center font-sans px-4 py-12">
-        <img class="w-10 h-10 rounded-full mr-4" src="/assets/memoji.png" alt="Avatar of Author">
-        <div class="flex-1 px-2">
-          <p class="text-base font-bold md:text-xl leading-none mb-2">Jamie Macey</p>
-          <p class="text-gray-500 text-xs md:text-base">Minimal Blog Tailwind CSS template by <a
-              class="text-teal-400 no-underline hover:underline"
-              href="https://www.tailwindtoolbox.com">TailwindToolbox.com</a></p>
-        </div>
-        <%# <div class="justify-end">
-          <button
-            class="bg-transparent border border-gray-500 hover:border-teal-500 text-xs text-gray-500 hover:text-teal-500 font-bold py-2 px-4 rounded-full">Read
-            More</button>
-        </div> %>
-      </div>
-      <!--/Author-->
-
-      <!--Divider-->
-      <hr class="border-b-2 border-gray-400 mb-8 mx-4">
 
       <!--Next & Prev Links-->
       <% if current_article %>
@@ -116,7 +93,12 @@
       <div class="container max-w-4xl mx-auto flex py-8">
 
         <div class="w-full mx-auto flex flex-wrap justify-between">
-          <div class="flex w-full md:w-4/5 ">
+          <div class="flex w-full md:w-1/5">
+            <div class="px-8 mt-10">
+              <img class="rounded-full mr-4" src="/assets/memoji.png" alt="Avatar of Author">
+            </div>
+          </div>
+          <div class="flex w-full md:w-3/5">
             <div class="px-8">
               <h3 class="font-bold text-gray-900">About</h3>
               <p class="my-4 text-gray-600 text-sm">
@@ -127,12 +109,20 @@
                 Husband, father, gamer, and all-around geek. Ask about my latest
                 3d print, or toy software project.
               </p>
+              <p class="text-gray-500 text-xs md:text-base">Minimal Blog Tailwind CSS template by <a
+                class="text-teal-400 no-underline hover:underline"
+                href="https://www.tailwindtoolbox.com">TailwindToolbox.com</a>
+              </p>
             </div>
           </div>
           <div class="flex flex-row-reverse w-full md:w-1/5">
             <div class="px-8">
               <h3 class="font-bold text-gray-900">&nbsp;</h3>
               <ul class="list-reset items-center text-sm pt-3">
+                <li>
+                  <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                    href="https://github.com/jamie/">Github</a>
+                </li>
                 <li>
                   <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
                     href="/static/jamie-macey/">Resume</a>
@@ -143,7 +133,7 @@
                 </li>
                 <li>
                   <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
-                    href="https://github.com/jamie/">Github</a>
+                    href="mailto:jamie.blog@tracefunc.com">Contact</a>
                 </li>
               </ul>
             </div>
