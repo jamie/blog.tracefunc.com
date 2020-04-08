@@ -59,6 +59,7 @@ page "/feed.xml", layout: false
 class Wiki < Middleman::Extension
   # TODO: {{wikilinks}}
   option :root, 'wiki', 'Root path for the wiki'
+  expose_to_template :wikilink!
 
   def initialize(app, options_hash={}, &block)
     super
@@ -82,6 +83,17 @@ class Wiki < Middleman::Extension
     end
 
     resources
+  end
+
+  LINK_PATTERN = %r{\[\[([^\]]+)\]\]}
+  def wikilink!(source)
+    source.gsub(LINK_PATTERN) do |match|
+      # For some reason I can't use last_match via the gsub call, so let's re-match
+      match =~ LINK_PATTERN
+
+      page = Regexp.last_match[1]
+      %(<a href="/#{options.root}/#{page}" class="wikilink">#{page}</a>)
+    end
   end
 
   helpers do
