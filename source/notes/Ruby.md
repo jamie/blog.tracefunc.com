@@ -1,7 +1,8 @@
 ---
+tags: [code]
 title: Ruby
 created: '2020-03-24T02:16:41.521Z'
-modified: '2020-04-08T02:27:30.853Z'
+modified: '2020-04-08T03:40:59.353Z'
 ---
 
 ## Ruby

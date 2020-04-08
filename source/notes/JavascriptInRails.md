@@ -1,7 +1,8 @@
 ---
+tags: [code]
 title: JavascriptInRails
 created: '2020-04-06T19:47:47.984Z'
-modified: '2020-04-08T02:26:45.491Z'
+modified: '2020-04-08T03:40:44.190Z'
 ---
 
 ## JavascriptInRails

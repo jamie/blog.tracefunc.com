@@ -1,8 +1,8 @@
 ---
-tags: [tools]
+tags: [commandline]
 title: fzf
 created: '2020-04-01T23:50:48.677Z'
-modified: '2020-04-08T02:25:26.675Z'
+modified: '2020-04-08T03:40:14.505Z'
 ---
 
 ## fzf
