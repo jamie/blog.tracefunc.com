@@ -1,12 +1,18 @@
-image: ruby:2.3
+image: ruby:latest
+
+before_script:
+  - apt-get update -qy
+  - apt-get install nodejs
+  - node -v && npm -v
 
 pages:
   script:
-  - bundle install
-  - bundle exec middleman build --verbose
-  - mv build public
+    - bundle install
+    - npm ci
+    - bundle exec middleman build --verbose
+    - mv build public
   artifacts:
     paths:
-    - public
+      - public
   only:
-  - master
+    - master
