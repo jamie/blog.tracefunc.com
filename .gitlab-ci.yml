@@ -7,8 +7,9 @@ before_script:
 
 pages:
   script:
-    - bundle install
     - npm ci
+    - gem install bundler:1.17.3
+    - bundle install
     - bundle exec middleman build --verbose
     - mv build public
   artifacts:
