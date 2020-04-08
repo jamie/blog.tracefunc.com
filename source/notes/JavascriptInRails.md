@@ -5,7 +5,7 @@ created: '2020-04-06T19:47:47.984Z'
 modified: '2020-04-08T03:40:44.190Z'
 ---
 
-## JavascriptInRails
+# JavascriptInRails
 
 Without going full-on with a [[Rails]] API backend, and pure [[React]]/[[VueJS]] frontend, there's still some options to add interactivity and responsiveness to the frontend when moving on from jQuery.
 

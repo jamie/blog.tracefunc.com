@@ -5,7 +5,7 @@ created: '2020-04-01T23:50:48.677Z'
 modified: '2020-04-08T03:40:14.505Z'
 ---
 
-## fzf
+# fzf
 
 `fzf` is an incremental search tool for the terminal.
 

@@ -1,5 +1,5 @@
-<div class="font-sans">
-  <h2><%= link_to article.title, article %></h2>
+<div class="font-sans mb-8">
+  <h1><%= link_to article.title, article %></h1>
   <p class="text-sm md:text-base font-normal text-gray-600">
     <%= format_date article.date %>
     <% if article.tags %>
@@ -8,13 +8,12 @@
         <a href="/tags/#<%= tag %>"><%= tag %></a>
       <% end %>
     <% end %>
-
   </p>
-</div>
 
-<% if defined?(summary) %>
-<%= article.summary(500) %>
-<p><a><%= link_to "&raquo; Read more...", article %></a></p>
-<% else %>
-<%= article.body %>
-<% end %>
+  <% if defined?(summary) %>
+  <%= article.summary(500) %>
+  <p><a><%= link_to "&raquo; Read more...", article %></a></p>
+  <% else %>
+  <%= article.body %>
+  <% end %>
+</div>

@@ -5,7 +5,7 @@ created: '2020-04-07T16:55:35.352Z'
 modified: '2020-04-08T03:40:38.354Z'
 ---
 
-## Git
+# Git
 
 ### Tips and Tricks
 
