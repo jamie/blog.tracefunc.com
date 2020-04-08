@@ -2,7 +2,7 @@ image: ruby:latest
 
 before_script:
   - apt-get update -qy
-  - apt-get install nodejs
+  - apt-get install -y nodejs npm
   - node -v && npm -v
 
 pages:
