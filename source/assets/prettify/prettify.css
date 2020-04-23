@@ -1,28 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Pretty printing styles. Used with prettify.js. */
 
-/* Apply some styles globally to markdown-converted content */
-p a { @apply text-blue-600 underline; }
-a.wikilink { @apply text-orange-600; }
-
-#content p {
-  @apply my-4;
-}
-p code {
-  @apply text-base;
-  @apply px-1;
-  color: #369;
-  border: 1px solid #ccc;
-}
-
-#content h1 { @apply font-bold font-sans break-normal text-gray-800 pt-4 pb-2 text-3xl; }
-#content h2 { @apply font-bold font-sans break-normal text-gray-800 pt-4 pb-2 text-3xl; }
-#content h3 { @apply font-bold font-sans break-normal text-gray-800 pt-2 pb-2 text-2xl; }
-#content h4 { @apply font-bold font-sans break-normal text-gray-600 pt-1 pb-2 text-xl; }
-#content ul { @apply list-disc list-inside; }
-
-/* Prettify.js */
+/* SPAN elements with the classes below are added by prettyprint. */
 .pln { color: #000 }  /* plain text */
 
 @media screen {
@@ -53,7 +31,22 @@ p code {
   .atv { color: #060 }
 }
 
-pre.prettyprint { @apply text-base ml-10; }
+/* Put a border around prettyprinted code snippets. */
+pre.prettyprint { padding: 2px; border: 1px solid #888 }
+
+/* Specify class=linenums on a pre to get line numbering */
 ol.linenums { margin-top: 0; margin-bottom: 0 } /* IE indents via margin-left */
-ol.linenums { list-style-type: decimal; }
-/* end Prettify.js */
+li.L0,
+li.L1,
+li.L2,
+li.L3,
+li.L5,
+li.L6,
+li.L7,
+li.L8 { list-style-type: none }
+/* Alternate shading for lines */
+li.L1,
+li.L3,
+li.L5,
+li.L7,
+li.L9 { background: #eee }
