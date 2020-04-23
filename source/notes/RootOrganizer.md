@@ -2,7 +2,7 @@
 tags: [gaming, wip]
 title: RootOrganizer
 created: '2020-04-08T03:41:13.753Z'
-modified: '2020-04-08T04:13:09.792Z'
+modified: '2020-04-17T23:47:46.877Z'
 ---
 
 # RootOrganizer
@@ -18,26 +18,52 @@ As to depth, faction boards/rules 20mm, single map 17mm, and 25mm-deep trays wil
 ### Tray Sizing
 
 * Baseline 95mm long, 25mm deep, varying width as follows:
-    * Cats - 60mm *
-    * Birds - 40mm
-    * Mice - 35mm
-    * Vagabond - 40mm, better if bigger + has more dividers, also needs 8.5mm of cards
-    * Lizard - 55mm
-    * Otter - 35mm
-    * Crow - 35mm
-    * Mole - 55mm (or 70mm incl. cards, 27mm height) (5.5mm of cards)
-    * Resin Clearing Markers - 90mm max
-    * Exile Deck + Eyrie + Faction Overviews - 70mm
+  * Cats - 60mm *
+  * Birds - 40mm
+  * Mice - 35mm
+  * Vagabond - 40mm, better if bigger + has more dividers, also needs 8.5mm of cards
+  * Lizard - 55mm
+  * Otter - 35mm
+  * Crow - 35mm
+  * Mole - 55mm (or 70mm incl. cards, 27mm height) (5.5mm of cards)
+  * Resin Clearing Markers - 90mm max
+  * Exile Deck + Eyrie + Faction Overviews - 70mm
+  * Dice
+  * Shop Items
+  * Tower/Raft
+  * Tunnels - 102mm, awkward.
+  * Alt. Exile Deck - 70mm
+* Layout (275mm width x 2 rows of 95mm):
+  * 275mm: Exile Deck, Cats, Birds, Mice, Otter, Crow
+  * 270mm: Vagabond+Cards, Lizard, Mole, Clearing
+    * Maybe could bump clearing another 5mm and squeeze in dice/shop around them? Also possible to flex on height? Still leaves tower/raft unaccounted for, and tunnels with nowhere to live.
+    * Tunnels sideways need 30.2mm (so 31mm total height on trays) which would free up a lot of space restrictions. 35mm height would I think let us get clearing markers vertically. Yellow/red fit a 55mm tray but want a 45/50mm subdivision. Orange with a 35/60mm subdivision leaves plenty of room for dice/shop/tower/raft. That only bumps up overall width from current resin measure +20mm. Tunnels still an awkward item for inside a tray.
+
+#### Round Two
+
+Baseline 95mm long, 35mm deep, 2x 275mm rows
+
+Overall 3x25, 3x35, 3x45 for factions+resin, 105, 70, 20? for remaining components. Still need to account for vagabond cards.
+
+* Row 1, 270mm
+  * Exile Deck + Eyrie + Faction Overviews - 70mm, could print 75mm and include shop items?
+  * Cats - 45mm
+  * Mole - 45mm
+  * Birds - 35mm
+  * Mice - 25mm
+  * Otter - 25mm
+  * Crow - 25mm
+* Row 2, 255mm
+  * Resin Clearing Markers - 45mm (!!!)
+  * Lizard - 35mm
+  * Vagabond - 25mm, but 35mm with a divider is better - 40mm for 9x figs, nesting trays for 12 ruin/16 start/16 influence (or maybe look into actual use, and one tray for 1 Vaga, with a lower tray for a 2 Vaga game?). Divider only needs to go part way, and then nesting tray can sit atop it.
+  * Alt. Exile Deck - ~~70mm~~ 105mm TODO: Test this
+    * Tunnels on top
+    * Extra Dice in extra 35mm
+  * Spare 20mm? TODO: Test this
     * Dice
     * Shop Items
     * Tower/Raft
-    * Tunnels - 102mm, awkward.
-    * Alt. Exile Deck - 70mm
-* Layout (275mm width x 2 rows of 95mm):
-    * 275mm: Exile Deck, Cats, Birds, Mice, Otter, Crow
-    * 270mm: Vagabond+Cards, Lizard, Mole, Clearing
-        * Maybe could bump clearing another 5mm and squeeze in dice/shop around them? Also possible to flex on height? Still leaves tower/raft unaccounted for, and tunnels with nowhere to live.
-        * Tunnels sideways need 30.2mm (so 31mm total height on trays) which would free up a lot of space restrictions. 35mm height would I think let us get clearing markers vertically. Yellow/red fit a 55mm tray but want a 45/50mm subdivision. Orange with a 35/60mm subdivision leaves plenty of room for dice/shop/tower/raft. That only bumps up overall width from current resin measure +20mm. Tunnels still an awkward item for inside a tray.
 
 ### WIP TODOS
 
