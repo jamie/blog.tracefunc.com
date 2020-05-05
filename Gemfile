@@ -14,6 +14,3 @@ gem 'mini_racer' # For gitlab deploys
 
 # Development
 gem 'middleman-livereload'
-
-# Deployment
-gem 'middleman-gh-pages'
