@@ -1,0 +1,16 @@
+name: Middleman
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build & Deploy to GitHub Pages
+        with:
+          REMOTE_BRANCH: gh-pages
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: yurikoval/middleman-gh-pages-action@master
