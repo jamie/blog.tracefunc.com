@@ -3,6 +3,7 @@ source "http://rubygems.org"
 # Middleman Gems
 gem "middleman"
 gem "middleman-blog"
+gem 'middleman-livereload'
 
 gem 'redcarpet'
 gem 'nokogiri'
@@ -11,6 +12,3 @@ gem 'nokogiri'
 gem "builder"
 
 gem 'mini_racer' # For gitlab deploys
-
-# Development
-gem 'middleman-livereload'
