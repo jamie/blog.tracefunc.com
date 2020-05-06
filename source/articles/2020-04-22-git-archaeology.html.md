@@ -13,7 +13,7 @@ The first is `dig.sh`, which will accept the path to the git repository to analy
 
 How this looks in practice is something like `./dig.sh ../my_repo 2011-04-01`. Because we run a monorepo now, and have merged a few external repos together, this sometimes didn't pick up a proper mainline commit, I occasionally had to come back on a manual pass and touch it up: `./dig.sh ../my_repo 2011-04-01 4dbdd82`.
 
-The actual meat of the script is the last 3 lines, which gets a recursive directory listing as of the commit in question, filters to files that matche a provided pattern, runs git blame across all of them, and counts the number of entries for each author.
+The actual meat of the script is the last 3 lines, which gets a recursive directory listing as of the commit in question, filters to files that match a provided pattern, runs git blame across all of them, and counts the number of entries for each author.
 
     #!/bin/bash
 
