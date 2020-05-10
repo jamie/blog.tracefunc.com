@@ -10,6 +10,7 @@
 
 # Ignore the build directory
 /build
+/tmp
 # Ignore development logs
 /log
 
