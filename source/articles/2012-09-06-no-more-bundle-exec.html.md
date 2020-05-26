@@ -54,14 +54,15 @@ Lastly, the `case` statement instead of an `if` is a bit redundant in the simple
 [isolate]: https://github.com/jbarnette/isolate
 [git]: http://git-scm.com/
 
-    # Paste git repo url to clone it
-    when command =~ /^git(@|:\/\/).*\.git$/
-      run("git clone #{command.inspect}")
+~~~ruby
+# Paste git repo url to clone it
+when command =~ /^git(@|:\/\/).*\.git$/
+  run("git clone #{command.inspect}")
 
-    # paste compressed url to download+extract it
-    when command =~ /^(?:ftp|https?):\/\/.+\.t(?:ar\.)?gz$/
-      run("curl #{command.inspect} | tar xzv")
+# paste compressed url to download+extract it
+when command =~ /^(?:ftp|https?):\/\/.+\.t(?:ar\.)?gz$/
+  run("curl #{command.inspect} | tar xzv")
 
-    when File.exist?("./tmp/isolate/ruby-1.8/bin/#{command}")
-      run("rake isolate:sh['#{ARGV.join(' ')}']")
-
+when File.exist?("./tmp/isolate/ruby-1.8/bin/#{command}")
+  run("rake isolate:sh['#{ARGV.join(' ')}']")
+~~~

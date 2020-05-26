@@ -5,28 +5,30 @@ tags:   [programming, ruby]
 
 As an update to a [previous article](http://blog.tracefunc.com/2007/01/23/test-timing),
 
-    if $specs_timed.nil? && ENV.has_key?('SLOW')
-      $specs_timed = true
-      $timings = []
+~~~ruby
+if $specs_timed.nil? && ENV.has_key?('SLOW')
+  $specs_timed = true
+  $timings = []
 
-      Spec::Example::ExampleGroup.prepend_before do
-        @start = Time.now
-      end
-      Spec::Example::ExampleGroup.append_after do
-        elapsed = Time.now - @start
-        if elapsed > ENV['SLOW'].to_f
-          $timings << [elapsed, "#{self.class.description} #{description}"]
-        end
-      end
-
-      at_exit do
-        puts "\nSlow Specs:"
-        $timings.sort{|a,b| a.first <=> b.first}.each do |time, name|
-          puts " %7.4f #{name}" % time
-        end
-        puts "  None!" if $timings.empty?
-      end
+  Spec::Example::ExampleGroup.prepend_before do
+    @start = Time.now
+  end
+  Spec::Example::ExampleGroup.append_after do
+    elapsed = Time.now - @start
+    if elapsed > ENV['SLOW'].to_f
+      $timings << [elapsed, "#{self.class.description} #{description}"]
     end
+  end
+
+  at_exit do
+    puts "\nSlow Specs:"
+    $timings.sort{|a,b| a.first <=> b.first}.each do |time, name|
+      puts " %7.4f #{name}" % time
+    end
+    puts "  None!" if $timings.empty?
+  end
+end
+~~~
 
 Then, simply run
 

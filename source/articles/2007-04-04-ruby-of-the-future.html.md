@@ -22,13 +22,14 @@ Third, I'd like to see what could be done to trim down the syntax a little. Do w
 Lastly, I'd like to see a step taken towards standardizing on some kind of Unicode, and updating the core language (strings, regexps, and all) to make it as seamless to use as possible. The Rails guys have got things started with multibyte strings in ActiveSupport, but I think it would need to be baked in to the language to be as comprehensive as possible.
 
 All four of these changes would require a lot of work, and likely result in incompatabilities from current versions of Ruby (excepting possibly the last one). However, I think taking these as a base to work on streamlining the language, it could result in a Ruby that is easier to learn, easier to work with, and easier to duplicate or extend, while still retaining the core features that make it what it is.
+
 ## Comments
 
-Best entry so far in my opinion. I agree with all of your points, particularly the first two.
+> Best entry so far in my opinion. I agree with all of your points, particularly the first two.
 
 - Peter Cooper, at 19:01, Apr 28 2007
 
-Finally got the comment problem fixed, looks like an older version of Mephisto was doing weird things with the page cache. If anyone happens to notice that comments are back up, you can join in now :)
+> Finally got the comment problem fixed, looks like an older version of Mephisto was doing weird things with the page cache. If anyone happens to notice that comments are back up, you can join in now :)
 
 - Jamie, at 19:13, Apr 30 2007
 

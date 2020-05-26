@@ -22,6 +22,9 @@ p code {
 #content h4 { @apply font-bold font-sans break-normal text-gray-600 pt-1 pb-2 text-xl; }
 #content ul { @apply list-disc list-inside; }
 
+/* weird markdown html nesting */
+#content li p { display: inline; }
+
 /* Syntax Highlight */
 .highlight { @apply text-base; }
 .highlight .rouge-gutter { @apply text-right pr-4; }

@@ -7,14 +7,16 @@ One of the big things I learned at University was that while "Recursion is a Won
 
 Ryan Davis recently [posted][] about using RubyInline to optimize a recursive factorial method. He ended with a caveat that sometimes you need to look at other things than just moving the code into C for speed. His idea was to cache the data as it goes along. There are times when that won't help you in the log run (for example, generating a stats graph where caching as you draw helps, but the cached values will be stale the next time you need to do it) but changing it around to iterative can sometimes give you a further speedup.
 
-    def fib_iter(n)
-      return 1 if n < 3  
-      f = f1 = 1
-      (2..n).each do
-        f, f1 = (f+f1), f
-      end
-      f
-    end
+~~~ruby
+def fib_iter(n)
+  return 1 if n < 3  
+  f = f1 = 1
+  (2..n).each do
+    f, f1 = (f+f1), f
+  end
+  f
+end
+~~~
 
 The benchmarking speaks for itself. (Same parameters as Ryan's benching, 10,000 runs doing fib(15)):
 
@@ -34,13 +36,15 @@ So once again, it seems that there's a different best solution for two different
 
 And the fib-hash benchmark? It's not significantly faster than Ryan's fib-cached method, but it bumps the fib logic from a method that uses a hash into the hash itself. It's a neat trick I picked up a while ago, but probably too ugly to make significant use of unless your benchmarking tells you otherwise - it's really hard to read at first glance:
 
-    def hashfib(n)
-      return 1 if n <= 1
-      h = Hash.new{|h,k| h[k] = h[k-1] + h[k-2] }
-      h[1] = 1
-      h[2] = 1
-      h[n]
-    end
+~~~ruby
+def hashfib(n)
+  return 1 if n <= 1
+  h = Hash.new{|h,k| h[k] = h[k-1] + h[k-2] }
+  h[1] = 1
+  h[2] = 1
+  h[n]
+end
+~~~
 
 The cached version uses @@h instead of h, and ||=s it.
 

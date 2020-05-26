@@ -11,57 +11,59 @@ First, you probably want to make a gem of the plugin. [I forked it](http://githu
 
 Then, to actually use it, just add the following in the right places:
 
-    # init.rb, in Merb::Bootloader.after_app_loads
+~~~ruby
+# init.rb, in Merb::Bootloader.after_app_loads
 
-    HoptoadNotifier.configure do |config|
-      config.api_key = '...'
-      config.environment_name = Merb.env
-      config.project_root = Merb.root
-      # See http://github.com/thoughtbot/hoptoad_notifier/ README.rdoc
-      # for other config settings. You probably want to think about
-      # params_filters and maybe ignore.
-    end
+HoptoadNotifier.configure do |config|
+  config.api_key = '...'
+  config.environment_name = Merb.env
+  config.project_root = Merb.root
+  # See http://github.com/thoughtbot/hoptoad_notifier/ README.rdoc
+  # for other config settings. You probably want to think about
+  # params_filters and maybe ignore.
+end
 
-    # application.rb, if you want available manually.
-    # If you just want it for completely unexpected errors you can stick it in
-    # exceptions.rb instead
+# application.rb, if you want available manually.
+# If you just want it for completely unexpected errors you can stick it in
+# exceptions.rb instead
 
-    def notify_hoptoad(error=nil)
-      error ||= request.exceptions.first
+def notify_hoptoad(error=nil)
+  error ||= request.exceptions.first
 
-      data = {
-        :controller       => params[:controller],
-        :action           => params[:action],
-        :url              => "#{request.protocol}://#{request.host}#{request.uri}",
-        # Looks like hoptoad is filtering these itself, we don't need to worry about it
-        # other than configuring what needs to be filtered
-        :parameters       => params.to_hash,
-        :session_data     => session.to_hash,
-        :cgi_data         => request.env.to_hash,
-        :environment_vars => ENV.to_hash.merge(:RAILS_ENV => Merb.env)
-      }
+  data = {
+    :controller       => params[:controller],
+    :action           => params[:action],
+    :url              => "#{request.protocol}://#{request.host}#{request.uri}",
+    # Looks like hoptoad is filtering these itself, we don't need to worry about it
+    # other than configuring what needs to be filtered
+    :parameters       => params.to_hash,
+    :session_data     => session.to_hash,
+    :cgi_data         => request.env.to_hash,
+    :environment_vars => ENV.to_hash.merge(:RAILS_ENV => Merb.env)
+  }
 
-      HoptoadNotifier.notify(error, data)
-    end
+  HoptoadNotifier.notify(error, data)
+end
 
-    # exceptions.rb, override default error handlers to submit to hoptoad
+# exceptions.rb, override default error handlers to submit to hoptoad
 
-    def internal_server_error
-      notify_hoptoad
-      render
-    end
+def internal_server_error
+  notify_hoptoad
+  render
+end
 
-    def standard_error
-      notify_hoptoad
-      render
-    end    
+def standard_error
+  notify_hoptoad
+  render
+end    
 
-    # other spots you handle exceptions inline, just pass in the exception
+# other spots you handle exceptions inline, just pass in the exception
 
-    begin
-     ...
-    rescue => e
-      notify_hoptoad(e)
-    end
+begin
+  ...
+rescue => e
+  notify_hoptoad(e)
+end
+~~~
 
 It's not exactly as magical as the Rails plugin's auto-including, but it looks like it's getting the job done for us.

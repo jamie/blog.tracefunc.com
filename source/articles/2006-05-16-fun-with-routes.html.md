@@ -9,24 +9,26 @@ I ran across an example from someone a few months back (either on the mailing li
 
 The long and short of it is that the following code seems to be a workable solution for me, while being generic enough (the only real custom line is the last one inside the module def) for anyone to incorporate into their code.
 
-    module ActionController::Routing
-      module ConditionConstants; end
+~~~ruby
+module ActionController::Routing
+  module ConditionConstants; end
 
-      class CustomCondition < Regexp
-        def initialize(name, &match)
-          super '^$' # pretend we're a regular empty string regexp
-          @name, @match = name, match
-        end
-        def =~(other); @match.call(other); end
-        def inspect;   @name;              end
-      end
-
-      def self.custom_condition(name, &block)
-        ConditionConstants.const_set(name, CustomCondition.new(name, &block))
-      end
-
-      custom_condition('ProjectCondition'){|other| Project.find_by_url(other) }
+  class CustomCondition < Regexp
+    def initialize(name, &match)
+      super '^$' # pretend we're a regular empty string regexp
+      @name, @match = name, match
     end
+    def =~(other); @match.call(other); end
+    def inspect;   @name;              end
+  end
+
+  def self.custom_condition(name, &block)
+    ConditionConstants.const_set(name, CustomCondition.new(name, &block))
+  end
+
+  custom_condition('ProjectCondition'){|other| Project.find_by_url(other) }
+end
+~~~
 
 The only other thing to do is include ActionController::Routing::ConditionConstants inside the block attached to draw so your connect calls can see the constants being defined - AC::Routing seems to have no problem seeing them, even though they're inside a module of their own.
 

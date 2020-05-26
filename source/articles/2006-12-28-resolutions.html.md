@@ -8,6 +8,7 @@ Well, it's that time of the year again, but I thought I'd put up the New Years R
 I'm finding that I have a bunch of coding projects that I want to work on, but not enough time for them. One of my resolutions this year is to spend my Saturday mornings doing some coding instead of sleeping in, and then blog about something from the week after lunch. I don't know how these posts will work, but maybe something useful will come of them. If not, it'll serve as a good reminder of what I've been doing over the course of the year.
 
 As a prelude to this, here's a list of the projects I'm working on at the moment (or hoping to work on in the coming year).
+
 ## "Competitive" Programming
 
 Sometimes I wind up looking for something outside of the normal, day-to-day stuff I usually do, and there's a few places I go looking at the moment.
@@ -32,14 +33,17 @@ I was gifted [Fluxx][] for Christmas, and it's an absurdly fun card game that's 
 
 I started work a while back on a modification to [RCov][], a fast ruby code-coverage tool. RCov itself is line coverage tool. Much more useful than line coverage is branch coverage, which Mauricio refers to as C1 on the RCov page. I came up with the idea that it shouldn't be too hard to come up with a modification of [Ruby2Ruby][] that takes the branches in the code, and unwraps all the conditionals. So instead of this:
 
+~~~ruby
     if (x and y)
       foo
     else
       bar
     end
+~~~
 
 I wanted it to output something like this:
 
+~~~ruby
     if x
       if y
         foo
@@ -49,6 +53,7 @@ I wanted it to output something like this:
     else
       bar
     end
+~~~
 
 If a line coverage tool were to be run on the output of this translation, it should be able to approximate a branch coverage tool fairly well. Alas, while I have a Ruby2Ruby subclass that performs this translation correctly for significantly convoluted nested conditionals (finally), something on my laptop no longer plays nice with RubyInline, so I can't get it to run. If I get enough desire (or enough people start bugging me) I might try reinstalling Ubuntu to see if that helps (it started to break about the time I upgraded from Dapper to Edgy), or else I might try upgrading to 1.8.5 and see if that's the problem.
 

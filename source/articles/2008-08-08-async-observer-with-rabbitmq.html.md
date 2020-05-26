@@ -19,60 +19,68 @@ First, install the [amqp][] ruby library to connect to rabbit, and then add a ti
 
 In config/environment.rb:
 
-    require 'mq'
-    class BeanstalkPoolImpersonator
-      def initialize(opts={})
-        @opts = opts
-      end
-  
-      def connect
-        connection = AMQP.connect(@opts)
-        @channel = channel = MQ.new(connection)
-      end
-  
-      def use(queue)
-        @queue = MQ::Queue.new(@channel, queue)
-      end
+~~~ruby
+require 'mq'
+class BeanstalkPoolImpersonator
+  def initialize(opts={})
+    @opts = opts
+  end
 
-      def yput(obj, pri, delay, ttr)
-        p [obj, pri, delay, ttr]
-        @queue.publish(YAML.dump(obj))
-      end
+  def connect
+    connection = AMQP.connect(@opts)
+    @channel = channel = MQ.new(connection)
+  end
 
-      def last_server
-        :last_server_stub
-      end
-  
-      def subscribe(*args, &blk)
-        @queue.subscribe(*args, &blk)
-      end
-    end
+  def use(queue)
+    @queue = MQ::Queue.new(@channel, queue)
+  end
+
+  def yput(obj, pri, delay, ttr)
+    p [obj, pri, delay, ttr]
+    @queue.publish(YAML.dump(obj))
+  end
+
+  def last_server
+    :last_server_stub
+  end
+
+  def subscribe(*args, &blk)
+    @queue.subscribe(*args, &blk)
+  end
+end
+~~~
 
 Then, instead of connecting via `Beanstalk::Pool.new`, do this:
 
-    AsyncObserver::Queue.queue = BeanstalkPoolImpersonator.new()
+~~~ruby
+AsyncObserver::Queue.queue = BeanstalkPoolImpersonator.new()
+~~~
 
 You can pass an options hash to the `new` call, providing user, pass, vhost, host, or port as necessary.
 
 Then, in your workers, load up the async_observer worker class, and extend like so:
 
-    class RabbitWorker < AsyncObserver::Worker
-      def run()
-        EM.run do
-          AsyncObserver::Queue.queue.connect
-          AsyncObserver::Queue.queue.use('1.0')
-          AsyncObserver::Queue.queue.subscribe do |headers, msg|
-            job = OpenStruct.new(:ybody => YAML.load(msg), :body => msg, :stats => [])
-            job.id = headers.properties[:delivery_tag]
-            safe_dispatch(job)
-          end
-        end
+~~~ruby
+class RabbitWorker < AsyncObserver::Worker
+  def run()
+    EM.run do
+      AsyncObserver::Queue.queue.connect
+      AsyncObserver::Queue.queue.use('1.0')
+      AsyncObserver::Queue.queue.subscribe do |headers, msg|
+        job = OpenStruct.new(:ybody => YAML.load(msg), :body => msg, :stats => [])
+        job.id = headers.properties[:delivery_tag]
+        safe_dispatch(job)
       end
     end
+  end
+end
+~~~
 
 Create the new worker the same way you would for the AO::Worker, and you're set:
 
+~~~ruby
     RabbitWorker.new(binding).run()
+~~~
 
 Note: I'm maintaining a [merb port][] of async-observer on github.
 
