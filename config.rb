@@ -65,6 +65,14 @@ class Wiki < Middleman::Extension
     super
   end
 
+  def after_configuration
+    app.sitemap.resources.each do |r|
+      next unless r.path =~ %r{^#{options.root}/}
+      app.config_context.ignore r.path
+      app.config_context.proxy "#{r.path}.html", r.path, directory_index: false
+    end
+  end
+
   def manipulate_resource_list(resources)
     resources.each do |r|
       next unless r.path =~ %r{^#{options.root}/}
@@ -92,7 +100,7 @@ class Wiki < Middleman::Extension
       match =~ LINK_PATTERN
 
       page = Regexp.last_match[1]
-      %(<a href="/#{options.root}/#{page}" class="wikilink">#{page}</a>)
+      %(<a href="/#{options.root}/#{page}.html" class="wikilink">#{page}</a>)
     end
   end
 
