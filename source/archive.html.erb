@@ -2,16 +2,19 @@
 title: Archives by Date
 ---
 <div id="articles">
-  <table>
+  <table class="table-auto border-b">
     <% year = nil %>
     <% blog.articles.each_with_index do |entry, i| %>
-      <% if entry.date.year != year %>
-        <% year = entry.date.year %>
-        <tr><th><%= year %></th><th>&nbsp;</th></tr>
-      <% end %>
-      
-      <tr><td><%= entry.date.strftime('%b %e') %></td>
-          <td><%= link_to entry.title, entry %></td></tr>
+      <tr>
+        <% if entry.date.year != year %>
+          <% year = entry.date.year %>
+          <th class="border-t border-l px-4 py-2"><%= year %></th>
+        <% else %>
+          <th class="border-l">&nbsp;</td>
+        <% end %>
+        <td class="border px-4 py-2"><%= entry.date.strftime('%b %e') %></td>
+        <td class="border px-4 py-2"><%= link_to entry.title, entry %></td>
+      </tr>
     <% end %>
   </table>
 </div>

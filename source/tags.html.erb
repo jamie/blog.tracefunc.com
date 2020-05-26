@@ -12,12 +12,25 @@ title: Archives by Tag
 
 <div id="articles">
   <table>
+    <% last_tag = nil%>
     <% for tag in blog.articles.map{|e|e.tags || []}.flatten.uniq.sort %>
-      <tr><th><%= tag %></th><th><a name="<%= tag %>" class="anchor">&nbsp;</th></tr>
       <% for entry in blog.articles %>
         <% next unless (entry.tags||[]).include? tag %>
-        <tr><td><%= entry.date.strftime('%Y %b %e') %></td>
-            <td><%= link_to entry.title, entry %></td></tr>
+
+        <tr>
+          <% if last_tag != tag %>
+            <% last_tag = tag %>
+            <th class="border-t border-l text-left px-4 py-2">
+            <a name="<%= tag %>" class="anchor"></a>
+            <%= tag %>
+            </th>
+          <% else %>
+            <th class="border-l">&nbsp;</td>
+          <% end %>
+
+          <td class="border px-4 py-2"><%= entry.date.strftime('%Y %b %e') %></td>
+          <td class="border px-4 py-2"><%= link_to entry.title, entry %></td>
+        </tr>
       <% end %>
     <% end %>
   </table>

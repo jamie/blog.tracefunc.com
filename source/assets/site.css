@@ -3,18 +3,16 @@
 @tailwind utilities;
 
 /* Apply some styles globally to markdown-converted content */
-p a { @apply text-blue-600 underline; }
+#content a, #content a { @apply text-blue-600 underline; }
 a.wikilink { @apply text-orange-600; }
+a.anchor {
+  /* Adjust anchor position to account for fixed header */
+  @apply block relative invisible;
+  top: -75px;
+}
 
-#content p {
-  @apply my-4;
-}
-p code {
-  @apply text-base;
-  @apply px-1;
-  color: #369;
-  border: 1px solid #ccc;
-}
+#content p { @apply my-4; }
+#content p code { @apply text-base text-blue-600 border border-gray-400 px-1; }
 
 #content h1 { @apply font-bold font-sans break-normal text-gray-800 pt-4 pb-2 text-3xl; }
 #content h2 { @apply font-bold font-sans break-normal text-gray-800 pt-4 pb-2 text-3xl; }
@@ -23,7 +21,7 @@ p code {
 #content ul { @apply list-disc list-inside; }
 
 /* weird markdown html nesting */
-#content li p { display: inline; }
+#content li p { @apply inline; }
 
 /* Syntax Highlight */
 .highlight { @apply text-base; }
