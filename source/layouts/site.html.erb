@@ -12,14 +12,11 @@
 
     <link rel="stylesheet" href="/styles.css">
     <%= feed_tag :atom, "#{blog.options.prefix.to_s}/index.xml", title: "Atom Feed" %>
-
-    <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
-    <script type='text/javascript' src="/application.js"></script>
   </head>
 
   <body class="bg-gray-100 font-sans leading-normal tracking-normal">
 
-    <nav id="header" class="fixed w-full z-10 top-0">
+    <nav id="header" class="fixed w-full z-10 top-0 bg-white shadow">
       <div id="progress" class="h-1 z-20 top-0"
         style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);"></div>
 
@@ -139,8 +136,6 @@
           </div>
         </div>
 
-
-
       </div>
     </footer>
 
@@ -161,24 +156,6 @@
         /*Refresh scroll % width*/
         scroll = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
         progress.style.setProperty('--scroll', scroll + '%');
-
-        /*Apply classes for slide in bar*/
-        scrollpos = window.scrollY;
-
-        if (scrollpos > 10) {
-          header.classList.add("bg-white");
-          header.classList.add("shadow");
-          navcontent.classList.remove("bg-gray-100");
-          navcontent.classList.add("bg-white");
-        }
-        else {
-          header.classList.remove("bg-white");
-          header.classList.remove("shadow");
-          navcontent.classList.remove("bg-white");
-          navcontent.classList.add("bg-gray-100");
-
-        }
-
       });
 
       //Javascript to toggle the menu
