@@ -1,37 +1,40 @@
-###
-# Page options, layouts, aliases and proxies
-###
+## Page options, layouts, aliases and proxies
 
-# Per-page layout changes:
-#
-# With no layout
+# Non-html, skip layout
 page '/*.xml', layout: false
 page '/*.json', layout: false
 page '/*.txt', layout: false
 
-# With alternative layout
-# page "/path/to/file.html", layout: :otherlayout
+## General configuration
 
-# Proxy pages (http://middlemanapp.com/basics/dynamic-pages/)
-# proxy "/this-page-has-no-template.html", "/template-file.html", locals: {
-#  which_fake_page: "Rendering a fake page with a local variable" }
-
-# General configuration
-
-# Reload the browser automatically whenever files change
 configure :development do
+  # Reload the browser automatically whenever files change
   activate :livereload
 end
-
-###
-# Helpers
-###
 
 activate :directory_indexes
 activate :syntax, line_numbers: true
 
 set :markdown, fenced_code_blocks: true
 
+# Methods defined in the helpers block are available in templates
+helpers do
+  def format_date(date)
+    format = case date.day
+    when 1, 21, 31
+      '%B %est %Y'
+    when 2, 22
+      '%B %end %Y'
+    when 3, 23
+      '%B %erd %Y'
+    else
+      '%B %eth %Y'
+    end
+    date.strftime(format)
+  end
+end
+
+## Blog Config
 
 activate :blog do |blog|
   # This will add a prefix to all links, template references and source paths
@@ -59,6 +62,8 @@ activate :blog do |blog|
 end
 
 page "/feed.xml", layout: false
+
+## Wiki Config
 
 class Wiki < Middleman::Extension
   # TODO: {{wikilinks}}
@@ -123,28 +128,13 @@ end
 
 activate :wiki, root: 'notes'
 
+## Build Pipeline
+
 activate :external_pipeline,
   name: :webpack,
   command: build? ? './node_modules/webpack/bin/webpack.js --bail' : './node_modules/webpack/bin/webpack.js --watch -d --color',
   source: ".tmp/dist",
   latency: 1
-
-# Methods defined in the helpers block are available in templates
-helpers do
-  def format_date(date)
-    format = case date.day
-    when 1, 21, 31
-      '%B %est %Y'
-    when 2, 22
-      '%B %end %Y'
-    when 3, 23
-      '%B %erd %Y'
-    else
-      '%B %eth %Y'
-    end
-    date.strftime(format)
-  end
-end
 
 # Build-specific configuration
 configure :build do
