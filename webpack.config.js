@@ -2,7 +2,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const MyMiniCssExtractPlugin = new MiniCssExtractPlugin({
-  filename: 'assets/[name].css',
+  filename: '[name].css',
   chunkFilename: '[id].css'
 });
 
@@ -29,12 +29,12 @@ const CSSLoader = {
   test: /\.(sa|sc|c)ss$/,
   exclude: /node_modules/,
   use: [
-    // { loader: MiniCssExtractPlugin.loader,
-    //   options: {
-    //     publicPath: path.resolve(__dirname, 'assets/'),
-    //     sourceMap: true
-    //   }
-    // },
+    { loader: MiniCssExtractPlugin.loader,
+      options: {
+        publicPath: path.resolve(__dirname),
+        sourceMap: true
+      }
+    },
     { loader: 'css-loader', options: { sourceMap: true } },
     { loader: 'postcss-loader',
       options: {
