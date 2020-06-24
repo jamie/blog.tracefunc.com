@@ -66,7 +66,6 @@ page "/feed.xml", layout: false
 ## Wiki Config
 
 class Wiki < Middleman::Extension
-  # TODO: {{wikilinks}}
   option :root, 'wiki', 'Root path for the wiki'
   expose_to_template :wikilink!
 
