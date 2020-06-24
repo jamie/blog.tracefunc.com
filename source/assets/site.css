@@ -4,8 +4,8 @@
 
 /* Apply some styles globally to markdown-converted content */
 #content a, #content a { @apply text-blue-600 underline; }
-a.wikilink { @apply text-orange-600; }
-a.anchor {
+#content a.wikilink { @apply text-orange-600; }
+#content a.anchor {
   /* Adjust anchor position to account for fixed header */
   @apply block relative invisible;
   top: -75px;
