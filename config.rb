@@ -77,7 +77,12 @@ class Wiki < Middleman::Extension
     app.sitemap.resources.each do |r|
       next unless r.path =~ %r{^#{options.root}/}
       app.config_context.ignore r.path
-      app.config_context.proxy "#{r.path}.html", r.path, directory_index: false
+
+      title, *path = r.path.split('/').reverse
+      page = title.downcase.gsub(/ +/, '-')
+      full_path = [page, *path].reverse.join('/')
+
+      app.config_context.proxy "#{full_path}.html", r.path, directory_index: false
     end
   end
 
@@ -107,8 +112,9 @@ class Wiki < Middleman::Extension
       # For some reason I can't use last_match via the gsub call, so let's re-match
       match =~ LINK_PATTERN
 
-      page = Regexp.last_match[1]
-      %(<a href="/#{options.root}/#{page}.html" class="wikilink">#{page}</a>)
+      title = Regexp.last_match[1]
+      page = title.downcase.gsub(/ +/, '-')
+      %(<a href="/#{options.root}/#{page}.html" class="wikilink">#{title}</a>)
     end
   end
 
@@ -117,7 +123,7 @@ class Wiki < Middleman::Extension
       pagename = current_page.metadata.dig(:page, :pagename)
       return [] unless pagename
 
-      linking_here = sitemap.resources.sort_by(&:path).select do |r|
+      sitemap.resources.sort_by(&:path).select do |r|
         r.path =~ /notes/ && File.read(r.source_file) =~ /\[\[#{pagename}\]\]/i
       end
     end
