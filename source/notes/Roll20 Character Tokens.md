@@ -1,11 +1,11 @@
 ---
 tags: [gaming]
-title: Roll20CharacterTokens
+title: Roll20 Character Tokens
 created: '2020-04-08T03:37:57.212Z'
-modified: '2020-04-08T03:39:55.750Z'
+modified: '2020-06-24T04:17:24.184Z'
 ---
 
-# Roll20CharacterTokens
+# Roll20 Character Tokens
 
 Use [tokenstamp](http://rolladvantage.com/tokenstamp/) to turn character art into decent character icons, with transparency etc.
 

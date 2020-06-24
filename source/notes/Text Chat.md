@@ -1,10 +1,10 @@
 ---
-title: TextChat
+title: Text Chat
 created: '2020-04-10T17:46:29.605Z'
-modified: '2020-04-10T17:51:24.151Z'
+modified: '2020-06-24T04:17:33.363Z'
 ---
 
-# TextChat
+# Text Chat
 
 - "Gold Standard" seems to be [Slack](https://slack.com/)
 - Open-source, self-hosted alternative is [Mattermost](https://mattermost.com/). Extremely similar UX to Slack.

@@ -1,11 +1,11 @@
 ---
 tags: [code]
-title: CodingStyle
+title: Coding Style
 created: '2020-03-24T16:22:24.434Z'
-modified: '2020-04-08T03:40:30.710Z'
+modified: '2020-06-24T04:16:53.203Z'
 ---
 
-# CodingStyle
+# Coding Style
 
 My preferred coding styles, for spinning up new projects:
 

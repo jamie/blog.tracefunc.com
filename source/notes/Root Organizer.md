@@ -1,11 +1,11 @@
 ---
 tags: [gaming, wip]
-title: RootOrganizer
+title: Root Organizer
 created: '2020-04-08T03:41:13.753Z'
-modified: '2020-04-17T23:47:46.877Z'
+modified: '2020-06-24T04:17:28.189Z'
 ---
 
-# RootOrganizer
+# Root Organizer
 
 Organizing some 3d printed trays for [Root](https://boardgamegeek.com/boardgame/237182/root) to fit both expansions in the main box.
 
