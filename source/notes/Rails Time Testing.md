@@ -1,7 +1,8 @@
 ---
+tags: [code]
 title: Rails Time Testing
 created: '2020-04-08T18:08:50.776Z'
-modified: '2020-06-24T04:17:16.180Z'
+modified: '2020-06-28T05:46:18.825Z'
 ---
 
 # Rails Time Testing

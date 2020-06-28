@@ -1,7 +1,8 @@
 ---
+tags: [tech]
 title: Text Chat
 created: '2020-04-10T17:46:29.605Z'
-modified: '2020-06-24T04:17:33.363Z'
+modified: '2020-06-28T05:47:29.398Z'
 ---
 
 # Text Chat

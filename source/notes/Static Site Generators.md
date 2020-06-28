@@ -1,7 +1,8 @@
 ---
+tags: [tech]
 title: Static Site Generators
 created: '2020-06-23T20:53:43.832Z'
-modified: '2020-06-23T21:21:56.575Z'
+modified: '2020-06-28T05:47:10.448Z'
 ---
 
 # Static Site Generators
