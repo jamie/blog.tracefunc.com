@@ -9,11 +9,19 @@
 - Explicit expectations that _discovery_ is a part of _implementation_, so features are defined only in a rough form before being handed to the team, who will quickly work, discover, and iterate throughout the cycle. I like this better than similar expectations in Scrum because Shape Up has a designer + developer(s) working in tandem so there's greatly decreased lag on feedback/iterations, compared to scrum where a developer discovering a gap mid-sprint might not get feedback from the designer until next sprint because the designer has other priorities this sprint as well. Staggering design and development is just Waterfall in the small.
 - Timeboxed features and a very hard ship-or-stop date is better than "oh well I discovered a few other chunks of related functionality and made stories for them, guess I'll roll those into next sprint". This is of course made easier to avoid when running 6-week cycles than 1-week sprints, 
 
-### MoSCoW
+### What Makes a Good Feature
 
-When designing a large feature and breaking it down into smaller pieces, sort priority by:
+**SMART**: A good feature should be: (and in relation to Shape Up, above)
+
+- Specific (pitches define a problem and specific design to improve the product and address the problem)
+- Measurable (a good pitch will be easy to compare against the completed product)
+- Achievable (assessed/estimated by a senior developer to fit in the cycle) 
+- Relevant (all features proposed and (re)assessed each cycle)
+- Time Bound (fits in a 6-week cycle)
+
+**MoSCoW**: When designing a large feature and breaking it down into smaller pieces, give tasks a priority by:
 
 - M: Must Have (feature won't be useful without it)
 - S: Should Have (required to meet internal standards of quality)
 - C: Could Have (stretch goals, time permitting)
-- W: Won't Have (decided ahead of time to be out of scope)
+- W: Won't Have (explicitly out of scope)
