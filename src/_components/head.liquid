@@ -4,6 +4,8 @@
 <title>{% if page_title != "" %}{{ page_title | escape }} | {{ metadata.title | escape }}{% else %}{{ metadata.title | escape }}: {{ metadata.tagline | escape }}{% endif %}</title>
 
 <meta name="description" content="{{ metadata.description }}" />
+<meta name="author" content="{{ metadata.author }}">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
 
 <link rel="stylesheet" href="{% webpack_path css %}" />
 <script src="{% webpack_path js %}" defer></script>

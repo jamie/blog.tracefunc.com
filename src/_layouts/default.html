@@ -3,13 +3,15 @@
   <head>
     {% render "head", metadata: site.metadata, title: page.title %}
   </head>
-  <body class="{{ page.layout }} {{ page.page_class }}">
+  <body class="bg-gray-100 font-sans leading-normal tracking-normal {{ page.layout }} {{ page.page_class }}">
     {% render "navbar", metadata: site.metadata, page: page %}
 
-    <main>
+    <div class="container w-full md:max-w-3xl mx-auto pt-20 pb-10">
       {{ content }}
-    </main>
+    </div>
 
     {% render "footer", metadata: site.metadata %}
+    {% render "static_script" %}
   </body>
+
 </html>

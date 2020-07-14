@@ -1,0 +1,9 @@
+{% capture classes %}{% if link == metadata.url %}
+inline-block py-2 px-4 no-underline text-gray-900 font-bold
+{% else %}
+inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline
+{% endif %}{% endcapture %}
+
+<li class="mr-3">
+  <a class="{{classes | strip_newlines}}" href="{{ link }}">{{ text }}</a>
+</li>
