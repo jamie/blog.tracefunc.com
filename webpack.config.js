@@ -1,62 +1,78 @@
-const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
-const MyMiniCssExtractPlugin = new MiniCssExtractPlugin({
-  filename: '[name].css',
-  chunkFilename: '[id].css'
-});
-
-const JSLoader = {
-  test: /\.js$/,
-  exclude: /node_modules/,
-  use: {
-    loader: 'babel-loader',
-    options: { presets: ['@babel/preset-env'] }
-  }
-};
-
-const ESLintLoader = {
-  test: /\.js$/,
-  enforce: 'pre',
-  exclude: /node_modules/,
-  use: {
-    loader: 'eslint-loader',
-    options: { configFile: '.eslintrc' },
-  }
-};
-
-const CSSLoader = {
-  test: /\.(sa|sc|c)ss$/,
-  exclude: /node_modules/,
-  use: [
-    { loader: MiniCssExtractPlugin.loader,
-      options: {
-        publicPath: path.resolve(__dirname),
-        sourceMap: true
-      }
-    },
-    { loader: 'css-loader', options: { sourceMap: true } },
-    { loader: 'postcss-loader',
-      options: {
-        sourceMap: true,
-        config: { path: path.resolve(__dirname, 'postcss.config.js') }
-      }
-    },
-    { loader: 'sass-loader', options: { sourceMap: true } }
-  ],
-};
+const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ManifestPlugin = require("webpack-manifest-plugin");
 
 module.exports = {
-  entry: {
-    application: './source/assets/site.js',
-    styles: './source/assets/site.css',
+  entry: "./frontend/javascript/index.js",
+  devtool: "source-map",
+  // Set some or all of these to true if you want more verbose logging:
+  stats: {
+    modules: false,
+    builtAt: false,
+    timings: false,
+    children: false,
   },
   output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, '.tmp/dist'),
+    path: path.resolve(__dirname, "output", "_bridgetown", "static", "js"),
+    filename: "all.[contenthash].js",
   },
+  resolve: {
+    extensions: [".js", ".jsx"],
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "../css/all.[contenthash].css",
+    }),
+    new ManifestPlugin({
+      fileName: path.resolve(__dirname, ".bridgetown-webpack", "manifest.json"),
+    }),
+  ],
   module: {
-    rules: [ JSLoader, ESLintLoader, CSSLoader ]
+    rules: [
+      {
+        test: /\.(js|jsx)/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"],
+            plugins: [
+              ["@babel/plugin-proposal-decorators", { "legacy": true }],
+              ["@babel/plugin-proposal-class-properties", { "loose" : true }],
+              [
+                "@babel/plugin-transform-runtime",
+                {
+                  helpers: false,
+                },
+              ],
+            ],
+          },
+        },
+      },
+      {
+        test: /\.(s[ac]|c)ss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          {
+            loader: "sass-loader",
+            options: {
+              sassOptions: {
+                includePaths: [
+                  path.resolve(__dirname, "src/_components")
+                ],
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/,
+        loader: "file-loader",
+        options: {
+          outputPath: "../fonts",
+          publicPath: "../fonts",
+        },
+      },
+    ],
   },
-  plugins: [ MyMiniCssExtractPlugin ],
-}
+};

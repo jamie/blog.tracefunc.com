@@ -5,8 +5,8 @@ This repo contains half-written and pre-publication articles, don't judge.
 ## Run Locally:
 
 - bundle install
-- npm install
-- middleman serve
+- yarn install
+- bridgetown serve
 
 ## Build/Publish
 
