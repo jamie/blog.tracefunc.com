@@ -11,3 +11,5 @@ modified: '2020-06-28T05:47:16.614Z'
 
 Simple [how-to tutorial](https://boringrails.com/articles/hovercards-stimulus/) using Stimulus to handle loading an HTML fragment from the server ([[Rails]]).
 
+[BetterStimulus](https://www.betterstimulus.com) has a collection of guidelines and best-practices.
+
