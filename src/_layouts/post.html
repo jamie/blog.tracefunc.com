@@ -9,28 +9,24 @@ layout: default
 </div>
 
 <!--Next & Prev Links-->
-<% if current_article %>
-<% next_article = current_article.article_next %>
-<% prev_article = current_article.article_previous %>
 <div class="font-sans flex justify-between content-center px-4 pb-12">
   <div class="text-left">
-    <% if prev_article %>
+    {% if page.previous %}
     <span class="text-xs md:text-sm font-normal text-gray-600">&lt; Previous Post</span><br>
-    <p><a href="<%= prev_article.url %>"
+    <p><a href="{{ page.previous.url }}"
         class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
-        <%= prev_article.title %>
+        {{ page.previous.title }}
       </a></p>
-    <% end %>
+    {% endif %}
   </div>
   <div class="text-right">
-    <% if next_article %>
+    {% if page.next %}
     <span class="text-xs md:text-sm font-normal text-gray-600">Next Post &gt;</span><br>
-    <p><a href="<%= next_article.url %>"
+    <p><a href="{{ page.next.url }}"
         class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
-        <%= next_article.title %>
+        {{ page.next.title }}
       </a></p>
-    <% end %>
+    {% endif %}
   </div>
 </div>
-<% end %>
 <!--/Next & Prev Links-->
