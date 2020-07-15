@@ -22,6 +22,11 @@ permalink: pretty
 
 # timezone: America/Los_Angeles
 
+kramdown:
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
+
 pagination:
   enabled: true
 

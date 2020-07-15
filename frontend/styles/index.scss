@@ -26,6 +26,10 @@
 /* weird markdown html nesting */
 #content li p { @apply inline; }
 
+/* Consistent format for code blocks */
+div.highlighter-rouge { margin-left: -36px }
+.highlighter-rouge .rouge-code { min-width: 720px }
+
 /* Syntax Highlight */
 .highlight { @apply text-base; }
 .highlight .rouge-gutter { @apply text-right pr-4; }
