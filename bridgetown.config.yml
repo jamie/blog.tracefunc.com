@@ -21,3 +21,19 @@ url: "https://blog.tracefunc.com" # the base hostname & protocol for your site, 
 permalink: pretty
 
 # timezone: America/Los_Angeles
+
+pagination:
+  enabled: true
+
+excerpt_separator: "READMORE"
+
+defaults:
+  - scope:
+      path: "" # an empty string here means all files in the project
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: _posts/drafts
+    values:
+      published: false
