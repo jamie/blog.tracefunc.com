@@ -33,6 +33,7 @@ defaults:
       type: "posts"
     values:
       layout: "post"
+      render_with_liquid: false
   - scope:
       path: _posts/drafts
     values:
