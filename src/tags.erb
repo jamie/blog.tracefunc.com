@@ -1,10 +1,11 @@
 ---
+layout: home
 title: Archives by Tag
 ---
-
+<% site_tags = site.posts.docs.map{|e|e.data['tags'] || []}.flatten.uniq.sort %>
 <div class="article">
   <div class="meta">
-  <% for tag in blog.articles.map{|e|e.tags || []}.flatten.uniq.sort %>
+  <% for tag in site_tags %>
   <a href="#<%= tag %>"><%= tag %></a> &nbsp;
   <% end %>
   </div>
@@ -13,9 +14,9 @@ title: Archives by Tag
 <div id="articles">
   <table>
     <% last_tag = nil%>
-    <% for tag in blog.articles.map{|e|e.tags || []}.flatten.uniq.sort %>
-      <% for entry in blog.articles %>
-        <% next unless (entry.tags||[]).include? tag %>
+    <% for tag in site_tags %>
+      <% for entry in site.posts.docs %>
+        <% next unless (entry.data['tags']||[]).include? tag %>
 
         <tr>
           <% if last_tag != tag %>
@@ -29,7 +30,7 @@ title: Archives by Tag
           <% end %>
 
           <td class="border px-4 py-2"><%= entry.date.strftime('%Y %b %e') %></td>
-          <td class="border px-4 py-2"><%= link_to entry.title, entry %></td>
+          <td class="border px-4 py-2"><a href="<%= entry.url %>"><%= entry.data['title'] %></a></td>
         </tr>
       <% end %>
     <% end %>
