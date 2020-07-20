@@ -1,5 +1,5 @@
 ---
-xpagination:
+pagination:
   enabled: true
   per_page: 6
 permalink: "/index.xml"
@@ -21,7 +21,7 @@ permalink: "/index.xml"
     <link rel="alternate" href="{{ post.url }}"/>
     <id>{{ post.url }}</id>
     <published>{{ post.date | date_to_xmlschema }}</published>
-{% if post.modified %}    <updated>{{ post.modified | date_to_xmlschema }}</updated><% endif %>
+{% if post.modified %}    <updated>{{ post.modified | date_to_xmlschema }}</updated>{% endif %}
     <author>
       <name>Jamie Macey</name>
     </author>
