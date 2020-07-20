@@ -1,0 +1,37 @@
+---
+xpagination:
+  enabled: true
+  per_page: 6
+permalink: "/index.xml"
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>set_trace_func</title>
+  <subtitle>veni vidi didici</subtitle>
+  <id>http://blog.tracefunc.com/</id>
+  <link href="http://blog.tracefunc.com/"/>
+  <link href="http://blog.tracefunc.com/index.xml" rel="self"/>
+  <updated>{{ site.posts.first.date | date_to_xmlschema }}</updated>
+  <author>
+    <name>Jamie Macey</name>
+    <email>jamie.blog@tracefunc.com</email>
+  </author>
+{% for post in paginator.documents %}  <entry>
+    <title>{{ post.title }}</title>
+    <link rel="alternate" href="{{ post.url }}"/>
+    <id>{{ post.url }}</id>
+    <published>{{ post.date | date_to_xmlschema }}</published>
+{% if post.modified %}    <updated>{{ post.modified | date_to_xmlschema }}</updated><% endif %>
+    <author>
+      <name>Jamie Macey</name>
+    </author>
+    <content type="html">
+      {% if post.excerpt %}
+        {{ post.excerpt | xml_escape }}
+        &lt;p&gt;&lt;a href=&quot;{{ post.url }}&quot;&gt;Read more&lt;/a&gt;&lt;/p&gt;
+      {% else %}
+        {{ post.content | xml_escape }}
+      {% endif %}
+    </content>
+  </entry>
+{% endfor %}</feed>
