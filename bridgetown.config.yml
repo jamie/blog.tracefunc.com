@@ -43,7 +43,7 @@ defaults:
       path: "" # an empty string here means all files in the project
       type: "posts"
     values:
-      layout: "post"
+      layout: post
       render_with_liquid: false
   - scope:
       path: _posts/drafts
