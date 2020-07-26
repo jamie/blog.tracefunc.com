@@ -78,7 +78,8 @@ desc "Compile all files into the build directory"
 task :build do
   backup_and_restore(BUILD_DIR, ".git") do
     cd PROJECT_ROOT do
-      sh "yarn deploy"
+      sh "rm -rf output/_bridgetown/static" # quick hack for stale assets
+      sh "NODE_ENV=production yarn deploy"
     end
   end
 end
