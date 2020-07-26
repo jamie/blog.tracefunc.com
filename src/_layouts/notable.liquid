@@ -1,22 +1,22 @@
 ---
-layout: default
+layout: page
 ---
 
-<% if pages_linking_here.size > 0 %>
-  <div class="float-right mx-4 px-4 pb-2 border-solid border-l-2 border-gray-500">
+{% if page.backlinks %}
+  <div class="float-right mx-4 mt-4 px-4 pb-2 border-solid border-l-2 border-gray-500">
     <h4 class="pt-0">Pages Linking Here</h4>
     <ul>
-      <% pages_linking_here.each do |r| %>
-        <li><a class="wikilink" href="/<%= r.path %>"><%=h r.metadata.dig(:page, :title) %></a></li>
-      <% end %>
+      {% for link in page.backlinks %}
+        <li><a href="{{ link.url }}" class="wikilink">{{ link.title }}</a></li>
+      {% endfor %}
     </ul>
   </div>
-<% end %>
+{% endif %}
 
 <div id="content" class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
   <div id="article">
     <div class="font-sans mb-8">
-      {% render "notable", page: page %}
+      {{ page.content }}
     </div>
   </div>
 </div>
