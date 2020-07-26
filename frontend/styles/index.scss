@@ -29,7 +29,7 @@
 
 /* Consistent format for code blocks */
 div.highlighter-rouge { margin-left: -48px; }
-.highlighter-rouge .lineno { min-width: 30px; }
+.highlighter-rouge .lineno { min-width: 30px; @apply text-gray-400; }
 .highlighter-rouge .rouge-code { min-width: 720px; }
 .rouge-gutter, .rouge-code { @apply border-0 !important; } /* Prune table borders */
 
