@@ -7,7 +7,7 @@ Recently at work we passed a major milestone on our codebase, and I wanted to se
 
 A bit of experimentation and random googling left me with these three scripts.
 
-READMORE
+<!-- EXCERPT -->
 
 The first is `dig.sh`, which will accept the path to the git repository to analyze (because I'm making a few dozen files, and don't want to dirty the primary repo), a date to process, and optionally a commit to analyze. If a specific commit is not provided, it'll look up the first commit before the provided date.
 

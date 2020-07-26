@@ -9,6 +9,8 @@ separate git repo, but as it makes much more sense to maintain the docs
 directly alongside the code it documents we wanted to merge the two
 repositories. This was done in two steps.
 
+<!-- EXCERPT -->
+
 ### Moving files
 
 First, we need to prep the docs repo such that the content is in a

@@ -10,7 +10,7 @@ in it that you'd like to pull out into its own column to index it.
 million rows and you don't want to round trip all that data through
 ActiveRecord? Just parse the json directly with some SQL:
 
-READMORE
+<!-- EXCERPT -->
 
 ~~~ruby
 def json(key, field='params')

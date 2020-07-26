@@ -33,7 +33,7 @@ kramdown:
 pagination:
   enabled: true
 
-excerpt_separator: "READMORE"
+excerpt_separator: "<!-- EXCERPT -->"
 
 notable:
   root: notes
@@ -54,3 +54,4 @@ defaults:
     values:
       categories: notable
       layout: notable
+      

@@ -5,7 +5,7 @@ tags: [git]
 
 Today at work, I determined that my current work in progress branch was going to want to be merged into production ahead of our next scheduled merge/deploy of master. To make it easier to merge into our production branch for a hot-fix deploy, I want to have the branch based off production instead of master.
 
-READMORE
+<!-- EXCERPT -->
 
 So, I could do this manually:
 

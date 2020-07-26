@@ -9,6 +9,8 @@ tags:   [programming, ruby]
 [attempts]: https://rvm.io/gemsets/basics/
 [fix this]: https://github.com/mpapis/rubygems-bundler
 
+<!-- EXCERPT -->
+
 I'm a fan of simpler solutions wherever possible. I use [zsh][] as my shell, which has a [handler][] you can hook into if the command you're trying to run is not found. It's a simple matter to hook that into a custom shell script from your `~/.zshrc`:
 
 [zsh]: http://www.zsh.org/

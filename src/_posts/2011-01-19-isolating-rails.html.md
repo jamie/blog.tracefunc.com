@@ -10,6 +10,8 @@ an existing Rails app to use Isolate instead of Bundler.
 
 [Isolate]: https://github.com/jbarnette/isolate
 
+<!-- EXCERPT -->
+
     #!/usr/bin/env ruby
 
     require 'fileutils'

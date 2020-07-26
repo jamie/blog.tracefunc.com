@@ -5,7 +5,7 @@ tags: [ruby, rails]
 
 I was needing to do some object cleanup in our rails app the other day, and purge some malformed objects, so I put together a quick script using some ActiveRecord reflection to walk the object chain.
 
-READMORE
+<!-- EXCERPT -->
 
 ~~~ruby
 # Squelch SQL logs, if you're running from rails console
