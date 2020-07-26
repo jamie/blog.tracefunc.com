@@ -22,6 +22,9 @@ permalink: pretty
 
 # timezone: America/Los_Angeles
 
+feed:
+  path: index.xml
+
 kramdown:
   syntax_highlighter_opts:
     block:

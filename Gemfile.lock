@@ -36,6 +36,8 @@ GEM
       terminal-table (~> 1.8)
       thor (~> 1.0)
       tilt (~> 2.0)
+    bridgetown-feed (1.1.2)
+      bridgetown (>= 0.6, < 2.0)
     bridgetown-paginate (0.16.0.beta1)
       bridgetown-core (= 0.16.0.beta1)
     builder (3.2.4)
@@ -87,6 +89,7 @@ PLATFORMS
 
 DEPENDENCIES
   bridgetown (~> 0.16.0.beta1)
+  bridgetown-feed
   builder
 
 BUNDLED WITH
