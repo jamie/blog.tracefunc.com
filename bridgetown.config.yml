@@ -30,9 +30,6 @@ kramdown:
     block:
       line_numbers: true
 
-pagination:
-  enabled: true
-
 excerpt_separator: "<!-- EXCERPT -->"
 
 defaults:
