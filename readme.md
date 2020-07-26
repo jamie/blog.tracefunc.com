@@ -6,8 +6,8 @@ This repo contains half-written and pre-publication articles, don't judge.
 
 - bundle install
 - yarn install
-- bridgetown serve
+- yarn start
 
 ## Build/Publish
 
-- see Rakefile
+- rake deploy (commits output folder to gh-pages branch)

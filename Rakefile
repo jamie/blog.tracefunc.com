@@ -26,7 +26,7 @@ def backup_and_restore(dir, file, &block)
 end
 
 PROJECT_ROOT = ENV.fetch("PROJECT_ROOT", `git rev-parse --show-toplevel`.chomp)
-BUILD_DIR    = ENV.fetch("BUILD_DIR", File.join(PROJECT_ROOT, "build"))
+BUILD_DIR    = ENV.fetch("BUILD_DIR", File.join(PROJECT_ROOT, "output"))
 GH_PAGES_REF = File.join(BUILD_DIR, ".git/refs/remotes/#{remote_name}/#{branch_name}")
 
 directory BUILD_DIR
@@ -78,7 +78,7 @@ desc "Compile all files into the build directory"
 task :build do
   backup_and_restore(BUILD_DIR, ".git") do
     cd PROJECT_ROOT do
-      sh "bundle exec middleman build --clean"
+      sh "yarn deploy"
     end
   end
 end
