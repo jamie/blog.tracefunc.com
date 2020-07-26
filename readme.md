@@ -16,4 +16,3 @@ This repo contains half-written and pre-publication articles, don't judge.
 
 - Update old blog post names to include -html for url compatability
 - Update excerpt splitter (it renders in the page output)
-- Fix permalinks for notes

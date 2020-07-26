@@ -11,6 +11,7 @@ class Notable < SiteBuilder
   end
 
   def build
+    hook :pages, :post_init, :set_frontmatter_defaults
     generator :build_backlinks
     generator :render_wikilinks
   end
@@ -38,6 +39,13 @@ class Notable < SiteBuilder
         end
       end
     end
+  end
+
+  def set_frontmatter_defaults(page)
+    return unless page.dir.match(%r{^/#{root}})
+    parent_dir = page.dir.split('/')[0..-2].join('/')
+    url = "#{parent_dir}/#{slugify(page.data[:title])}.html"
+    page.instance_variable_set(:@url, url)
   end
 
 private
