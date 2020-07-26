@@ -35,6 +35,9 @@ pagination:
 
 excerpt_separator: "READMORE"
 
+notable:
+  root: notes
+
 defaults:
   - scope:
       path: "" # an empty string here means all files in the project
@@ -46,3 +49,8 @@ defaults:
       path: _posts/drafts
     values:
       published: false
+  - scope:
+      path: notes/
+    values:
+      categories: notable
+      layout: notable
