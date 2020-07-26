@@ -11,7 +11,3 @@ This repo contains half-written and pre-publication articles, don't judge.
 ## Build/Publish
 
 - rake deploy (commits output folder to gh-pages branch)
-
-## TODO
-
-- Update old blog post names to include -html for url compatability
