@@ -1,31 +1,32 @@
 class Notable < SiteBuilder
   LINK_PATTERN = %r{\[\[([^\]]+)\]\]}
-  CONFIG_DEFAULTS = {
-    notable: {
-      root: 'wiki'
-    }
-  }
-
-  def root
-    config[:notable][:root]
-  end
 
   def build
-    hook :pages, :post_init, :set_frontmatter_defaults
+    hook :pages, :post_init, :set_url
     generator :build_backlinks
     generator :render_wikilinks
+    # TODO: Attachments if/when I start using them in Notable
+  end
+
+  def set_url(page)
+    return unless notable?(page)
+
+    parent_dir = page.dir.split('/')[0..-2].join('/')
+    url = "#{parent_dir}/#{slugify(page.data[:title])}.html"
+    # TODO: Find a better way to do this than mucking with internals
+    page.instance_variable_set(:@url, url)
   end
 
   def build_backlinks
-    each_page do |page|
+    notable_pages.each do |page|
       pagename = page.data[:title]
       backlinks = site.pages.select {|pg| pg.content =~ /\[\[#{pagename}\]\]/i }
       page.data[:backlinks] = backlinks if backlinks.any?
     end
   end
-  
+
   def render_wikilinks
-    each_page do |page|
+    notable_pages.each do |page|
       page.content.gsub!(LINK_PATTERN) do |match|
         # For some reason I can't use last_match via the gsub call, so let's re-match
         match =~ LINK_PATTERN
@@ -41,19 +42,13 @@ class Notable < SiteBuilder
     end
   end
 
-  def set_frontmatter_defaults(page)
-    return unless page.dir.match(%r{^/#{root}})
-    parent_dir = page.dir.split('/')[0..-2].join('/')
-    url = "#{parent_dir}/#{slugify(page.data[:title])}.html"
-    page.instance_variable_set(:@url, url)
+private
+  def notable_pages
+    site.pages.select { |page| notable?(page) }
   end
 
-private
-  def each_page
-    site.pages.each do |page|
-      next unless page.data[:categories] == 'notable'
-      yield page
-    end
+  def notable?(page)
+    page.data[:notable]
   end
 
   def slugify(title)
