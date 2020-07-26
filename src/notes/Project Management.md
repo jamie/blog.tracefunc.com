@@ -1,3 +1,9 @@
+---
+title: Project Management
+created: '2020-07-20T04:34:50.399Z'
+modified: '2020-07-20T04:39:51.418Z'
+---
+
 # Project Management
 
 ### Shape Up
