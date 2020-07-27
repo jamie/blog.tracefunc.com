@@ -3,9 +3,9 @@ class Notable < SiteBuilder
 
   def build
     hook :pages, :post_init, :set_url
-    generator :build_backlinks
-    generator :render_wikilinks
-    # TODO: Attachments if/when I start using them in Notable
+    generator :attachments
+    generator :backlinks
+    generator :wikilinks
   end
 
   def set_url(page)
@@ -17,7 +17,13 @@ class Notable < SiteBuilder
     page.instance_variable_set(:@url, url)
   end
 
-  def build_backlinks
+  def attachments
+    notable_pages.each do |page|
+      page.content.gsub!('(@attachment/', '(/attachments/')
+    end
+  end
+
+  def backlinks
     notable_pages.each do |page|
       pagename = page.data[:title]
       backlinks = site.pages.select {|pg| pg.content =~ /\[\[#{pagename}\]\]/i }
@@ -25,13 +31,10 @@ class Notable < SiteBuilder
     end
   end
 
-  def render_wikilinks
+  def wikilinks
     notable_pages.each do |page|
-      page.content.gsub!(LINK_PATTERN) do |match|
-        # For some reason I can't use last_match via the gsub call, so let's re-match
-        match =~ LINK_PATTERN
-
-        title = Regexp.last_match[1]
+      page.content.gsub!(LINK_PATTERN) do |match_string|
+        title = match_string.match(LINK_PATTERN)[1]
         link = site.pages.detect {|pg| pg.data[:title] == title}
         if link
           %(<a href="#{link.url}" class="wikilink">#{link.data[:title]}</a>)
