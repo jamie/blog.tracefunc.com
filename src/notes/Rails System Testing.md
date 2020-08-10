@@ -1,7 +1,8 @@
 ---
+tags: [Rails]
 title: Rails System Testing
 created: '2020-07-14T16:38:48.966Z'
-modified: '2020-07-14T16:39:51.803Z'
+modified: '2020-08-06T20:11:28.164Z'
 ---
 
 # Rails System Testing

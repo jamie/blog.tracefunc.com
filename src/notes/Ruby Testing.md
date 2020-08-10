@@ -1,7 +1,8 @@
 ---
+tags: [Rails, Ruby]
 title: Ruby Testing
 created: '2020-07-07T05:57:21.419Z'
-modified: '2020-07-07T05:59:15.277Z'
+modified: '2020-08-06T20:11:28.106Z'
 ---
 
 # Ruby Testing
