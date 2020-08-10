@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Github Pages
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -22,7 +22,7 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    - name: Bridgetown Github Pages Action
+    - name: Build and Deploy
       uses: andrewmcodes/bridgetown-gh-pages-action@v0.0.2
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
