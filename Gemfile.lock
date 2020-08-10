@@ -43,7 +43,6 @@ GEM
       bridgetown (>= 0.15, < 2.0)
     bridgetown-paginate (0.16.0.beta2)
       bridgetown-core (= 0.16.0.beta2)
-    builder (3.2.4)
     colorator (1.1.0)
     concurrent-ruby (1.1.6)
     erubi (1.9.0)
@@ -95,7 +94,6 @@ DEPENDENCIES
   bridgetown (~> 0.16.0.beta1)
   bridgetown-feed
   bridgetown-notable
-  builder
 
 BUNDLED WITH
    2.1.4
