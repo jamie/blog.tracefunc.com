@@ -7,6 +7,7 @@ module.exports = {
       "./src/**/*.html",
       "./src/**/*.liquid",
       "./src/**/*.md",
+      "./output/**/*.html",
     ],
   },
   theme: {
