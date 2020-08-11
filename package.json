@@ -7,7 +7,7 @@
     "serve": "bundle exec bridgetown serve",
     "webpack-build": "webpack --mode production",
     "webpack-dev": "webpack --mode development -w",
-    "deploy": "yarn build && yarn webpack-build",
+    "deploy": "yarn webpack-build && yarn build",
     "sync": "node sync.js",
     "start": "node start.js"
   },

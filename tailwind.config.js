@@ -2,7 +2,8 @@ module.exports = {
   purge: {
     mode: "production",
     content: [
-      "./src/**/*.css",
+      "./frontend/**/*.css",
+      "./frontend/**/*.scss",
       "./src/**/*.erb",
       "./src/**/*.html",
       "./src/**/*.liquid",
