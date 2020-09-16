@@ -2,7 +2,7 @@
 tags: [tech]
 title: Docker Compose
 created: '2020-06-28T05:05:16.213Z'
-modified: '2020-06-28T05:45:29.962Z'
+modified: '2020-09-03T21:38:36.382Z'
 ---
 
 # Docker Compose
@@ -14,8 +14,11 @@ docker-compose down
 docker-compose pull
 docker-compose up
 ^c
-docker-compose up
+docker-compose up -d
+docker image prune -f
 ```
+
+(that last one gets rid of now-unused images)
 
 ---
 
