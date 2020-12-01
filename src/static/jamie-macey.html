@@ -1,5 +1,7 @@
 ---
 permalink: /static/jamie-macey/
+print_html: /static/jamie-macey/index.html
+print_pdf: /static/jamie-macey.pdf
 ---
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
@@ -128,6 +130,9 @@ permalink: /static/jamie-macey/
         border: 0;
       }
       @media print {
+        @page {
+          margin: 2em;
+        }
         .links a:after {
           content: " (" attr(href) ")";
           font-size: 12px;
@@ -135,6 +140,7 @@ permalink: /static/jamie-macey/
         }
         body {
           margin: 2em 0;
+          background: none;
         }
         dl {
           page-break-after: always;
