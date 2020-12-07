@@ -1,3 +1,7 @@
+# Uses a headless chrome browser to print HTML to pdf as part of the
+# build step. Pages need to define `print_html` (path in /output where
+# the html file resides) and `print_pdf` (destination path) in frontmatter
+# to get picked up by this process.
 class HtmlToPdf < SiteBuilder
   def build
     hook :site, :post_write do |site|
