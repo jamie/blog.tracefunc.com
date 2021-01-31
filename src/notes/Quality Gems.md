@@ -2,7 +2,7 @@
 tags: [Rails, Ruby]
 title: Quality Gems
 created: '2020-08-10T19:08:45.776Z'
-modified: '2020-12-06T04:59:00.215Z'
+modified: '2021-01-31T06:19:09.569Z'
 ---
 
 # Quality Gems
@@ -23,6 +23,7 @@ A shout-out to some gems/tools that have a well-deserved place in my [[Rails]] t
 -	sidekiq
 -	Bullet (detects N+1 queries)
 -	Insomnia (HTTP api tool)
+- HTTP.rb (compare Typhoeus, others as a blog post?)
 
 And some TODOs that I want to try out.
 
