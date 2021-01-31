@@ -2,7 +2,7 @@
 tags: [Rails, Ruby]
 title: Quality Gems
 created: '2020-08-10T19:08:45.776Z'
-modified: '2020-09-27T21:23:13.926Z'
+modified: '2020-12-06T04:59:00.215Z'
 ---
 
 # Quality Gems
@@ -23,4 +23,9 @@ A shout-out to some gems/tools that have a well-deserved place in my [[Rails]] t
 -	sidekiq
 -	Bullet (detects N+1 queries)
 -	Insomnia (HTTP api tool)
+
+And some TODOs that I want to try out.
+
+- [api_struct](https://github.com/rubygarage/api_struct) for writing API clients, as a step up from my usual bit of raw httprb and JSON->hash data bags on the response.
+
 
