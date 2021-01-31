@@ -1,6 +1,6 @@
 module.exports = {
   purge: {
-    mode: "production",
+    mode: "all",
     content: [
       "./frontend/**/*.css",
       "./frontend/**/*.scss",
