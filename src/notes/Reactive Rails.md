@@ -1,7 +1,7 @@
 ---
 title: Reactive Rails
 created: '2020-10-19T18:39:56.643Z'
-modified: '2020-11-03T19:25:51.111Z'
+modified: '2021-02-23T23:20:21.592Z'
 ---
 
 # Reactive Rails
@@ -18,4 +18,6 @@ TLDR; Get 90% of the responsiveness of a full javascript single-page app with so
 - [View Component](https://github.com/github/view_component)
 - [View Component Reflex](https://github.com/joshleblanc/view_component_reflex) lets you write reflexes right in your view component.
 
+---
 
+[Blog write-up example](https://blog.cloud66.com/hotwire-viewcomponents-and-tailwindcss-the-ultimate-rails-stack/) of what ViewComponent + Stimulus (+ Tailwind) looks like, there's a whole trio about 3/4 of the way down with the template, view component, and stimulus controller all side by side.

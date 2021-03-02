@@ -2,7 +2,7 @@
 tags: [Rails, Ruby]
 title: Quality Gems
 created: '2020-08-10T19:08:45.776Z'
-modified: '2020-09-27T21:23:13.926Z'
+modified: '2021-02-23T22:29:06.543Z'
 ---
 
 # Quality Gems
@@ -21,6 +21,6 @@ A shout-out to some gems/tools that have a well-deserved place in my [[Rails]] t
 -	Cells
 -	d3js (chart-buildling library) [JS]
 -	sidekiq
--	Bullet (detects N+1 queries)
+-	Bullet (detects N+1 queries) - Compare to newcomer [prosopite](https://github.com/charkost/prosopite)
 -	Insomnia (HTTP api tool)
 
