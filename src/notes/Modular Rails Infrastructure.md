@@ -1,7 +1,7 @@
 ---
 title: Modular Rails Infrastructure
 created: '2021-01-15T06:37:37.294Z'
-modified: '2021-02-22T17:37:33.529Z'
+modified: '2021-03-02T00:11:06.648Z'
 ---
 
 # Modular Rails Infrastructure
@@ -17,6 +17,7 @@ Github actions can set an output variable by printing to stdout: `::set-output n
 
 If I have a step named `filter-components` that does dependency analysis to determine which gems/engines to build, and I run a loop `puts "::set-output name=#{component}::#{component}}"` then I should be able to set up build steps for each component, like so:
 
+{% raw %}
 ```
 <% components.each do |component| %>
 <%= component %>:
@@ -24,6 +25,7 @@ If I have a step named `filter-components` that does dependency analysis to dete
   if: ${{ contains(steps.filter-components.outputs.*, '<%= component %>') }}
   steps...
 ```
+{% endraw %}
 
 and I think this will properly flag skippable components as not-run (grey) without failing the build or acting as though they were run and are passing.
 
