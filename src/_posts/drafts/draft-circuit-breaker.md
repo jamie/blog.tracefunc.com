@@ -1,0 +1,64 @@
+---
+title: Ruby Circuit Breaker
+tags:  [programming]
+---
+
+```ruby
+class CreateCircuitBreakers < ActiveRecord::Migration[6.0]
+  def change
+    create_table :circuit_breakers do |t|
+      t.string :name
+      t.integer :error_count, default: 0
+      t.datetime :last_error_at, default: nil
+    end
+
+    add_index :circuit_breakers, :name, unique: true
+  end
+end
+```
+
+
+
+```ruby
+# Logic based on https://martinfowler.com/bliki/CircuitBreaker.html
+class CircuitBreaker < ActiveRecord::Base
+  ERROR_THRESHOLD = 5
+  RESET_TIMEOUT = 5.minutes
+
+  # name, error_count, last_error_at
+  def state
+    if error_count < ERROR_THRESHOLD
+      :ok
+    elsif last_error_at < RESET_TIMEOUT.ago
+      :recoverable
+    else
+      :error
+    end
+  end
+
+  def call(primary, alternate, recoverable_errors = [StandardError])
+    if state == :error
+      alternate.call
+    else # :ok, :recoverable
+      begin
+        primary.call.tap { record_success }
+      rescue *recoverable_errors => exception
+        Sentry.capture_exception(exception)
+        record_failure
+        alternate.call
+      end
+    end
+  end
+
+  private
+
+  def record_success
+    update(error_count: 0) if error_count > 0
+  end
+
+  def record_failure
+    update(error_count: error_count + 1, last_error_at: Time.current)
+  end
+end
+```
+
