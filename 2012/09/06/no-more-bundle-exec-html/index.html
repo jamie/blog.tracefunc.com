@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>No More Bundle Exec | set_trace_func</title>
+
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<link rel="stylesheet" href="/_bridgetown/static/css/all.ce35e1d69887124b52e2.css" />
+<script src="/_bridgetown/static/js/all.2c33afdfbbf1e1f92903.js" defer></script>
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="bg-gray-100 font-sans leading-normal tracking-normal post ">
+    <nav id="header" class="fixed w-full z-10 top-0 bg-white shadow">
+  <div id="progress" class="h-1 z-20 top-0"
+    style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);"></div>
+
+  <div class="w-full md:max-w-4xl mx-auto flex flex-wrap items-center justify-between mt-0 py-3">
+    <h2 class="pl-4">
+      <a class="text-gray-900 text-base no-underline hover:no-underline font-extrabold text-xl" href="/">
+        set_trace_func
+      </a>
+    </h2>
+
+    <div class="block lg:hidden pr-4">
+      <button id="nav-toggle"
+        class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-900 hover:border-teal-500 appearance-none focus:outline-none">
+        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <title>Menu</title>
+          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+        </svg>
+      </button>
+    </div>
+
+    <div
+      class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-gray-100 md:bg-transparent z-20"
+      id="nav-content">
+      <ul class="list-reset lg:flex justify-end flex-1 items-center">
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/archive/">Archive</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/tags/">Tags</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/projects/">Projects</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/notes/">Notes</a>
+</li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+    <div class="container w-full md:max-w-3xl mx-auto pt-20 pb-10">
+      <div id="content" class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
+  <div id="article">
+    <div class="font-sans mb-8">
+  <h1><a href="/2012/09/06/no-more-bundle-exec-html/">No More Bundle Exec</a></h1>
+  <p class="text-sm md:text-base font-normal text-gray-600">
+    6th Sep 2012
+    
+      | Tags:
+      
+        <a href="/tags/#programming">programming</a>
+      
+        <a href="/tags/#ruby">ruby</a>
+      
+    
+  </p>
+
+  
+    <p><a href="http://gembundler.com/">Bundler</a> is pretty darn good. Installing all your gems globally sucks. <code class="highlighter-rouge">bundle install --path</code> does a great job of fixing that but it means you need to <code class="highlighter-rouge">bundle exec</code> any shell commands you want to run, which again sucks. There are lots of <a href="https://rvm.io/gemsets/basics/">attempts</a> to <a href="https://github.com/mpapis/rubygems-bundler">fix this</a>, but they’re all fairly convoluted.</p>
+
+<!-- EXCERPT -->
+
+<p>I’m a fan of simpler solutions wherever possible. I use <a href="http://www.zsh.org/">zsh</a> as my shell, which has a <a href="http://zsh.sourceforge.net/Doc/Release/Command-Execution.html">handler</a> you can hook into if the command you’re trying to run is not found. It’s a simple matter to hook that into a custom shell script from your <code class="highlighter-rouge">~/.zshrc</code>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>function command_not_found_handler() {
+    ~/bin/command-not-found $*
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>I know <a href="http://www.gnu.org/software/bash/manual/bashref.html">bash</a> supports this kind of handler (<a href="http://www.ubuntu.com/">Ubuntu</a> uses it to provide command helpers for not-yet-installed programs) but I don’t know the exact details. Alas, my favorite shell ever, <a href="http://ridiculousfish.com/shell/">fish</a>, only provides the executable to its corresponding helper, so while it can suggest an alternate command, it can’t auto-correct it.</p>
+
+<p>My script happens to be in <a href="http://www.ruby-lang.org/en/">Ruby</a>, but it could just as easily be a standard shell script as all I’m doing is some file existence tests:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="rouge-code"><pre><span class="c1">#!/usr/bin/env ruby</span>
+
+<span class="c1"># ARGV is the entire command we wanted to run, but we</span>
+<span class="c1"># really only care about the actual executable for fallbacks</span>
+<span class="n">command</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">.</span><span class="nf">first</span>
+
+<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+  <span class="vg">$stderr</span><span class="p">.</span><span class="nf">puts</span> <span class="s2">"Running </span><span class="si">#{</span><span class="n">cmd</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2"> instead"</span>
+  <span class="nb">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">case</span>
+<span class="k">when</span> <span class="no">File</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="s2">"./.bundle/config"</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="no">File</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="s2">"./bin/</span><span class="si">#{</span><span class="n">command</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+  <span class="n">run</span><span class="p">(</span><span class="s2">"bundle exec </span><span class="si">#{</span><span class="no">ARGV</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">' '</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="k">else</span>
+  <span class="nb">exit</span> <span class="mi">127</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Now, as long as you’re being sure to <code class="highlighter-rouge">bundle install --binstubs</code> it should Just Work. And because it only functions if you’re in a directory that’s been bundled, you don’t run into the security risks that you would by trying to get ./bin added to your <code class="highlighter-rouge">$PATH</code> directly.</p>
+
+<p>Lastly, the <code class="highlighter-rouge">case</code> statement instead of an <code class="highlighter-rouge">if</code> is a bit redundant in the simple case above, I’ve actually got a few more filters for things like <a href="https://github.com/jbarnette/isolate">isolate</a> and <a href="http://git-scm.com/">git</a> - don’t forget to quote anything that might need space literals:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="c1"># Paste git repo url to clone it</span>
+<span class="k">when</span> <span class="n">command</span> <span class="o">=~</span> <span class="sr">/^git(@|:\/\/).*\.git$/</span>
+  <span class="n">run</span><span class="p">(</span><span class="s2">"git clone </span><span class="si">#{</span><span class="n">command</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># paste compressed url to download+extract it</span>
+<span class="k">when</span> <span class="n">command</span> <span class="o">=~</span> <span class="sr">/^(?:ftp|https?):\/\/.+\.t(?:ar\.)?gz$/</span>
+  <span class="n">run</span><span class="p">(</span><span class="s2">"curl </span><span class="si">#{</span><span class="n">command</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2"> | tar xzv"</span><span class="p">)</span>
+
+<span class="k">when</span> <span class="no">File</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="s2">"./tmp/isolate/ruby-1.8/bin/</span><span class="si">#{</span><span class="n">command</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+  <span class="n">run</span><span class="p">(</span><span class="s2">"rake isolate:sh['</span><span class="si">#{</span><span class="no">ARGV</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">' '</span><span class="p">)</span><span class="si">}</span><span class="s2">']"</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+  
+</div>
+
+  </div>
+</div>
+
+<!--Next & Prev Links-->
+<div class="font-sans flex justify-between content-center px-4 pb-12">
+  <div class="text-left">
+    
+    <span class="text-xs md:text-sm font-normal text-gray-600">&lt; Previous Post</span><br>
+    <p><a href="/2012/05/15/joining-git-repositories-html/"
+        class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
+        Joining Git Repositoires
+      </a></p>
+    
+  </div>
+  <div class="text-right">
+    
+    <span class="text-xs md:text-sm font-normal text-gray-600">Next Post &gt;</span><br>
+    <p><a href="/2015/06/04/building-an-object-graph-in-rails-html/"
+        class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
+        Building an Object Graph in Rails
+      </a></p>
+    
+  </div>
+</div>
+<!--/Next & Prev Links-->
+
+    </div>
+
+    <footer class="bg-white border-t border-gray-400 shadow">
+  <div class="container max-w-4xl mx-auto flex py-8">
+
+    <div class="w-full mx-auto flex flex-wrap justify-between">
+      <div class="flex w-full md:w-1/5">
+        <div class="px-8 mt-10">
+          <img class="rounded-full mr-4" src="/assets/memoji.png" alt="Avatar of Author">
+        </div>
+      </div>
+      <div class="flex w-full md:w-3/5">
+        <div class="px-8">
+          <h3 class="font-bold text-gray-900">About</h3>
+          <p class="my-4 text-gray-600 text-sm">
+            Jamie is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.
+          </p>
+          <p class="my-4 text-gray-600 text-sm">
+            Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.
+          </p>
+          <p class="text-gray-500 text-xs md:text-base">Minimal Blog Tailwind CSS template by <a
+              class="text-teal-400 no-underline hover:underline"
+              href="https://www.tailwindtoolbox.com">TailwindToolbox.com</a>
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-row-reverse w-full md:w-1/5">
+        <div class="px-8">
+          <h3 class="font-bold text-gray-900">&nbsp;</h3>
+          <ul class="list-reset items-center text-sm pt-3">
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="https://github.com/jamie/">Github</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="/static/jamie-macey/">Resume</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="mailto:jamie.blog@tracefunc.com">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+    <script>
+  /* Progress bar */
+  //Source: https://alligator.io/js/progress-bar-javascript-css-variables/
+  var h = document.documentElement,
+    b = document.body,
+    st = 'scrollTop',
+    sh = 'scrollHeight',
+    progress = document.querySelector('#progress'),
+    scroll;
+  var scrollpos = window.scrollY;
+  var header = document.getElementById("header");
+  var navcontent = document.getElementById("nav-content");
+
+  document.addEventListener('scroll', function () {
+    /*Refresh scroll % width*/
+    scroll = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
+    progress.style.setProperty('--scroll', scroll + '%');
+  });
+
+  //Javascript to toggle the menu
+  document.getElementById('nav-toggle').onclick = function () {
+    document.getElementById("nav-content").classList.toggle("hidden");
+  }
+</script>
+
+<script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  </body>
+
+</html>

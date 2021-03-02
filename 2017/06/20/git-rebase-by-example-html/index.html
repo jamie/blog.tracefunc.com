@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Git Rebase by Example | set_trace_func</title>
+
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<link rel="stylesheet" href="/_bridgetown/static/css/all.ce35e1d69887124b52e2.css" />
+<script src="/_bridgetown/static/js/all.2c33afdfbbf1e1f92903.js" defer></script>
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="bg-gray-100 font-sans leading-normal tracking-normal post ">
+    <nav id="header" class="fixed w-full z-10 top-0 bg-white shadow">
+  <div id="progress" class="h-1 z-20 top-0"
+    style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);"></div>
+
+  <div class="w-full md:max-w-4xl mx-auto flex flex-wrap items-center justify-between mt-0 py-3">
+    <h2 class="pl-4">
+      <a class="text-gray-900 text-base no-underline hover:no-underline font-extrabold text-xl" href="/">
+        set_trace_func
+      </a>
+    </h2>
+
+    <div class="block lg:hidden pr-4">
+      <button id="nav-toggle"
+        class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-900 hover:border-teal-500 appearance-none focus:outline-none">
+        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <title>Menu</title>
+          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+        </svg>
+      </button>
+    </div>
+
+    <div
+      class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-gray-100 md:bg-transparent z-20"
+      id="nav-content">
+      <ul class="list-reset lg:flex justify-end flex-1 items-center">
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/archive/">Archive</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/tags/">Tags</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/projects/">Projects</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/notes/">Notes</a>
+</li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+    <div class="container w-full md:max-w-3xl mx-auto pt-20 pb-10">
+      <div id="content" class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
+  <div id="article">
+    <div class="font-sans mb-8">
+  <h1><a href="/2017/06/20/git-rebase-by-example-html/">Git Rebase by Example</a></h1>
+  <p class="text-sm md:text-base font-normal text-gray-600">
+    20th Jun 2017
+    
+      | Tags:
+      
+        <a href="/tags/#git">git</a>
+      
+    
+  </p>
+
+  
+    <p>Today at work, I determined that my current work in progress branch was going to want to be merged into production ahead of our next scheduled merge/deploy of master. To make it easier to merge into our production branch for a hot-fix deploy, I want to have the branch based off production instead of master.</p>
+
+<!-- EXCERPT -->
+
+<p>So, I could do this manually:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>$ git reset HEAD~ # move HEAD commit back to staging
+$ git stash save # move uncommited changes to stash
+# repeat until all my changes are in stash
+$ git checkout production
+$ git stash pop
+$ git commit ...
+# again, repeat until complete
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>However, this is a pain in the neck because it’s all manual, and it loses the commit metadata (timestamps, but also author info if you’re moving commits from multiple people). Also, because I prefer small merges to big merges, I’ve merged master into my branch a few times, and that means deciding to commit or wipe commits.</p>
+
+<p>Instead, let’s git do all the work, and use <code class="highlighter-rouge">git rebase</code> to move my commits to their new home, and also filter out those merges.</p>
+
+<p>Before getting started, we should backup my branch, by just doing a <code class="highlighter-rouge">git checkout -b wip-rebase</code>. Then, to confirm exactly what my changes were we can run <code class="highlighter-rouge">git cherry -v origin/master</code>. This will list all the commits on the current branch that are not on the specified branch.</p>
+
+<p>Then, I want to start by getting rid of all my extra merges, and filter the branch to just these outbound changes. For this we’ll do an interactive rebase: <code class="highlighter-rouge">git rebase -i acfad~</code>, where acfad is the commit hash at the top of my change list (you can also just use a visual git browser or whatever to find the base commit for your changes). This will pop open an editor, and let me decide exactly how I want to handle each commit.</p>
+
+<p>This is a powerful tool, and all its options are beyond the scope of this article, but it will let you do anything from editing a commit message, to combining or reordering commits, to executing shell commands between specific commits.</p>
+
+<p>Here, we’re just dropping commits, so we can scroll down the editor here and any commit that wasn’t listed in our <code class="highlighter-rouge">git cherry</code> output we can change the <code class="highlighter-rouge">pick</code> to <code class="highlighter-rouge">drop</code>. Or, even easier, delete the line.</p>
+
+<p>Now save and quit the editor, and git will do its job. We can verify with another <code class="highlighter-rouge">git cherry -v origin/master</code> and compare output now with earlier output. Note that our oldest commits are unchanged, but the commit hash for the newer ones is changed. This is because the hash of a commit depends on the hashes of its parents, and by deleting merged commits from our history we are of course unable to use them as parents anymore. Also, looking directly at the <code class="highlighter-rouge">git log</code> we can see that deleting all commits from one branch of a merge commit will also delete the merge itself. For our purposes, as long as the commit messages in both <code class="highlighter-rouge">git cherry</code> outputs are the same, then we’re doing fine.</p>
+
+<p>Now that the busy work is behind us, we can get to the actual goal of moving the commits. The command for this will be <code class="highlighter-rouge">git rebase --onto origin/production acfad~</code> – again we’re referring to the parent of the first commit in our branch.</p>
+
+<p>This is the part that works exactly as I described above, git is “rewinding head to replay your work on top of it”. As with any merge (applying a commit in a changed context) you can expect to see some conflicts and can resolve them as usual. However when done, instead of commiting we’ll move on with <code class="highlighter-rouge">git rebase --continue</code>. If at any time things get confused and you make a mistake, <code class="highlighter-rouge">git rebase --abort</code> will roll you back to your branch as it was before rebasing.</p>
+
+<p>Once you’re done with the conflicts, <code class="highlighter-rouge">git</code> will finalize the rebase behind the scenes, and leave you back at your current branch having updated the root parent, and touched all the commits on the way down. We can confirm this with a final <code class="highlighter-rouge">git cherry -v origin/master</code>.</p>
+
+<p>Now is a good time to run specs (or let CI work that for you) and do whatever other testing you need to confirm everything functions as it should.</p>
+
+  
+</div>
+
+  </div>
+</div>
+
+<!--Next & Prev Links-->
+<div class="font-sans flex justify-between content-center px-4 pb-12">
+  <div class="text-left">
+    
+    <span class="text-xs md:text-sm font-normal text-gray-600">&lt; Previous Post</span><br>
+    <p><a href="/2015/06/04/building-an-object-graph-in-rails-html/"
+        class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
+        Building an Object Graph in Rails
+      </a></p>
+    
+  </div>
+  <div class="text-right">
+    
+    <span class="text-xs md:text-sm font-normal text-gray-600">Next Post &gt;</span><br>
+    <p><a href="/2020/04/22/git-archaeology-html/"
+        class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
+        Git Archaeology
+      </a></p>
+    
+  </div>
+</div>
+<!--/Next & Prev Links-->
+
+    </div>
+
+    <footer class="bg-white border-t border-gray-400 shadow">
+  <div class="container max-w-4xl mx-auto flex py-8">
+
+    <div class="w-full mx-auto flex flex-wrap justify-between">
+      <div class="flex w-full md:w-1/5">
+        <div class="px-8 mt-10">
+          <img class="rounded-full mr-4" src="/assets/memoji.png" alt="Avatar of Author">
+        </div>
+      </div>
+      <div class="flex w-full md:w-3/5">
+        <div class="px-8">
+          <h3 class="font-bold text-gray-900">About</h3>
+          <p class="my-4 text-gray-600 text-sm">
+            Jamie is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.
+          </p>
+          <p class="my-4 text-gray-600 text-sm">
+            Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.
+          </p>
+          <p class="text-gray-500 text-xs md:text-base">Minimal Blog Tailwind CSS template by <a
+              class="text-teal-400 no-underline hover:underline"
+              href="https://www.tailwindtoolbox.com">TailwindToolbox.com</a>
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-row-reverse w-full md:w-1/5">
+        <div class="px-8">
+          <h3 class="font-bold text-gray-900">&nbsp;</h3>
+          <ul class="list-reset items-center text-sm pt-3">
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="https://github.com/jamie/">Github</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="/static/jamie-macey/">Resume</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="mailto:jamie.blog@tracefunc.com">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+    <script>
+  /* Progress bar */
+  //Source: https://alligator.io/js/progress-bar-javascript-css-variables/
+  var h = document.documentElement,
+    b = document.body,
+    st = 'scrollTop',
+    sh = 'scrollHeight',
+    progress = document.querySelector('#progress'),
+    scroll;
+  var scrollpos = window.scrollY;
+  var header = document.getElementById("header");
+  var navcontent = document.getElementById("nav-content");
+
+  document.addEventListener('scroll', function () {
+    /*Refresh scroll % width*/
+    scroll = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
+    progress.style.setProperty('--scroll', scroll + '%');
+  });
+
+  //Javascript to toggle the menu
+  document.getElementById('nav-toggle').onclick = function () {
+    document.getElementById("nav-content").classList.toggle("hidden");
+  }
+</script>
+
+<script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  </body>
+
+</html>

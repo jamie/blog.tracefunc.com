@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Project Management | set_trace_func</title>
+
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<link rel="stylesheet" href="/_bridgetown/static/css/all.ce35e1d69887124b52e2.css" />
+<script src="/_bridgetown/static/js/all.2c33afdfbbf1e1f92903.js" defer></script>
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="bg-gray-100 font-sans leading-normal tracking-normal notable ">
+    <nav id="header" class="fixed w-full z-10 top-0 bg-white shadow">
+  <div id="progress" class="h-1 z-20 top-0"
+    style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);"></div>
+
+  <div class="w-full md:max-w-4xl mx-auto flex flex-wrap items-center justify-between mt-0 py-3">
+    <h2 class="pl-4">
+      <a class="text-gray-900 text-base no-underline hover:no-underline font-extrabold text-xl" href="/">
+        set_trace_func
+      </a>
+    </h2>
+
+    <div class="block lg:hidden pr-4">
+      <button id="nav-toggle"
+        class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-900 hover:border-teal-500 appearance-none focus:outline-none">
+        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <title>Menu</title>
+          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+        </svg>
+      </button>
+    </div>
+
+    <div
+      class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-gray-100 md:bg-transparent z-20"
+      id="nav-content">
+      <ul class="list-reset lg:flex justify-end flex-1 items-center">
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/archive/">Archive</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/tags/">Tags</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/projects/">Projects</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/notes/">Notes</a>
+</li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+    <div class="container w-full md:max-w-3xl mx-auto pt-20 pb-10">
+      <div id="content" class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
+  
+
+<div id="content" class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
+  <div id="article">
+    <div class="font-sans mb-8">
+      <h1 id="project-management">Project Management</h1>
+
+<h3 id="shape-up">Shape Up</h3>
+
+<p><a href="https://basecamp.com/shapeup">Shape Up</a> by the folks at Basecamp resonated with me. Compared to a more standard “Agile”/Scrum approach:</p>
+
+<ul>
+  <li>Longer time chunks for work (6 weeks vs 1-2 week sprints) with a built-in rest period that can be used for cleanup, tech debt, experiments, research, education <em>as part of the process</em>.</li>
+  <li>No perpetual backlog, features are decided upon from scratch each cycle (though if something continues to be important but didn’t make the cut this cycle, expect it to be back next cycle).</li>
+  <li>Explicit expectations that <em>discovery</em> is a part of <em>implementation</em>, so features are defined only in a rough form before being handed to the team, who will quickly work, discover, and iterate throughout the cycle. I like this better than similar expectations in Scrum because Shape Up has a designer + developer(s) working in tandem so there’s greatly decreased lag on feedback/iterations, compared to scrum where a developer discovering a gap mid-sprint might not get feedback from the designer until next sprint because the designer has other priorities this sprint as well. Staggering design and development is just Waterfall in the small.</li>
+  <li>Timeboxed features and a very hard ship-or-stop date is better than “oh well I discovered a few other chunks of related functionality and made stories for them, guess I’ll roll those into next sprint”. This is of course made easier to avoid when running 6-week cycles than 1-week sprints,</li>
+</ul>
+
+<h3 id="what-makes-a-good-feature">What Makes a Good Feature</h3>
+
+<p><strong>SMART</strong>: A good feature should be: (and in relation to Shape Up, above)</p>
+
+<ul>
+  <li>Specific (pitches define a problem and specific design to improve the product and address the problem)</li>
+  <li>Measurable (a good pitch will be easy to compare against the completed product)</li>
+  <li>Achievable (assessed/estimated by a senior developer to fit in the cycle)</li>
+  <li>Relevant (all features proposed and (re)assessed each cycle)</li>
+  <li>Time Bound (fits in a 6-week cycle)</li>
+</ul>
+
+<p><strong>MoSCoW</strong>: When designing a large feature and breaking it down into smaller pieces, give tasks a priority by:</p>
+
+<ul>
+  <li>M: Must Have (feature won’t be useful without it)</li>
+  <li>S: Should Have (required to meet internal standards of quality)</li>
+  <li>C: Could Have (stretch goals, time permitting)</li>
+  <li>W: Won’t Have (explicitly out of scope)</li>
+</ul>
+
+    </div>
+  </div>
+</div>
+
+</div>
+
+    </div>
+
+    <footer class="bg-white border-t border-gray-400 shadow">
+  <div class="container max-w-4xl mx-auto flex py-8">
+
+    <div class="w-full mx-auto flex flex-wrap justify-between">
+      <div class="flex w-full md:w-1/5">
+        <div class="px-8 mt-10">
+          <img class="rounded-full mr-4" src="/assets/memoji.png" alt="Avatar of Author">
+        </div>
+      </div>
+      <div class="flex w-full md:w-3/5">
+        <div class="px-8">
+          <h3 class="font-bold text-gray-900">About</h3>
+          <p class="my-4 text-gray-600 text-sm">
+            Jamie is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.
+          </p>
+          <p class="my-4 text-gray-600 text-sm">
+            Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.
+          </p>
+          <p class="text-gray-500 text-xs md:text-base">Minimal Blog Tailwind CSS template by <a
+              class="text-teal-400 no-underline hover:underline"
+              href="https://www.tailwindtoolbox.com">TailwindToolbox.com</a>
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-row-reverse w-full md:w-1/5">
+        <div class="px-8">
+          <h3 class="font-bold text-gray-900">&nbsp;</h3>
+          <ul class="list-reset items-center text-sm pt-3">
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="https://github.com/jamie/">Github</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="/static/jamie-macey/">Resume</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="mailto:jamie.blog@tracefunc.com">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+    <script>
+  /* Progress bar */
+  //Source: https://alligator.io/js/progress-bar-javascript-css-variables/
+  var h = document.documentElement,
+    b = document.body,
+    st = 'scrollTop',
+    sh = 'scrollHeight',
+    progress = document.querySelector('#progress'),
+    scroll;
+  var scrollpos = window.scrollY;
+  var header = document.getElementById("header");
+  var navcontent = document.getElementById("nav-content");
+
+  document.addEventListener('scroll', function () {
+    /*Refresh scroll % width*/
+    scroll = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
+    progress.style.setProperty('--scroll', scroll + '%');
+  });
+
+  //Javascript to toggle the menu
+  document.getElementById('nav-toggle').onclick = function () {
+    document.getElementById("nav-content").classList.toggle("hidden");
+  }
+</script>
+
+<script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  </body>
+
+</html>

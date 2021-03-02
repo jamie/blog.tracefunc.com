@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Upgrading to 1.2, Part 1: Deprecations | set_trace_func</title>
+
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<link rel="stylesheet" href="/_bridgetown/static/css/all.ce35e1d69887124b52e2.css" />
+<script src="/_bridgetown/static/js/all.2c33afdfbbf1e1f92903.js" defer></script>
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="bg-gray-100 font-sans leading-normal tracking-normal post ">
+    <nav id="header" class="fixed w-full z-10 top-0 bg-white shadow">
+  <div id="progress" class="h-1 z-20 top-0"
+    style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);"></div>
+
+  <div class="w-full md:max-w-4xl mx-auto flex flex-wrap items-center justify-between mt-0 py-3">
+    <h2 class="pl-4">
+      <a class="text-gray-900 text-base no-underline hover:no-underline font-extrabold text-xl" href="/">
+        set_trace_func
+      </a>
+    </h2>
+
+    <div class="block lg:hidden pr-4">
+      <button id="nav-toggle"
+        class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-900 hover:border-teal-500 appearance-none focus:outline-none">
+        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <title>Menu</title>
+          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+        </svg>
+      </button>
+    </div>
+
+    <div
+      class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-gray-100 md:bg-transparent z-20"
+      id="nav-content">
+      <ul class="list-reset lg:flex justify-end flex-1 items-center">
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/archive/">Archive</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/tags/">Tags</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/projects/">Projects</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/notes/">Notes</a>
+</li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+    <div class="container w-full md:max-w-3xl mx-auto pt-20 pb-10">
+      <div id="content" class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
+  <div id="article">
+    <div class="font-sans mb-8">
+  <h1><a href="/2007/01/09/upgrading-to-1-2-part-1-deprecations-html/">Upgrading to 1.2, Part 1: Deprecations</a></h1>
+  <p class="text-sm md:text-base font-normal text-gray-600">
+    9th Jan 2007
+    
+      | Tags:
+      
+        <a href="/tags/#programming">programming</a>
+      
+        <a href="/tags/#rails">rails</a>
+      
+    
+  </p>
+
+  
+    <p>So I’ve been spending some time lately working on upgrading the existing codebase for some projects at work such that they’ll work in Rails 1.2 once it’s released. Sadly, the upgrade process is not without its rough edges, and after two days of poking at it (it being a 5800 LOC app with 8800 LOC of tests) I’m still not completely done - the test run does not pass cleanly.</p>
+
+<p>However, I have managed to get rid of most of the niggly deprecation warnings, so the output of the rake run is down to 450k from a high of about 2.2mb. Fun times. The changes required to silence most of the warnings are…</p>
+
+<h2 id="activerecord">ActiveRecord</h2>
+
+<p>find_all and find_first are deprecated. Use find(:all) and find(:first) instead.</p>
+
+<p>If you have a has_many which is :dependent, make sure you’re specifying :destroy or :delete_all, rather than true. If you’ve got true you probably want to replace it with :destroy. Slower, but safer.</p>
+
+<h2 id="routes">Routes</h2>
+
+<p>Just a short note here, :requirements regexps no longer accept anchors. We have something along these lines:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>map.connect ':controller/:action/:foo', :requirements =&gt; { :foo =&gt; /^(bar|baz)$/ }
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Such that that route only fires if the third url part is exactly bar or baz. To silence 1.2, just remove the ^ and $ anchors.</p>
+
+<h2 id="controllersviews">Controllers/Views</h2>
+
+<p>The instance variables @params, @session, @request, and @flash are deprecated in controllers and views, use the version without the @. Note, don’t try and change this globally in your tests, or all hell will break loose. Oddly, assigns(:flash) in a test seems to trigger the warning for accessing @flash.</p>
+
+<p>If you want to have your link_to go by post instead of get, use :method =&gt; :post instead of :post =&gt; true.</p>
+
+<p>(Update: This will not throw errors, but won’t work in 1.1.6, so wait until you’re actually running 1.2 to do this change.)</p>
+
+<p>Rendering with a string (render ‘template’) is no longer allowed. The deprecation warning says to render :file =&gt; ‘template’ instead, but if you want your code to continue to work in Rails 1.1.6 you’ll need to add a :use_full_path =&gt; true to the call.</p>
+
+<p>start_form_tag and end_form_tag are now deprecated. The suggested replacement is to pass a block to a form_tag call, but that does not work at all in Rails 1.1.6. My preferred fix is to use a bare form_tag to start the form, and a hard-coded to finish it. Same goes with remote_form_tag for those AJAXy forms. That shuts up all the deprecation warnings, and allows for a fairly simple multiline regexp to blockify them up in the future. I was looking at something like &lt;%= ?(remote_)?form_tag([^%]<em>) ?%&gt;(.</em>?) and replacing with _&lt;% $1form_tag$2 do %&gt;$3&lt;% end %&gt;</p>
+
+<p>We’ve got a few places where we’re redirecting to a named route: redirect_to :login_url. This calls url_for, which is deprecated. I think the correct solution is to just drop the colon and redirect_to login_url, but this doesn’t work in 1.1.6 and I haven’t quite tested it yet.</p>
+
+<h2 id="tests">Tests</h2>
+
+<p>Lastly, a change which I completely disagree with, assert_template_has and friends are now deprecated. Use assert(@response.has_session_object?(key)) instead, my ass. This changes removes a useful failure message like &lt;:login&gt; is not a template object and brings me back to the glory days of is not true. I know I’ll be rewriting those as custom assertions for my test_helper, thank you very much.</p>
+
+<h2 id="to-be-continued">To Be Continued</h2>
+
+<p>Like I said, I’m only half done this migration, but when I get the rest of it sorted, I’ll be posting a follow-up right here. See you then.</p>
+
+  
+</div>
+
+  </div>
+</div>
+
+<!--Next & Prev Links-->
+<div class="font-sans flex justify-between content-center px-4 pb-12">
+  <div class="text-left">
+    
+    <span class="text-xs md:text-sm font-normal text-gray-600">&lt; Previous Post</span><br>
+    <p><a href="/2007/01/06/holding-pattern-html/"
+        class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
+        Holding Pattern
+      </a></p>
+    
+  </div>
+  <div class="text-right">
+    
+    <span class="text-xs md:text-sm font-normal text-gray-600">Next Post &gt;</span><br>
+    <p><a href="/2007/01/15/reinstall-html/"
+        class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
+        Reinstall
+      </a></p>
+    
+  </div>
+</div>
+<!--/Next & Prev Links-->
+
+    </div>
+
+    <footer class="bg-white border-t border-gray-400 shadow">
+  <div class="container max-w-4xl mx-auto flex py-8">
+
+    <div class="w-full mx-auto flex flex-wrap justify-between">
+      <div class="flex w-full md:w-1/5">
+        <div class="px-8 mt-10">
+          <img class="rounded-full mr-4" src="/assets/memoji.png" alt="Avatar of Author">
+        </div>
+      </div>
+      <div class="flex w-full md:w-3/5">
+        <div class="px-8">
+          <h3 class="font-bold text-gray-900">About</h3>
+          <p class="my-4 text-gray-600 text-sm">
+            Jamie is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.
+          </p>
+          <p class="my-4 text-gray-600 text-sm">
+            Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.
+          </p>
+          <p class="text-gray-500 text-xs md:text-base">Minimal Blog Tailwind CSS template by <a
+              class="text-teal-400 no-underline hover:underline"
+              href="https://www.tailwindtoolbox.com">TailwindToolbox.com</a>
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-row-reverse w-full md:w-1/5">
+        <div class="px-8">
+          <h3 class="font-bold text-gray-900">&nbsp;</h3>
+          <ul class="list-reset items-center text-sm pt-3">
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="https://github.com/jamie/">Github</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="/static/jamie-macey/">Resume</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="mailto:jamie.blog@tracefunc.com">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+    <script>
+  /* Progress bar */
+  //Source: https://alligator.io/js/progress-bar-javascript-css-variables/
+  var h = document.documentElement,
+    b = document.body,
+    st = 'scrollTop',
+    sh = 'scrollHeight',
+    progress = document.querySelector('#progress'),
+    scroll;
+  var scrollpos = window.scrollY;
+  var header = document.getElementById("header");
+  var navcontent = document.getElementById("nav-content");
+
+  document.addEventListener('scroll', function () {
+    /*Refresh scroll % width*/
+    scroll = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
+    progress.style.setProperty('--scroll', scroll + '%');
+  });
+
+  //Javascript to toggle the menu
+  document.getElementById('nav-toggle').onclick = function () {
+    document.getElementById("nav-content").classList.toggle("hidden");
+  }
+</script>
+
+<script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  </body>
+
+</html>

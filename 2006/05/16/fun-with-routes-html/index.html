@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Fun with Routes | set_trace_func</title>
+
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<link rel="stylesheet" href="/_bridgetown/static/css/all.ce35e1d69887124b52e2.css" />
+<script src="/_bridgetown/static/js/all.2c33afdfbbf1e1f92903.js" defer></script>
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="bg-gray-100 font-sans leading-normal tracking-normal post ">
+    <nav id="header" class="fixed w-full z-10 top-0 bg-white shadow">
+  <div id="progress" class="h-1 z-20 top-0"
+    style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);"></div>
+
+  <div class="w-full md:max-w-4xl mx-auto flex flex-wrap items-center justify-between mt-0 py-3">
+    <h2 class="pl-4">
+      <a class="text-gray-900 text-base no-underline hover:no-underline font-extrabold text-xl" href="/">
+        set_trace_func
+      </a>
+    </h2>
+
+    <div class="block lg:hidden pr-4">
+      <button id="nav-toggle"
+        class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-900 hover:border-teal-500 appearance-none focus:outline-none">
+        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <title>Menu</title>
+          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+        </svg>
+      </button>
+    </div>
+
+    <div
+      class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-gray-100 md:bg-transparent z-20"
+      id="nav-content">
+      <ul class="list-reset lg:flex justify-end flex-1 items-center">
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/archive/">Archive</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/tags/">Tags</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/projects/">Projects</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/notes/">Notes</a>
+</li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+    <div class="container w-full md:max-w-3xl mx-auto pt-20 pb-10">
+      <div id="content" class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
+  <div id="article">
+    <div class="font-sans mb-8">
+  <h1><a href="/2006/05/16/fun-with-routes-html/">Fun with Routes</a></h1>
+  <p class="text-sm md:text-base font-normal text-gray-600">
+    16th May 2006
+    
+      | Tags:
+      
+        <a href="/tags/#programming">programming</a>
+      
+        <a href="/tags/#rails">rails</a>
+      
+    
+  </p>
+
+  
+    <p>Rails’ routing framework is a pretty capable beast, but it does sometimes still need a bit of help doing more exotic things.</p>
+
+<p>I ran across an example from someone a few months back (either on the mailing list or in a blog post, I can’t find any trace of it now) that was using multiple routes to match the same thing - a GUID that could belong to one of many different models. This was done with an overloaded Regexp subclass that pattern matched the GUID, and then looked it up to see if it existed for that model. I wanted to do something similar to that for a project I’m working on, and since I couldn’t find an example to copy off of, I went delving inside routing.rb on my own.</p>
+
+<p>The long and short of it is that the following code seems to be a workable solution for me, while being generic enough (the only real custom line is the last one inside the module def) for anyone to incorporate into their code.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="rouge-code"><pre><span class="k">module</span> <span class="nn">ActionController::Routing</span>
+  <span class="k">module</span> <span class="nn">ConditionConstants</span><span class="p">;</span> <span class="k">end</span>
+
+  <span class="k">class</span> <span class="nc">CustomCondition</span> <span class="o">&lt;</span> <span class="no">Regexp</span>
+    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">match</span><span class="p">)</span>
+      <span class="k">super</span> <span class="s1">'^$'</span> <span class="c1"># pretend we're a regular empty string regexp</span>
+      <span class="vi">@name</span><span class="p">,</span> <span class="vi">@match</span> <span class="o">=</span> <span class="nb">name</span><span class="p">,</span> <span class="n">match</span>
+    <span class="k">end</span>
+    <span class="k">def</span> <span class="o">=~</span><span class="p">(</span><span class="n">other</span><span class="p">);</span> <span class="vi">@match</span><span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="n">other</span><span class="p">);</span> <span class="k">end</span>
+    <span class="k">def</span> <span class="nf">inspect</span><span class="p">;</span>   <span class="vi">@name</span><span class="p">;</span>              <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">custom_condition</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+    <span class="no">ConditionConstants</span><span class="p">.</span><span class="nf">const_set</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="no">CustomCondition</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">))</span>
+  <span class="k">end</span>
+
+  <span class="n">custom_condition</span><span class="p">(</span><span class="s1">'ProjectCondition'</span><span class="p">){</span><span class="o">|</span><span class="n">other</span><span class="o">|</span> <span class="no">Project</span><span class="p">.</span><span class="nf">find_by_url</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="p">}</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The only other thing to do is include ActionController::Routing::ConditionConstants inside the block attached to draw so your connect calls can see the constants being defined - AC::Routing seems to have no problem seeing them, even though they’re inside a module of their own.</p>
+
+<p>Anyone interested in the hows and whys, feel free to read on…</p>
+
+<p>The goal then, is to come up with an object that can perform an arbitrary condition for use in routes. My usage is a simple lookup in one of my ActiveRecord models, but really you could do anything you wanted. So let’s take a look through the generation of a route.</p>
+
+<p>First off, you create routes using the draw method of ActionController::Routing::Routes, which accepts a block detailing the routes you want to connect. Routes is actually not a class with a class method draw, but rather is an instance of AC::Routing::RouteSet. draw yields the RouteSet to the content block, so let’s take a look at it for a moment.</p>
+
+<p>The RouteSet#connect method takes a bunch of arguments, and passes them directly into the constructor of AC::Routing::Route. Route accepts two parameters: a path, and an options hash. The path can be either a string (which is split on ‘/’) or an array. The options hash is populated with either defaults or conditions for the various parts of the path.</p>
+
+<p>While you can explicitly define :defaults and :conditions with their own subhashes, but Route is smart enough to do some thinking for you: if the value for a given key is_a?(Regexp), it is treated as a condition, otherwise it is considered a default. Therefore, this is the first test that our custom condition must pass. Fortunately, it’s trivial to write an is_a? method on whatever class we end up writing that returns true for Regexp, so it’s not a big stumbling block.</p>
+
+<p>Now, I have to admit I snuck a bit ahead of the game here - when Route was doing data massaging on the path, it is creating AC::Routing::Components to store each part of the path. There are actually four different subclasses of components, each created by the base Component class. The one we’re interested in is DynamicComponent, which is created when the path looks like a symbol. ControllerComponent matches on the explicit symbol :controller so that it can deal with modules, so we don’t need to worry about it.</p>
+
+<p>This comes in later on in RouteSet#draw. After creating the various Routes, it calls methods named write_generation and write_recognition. write_generation sets up rules for turning a params hash into an actual URL. write_recognition does the other way, which is what we want.</p>
+
+<p>write_recognition then, assembles the recognition rules for each of its Routes, which through a roundabout way calls the same on each Component. The DynamicComponent we were looking at then calls the class method Routing.test_condition with its condition. This leads us to our second constraint on our custom class - test_condition runs the condition through a case statement, putting classes on the whens. The when Regexp condition behaves the same as if Regexp === condition, which only evaluates true when condition is an instance of Regexp or a subclass.</p>
+
+<p>This is significantly more difficult to fake than being able to redefine is_a?, and I really didn’t want to come up with a solution that required hacking into Regexp to get anything done. The next two lines after the when (that’s 38 and 39, for those playing at home with Rails 1.1.2) add two other wrinkles in the behaviour.</p>
+
+<p>The first is that if the Regexp instance is not bookended by beginning-of-string and end-of-string matchers, a new instance is created that is wrapped so. However, this isn’t as bad as it looks at first. Since we’re not actually using the Regexp source for any pattern matching, we can satisfy this criteria by setting the pattern to /^$/, which matches an empty string.</p>
+
+<p>The second is significantly trickier, in that when our matcher is inspected, it needs to output as a string the ruby code used to create it. This is fine for normal regular expressions, as /^$/.inspect does actually print out “/^$/”, but if we want our matcher to be highly dynamic, it effectively rules out using blocks or procs directly as we would expect. Additionally, the output of the inspect call is then directly sent an =~ call with the part of the path it is trying to match.</p>
+
+<p>My first thought on this was to use classes, since I could create an instance that would pass the “is a subclass of Regexp” test, output the name of the class, and use a class method to do the actual matching (coming later), but that was looking much too ugly. Then I realized that the reason I was drawn to classes is that it is a constant that knows how to look itself up. If I were to teach a Regexp subclass the name I’m about to assign to it, it will know how to reference itself directly, and storing it in a constant means I should be able to get easy access to it by the time we get that deep into the code.</p>
+
+<p>Thus began my CustomCondition class.</p>
+
+<p>I first set up an empty module named ConditionConstants that I would use to house my constants.</p>
+
+<p>Next up was the class - a subclass of Regexp to pass the is_a? and === tests, but with an overoaded initialize. This first set up the Regexp base to use the empty string regex listed above to prevent Routing from stepping over the constant. initialize also accepted the name of the constant it is about to be stored in, and a block of code to execute later on.</p>
+
+<p>CustomCondition#inspect did the obvious, and output the name we were to be remembering.</p>
+
+<p>CustomCondition#=~ simply called the stored block with the argument we are trying to match, allowing the creation of the object to completely drive its purpose.</p>
+
+<p>Lastly, since all the work was being done in the ActionController::Routing module, I created a class method that would do the creation and assignment for me so that I was doing less direct repetition.</p>
+
+<p>Once that was all in place, I simply called my helper method with the name of the constant, and a block encapsulating the behaviour. Done and done.</p>
+
+
+  
+</div>
+
+  </div>
+</div>
+
+<!--Next & Prev Links-->
+<div class="font-sans flex justify-between content-center px-4 pb-12">
+  <div class="text-left">
+    
+    <span class="text-xs md:text-sm font-normal text-gray-600">&lt; Previous Post</span><br>
+    <p><a href="/2006/05/02/driving-html/"
+        class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
+        Driving
+      </a></p>
+    
+  </div>
+  <div class="text-right">
+    
+    <span class="text-xs md:text-sm font-normal text-gray-600">Next Post &gt;</span><br>
+    <p><a href="/2006/06/08/rapid-prototyping-with-openstruct-html/"
+        class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
+        Rapid Prototyping with OpenStruct
+      </a></p>
+    
+  </div>
+</div>
+<!--/Next & Prev Links-->
+
+    </div>
+
+    <footer class="bg-white border-t border-gray-400 shadow">
+  <div class="container max-w-4xl mx-auto flex py-8">
+
+    <div class="w-full mx-auto flex flex-wrap justify-between">
+      <div class="flex w-full md:w-1/5">
+        <div class="px-8 mt-10">
+          <img class="rounded-full mr-4" src="/assets/memoji.png" alt="Avatar of Author">
+        </div>
+      </div>
+      <div class="flex w-full md:w-3/5">
+        <div class="px-8">
+          <h3 class="font-bold text-gray-900">About</h3>
+          <p class="my-4 text-gray-600 text-sm">
+            Jamie is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.
+          </p>
+          <p class="my-4 text-gray-600 text-sm">
+            Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.
+          </p>
+          <p class="text-gray-500 text-xs md:text-base">Minimal Blog Tailwind CSS template by <a
+              class="text-teal-400 no-underline hover:underline"
+              href="https://www.tailwindtoolbox.com">TailwindToolbox.com</a>
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-row-reverse w-full md:w-1/5">
+        <div class="px-8">
+          <h3 class="font-bold text-gray-900">&nbsp;</h3>
+          <ul class="list-reset items-center text-sm pt-3">
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="https://github.com/jamie/">Github</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="/static/jamie-macey/">Resume</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="mailto:jamie.blog@tracefunc.com">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+    <script>
+  /* Progress bar */
+  //Source: https://alligator.io/js/progress-bar-javascript-css-variables/
+  var h = document.documentElement,
+    b = document.body,
+    st = 'scrollTop',
+    sh = 'scrollHeight',
+    progress = document.querySelector('#progress'),
+    scroll;
+  var scrollpos = window.scrollY;
+  var header = document.getElementById("header");
+  var navcontent = document.getElementById("nav-content");
+
+  document.addEventListener('scroll', function () {
+    /*Refresh scroll % width*/
+    scroll = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
+    progress.style.setProperty('--scroll', scroll + '%');
+  });
+
+  //Javascript to toggle the menu
+  document.getElementById('nav-toggle').onclick = function () {
+    document.getElementById("nav-content").classList.toggle("hidden");
+  }
+</script>
+
+<script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  </body>
+
+</html>

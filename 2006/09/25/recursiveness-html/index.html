@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Recursiveness | set_trace_func</title>
+
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<link rel="stylesheet" href="/_bridgetown/static/css/all.ce35e1d69887124b52e2.css" />
+<script src="/_bridgetown/static/js/all.2c33afdfbbf1e1f92903.js" defer></script>
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="bg-gray-100 font-sans leading-normal tracking-normal post ">
+    <nav id="header" class="fixed w-full z-10 top-0 bg-white shadow">
+  <div id="progress" class="h-1 z-20 top-0"
+    style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);"></div>
+
+  <div class="w-full md:max-w-4xl mx-auto flex flex-wrap items-center justify-between mt-0 py-3">
+    <h2 class="pl-4">
+      <a class="text-gray-900 text-base no-underline hover:no-underline font-extrabold text-xl" href="/">
+        set_trace_func
+      </a>
+    </h2>
+
+    <div class="block lg:hidden pr-4">
+      <button id="nav-toggle"
+        class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-900 hover:border-teal-500 appearance-none focus:outline-none">
+        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <title>Menu</title>
+          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+        </svg>
+      </button>
+    </div>
+
+    <div
+      class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-gray-100 md:bg-transparent z-20"
+      id="nav-content">
+      <ul class="list-reset lg:flex justify-end flex-1 items-center">
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/archive/">Archive</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/tags/">Tags</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/projects/">Projects</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/notes/">Notes</a>
+</li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+    <div class="container w-full md:max-w-3xl mx-auto pt-20 pb-10">
+      <div id="content" class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
+  <div id="article">
+    <div class="font-sans mb-8">
+  <h1><a href="/2006/09/25/recursiveness-html/">Recursiveness</a></h1>
+  <p class="text-sm md:text-base font-normal text-gray-600">
+    25th Sep 2006
+    
+      | Tags:
+      
+        <a href="/tags/#programming">programming</a>
+      
+        <a href="/tags/#ruby">ruby</a>
+      
+    
+  </p>
+
+  
+    <p>One of the big things I learned at University was that while “Recursion is a Wonderful Thing” (Thank you, Dr. Roelants), sometimes the performance can really hurt. Those times, it can pay to spend the effort turning that recursive function into a simple loop. Sure, it might not be as clean, or as elegant, or as natural to understand, but we’re looking at performance here, right?</p>
+
+<p>Ryan Davis recently <a href="http://blog.zenspider.com/archives/2006/09/recursive_functions_in_rubyinline.html">posted</a> about using RubyInline to optimize a recursive factorial method. He ended with a caveat that sometimes you need to look at other things than just moving the code into C for speed. His idea was to cache the data as it goes along. There are times when that won’t help you in the log run (for example, generating a stats graph where caching as you draw helps, but the cached values will be stale the next time you need to do it) but changing it around to iterative can sometimes give you a further speedup.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="k">def</span> <span class="nf">fib_iter</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+  <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">3</span>  
+  <span class="n">f</span> <span class="o">=</span> <span class="n">f1</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="p">(</span><span class="mi">2</span><span class="o">..</span><span class="n">n</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span>
+    <span class="n">f</span><span class="p">,</span> <span class="n">f1</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="o">+</span><span class="n">f1</span><span class="p">),</span> <span class="n">f</span>
+  <span class="k">end</span>
+  <span class="n">f</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The benchmarking speaks for itself. (Same parameters as Ryan’s benching, 10,000 runs doing fib(15)):</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>                      user     system      total        real
+fib-ruby         21.180000   3.640000  24.820000 ( 24.989140)
+fib-hash-reset    0.510000   0.070000   0.580000 (  0.609976)
+fib-cache-reset   0.510000   0.050000   0.560000 (  0.570715)
+fib-iter          0.160000   0.020000   0.180000 (  0.209565)
+fib-hash          0.020000   0.000000   0.020000 (  0.034616)
+fib-cached        0.020000   0.010000   0.030000 (  0.035222)
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Benchmarks for fib-ruby and fib-cached come from Ryan’s post. fib-iter and fib-hash are mine.</p>
+
+<p>The two “-reset” methods are indicative of times when global caching won’t help you, which is still a significant speedup over the uncached versions. (For fib(15), uncached will need ~610 method calls, compared to ~15) The iterative method is about 1/3 their speed, but when you can globally cache you can get huge gains - if I increased the number of runs in the benchmark, the discrepancy between fib-iter and fib-cached would increase even more.</p>
+
+<p>So once again, it seems that there’s a different best solution for two different problems.</p>
+
+<p>And the fib-hash benchmark? It’s not significantly faster than Ryan’s fib-cached method, but it bumps the fib logic from a method that uses a hash into the hash itself. It’s a neat trick I picked up a while ago, but probably too ugly to make significant use of unless your benchmarking tells you otherwise - it’s really hard to read at first glance:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="k">def</span> <span class="nf">hashfib</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+  <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span>
+  <span class="n">h</span> <span class="o">=</span> <span class="no">Hash</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span><span class="o">|</span><span class="n">h</span><span class="p">,</span><span class="n">k</span><span class="o">|</span> <span class="n">h</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">h</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">h</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="p">}</span>
+  <span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="n">h</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="n">h</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>The cached version uses @@h instead of h, and</td>
+      <td> </td>
+      <td>=s it.</td>
+    </tr>
+  </tbody>
+</table>
+
+
+  
+</div>
+
+  </div>
+</div>
+
+<!--Next & Prev Links-->
+<div class="font-sans flex justify-between content-center px-4 pb-12">
+  <div class="text-left">
+    
+    <span class="text-xs md:text-sm font-normal text-gray-600">&lt; Previous Post</span><br>
+    <p><a href="/2006/09/13/dynamic-activerecord-attributes-html/"
+        class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
+        Dynamic ActiveRecord Attributes
+      </a></p>
+    
+  </div>
+  <div class="text-right">
+    
+    <span class="text-xs md:text-sm font-normal text-gray-600">Next Post &gt;</span><br>
+    <p><a href="/2006/12/28/resolutions-html/"
+        class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
+        Resolutions
+      </a></p>
+    
+  </div>
+</div>
+<!--/Next & Prev Links-->
+
+    </div>
+
+    <footer class="bg-white border-t border-gray-400 shadow">
+  <div class="container max-w-4xl mx-auto flex py-8">
+
+    <div class="w-full mx-auto flex flex-wrap justify-between">
+      <div class="flex w-full md:w-1/5">
+        <div class="px-8 mt-10">
+          <img class="rounded-full mr-4" src="/assets/memoji.png" alt="Avatar of Author">
+        </div>
+      </div>
+      <div class="flex w-full md:w-3/5">
+        <div class="px-8">
+          <h3 class="font-bold text-gray-900">About</h3>
+          <p class="my-4 text-gray-600 text-sm">
+            Jamie is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.
+          </p>
+          <p class="my-4 text-gray-600 text-sm">
+            Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.
+          </p>
+          <p class="text-gray-500 text-xs md:text-base">Minimal Blog Tailwind CSS template by <a
+              class="text-teal-400 no-underline hover:underline"
+              href="https://www.tailwindtoolbox.com">TailwindToolbox.com</a>
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-row-reverse w-full md:w-1/5">
+        <div class="px-8">
+          <h3 class="font-bold text-gray-900">&nbsp;</h3>
+          <ul class="list-reset items-center text-sm pt-3">
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="https://github.com/jamie/">Github</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="/static/jamie-macey/">Resume</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="mailto:jamie.blog@tracefunc.com">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+    <script>
+  /* Progress bar */
+  //Source: https://alligator.io/js/progress-bar-javascript-css-variables/
+  var h = document.documentElement,
+    b = document.body,
+    st = 'scrollTop',
+    sh = 'scrollHeight',
+    progress = document.querySelector('#progress'),
+    scroll;
+  var scrollpos = window.scrollY;
+  var header = document.getElementById("header");
+  var navcontent = document.getElementById("nav-content");
+
+  document.addEventListener('scroll', function () {
+    /*Refresh scroll % width*/
+    scroll = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
+    progress.style.setProperty('--scroll', scroll + '%');
+  });
+
+  //Javascript to toggle the menu
+  document.getElementById('nav-toggle').onclick = function () {
+    document.getElementById("nav-content").classList.toggle("hidden");
+  }
+</script>
+
+<script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  </body>
+
+</html>

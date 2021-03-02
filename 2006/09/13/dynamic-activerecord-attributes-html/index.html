@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Dynamic ActiveRecord Attributes | set_trace_func</title>
+
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<link rel="stylesheet" href="/_bridgetown/static/css/all.ce35e1d69887124b52e2.css" />
+<script src="/_bridgetown/static/js/all.2c33afdfbbf1e1f92903.js" defer></script>
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="bg-gray-100 font-sans leading-normal tracking-normal post ">
+    <nav id="header" class="fixed w-full z-10 top-0 bg-white shadow">
+  <div id="progress" class="h-1 z-20 top-0"
+    style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);"></div>
+
+  <div class="w-full md:max-w-4xl mx-auto flex flex-wrap items-center justify-between mt-0 py-3">
+    <h2 class="pl-4">
+      <a class="text-gray-900 text-base no-underline hover:no-underline font-extrabold text-xl" href="/">
+        set_trace_func
+      </a>
+    </h2>
+
+    <div class="block lg:hidden pr-4">
+      <button id="nav-toggle"
+        class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-900 hover:border-teal-500 appearance-none focus:outline-none">
+        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <title>Menu</title>
+          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+        </svg>
+      </button>
+    </div>
+
+    <div
+      class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-gray-100 md:bg-transparent z-20"
+      id="nav-content">
+      <ul class="list-reset lg:flex justify-end flex-1 items-center">
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/archive/">Archive</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/tags/">Tags</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/projects/">Projects</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/notes/">Notes</a>
+</li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+    <div class="container w-full md:max-w-3xl mx-auto pt-20 pb-10">
+      <div id="content" class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
+  <div id="article">
+    <div class="font-sans mb-8">
+  <h1><a href="/2006/09/13/dynamic-activerecord-attributes-html/">Dynamic ActiveRecord Attributes</a></h1>
+  <p class="text-sm md:text-base font-normal text-gray-600">
+    13th Sep 2006
+    
+      | Tags:
+      
+        <a href="/tags/#programming">programming</a>
+      
+        <a href="/tags/#rails">rails</a>
+      
+    
+  </p>
+
+  
+    <p>Chris Abad wrote yesterday about his experience with <a href="http://blog.integralimpressions.com/articles/2006/09/12/dynamically-adding-attributes-to-your-model">dynamic attributes</a>, and I thought I’d share mine.</p>
+
+<p>I’m doing something similar to collect data POSTed to a form, but my data is slightly more structured than Chris’. I have a few fields that I expect to be populated most of the time, and the possiblity of arbitrary fields being set as well. My models look like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="n">create_table</span> <span class="s2">"leads"</span><span class="p">,</span> <span class="ss">:force</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+  <span class="n">t</span><span class="p">.</span><span class="nf">column</span> <span class="s2">"email"</span><span class="p">,</span> <span class="ss">:string</span><span class="p">,</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="s2">""</span><span class="p">,</span> <span class="ss">:null</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+  <span class="n">t</span><span class="p">.</span><span class="nf">column</span> <span class="s2">"firstname"</span><span class="p">,</span> <span class="ss">:string</span>
+  <span class="n">t</span><span class="p">.</span><span class="nf">column</span> <span class="s2">"lastname"</span><span class="p">,</span> <span class="ss">:string</span>
+  <span class="n">t</span><span class="p">.</span><span class="nf">column</span> <span class="s2">"ip"</span><span class="p">,</span> <span class="ss">:string</span><span class="p">,</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="s2">""</span><span class="p">,</span> <span class="ss">:null</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+<span class="k">end</span>
+<span class="n">create_table</span> <span class="s2">"lead_infos"</span><span class="p">,</span> <span class="ss">:force</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+  <span class="n">t</span><span class="p">.</span><span class="nf">column</span> <span class="s2">"lead_id"</span><span class="p">,</span> <span class="ss">:integer</span><span class="p">,</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">:null</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+  <span class="n">t</span><span class="p">.</span><span class="nf">column</span> <span class="s2">"name"</span><span class="p">,</span> <span class="ss">:string</span><span class="p">,</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="s2">""</span><span class="p">,</span> <span class="ss">:null</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+  <span class="n">t</span><span class="p">.</span><span class="nf">column</span> <span class="s2">"value"</span><span class="p">,</span> <span class="ss">:string</span><span class="p">,</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="s2">""</span><span class="p">,</span> <span class="ss">:null</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Lead, of course, <code class="highlighter-rouge">has_many :lead_infos</code>. Thus, I can assume that most leads will have an email, first and last name, and an IP address. The name fields are optional, but common enough to warrant being in the main table (also makes for easier lookups and duplicate checking). Other things, like address, city, zip, etc. I want to hang on to if provided, so I store them as a LeadInfo.</p>
+
+<p>I’m in the same boat as Chris though, as I want to provide uniform access to the data points in a Lead, as well as its LeadInfos, using the ‘name’ field as a key. Chris added an <code class="highlighter-rouge">after_find</code> hook that moved all the correct data in, but since I’m such a fan of metaprogramming, I decided that I would use <code class="highlighter-rouge">method_missing</code> like so:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Lead</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_many</span> <span class="ss">:lead_infos</span><span class="p">,</span> <span class="ss">:dependent</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+
+  <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="n">methodname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">begin</span>
+      <span class="k">super</span>
+    <span class="k">rescue</span> <span class="no">NameError</span>
+      <span class="nb">name</span> <span class="o">=</span> <span class="n">methodname</span><span class="p">.</span><span class="nf">to_s</span><span class="p">.</span><span class="nf">chomp</span><span class="p">(</span><span class="s1">'='</span><span class="p">)</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">methodname</span><span class="p">.</span><span class="nf">to_s</span> <span class="o">=~</span> <span class="sr">/=$/</span><span class="p">)</span>
+        <span class="no">LeadInfo</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="nb">name</span><span class="p">,</span> <span class="ss">:value</span> <span class="o">=&gt;</span> <span class="n">args</span><span class="p">.</span><span class="nf">first</span><span class="p">,</span> <span class="ss">:lead_id</span> <span class="o">=&gt;</span> <span class="nb">self</span><span class="p">.</span><span class="nf">id</span><span class="p">)</span>
+        <span class="nb">self</span>
+      <span class="k">else</span>
+        <span class="no">LeadInfo</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="ss">:first</span><span class="p">,</span> <span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'name = ?'</span><span class="p">,</span> <span class="nb">name</span><span class="p">])</span> <span class="n">or</span> <span class="k">raise</span>
+        <span class="n">lead_infos</span><span class="p">.</span><span class="nf">find_by_name</span><span class="p">(</span><span class="nb">name</span><span class="p">).</span><span class="nf">value</span> <span class="k">rescue</span> <span class="s1">''</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="o">...</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Walking through this, I first make sure to call super so that ActiveRecord’s method_missing gets run first. If it can’t find anything to do, then it is the Lead’s turn to try.</p>
+
+<p>We start by stripping a trailing = if it exists to get the correct name to use. If the = existed, it’s being used as a setter, so we just create the new LeadInfo record based off the current Lead, and return self so that we can chain calls if we desire.</p>
+
+<p>Otherwise, it’s a getter, so I first verify that there is at least one LeadInfo with the supplied name - if not, then something is very wrong and we want to re-raise the NameError. Elsewise we so a search for the given value and return it, or an empty string if it is not set (the empty string catch-all is specific for the things I’m doing with this bit of hackery, so might not be applicable to everybody).</p>
+
+<p>The performance difference between my code and Chris’ is that I take 2 DB queries for each access to the LeadInfo data, but only when you ask for it. I’m not caching the result (which would take some strain away) because my use of it is solely one access each time I load the Lead from the DB, so caching wouldn’t help me. On the other hand, if I do a grand find of a bunch of leads (and in a few places in my code that’s quite a lot) I’m not getting hit with extra db hits that I’m not going to use most of the time.</p>
+
+<p>There’s benefits to both what I’ve done and what Chris has done, so anyone reading these can take their pick :)</p>
+
+<h2 id="comments">Comments</h2>
+
+<p>Nice write up. I was going to go the MethodMissing route if it weren’t for my requirement to have all the attributes insterted into the objects attributes hash. I think you’re write about the catch-all being specific to you. Most people would probably want to re-raise the error and deal with that appropriately elsewhere.</p>
+
+<ul>
+  <li>Chris Abad, at 18:45, Sep 13 2006</li>
+</ul>
+
+  
+</div>
+
+  </div>
+</div>
+
+<!--Next & Prev Links-->
+<div class="font-sans flex justify-between content-center px-4 pb-12">
+  <div class="text-left">
+    
+    <span class="text-xs md:text-sm font-normal text-gray-600">&lt; Previous Post</span><br>
+    <p><a href="/2006/08/10/hello-mephisto-html/"
+        class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
+        Hello, Mephisto
+      </a></p>
+    
+  </div>
+  <div class="text-right">
+    
+    <span class="text-xs md:text-sm font-normal text-gray-600">Next Post &gt;</span><br>
+    <p><a href="/2006/09/25/recursiveness-html/"
+        class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
+        Recursiveness
+      </a></p>
+    
+  </div>
+</div>
+<!--/Next & Prev Links-->
+
+    </div>
+
+    <footer class="bg-white border-t border-gray-400 shadow">
+  <div class="container max-w-4xl mx-auto flex py-8">
+
+    <div class="w-full mx-auto flex flex-wrap justify-between">
+      <div class="flex w-full md:w-1/5">
+        <div class="px-8 mt-10">
+          <img class="rounded-full mr-4" src="/assets/memoji.png" alt="Avatar of Author">
+        </div>
+      </div>
+      <div class="flex w-full md:w-3/5">
+        <div class="px-8">
+          <h3 class="font-bold text-gray-900">About</h3>
+          <p class="my-4 text-gray-600 text-sm">
+            Jamie is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.
+          </p>
+          <p class="my-4 text-gray-600 text-sm">
+            Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.
+          </p>
+          <p class="text-gray-500 text-xs md:text-base">Minimal Blog Tailwind CSS template by <a
+              class="text-teal-400 no-underline hover:underline"
+              href="https://www.tailwindtoolbox.com">TailwindToolbox.com</a>
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-row-reverse w-full md:w-1/5">
+        <div class="px-8">
+          <h3 class="font-bold text-gray-900">&nbsp;</h3>
+          <ul class="list-reset items-center text-sm pt-3">
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="https://github.com/jamie/">Github</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="/static/jamie-macey/">Resume</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="mailto:jamie.blog@tracefunc.com">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+    <script>
+  /* Progress bar */
+  //Source: https://alligator.io/js/progress-bar-javascript-css-variables/
+  var h = document.documentElement,
+    b = document.body,
+    st = 'scrollTop',
+    sh = 'scrollHeight',
+    progress = document.querySelector('#progress'),
+    scroll;
+  var scrollpos = window.scrollY;
+  var header = document.getElementById("header");
+  var navcontent = document.getElementById("nav-content");
+
+  document.addEventListener('scroll', function () {
+    /*Refresh scroll % width*/
+    scroll = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
+    progress.style.setProperty('--scroll', scroll + '%');
+  });
+
+  //Javascript to toggle the menu
+  document.getElementById('nav-toggle').onclick = function () {
+    document.getElementById("nav-content").classList.toggle("hidden");
+  }
+</script>
+
+<script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Jekyll: Custom Liquid Tags | set_trace_func</title>
+
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<link rel="stylesheet" href="/_bridgetown/static/css/all.ce35e1d69887124b52e2.css" />
+<script src="/_bridgetown/static/js/all.2c33afdfbbf1e1f92903.js" defer></script>
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="bg-gray-100 font-sans leading-normal tracking-normal post ">
+    <nav id="header" class="fixed w-full z-10 top-0 bg-white shadow">
+  <div id="progress" class="h-1 z-20 top-0"
+    style="background:linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0);"></div>
+
+  <div class="w-full md:max-w-4xl mx-auto flex flex-wrap items-center justify-between mt-0 py-3">
+    <h2 class="pl-4">
+      <a class="text-gray-900 text-base no-underline hover:no-underline font-extrabold text-xl" href="/">
+        set_trace_func
+      </a>
+    </h2>
+
+    <div class="block lg:hidden pr-4">
+      <button id="nav-toggle"
+        class="flex items-center px-3 py-2 border rounded text-gray-500 border-gray-600 hover:text-gray-900 hover:border-teal-500 appearance-none focus:outline-none">
+        <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <title>Menu</title>
+          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+        </svg>
+      </button>
+    </div>
+
+    <div
+      class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-gray-100 md:bg-transparent z-20"
+      id="nav-content">
+      <ul class="list-reset lg:flex justify-end flex-1 items-center">
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/archive/">Archive</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/tags/">Tags</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/projects/">Projects</a>
+</li>
+
+        
+
+<li class="mr-3">
+  <a class="inline-block py-2 px-4 no-underline text-gray-600 hover:text-gray-900 hover:text-underline" href="/notes/">Notes</a>
+</li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+    <div class="container w-full md:max-w-3xl mx-auto pt-20 pb-10">
+      <div id="content" class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
+  <div id="article">
+    <div class="font-sans mb-8">
+  <h1><a href="/2009/12/04/jekyll-custom-liquid-tags-html/">Jekyll: Custom Liquid Tags</a></h1>
+  <p class="text-sm md:text-base font-normal text-gray-600">
+    4th Dec 2009
+    
+      | Tags:
+      
+        <a href="/tags/#blog">blog</a>
+      
+    
+  </p>
+
+  
+    <p>The base install of <a href="http://github.com/mojombo/jekyll">Jekyll</a> at the moment doesn’t let you run <em>any</em> arbitrary ruby code. This is so that they can use it for github pages and not need to worry about making a super-secure sandbox just to generate some HTML.</p>
+
+<p>Unfortunately, that means we’re out of luck for creating custom liquid filters. The most annoying deficiency for me is tags. The way the default liquid <code class="highlighter-rouge">map</code> filter works isn’t friendly with @site.tags, so to generate my <a href="/tags/">Tags</a> page I had to do some really crazy stuff with <code class="highlighter-rouge">capture</code>:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre></td><td class="rouge-code"><pre><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"articles"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;table&gt;</span>
+    {% for tag_ in @site.tags %}
+      {% capture tag %}{{ tag_ | first }}{% endcapture %}
+      <span class="nt">&lt;tr&gt;&lt;th&gt;</span>{{ tag }}<span class="nt">&lt;/th&gt;</span>
+          <span class="nt">&lt;th&gt;&lt;a</span> <span class="na">name=</span><span class="s">"{{ tag }}"</span> <span class="na">class=</span><span class="s">"anchor"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/th&gt;&lt;/tr&gt;</span>
+      {% for post in @site.posts %}
+        {% if post.tags contains tag %}
+          <span class="nt">&lt;tr&gt;&lt;td&gt;</span>{{ post.date | date: '%b %e, %Y' }}<span class="nt">&lt;/td&gt;</span>
+              <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"{{ post.url }}"</span><span class="nt">&gt;</span>{{ post.title }}<span class="nt">&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;</span>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  <span class="nt">&lt;/table&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Fortunately, it wasn’t to hard to make a fork, and in <a href="http://github.com/jamie/jekyll">my fork</a> I added a super simple code loading option. Now, I can add a quick extension in <code class="highlighter-rouge">_lib/filters.rb</code> like so:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="k">module</span> <span class="nn">Jekyll</span>
+  <span class="k">module</span> <span class="nn">Filters</span>
+    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+      <span class="n">input</span><span class="p">.</span><span class="nf">keys</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">tagged</span><span class="p">(</span><span class="n">input</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
+      <span class="n">input</span><span class="p">.</span><span class="nf">select</span><span class="p">{</span><span class="o">|</span><span class="n">post</span><span class="o">|</span> <span class="n">post</span><span class="p">.</span><span class="nf">tags</span><span class="p">.</span><span class="nf">include?</span> <span class="n">tag</span><span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Now <code class="highlighter-rouge">tags.html</code> looks like this:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="rouge-code"><pre><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"articles"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;table&gt;</span>
+    {% for tag in @site.tags|keys|sort %}
+      <span class="nt">&lt;tr&gt;&lt;th&gt;</span>{{ tag }}<span class="nt">&lt;/th&gt;</span>
+          <span class="nt">&lt;th&gt;&lt;a</span> <span class="na">name=</span><span class="s">"{{ tag }}"</span> <span class="na">class=</span><span class="s">"anchor"</span><span class="nt">&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/th&gt;&lt;/tr&gt;</span>
+      {% for post in @site.posts|tagged:tag %}
+        <span class="nt">&lt;tr&gt;&lt;td&gt;</span>{{ post.date | date: '%b %e, %Y' }}<span class="nt">&lt;/td&gt;</span>
+            <span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"{{ post.url }}"</span><span class="nt">&gt;</span>{{ post.title }}<span class="nt">&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;</span>
+      {% endfor %}
+    {% endfor %}
+  <span class="nt">&lt;/table&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>There’s a bit of trickery there that liquid doesn’t document very well on lines 3 and 5 - in the second half of the for block you can chain filters on the collection you’re iterating over. The short format used is something along the lines of <code class="highlighter-rouge">collection|filter:arg,arg,arg|filter...</code></p>
+
+<p>Similarly, I had some ugly code in my regular <a href="/archive/">archive</a> page to group by year and put headings in:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre>{% for post in site.posts %}
+  {% unless post.next %}
+    <span class="nt">&lt;tr&gt;&lt;th&gt;</span>{{ post.date | date: '%Y' }}<span class="nt">&lt;/th&gt;&lt;th&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/th&gt;&lt;/tr&gt;</span>
+  {% else %}
+    {% capture year %}{{ post.date | date: '%Y' }}{% endcapture %}
+    {% capture nyear %}{{ post.next.date | date: '%Y' }}{% endcapture %}
+    {% if year != nyear %}
+      <span class="nt">&lt;tr&gt;&lt;th&gt;</span>{{ post.date | date: '%Y' }}<span class="nt">&lt;/th&gt;&lt;th&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/th&gt;&lt;/tr&gt;</span>
+    {% endif %}
+  {% endunless %}
+
+  ...
+{% endfor %}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Now, a few extra liquid filters later, it looks like this:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>{% for post in site.posts %}
+  {% if post|last_of_year? %}
+    <span class="nt">&lt;tr&gt;&lt;th&gt;</span>{{ post.date | date: '%Y' }}<span class="nt">&lt;/th&gt;&lt;th&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;/th&gt;&lt;/tr&gt;</span>
+  {% endif %}
+  
+  ...
+{% endfor %}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>If you want to get easy extensions in your own project, rather than maintaining Yet Another Jekyll Fork, please vote up <a href="http://github.com/mojombo/jekyll/issues#issue/100">my merge request</a> on github.</p>
+
+<hr />
+
+<p>As a side note, blogging about liquid is a pain. The least pain I’ve found so far is to use liquid to output the leading open brace for all tags. Looks like garbage in my text editor, but it gets the job done:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>{{'{'}}{ post.title }}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Blogging about blogging about liquid (as above) I leave as an exercise to the reader.</p>
+
+  
+</div>
+
+  </div>
+</div>
+
+<!--Next & Prev Links-->
+<div class="font-sans flex justify-between content-center px-4 pb-12">
+  <div class="text-left">
+    
+    <span class="text-xs md:text-sm font-normal text-gray-600">&lt; Previous Post</span><br>
+    <p><a href="/2009/12/01/hoptoad-v2-in-merb-html/"
+        class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
+        Hoptoad v2 in Merb
+      </a></p>
+    
+  </div>
+  <div class="text-right">
+    
+    <span class="text-xs md:text-sm font-normal text-gray-600">Next Post &gt;</span><br>
+    <p><a href="/2009/12/22/migrating-disqus-html/"
+        class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
+        Migrating Disqus
+      </a></p>
+    
+  </div>
+</div>
+<!--/Next & Prev Links-->
+
+    </div>
+
+    <footer class="bg-white border-t border-gray-400 shadow">
+  <div class="container max-w-4xl mx-auto flex py-8">
+
+    <div class="w-full mx-auto flex flex-wrap justify-between">
+      <div class="flex w-full md:w-1/5">
+        <div class="px-8 mt-10">
+          <img class="rounded-full mr-4" src="/assets/memoji.png" alt="Avatar of Author">
+        </div>
+      </div>
+      <div class="flex w-full md:w-3/5">
+        <div class="px-8">
+          <h3 class="font-bold text-gray-900">About</h3>
+          <p class="my-4 text-gray-600 text-sm">
+            Jamie is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.
+          </p>
+          <p class="my-4 text-gray-600 text-sm">
+            Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.
+          </p>
+          <p class="text-gray-500 text-xs md:text-base">Minimal Blog Tailwind CSS template by <a
+              class="text-teal-400 no-underline hover:underline"
+              href="https://www.tailwindtoolbox.com">TailwindToolbox.com</a>
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-row-reverse w-full md:w-1/5">
+        <div class="px-8">
+          <h3 class="font-bold text-gray-900">&nbsp;</h3>
+          <ul class="list-reset items-center text-sm pt-3">
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="https://github.com/jamie/">Github</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="/static/jamie-macey/">Resume</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+            </li>
+            <li>
+              <a class="inline-block text-gray-600 no-underline hover:text-gray-900 hover:text-underline py-1"
+                href="mailto:jamie.blog@tracefunc.com">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+    <script>
+  /* Progress bar */
+  //Source: https://alligator.io/js/progress-bar-javascript-css-variables/
+  var h = document.documentElement,
+    b = document.body,
+    st = 'scrollTop',
+    sh = 'scrollHeight',
+    progress = document.querySelector('#progress'),
+    scroll;
+  var scrollpos = window.scrollY;
+  var header = document.getElementById("header");
+  var navcontent = document.getElementById("nav-content");
+
+  document.addEventListener('scroll', function () {
+    /*Refresh scroll % width*/
+    scroll = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
+    progress.style.setProperty('--scroll', scroll + '%');
+  });
+
+  //Javascript to toggle the menu
+  document.getElementById('nav-toggle').onclick = function () {
+    document.getElementById("nav-content").classList.toggle("hidden");
+  }
+</script>
+
+<script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  </body>
+
+</html>
