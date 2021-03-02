@@ -23,4 +23,10 @@ A shout-out to some gems/tools that have a well-deserved place in my [[Rails]] t
 -	sidekiq
 -	Bullet (detects N+1 queries) - Compare to newcomer [prosopite](https://github.com/charkost/prosopite)
 -	Insomnia (HTTP api tool)
+- HTTP.rb (compare Typhoeus, others as a blog post?)
+
+And some TODOs that I want to try out.
+
+- [api_struct](https://github.com/rubygarage/api_struct) for writing API clients, as a step up from my usual bit of raw httprb and JSON->hash data bags on the response.
+
 
