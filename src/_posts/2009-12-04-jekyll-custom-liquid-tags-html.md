@@ -11,7 +11,7 @@ Unfortunately, that means we're out of luck for creating custom liquid filters. 
 
 [Tags]: /tags/
 
-~~~html
+```html
 <div id="articles">
   <table>
     {% for tag_ in @site.tags %}
@@ -27,13 +27,13 @@ Unfortunately, that means we're out of luck for creating custom liquid filters. 
     {% endfor %}
   </table>
 </div>
-~~~
+```
 
 Fortunately, it wasn't to hard to make a fork, and in [my fork][] I added a super simple code loading option. Now, I can add a quick extension in `_lib/filters.rb` like so:
 
 [my fork]: http://github.com/jamie/jekyll
 
-~~~ruby
+```ruby
 module Jekyll
   module Filters
     def keys(input)
@@ -45,11 +45,11 @@ module Jekyll
     end
   end
 end
-~~~
+```
 
 Now `tags.html` looks like this:
 
-~~~html
+```html
 <div id="articles">
   <table>
     {% for tag in @site.tags|keys|sort %}
@@ -62,7 +62,7 @@ Now `tags.html` looks like this:
     {% endfor %}
   </table>
 </div>
-~~~
+```
 
 There's a bit of trickery there that liquid doesn't document very well on lines 3 and 5 - in the second half of the for block you can chain filters on the collection you're iterating over. The short format used is something along the lines of `collection|filter:arg,arg,arg|filter...`
 
@@ -70,7 +70,7 @@ Similarly, I had some ugly code in my regular [archive][] page to group by year 
 
 [archive]: /archive/
 
-~~~html
+```html
 {% for post in site.posts %}
   {% unless post.next %}
     <tr><th>{{ post.date | date: '%Y' }}</th><th>&nbsp;</th></tr>
@@ -84,11 +84,11 @@ Similarly, I had some ugly code in my regular [archive][] page to group by year 
 
   ...
 {% endfor %}
-~~~
+```
 
 Now, a few extra liquid filters later, it looks like this:
 
-~~~html
+```html
 {% for post in site.posts %}
   {% if post|last_of_year? %}
     <tr><th>{{ post.date | date: '%Y' }}</th><th>&nbsp;</th></tr>
@@ -96,7 +96,7 @@ Now, a few extra liquid filters later, it looks like this:
   
   ...
 {% endfor %}
-~~~
+```
 
 If you want to get easy extensions in your own project, rather than maintaining Yet Another Jekyll Fork, please vote up [my merge request](http://github.com/mojombo/jekyll/issues#issue/100) on github.
 

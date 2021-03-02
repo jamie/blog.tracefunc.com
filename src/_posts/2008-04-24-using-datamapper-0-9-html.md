@@ -23,7 +23,7 @@ So, DataMapper 0.3 was behaving weirdly for me, and I thought I'd try upgrading 
 
 My installation Rakefile follows, just stuff it in an empty directory and it'll do everything from there. Much thanks to [Atmos](http://atmos.org/) for a good starting point and some setup help.
 
-~~~ruby
+```ruby
 desc "Fetch and Install DM and Merb"
 task :install_all do 
   config = CONFIG['dm']
@@ -155,4 +155,4 @@ CONFIG = {
     )
   }
 }
-~~~
+```

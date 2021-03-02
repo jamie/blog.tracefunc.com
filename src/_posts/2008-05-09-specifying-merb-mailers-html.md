@@ -7,7 +7,7 @@ This helper is based on some other controller/view helpers I've been working on 
 
 I'm still considering the idea of separate specs for UserMailer and its views, but I think the overhead is too much for mailers, compared to the benefits we get for regular controllers/views.  I think this is a result of the way the send_mail helper functions.
 
-~~~ruby
+```ruby
 # in a controller
 send_mail UserMailer, :hello, {
   :from => "greeter@example.com",
@@ -16,11 +16,11 @@ send_mail UserMailer, :hello, {
 }, {
   :name => @person.name
 }
-~~~
+```
 
 The controller spec can simply stub/mock the send_mail call as appropriate.
 
-~~~ruby
+```ruby
 # spec/spec_helper.rb
 Merb::Mailer.delivery_method = :test_send
 def describe_mail(mailer, template, &block)
@@ -49,11 +49,11 @@ describe_mail UserMailer, :hello do
     @mail.text.should == "Hello Jamie"
   end
 end
-~~~
+```
 
 I'm a big fan of custom rspec describers, as above.  The fact that before and after blocks are transparently inherited is a *huge* win over test/unit, where you'd need to explicitly call super.
 
-~~~ruby
+```ruby
 # app/mailers/user_mailer.rb
 class UserMailer < Merb::MailController
   def hello
@@ -63,5 +63,5 @@ end
 
 # app/mailers/views/user_mailer/hello.text.erb
 Hello <%= params[:name] %>
-~~~
+```
 

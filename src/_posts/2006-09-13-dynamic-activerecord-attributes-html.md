@@ -7,7 +7,7 @@ Chris Abad wrote yesterday about his experience with [dynamic attributes][], and
 
 I'm doing something similar to collect data POSTed to a form, but my data is slightly more structured than Chris'. I have a few fields that I expect to be populated most of the time, and the possiblity of arbitrary fields being set as well. My models look like this:
 
-~~~ruby
+```ruby
 create_table "leads", :force => true do |t|
   t.column "email", :string, :default => "", :null => false
   t.column "firstname", :string
@@ -19,13 +19,13 @@ create_table "lead_infos", :force => true do |t|
   t.column "name", :string, :default => "", :null => false
   t.column "value", :string, :default => "", :null => false
 end
-~~~
+```
 
 Lead, of course, `has_many :lead_infos`. Thus, I can assume that most leads will have an email, first and last name, and an IP address. The name fields are optional, but common enough to warrant being in the main table (also makes for easier lookups and duplicate checking). Other things, like address, city, zip, etc. I want to hang on to if provided, so I store them as a LeadInfo.
 
 I'm in the same boat as Chris though, as I want to provide uniform access to the data points in a Lead, as well as its LeadInfos, using the 'name' field as a key. Chris added an `after_find` hook that moved all the correct data in, but since I'm such a fan of metaprogramming, I decided that I would use `method_missing` like so:
 
-~~~ruby
+```ruby
 class Lead < ActiveRecord::Base
   has_many :lead_infos, :dependent => true
 
@@ -46,7 +46,7 @@ class Lead < ActiveRecord::Base
 
   ...
 end
-~~~
+```
 
 Walking through this, I first make sure to call super so that ActiveRecord's method\_missing gets run first. If it can't find anything to do, then it is the Lead's turn to try.
 

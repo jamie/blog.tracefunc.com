@@ -33,17 +33,17 @@ I was gifted [Fluxx][] for Christmas, and it's an absurdly fun card game that's 
 
 I started work a while back on a modification to [RCov][], a fast ruby code-coverage tool. RCov itself is line coverage tool. Much more useful than line coverage is branch coverage, which Mauricio refers to as C1 on the RCov page. I came up with the idea that it shouldn't be too hard to come up with a modification of [Ruby2Ruby][] that takes the branches in the code, and unwraps all the conditionals. So instead of this:
 
-~~~ruby
+```ruby
     if (x and y)
       foo
     else
       bar
     end
-~~~
+```
 
 I wanted it to output something like this:
 
-~~~ruby
+```ruby
     if x
       if y
         foo
@@ -53,7 +53,7 @@ I wanted it to output something like this:
     else
       bar
     end
-~~~
+```
 
 If a line coverage tool were to be run on the output of this translation, it should be able to approximate a branch coverage tool fairly well. Alas, while I have a Ruby2Ruby subclass that performs this translation correctly for significantly convoluted nested conditionals (finally), something on my laptop no longer plays nice with RubyInline, so I can't get it to run. If I get enough desire (or enough people start bugging me) I might try reinstalling Ubuntu to see if that helps (it started to break about the time I upgraded from Dapper to Edgy), or else I might try upgrading to 1.8.5 and see if that's the problem.
 

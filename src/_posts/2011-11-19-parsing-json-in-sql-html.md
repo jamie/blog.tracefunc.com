@@ -12,7 +12,7 @@ ActiveRecord? Just parse the json directly with some SQL:
 
 <!-- EXCERPT -->
 
-~~~ruby
+```ruby
 def json(key, field='params')
   key_json = "\"#{key}\":"
 
@@ -45,7 +45,7 @@ up do
     SET status = #{json('status')}
   "
 end
-~~~
+```
 
 The generated sql looks pretty gnarly but mysql ran through it stupidly fast.
 I shudder to think how long it'd take activerecord to load and update each record individually.

@@ -5,7 +5,7 @@ tags:   [programming, ruby]
 
 As an update to a [previous article](http://blog.tracefunc.com/2007/01/23/test-timing),
 
-~~~ruby
+```ruby
 if $specs_timed.nil? && ENV.has_key?('SLOW')
   $specs_timed = true
   $timings = []
@@ -28,7 +28,7 @@ if $specs_timed.nil? && ENV.has_key?('SLOW')
     puts "  None!" if $timings.empty?
   end
 end
-~~~
+```
 
 Then, simply run
 

@@ -27,7 +27,7 @@ If you depend on anything in Merb, you'll need to add to the docs that applicati
 
 If you plan on dealing with the app directory structure or environment, an easy way to do it is:
 
-~~~ruby
+```ruby
 if defined?(Rails)
   ROOT = RAILS_ROOT
   ENV = RAILS_ENV
@@ -35,7 +35,7 @@ elsif defined?(Merb)
   ROOT = Merb.root
   ENV = (Merb.env == 'rake' ? 'development' : Merb.env)
 end
-~~~
+```
 
 The additional rake environment transparently proxies to the development db connection, so if you just want to compare your plugin's interpretation of `ENV` the above will make that cleaner.
 
@@ -45,17 +45,17 @@ Rails automatically loads any files matching `tasks/*.rake` in the plugin dir.
 
 Merb needs to be told explicitly, relative to the lib directory.  The canonical example from the docs is:
 
-~~~ruby
+```ruby
 if defined?(Merb::Plugins)
   Merb::Plugins.add_rakefiles "merb_sequel" / "merbtasks"
 end
-~~~
+```
 
 Unfortunately, it seems that it wants specified a single file with a `.rb` extension, which is incompatible with the Rails Way.  The easiest fix I've found is to add a file called `tasks.rb` under `/lib`, inside which you just manually require the individual rake files:
 
-~~~ruby
+```ruby
     load File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'tasks', 'merb_sequel.rake'))
-~~~
+```
 
 Do note that the `load` is necessary, `require` doesn't pick the file up properly.
 

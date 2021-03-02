@@ -11,7 +11,7 @@ First, you probably want to make a gem of the plugin. [I forked it](http://githu
 
 Then, to actually use it, just add the following in the right places:
 
-~~~ruby
+```ruby
 # init.rb, in Merb::Bootloader.after_app_loads
 
 HoptoadNotifier.configure do |config|
@@ -64,6 +64,6 @@ begin
 rescue => e
   notify_hoptoad(e)
 end
-~~~
+```
 
 It's not exactly as magical as the Rails plugin's auto-including, but it looks like it's getting the job done for us.

@@ -14,7 +14,7 @@ Turns out, setting up rack to pass static files through is pretty easy, and sinc
 
 All you need is a config.ru file like so, and then be sure to include the generated output dir in your git repository:
 
-~~~ruby
+```ruby
 # I don't have file extensions on entry permalinks
 Rack::Mime::MIME_TYPES.merge!("" => "text/html")
 
@@ -33,4 +33,4 @@ end
 use DefaultIndexFile
 
 run Rack::File.new('output')
-~~~
+```

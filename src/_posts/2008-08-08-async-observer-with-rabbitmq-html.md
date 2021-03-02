@@ -19,7 +19,7 @@ First, install the [amqp][] ruby library to connect to rabbit, and then add a ti
 
 In config/environment.rb:
 
-~~~ruby
+```ruby
 require 'mq'
 class BeanstalkPoolImpersonator
   def initialize(opts={})
@@ -48,19 +48,19 @@ class BeanstalkPoolImpersonator
     @queue.subscribe(*args, &blk)
   end
 end
-~~~
+```
 
 Then, instead of connecting via `Beanstalk::Pool.new`, do this:
 
-~~~ruby
+```ruby
 AsyncObserver::Queue.queue = BeanstalkPoolImpersonator.new()
-~~~
+```
 
 You can pass an options hash to the `new` call, providing user, pass, vhost, host, or port as necessary.
 
 Then, in your workers, load up the async_observer worker class, and extend like so:
 
-~~~ruby
+```ruby
 class RabbitWorker < AsyncObserver::Worker
   def run()
     EM.run do
@@ -74,13 +74,13 @@ class RabbitWorker < AsyncObserver::Worker
     end
   end
 end
-~~~
+```
 
 Create the new worker the same way you would for the AO::Worker, and you're set:
 
-~~~ruby
+```ruby
     RabbitWorker.new(binding).run()
-~~~
+```
 
 Note: I'm maintaining a [merb port][] of async-observer on github.
 

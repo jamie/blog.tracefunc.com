@@ -9,7 +9,7 @@ The good news is that it's pretty straightforward using their API, the only bad 
 
 I'm using the [HTTParty](http://httparty.rubyforge.org) gem to wrap API access, like so:
 
-~~~ruby
+```ruby
 require 'rubygems'
 require 'httparty'
 require 'json'
@@ -39,13 +39,13 @@ class Disqus
     result["message"]
   end
 end
-~~~
+```
 
 Do note that I'm adding trailing slashes to the api calls to avoid a redirect. Doesn't matter for the GET, but the redirect on POST was causing issues.
 
 With this in hand, I'm grabbing my forum, looping through the threads, and renaming any that have comments (a whopping 3 of them).
 
-~~~ruby
+```ruby
 key = "secret" # get yours at http://disqus.com/api/get_my_key/
 disqus = Disqus.new(key)
 
@@ -89,6 +89,6 @@ loop do
 
   start += 25
 end
-~~~
+```
 
 Et voilà, old comments are in the right place now.

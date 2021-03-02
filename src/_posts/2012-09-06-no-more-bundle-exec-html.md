@@ -56,7 +56,7 @@ Lastly, the `case` statement instead of an `if` is a bit redundant in the simple
 [isolate]: https://github.com/jbarnette/isolate
 [git]: http://git-scm.com/
 
-~~~ruby
+```ruby
 # Paste git repo url to clone it
 when command =~ /^git(@|:\/\/).*\.git$/
   run("git clone #{command.inspect}")
@@ -67,4 +67,4 @@ when command =~ /^(?:ftp|https?):\/\/.+\.t(?:ar\.)?gz$/
 
 when File.exist?("./tmp/isolate/ruby-1.8/bin/#{command}")
   run("rake isolate:sh['#{ARGV.join(' ')}']")
-~~~
+```

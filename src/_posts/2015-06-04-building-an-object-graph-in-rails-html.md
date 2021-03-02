@@ -7,7 +7,7 @@ I was needing to do some object cleanup in our rails app the other day, and purg
 
 <!-- EXCERPT -->
 
-~~~ruby
+```ruby
 # Squelch SQL logs, if you're running from rails console
 ActiveRecord::Base.logger.level = 1
 
@@ -53,6 +53,6 @@ end
 
 # Usage: call with the root node for the object graph
 puts_tree(User.find(42))
-~~~
+```
 
 Worked like a charm, and made it easy to compare my bad object with other good ones. Just be careful of any global objects (a common shared subscription package, for instance, that `has_many :users`) that could lead to traversing your entire database, or logging associations that could overwhelm your output on older or heavily used objects. Subtracting a blacklist from reflection keys on line 18 would do the trick there.
