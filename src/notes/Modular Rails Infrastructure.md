@@ -1,7 +1,7 @@
 ---
 title: Modular Rails Infrastructure
 created: '2021-01-15T06:37:37.294Z'
-modified: '2021-03-02T00:11:06.648Z'
+modified: '2021-03-18T05:24:34.616Z'
 ---
 
 # Modular Rails Infrastructure
@@ -28,4 +28,8 @@ If I have a step named `filter-components` that does dependency analysis to dete
 {% endraw %}
 
 and I think this will properly flag skippable components as not-run (grey) without failing the build or acting as though they were run and are passing.
+
+#### setup-ruby
+
+Note: the ruby/setup-ruby action [now supports bundler caching natively](https://github.com/ruby/setup-ruby#caching-bundle-install-automatically)
 
