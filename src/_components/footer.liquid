@@ -4,7 +4,11 @@
     <div class="w-full mx-auto flex flex-wrap justify-between">
       <div class="flex w-full md:w-1/5">
         <div class="px-8 mt-10">
-          <img class="rounded-full mr-4" src="/assets/memoji.png" alt="Avatar of Author">
+          <picture class="rounded-full mr-4">
+            <source srcset="/assets/memoji.webp" type="image/webp">
+            <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+            <img src="/assets/memoji.png" alt="Avatar of Author">
+          <picture>
         </div>
       </div>
       <div class="flex w-full md:w-3/5">
