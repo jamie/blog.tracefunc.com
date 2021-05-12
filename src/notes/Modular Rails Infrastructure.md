@@ -31,3 +31,7 @@ If I have a step named `filter-components` that does dependency analysis to dete
 
 and I think this will properly flag skippable components as not-run (grey) without failing the build or acting as though they were run and are passing.
 
+#### setup-ruby
+
+Note: the ruby/setup-ruby action [now supports bundler caching natively](https://github.com/ruby/setup-ruby#caching-bundle-install-automatically)
+
