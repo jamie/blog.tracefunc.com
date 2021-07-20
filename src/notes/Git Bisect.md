@@ -12,5 +12,5 @@ Cheat sheet:
 - `git bisect good [commit]`
 - `git bisect bad [commit]`
 - `git bisect skip` in case granular commits result in a build failure
-- `git bisect run <cmd>` if you're feeling brave about automating
-
+- `git bisect run <cmd>` if you're feeling brave about automating, otherwise consider stepwise `<cmd> && git bisect good || git bisect bad`
+- `git bisect reset` when done to go back to the branch from `start`
