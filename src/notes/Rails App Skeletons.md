@@ -2,7 +2,7 @@
 tags: [code]
 title: Rails App Skeletons
 created: '2020-06-28T05:42:49.286Z'
-modified: '2021-06-22T20:43:19.363Z'
+modified: '2021-09-16T16:45:07.340Z'
 ---
 
 # Rails App Skeletons
@@ -23,6 +23,13 @@ Starter apps for [[Rails]] with a bunch of common decisions already made.
 
 ### Rails Composer
 - app scaffold :/
+
+### [Zen Rails](https://github.com/brunofacca/zen-rails-base-app)
+- Rails 6.1, Ruby 3.0
+- dev: rubocop, brakeman, byebug...
+- test: rspec, capybara w/ ChromeDriver, simplecov
+- Devise
+- Pundit
 
 ### [Wheel](https://github.com/bigbinary/wheel)
 - Heroku-ready

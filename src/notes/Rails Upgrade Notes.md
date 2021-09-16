@@ -1,7 +1,7 @@
 ---
 title: Rails Upgrade Notes
 created: '2020-08-19T23:59:48.985Z'
-modified: '2021-06-07T17:30:52.372Z'
+modified: '2021-09-01T18:04:42.641Z'
 ---
 
 # Rails Upgrade Notes
@@ -25,4 +25,7 @@ In fact, the [rubocop-rails](https://docs.rubocop.org/rubocop-rails/cops_rails.h
 
 See [this article](https://kirshatrov.com/2016/12/18/rewrite-code-with-rubocop/) for a starter example, and [this article](https://medium.com/@SamJewell/make-your-rails-5-upgrade-easier-with-rubocop-7f9a700b0112) that stands up an example workflow with what I think are some cops already in core Rubocop.
 
+### Via Synvert
+
+[Synvert](https://synvert.xinminlabs.com/) is a generic code-rewriter, which comes with a bunch of Ruby/Rails rules. Also seems reasonably easy to write your own, and has a GUI that will allow you to provide before/after examples and will generate the appropriate code for you.
 
