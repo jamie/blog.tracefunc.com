@@ -2,23 +2,19 @@
 tags: [tech]
 title: Docker Compose
 created: '2020-06-28T05:05:16.213Z'
-modified: '2020-09-03T21:38:36.382Z'
+modified: '2021-07-22T23:17:13.340Z'
 ---
 
 # Docker Compose
 
-Rebuild cluster with updated images (I've got a finnicky cluster):
+Rebuild cluster with updated images:
 
 ```
-docker-compose down
-docker-compose pull
-docker-compose up
-^c
-docker-compose up -d
-docker image prune -f
+docker compose pull    # fetches new images
+docker compose down    # quits servers, removes from docker
+docker compose up -d   # brings cluster back up, uses new images
+docker image prune -f  # removes now-unused images
 ```
-
-(that last one gets rid of now-unused images)
 
 ---
 
