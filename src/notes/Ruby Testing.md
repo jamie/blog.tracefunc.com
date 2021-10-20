@@ -2,7 +2,7 @@
 tags: [Rails, Ruby]
 title: Ruby Testing
 created: '2020-07-07T05:57:21.419Z'
-modified: '2020-08-06T20:11:28.106Z'
+modified: '2021-09-16T16:51:26.225Z'
 ---
 
 # Ruby Testing
@@ -14,6 +14,7 @@ modified: '2020-08-06T20:11:28.106Z'
 ### Rspec
 
 - [rspec-mocks](https://github.com/rspec/rspec-mocks) for test doubles/mocks
+- [rspec-tracer](https://github.com/avmnu-sng/rspec-tracer) to help diagnose flaky specs
 
 ### Test-Unit
 

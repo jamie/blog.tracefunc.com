@@ -1,7 +1,7 @@
 ---
 title: Modular Rails Infrastructure
 created: '2021-01-15T06:37:37.294Z'
-modified: '2021-03-18T05:24:34.616Z'
+modified: '2021-03-22T16:16:23.414Z'
 ---
 
 # Modular Rails Infrastructure
@@ -10,6 +10,8 @@ modified: '2021-03-18T05:24:34.616Z'
   Benefits to this are a clear delineation of dependencies, and the ability to run tests for each engine independently (so if A and B depend on C but not each other, a change in B doesn't require tests for A to be run).
 
 - Consider? Bust hard mid-tier dependencies (between groups of models, for examples) by hooking up pub-sub at the controllers level (see [wisper](https://github.com/krisleech/wisper) as an example)
+
+- Double-check: auto code reloading from dependent gems (see https://format-express.dev/blog/embed-a-gem-in-a-rails-project-and-enable-autoreload#setup-autoreload)
 
 ### Github Actions
 

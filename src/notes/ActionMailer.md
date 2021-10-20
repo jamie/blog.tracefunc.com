@@ -2,7 +2,7 @@
 tags: [Rails]
 title: ActionMailer
 created: '2020-08-07T21:04:16.880Z'
-modified: '2020-08-07T22:03:12.894Z'
+modified: '2021-03-10T17:36:07.984Z'
 ---
 
 # ActionMailer

@@ -2,7 +2,7 @@
 tags: [code]
 title: Ruby Gems
 created: '2020-06-28T04:50:09.125Z'
-modified: '2020-06-28T05:47:00.501Z'
+modified: '2021-08-10T18:02:52.790Z'
 ---
 
 # Ruby Gems
@@ -28,6 +28,13 @@ Just a general collection of gems I've known and loved (or want to try out).
 ### Database
 
 - [Bullet](https://github.com/flyerhzm/bullet/tree/5.4.3#bullet) detects N+1 queries
+
+### Debuggers
+
+- [Byebug](https://github.com/deivid-rodriguez/byebug/blob/master/GUIDE.md) is my go-to for tracing, to `step` into function calls, skip to `next` line, and `continue` execution.
+- [Pry](http://pry.github.io/) is the other really popular one.
+- [Jard](https://rubyjard.org/) looks interesting, provides a multi-window debugger environment, with a GUI stack trace, local variable dumps, threads, etc.
+- Ruby is also getting a [native debugger in 3.1](https://dev.to/st0012/a-sneak-peek-of-ruby-s-new-debugger-5caa) with more interesting breakpoints/callbacks that might prove useful for IDE integration.
 
 ### Worker Queues
 
