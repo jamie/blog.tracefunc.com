@@ -1,7 +1,7 @@
 ---
 title: Oganika
-created: '2021-01-04T18:58:36.813Z'
-modified: '2021-01-05T19:57:58.028Z'
+created: 2021-01-04T18:58:36.813Z
+modified: 2021-01-05T19:57:58.028Z
 ---
 
 # Oganika

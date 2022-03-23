@@ -1,7 +1,7 @@
 ---
 title: Video Encoding
-created: '2020-06-28T04:40:13.716Z'
-modified: '2021-07-12T17:20:23.792Z'
+created: 2020-06-28T04:40:13.716Z
+modified: 2021-07-12T17:20:23.792Z
 ---
 
 # Video Encoding

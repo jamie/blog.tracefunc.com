@@ -1,8 +1,8 @@
 ---
-tags: [code]
 title: What Comes After MVC
-created: '2020-06-03T22:05:23.402Z'
-modified: '2020-06-28T05:47:50.101Z'
+tags: [code]
+created: 2020-06-03T22:05:23.402Z
+modified: 2020-06-28T05:47:50.101Z
 ---
 
 # What Comes After MVC

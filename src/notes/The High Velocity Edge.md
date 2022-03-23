@@ -1,3 +1,9 @@
+---
+title: The High Velocity Edge
+created: 2021-07-20T16:41:29.703Z
+modified: 2021-07-20T16:57:57.413Z
+---
+
 The [Small Batches](https://smallbatches.fm) podcast summarized the book The High Velocity Edge. In [part seven](https://smallbatches.fm/45), Adam covered this disciplined problem solving method that was my core takeaway from the summary:
 
 A "problem" is anything that inhibits achieving the ideal flow. The ideal flow is asymptotic, organizations can never reach it, only approach. Failure is inevitable, but each failure is an opportunity to learn and grow better.
@@ -23,3 +29,4 @@ High Velocity organizations follow a disciplined approach to problem solving tha
 7. conduct gap analysis (if a difference between target condition and reality, then why?)
 
 This is basically the scientific method, and the hard part is the discipline that goes into always doing the process. See also concepts like PDCA (Plan, Do, Check, Act) and OODA (Observe, Orientate, Decide, Act) that encapsulate the same process. The important part is that they're *loops* done on repeat.
+

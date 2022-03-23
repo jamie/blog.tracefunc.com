@@ -1,8 +1,8 @@
 ---
-tags: [boardgame]
 title: Tiny Epic Dinosaurs
-created: '2021-05-04T22:27:47.487Z'
-modified: '2021-05-04T22:29:32.185Z'
+tags: [boardgame]
+created: 2021-05-04T22:27:47.487Z
+modified: 2021-05-04T22:29:32.185Z
 ---
 
 # Tiny Epic Dinosaurs

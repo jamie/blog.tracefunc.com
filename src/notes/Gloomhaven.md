@@ -1,8 +1,8 @@
 ---
-tags: [gaming]
 title: Gloomhaven
-created: '2020-06-28T05:23:10.113Z'
-modified: '2020-06-28T05:24:27.094Z'
+tags: [gaming]
+created: 2020-06-28T05:23:10.113Z
+modified: 2020-06-28T05:24:27.094Z
 ---
 
 # Gloomhaven

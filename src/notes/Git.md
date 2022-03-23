@@ -1,8 +1,8 @@
 ---
-tags: [commandline]
 title: Git
-created: '2020-04-07T16:55:35.352Z'
-modified: '2020-10-20T22:10:00.098Z'
+tags: [commandline]
+created: 2020-04-07T16:55:35.352Z
+modified: 2020-10-20T22:10:00.098Z
 ---
 
 # Git

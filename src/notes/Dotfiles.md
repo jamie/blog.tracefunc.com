@@ -1,7 +1,7 @@
 ---
 title: Dotfiles
-created: '2021-08-11T18:16:42.792Z'
-modified: '2021-08-11T18:17:06.498Z'
+created: 2021-08-11T18:16:42.792Z
+modified: 2021-08-11T18:17:06.498Z
 ---
 
 # Dotfiles

@@ -1,8 +1,8 @@
 ---
-tags: [code, web]
 title: Stimulus JS
-created: '2020-06-22T21:08:40.053Z'
-modified: '2020-10-07T18:20:37.738Z'
+tags: [code, web]
+created: 2020-06-22T21:08:40.053Z
+modified: 2020-10-07T18:20:37.738Z
 ---
 
 # Stimulus JS

@@ -1,7 +1,7 @@
 ---
 title: Rails Performance Notes
-created: '2021-01-31T06:00:00.361Z'
-modified: '2021-08-31T19:05:10.668Z'
+created: 2021-01-31T06:00:00.361Z
+modified: 2021-08-31T19:05:10.668Z
 ---
 
 # Rails Performance Notes

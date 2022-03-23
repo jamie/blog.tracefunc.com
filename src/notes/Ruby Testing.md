@@ -1,8 +1,8 @@
 ---
-tags: [Rails, Ruby]
 title: Ruby Testing
-created: '2020-07-07T05:57:21.419Z'
-modified: '2021-09-16T16:51:26.225Z'
+tags: [Rails, Ruby]
+created: 2020-07-07T05:57:21.419Z
+modified: 2021-09-16T16:51:26.225Z
 ---
 
 # Ruby Testing

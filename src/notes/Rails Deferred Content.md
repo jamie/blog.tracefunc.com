@@ -1,8 +1,8 @@
 ---
-tags: [Rails]
 title: Rails Deferred Content
-created: '2020-07-24T23:28:40.978Z'
-modified: '2021-10-19T19:02:54.436Z'
+tags: [Rails]
+created: 2020-07-24T23:28:40.978Z
+modified: 2021-10-19T19:02:54.436Z
 ---
 
 # Rails Deferred Content

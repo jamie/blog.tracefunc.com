@@ -1,8 +1,8 @@
 ---
-tags: [code]
 title: CSS in Javascript
-created: '2020-06-28T05:41:05.291Z'
-modified: '2020-06-28T05:45:21.824Z'
+tags: [code]
+created: 2020-06-28T05:41:05.291Z
+modified: 2020-06-28T05:45:21.824Z
 ---
 
 # CSS in Javascript

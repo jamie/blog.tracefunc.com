@@ -1,8 +1,8 @@
 ---
-tags: [commandline]
 title: fzf
-created: '2020-04-01T23:50:48.677Z'
-modified: '2020-07-24T23:31:19.018Z'
+tags: [commandline]
+created: 2020-04-01T23:50:48.677Z
+modified: 2020-07-24T23:31:19.018Z
 ---
 
 # fzf

@@ -1,8 +1,8 @@
 ---
-tags: [code]
 title: Ruby Upgrade Notes
-created: '2020-05-14T16:51:02.691Z'
-modified: '2020-11-02T19:00:51.547Z'
+tags: [code]
+created: 2020-05-14T16:51:02.691Z
+modified: 2020-11-02T19:00:51.547Z
 ---
 
 # Ruby Upgrade Notes

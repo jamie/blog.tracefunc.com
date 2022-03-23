@@ -1,7 +1,7 @@
 ---
 title: Rubik's Cube
-created: '2021-06-15T18:31:12.224Z'
-modified: '2021-09-08T20:43:44.812Z'
+created: 2021-06-15T18:31:12.224Z
+modified: 2021-09-08T20:43:44.812Z
 ---
 
 # Rubik's Cube

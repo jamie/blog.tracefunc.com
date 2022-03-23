@@ -1,7 +1,7 @@
 ---
 title: Rails Browser Testing
-created: '2020-08-31T18:02:46.152Z'
-modified: '2020-08-31T18:05:23.809Z'
+created: 2020-08-31T18:02:46.152Z
+modified: 2020-08-31T18:05:23.809Z
 ---
 
 # Rails Browser Testing

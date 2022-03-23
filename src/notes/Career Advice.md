@@ -1,7 +1,7 @@
 ---
 title: Career Advice
-created: '2020-06-28T05:24:49.852Z'
-modified: '2020-06-28T05:25:11.136Z'
+created: 2020-06-28T05:24:49.852Z
+modified: 2020-06-28T05:25:11.136Z
 ---
 
 # Career Advice

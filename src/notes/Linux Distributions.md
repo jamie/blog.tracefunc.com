@@ -1,7 +1,7 @@
 ---
 title: Linux Distributions
-created: '2020-09-21T03:41:52.959Z'
-modified: '2020-09-21T03:43:27.779Z'
+created: 2020-09-21T03:41:52.959Z
+modified: 2020-09-21T03:43:27.779Z
 ---
 
 # Linux Distributions

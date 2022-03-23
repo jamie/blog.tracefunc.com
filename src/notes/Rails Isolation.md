@@ -1,7 +1,7 @@
 ---
 title: Rails Isolation
-created: '2020-09-24T04:19:32.627Z'
-modified: '2020-09-24T04:32:42.443Z'
+created: 2020-09-24T04:19:32.627Z
+modified: 2020-09-24T04:32:42.443Z
 ---
 
 # Rails Isolation

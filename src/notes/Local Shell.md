@@ -1,7 +1,7 @@
 ---
 title: Local Shell
-created: '2020-09-29T22:28:54.028Z'
-modified: '2020-09-29T22:33:20.403Z'
+created: 2020-09-29T22:28:54.028Z
+modified: 2020-09-29T22:33:20.403Z
 ---
 
 # Local Shell

@@ -1,8 +1,8 @@
 ---
-tags: [code]
 title: Code Profiling
-created: '2020-06-28T05:32:33.887Z'
-modified: '2020-06-28T05:44:55.600Z'
+tags: [code]
+created: 2020-06-28T05:32:33.887Z
+modified: 2020-06-28T05:44:55.600Z
 ---
 
 # Code Profiling

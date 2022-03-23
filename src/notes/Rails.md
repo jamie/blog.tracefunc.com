@@ -1,8 +1,8 @@
 ---
-tags: [code]
 title: Rails
-created: '2020-04-08T18:07:55.638Z'
-modified: '2021-06-21T16:24:35.840Z'
+tags: [code]
+created: 2020-04-08T18:07:55.638Z
+modified: 2021-06-21T16:24:35.840Z
 ---
 
 # Rails

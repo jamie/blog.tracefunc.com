@@ -1,8 +1,8 @@
 ---
-tags: [commandline]
 title: Local Development Tooling
-created: '2020-05-14T17:09:03.258Z'
-modified: '2020-06-28T05:45:51.839Z'
+tags: [commandline]
+created: 2020-05-14T17:09:03.258Z
+modified: 2020-06-28T05:45:51.839Z
 ---
 
 # Local Development Tooling

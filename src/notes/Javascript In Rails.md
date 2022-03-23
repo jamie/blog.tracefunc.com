@@ -1,8 +1,8 @@
 ---
-tags: [code]
 title: Javascript In Rails
-created: '2020-04-06T19:47:47.984Z'
-modified: '2020-12-06T04:57:31.660Z'
+tags: [code]
+created: 2020-04-06T19:47:47.984Z
+modified: 2020-12-06T04:57:31.660Z
 ---
 
 # Javascript In Rails

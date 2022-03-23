@@ -1,8 +1,8 @@
 ---
-tags: [management]
 title: Job Levels
-created: '2020-10-26T16:50:21.462Z'
-modified: '2020-10-26T16:52:44.447Z'
+tags: [management]
+created: 2020-10-26T16:50:21.462Z
+modified: 2020-10-26T16:52:44.447Z
 ---
 
 # Job Levels

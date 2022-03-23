@@ -1,7 +1,7 @@
 ---
 title: Rails Upgrade Notes
-created: '2020-08-19T23:59:48.985Z'
-modified: '2021-09-01T18:04:42.641Z'
+created: 2020-08-19T23:59:48.985Z
+modified: 2021-09-01T18:04:42.641Z
 ---
 
 # Rails Upgrade Notes

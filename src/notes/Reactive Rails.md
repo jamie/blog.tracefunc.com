@@ -1,7 +1,7 @@
 ---
 title: Reactive Rails
-created: '2020-10-19T18:39:56.643Z'
-modified: '2021-02-23T23:20:21.592Z'
+created: 2020-10-19T18:39:56.643Z
+modified: 2021-02-23T23:20:21.592Z
 ---
 
 # Reactive Rails

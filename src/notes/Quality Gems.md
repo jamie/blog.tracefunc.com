@@ -1,8 +1,8 @@
 ---
-tags: [Rails, Ruby]
 title: Quality Gems
-created: '2020-08-10T19:08:45.776Z'
-modified: '2021-02-23T22:29:06.543Z'
+tags: [Rails, Ruby]
+created: 2020-08-10T19:08:45.776Z
+modified: 2021-02-23T22:29:06.543Z
 ---
 
 # Quality Gems

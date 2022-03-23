@@ -1,7 +1,7 @@
 ---
 title: Competitive Programming
-created: '2020-08-10T19:29:41.206Z'
-modified: '2020-08-10T19:35:31.967Z'
+created: 2020-08-10T19:29:41.206Z
+modified: 2020-08-10T19:35:31.967Z
 ---
 
 # Competitive Programming

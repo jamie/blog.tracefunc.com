@@ -1,7 +1,7 @@
 ---
 title: Modular Rails Infrastructure
-created: '2021-01-15T06:37:37.294Z'
-modified: '2021-03-22T16:16:23.414Z'
+created: 2021-01-15T06:37:37.294Z
+modified: 2021-03-22T16:16:23.414Z
 ---
 
 # Modular Rails Infrastructure

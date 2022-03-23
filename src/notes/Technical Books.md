@@ -1,8 +1,8 @@
 ---
-tags: [education]
 title: Technical Books
-created: '2020-06-28T05:28:12.159Z'
-modified: '2020-06-28T05:47:21.742Z'
+tags: [education]
+created: 2020-06-28T05:28:12.159Z
+modified: 2020-06-28T05:47:21.742Z
 ---
 
 # Technical Books

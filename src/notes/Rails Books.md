@@ -1,7 +1,7 @@
 ---
 title: Rails Books
-created: '2021-01-31T03:46:27.542Z'
-modified: '2021-01-31T03:49:02.423Z'
+created: 2021-01-31T03:46:27.542Z
+modified: 2021-01-31T03:49:02.423Z
 ---
 
 # Rails Books

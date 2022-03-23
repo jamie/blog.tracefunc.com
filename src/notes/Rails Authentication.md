@@ -1,7 +1,7 @@
 ---
 title: Rails Authentication
-created: '2020-08-25T23:57:24.022Z'
-modified: '2020-08-26T02:08:47.179Z'
+created: 2020-08-25T23:57:24.022Z
+modified: 2020-08-26T02:08:47.179Z
 ---
 
 # Rails Authentication

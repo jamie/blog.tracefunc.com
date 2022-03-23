@@ -1,7 +1,7 @@
 ---
 title: Code Climate
-created: '2020-07-21T22:02:42.800Z'
-modified: '2020-07-21T22:05:43.677Z'
+created: 2020-07-21T22:02:42.800Z
+modified: 2020-07-21T22:05:43.677Z
 ---
 
 # Code Climate

@@ -1,7 +1,7 @@
 ---
 title: New Rails
-created: '2021-05-07T22:03:08.485Z'
-modified: '2021-05-07T22:50:36.751Z'
+created: 2021-05-07T22:03:08.485Z
+modified: 2021-05-07T22:50:36.751Z
 ---
 
 # New Rails

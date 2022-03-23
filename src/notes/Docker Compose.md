@@ -1,8 +1,8 @@
 ---
-tags: [tech]
 title: Docker Compose
-created: '2020-06-28T05:05:16.213Z'
-modified: '2021-07-22T23:17:13.340Z'
+tags: [tech]
+created: 2020-06-28T05:05:16.213Z
+modified: 2021-07-22T23:17:13.340Z
 ---
 
 # Docker Compose

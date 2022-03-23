@@ -1,7 +1,7 @@
 ---
 title: Git Bisect
-created: '2021-07-19T19:10:59.307Z'
-modified: '2021-07-19T19:12:28.740Z'
+created: 2021-07-19T19:10:59.307Z
+modified: 2021-07-19T19:12:28.740Z
 ---
 
 # Git Bisect

@@ -1,8 +1,8 @@
 ---
-tags: [code, education]
 title: Computer Science
-created: '2020-06-24T04:13:52.965Z'
-modified: '2020-06-28T05:45:17.582Z'
+tags: [code, education]
+created: 2020-06-24T04:13:52.965Z
+modified: 2020-06-28T05:45:17.582Z
 ---
 
 # Computer Science

@@ -1,8 +1,8 @@
 ---
-tags: [gaming]
 title: Queendomino
-created: '2020-06-28T05:23:58.227Z'
-modified: '2020-06-28T05:24:20.444Z'
+tags: [gaming]
+created: 2020-06-28T05:23:58.227Z
+modified: 2020-06-28T05:24:20.444Z
 ---
 
 # Queendomino

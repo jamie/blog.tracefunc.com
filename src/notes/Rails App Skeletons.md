@@ -1,8 +1,8 @@
 ---
-tags: [code]
 title: Rails App Skeletons
-created: '2020-06-28T05:42:49.286Z'
-modified: '2021-09-16T16:45:07.340Z'
+tags: [code]
+created: 2020-06-28T05:42:49.286Z
+modified: 2021-09-16T16:45:07.340Z
 ---
 
 # Rails App Skeletons

@@ -1,8 +1,8 @@
 ---
-tags: [boardgame]
 title: Spirit Island
-created: '2020-09-16T03:10:09.312Z'
-modified: '2021-05-04T22:29:47.450Z'
+tags: [boardgame]
+created: 2020-09-16T03:10:09.312Z
+modified: 2021-05-04T22:29:47.450Z
 ---
 
 # Spirit Island

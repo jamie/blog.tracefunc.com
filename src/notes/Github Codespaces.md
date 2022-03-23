@@ -1,7 +1,7 @@
 ---
 title: Github Codespaces
-created: '2020-09-01T16:32:54.720Z'
-modified: '2020-09-01T16:39:17.281Z'
+created: 2020-09-01T16:32:54.720Z
+modified: 2020-09-01T16:39:17.281Z
 ---
 
 # Github Codespaces

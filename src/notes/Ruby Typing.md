@@ -1,7 +1,7 @@
 ---
 title: Ruby Typing
-created: '2020-10-27T22:37:49.245Z'
-modified: '2020-10-27T22:44:11.676Z'
+created: 2020-10-27T22:37:49.245Z
+modified: 2020-10-27T22:44:11.676Z
 ---
 
 # Ruby Typing

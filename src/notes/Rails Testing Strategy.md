@@ -1,7 +1,7 @@
 ---
 title: Rails Testing Strategy
-created: '2021-10-08T20:12:36.279Z'
-modified: '2021-10-08T20:19:31.105Z'
+created: 2021-10-08T20:12:36.279Z
+modified: 2021-10-08T20:19:31.105Z
 ---
 
 # Rails Testing Strategy

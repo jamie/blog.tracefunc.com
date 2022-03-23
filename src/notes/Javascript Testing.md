@@ -1,7 +1,7 @@
 ---
 title: Javascript Testing
-created: '2020-08-28T16:46:58.541Z'
-modified: '2020-08-28T17:22:16.130Z'
+created: 2020-08-28T16:46:58.541Z
+modified: 2020-08-28T17:22:16.130Z
 ---
 
 # Javascript Testing

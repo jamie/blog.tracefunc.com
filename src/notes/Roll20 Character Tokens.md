@@ -1,8 +1,8 @@
 ---
-tags: [gaming]
 title: Roll20 Character Tokens
-created: '2020-04-08T03:37:57.212Z'
-modified: '2020-06-24T04:17:24.184Z'
+tags: [gaming]
+created: 2020-04-08T03:37:57.212Z
+modified: 2020-06-24T04:17:24.184Z
 ---
 
 # Roll20 Character Tokens

@@ -1,8 +1,8 @@
 ---
-tags: [code]
 title: Coding Style
-created: '2020-03-24T16:22:24.434Z'
-modified: '2021-07-12T18:16:34.503Z'
+tags: [code]
+created: 2020-03-24T16:22:24.434Z
+modified: 2022-02-25T18:10:45.090Z
 ---
 
 # Coding Style
@@ -11,7 +11,7 @@ My preferred coding styles, for spinning up new projects:
 
 ### [[Ruby]]
 
-Use [Standard](https://github.com/testdouble/standard), which is built on top of RuboCop.
+Use [Standard](https://github.com/testdouble/standard), which is built on top of [[RuboCop]].
 
 See [this post](https://evilmartians.com/chronicles/rubocoping-with-legacy-bring-your-ruby-code-up-to-standard) for a good Standard+Rubocop project config, so you can just use Rubocop tooling in your editor.
 

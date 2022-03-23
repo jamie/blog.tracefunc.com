@@ -1,7 +1,7 @@
 ---
 title: Linux Apps
-created: '2020-08-14T19:09:55.434Z'
-modified: '2020-08-14T19:10:22.758Z'
+created: 2020-08-14T19:09:55.434Z
+modified: 2020-08-14T19:10:22.758Z
 ---
 
 # Linux Apps

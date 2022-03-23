@@ -1,8 +1,8 @@
 ---
-tags: [tech]
 title: Remote Work
-created: '2020-06-28T05:26:21.703Z'
-modified: '2020-06-28T05:46:50.199Z'
+tags: [tech]
+created: 2020-06-28T05:26:21.703Z
+modified: 2020-06-28T05:46:50.199Z
 ---
 
 # Remote Work

@@ -1,8 +1,8 @@
 ---
-tags: [notes]
 title: Zettelkasten
-created: '2020-04-08T02:12:50.029Z'
-modified: '2020-07-03T21:38:00.393Z'
+tags: [notes]
+created: 2020-04-08T02:12:50.029Z
+modified: 2020-07-03T21:38:00.393Z
 ---
 
 # Zettelkasten

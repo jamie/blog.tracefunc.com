@@ -1,7 +1,7 @@
 ---
 title: Webpacker
-created: '2020-09-08T23:28:07.357Z'
-modified: '2020-09-08T23:28:43.324Z'
+created: 2020-09-08T23:28:07.357Z
+modified: 2020-09-08T23:28:43.324Z
 ---
 
 # Webpacker

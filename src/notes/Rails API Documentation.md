@@ -1,7 +1,7 @@
 ---
 title: Rails API Documentation
-created: '2020-08-10T16:54:14.998Z'
-modified: '2020-08-10T16:55:10.597Z'
+created: 2020-08-10T16:54:14.998Z
+modified: 2020-08-10T16:55:10.597Z
 ---
 
 # Rails API Documentation

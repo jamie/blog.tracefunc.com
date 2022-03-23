@@ -1,8 +1,8 @@
 ---
-tags: [Rails]
 title: Rails Job Queues
-created: '2020-07-23T23:02:52.394Z'
-modified: '2020-08-06T20:11:28.154Z'
+tags: [Rails]
+created: 2020-07-23T23:02:52.394Z
+modified: 2020-08-06T20:11:28.154Z
 ---
 
 # Rails Job Queues

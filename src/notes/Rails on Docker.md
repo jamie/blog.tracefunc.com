@@ -1,7 +1,7 @@
 ---
 title: Rails on Docker
-created: '2020-08-26T20:50:25.972Z'
-modified: '2021-05-27T22:24:12.888Z'
+created: 2020-08-26T20:50:25.972Z
+modified: 2021-05-27T22:24:12.888Z
 ---
 
 # Rails on Docker

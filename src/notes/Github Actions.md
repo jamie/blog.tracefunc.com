@@ -1,7 +1,7 @@
 ---
 title: Github Actions
-created: '2021-03-03T19:23:32.992Z'
-modified: '2021-03-03T19:24:24.483Z'
+created: 2021-03-03T19:23:32.992Z
+modified: 2021-03-03T19:24:24.483Z
 ---
 
 # Github Actions

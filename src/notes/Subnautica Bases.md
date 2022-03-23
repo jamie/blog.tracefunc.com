@@ -1,7 +1,7 @@
 ---
 title: Subnautica Bases
-created: '2021-06-03T17:09:10.116Z'
-modified: '2021-06-04T04:04:55.050Z'
+created: 2021-06-03T17:09:10.116Z
+modified: 2021-06-04T04:04:55.050Z
 ---
 
 # Subnautica Bases

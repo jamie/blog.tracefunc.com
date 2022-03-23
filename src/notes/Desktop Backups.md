@@ -1,8 +1,8 @@
 ---
-tags: [tech]
 title: Desktop Backups
-created: '2020-06-28T04:51:45.194Z'
-modified: '2021-06-08T05:37:07.245Z'
+tags: [tech]
+created: 2020-06-28T04:51:45.194Z
+modified: 2021-06-08T05:37:07.245Z
 ---
 
 # Desktop Backups

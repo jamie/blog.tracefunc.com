@@ -1,8 +1,8 @@
 ---
-tags: [tech]
 title: HTTP Benchmarking
-created: '2020-06-23T18:39:31.358Z'
-modified: '2020-11-23T18:15:16.334Z'
+tags: [tech]
+created: 2020-06-23T18:39:31.358Z
+modified: 2020-11-23T18:15:16.334Z
 ---
 
 # HTTP Benchmarking

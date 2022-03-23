@@ -1,7 +1,7 @@
 ---
 title: Rails Service Objects
-created: '2021-10-19T19:00:09.055Z'
-modified: '2021-10-19T19:09:29.567Z'
+created: 2021-10-19T19:00:09.055Z
+modified: 2021-10-19T19:09:29.567Z
 ---
 
 # Rails Service Objects

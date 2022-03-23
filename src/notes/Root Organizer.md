@@ -1,8 +1,8 @@
 ---
-tags: [boardgame, gaming, wip]
 title: Root Organizer
-created: '2020-04-08T03:41:13.753Z'
-modified: '2021-05-04T22:29:39.542Z'
+tags: [boardgame, gaming, wip]
+created: 2020-04-08T03:41:13.753Z
+modified: 2021-05-04T22:29:39.542Z
 ---
 
 # Root Organizer
