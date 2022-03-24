@@ -8,7 +8,7 @@ title: Notes
 I've started keeping a knowledge base of miscellaneous notes and thoughts,
 presented here. Still a work in progress.
 
-{% assign notes = site.collections.pages.resources | where:"notable",true %}
+{% assign notes = collections.pages.resources | where:"notable",true %}
 {% for note in notes %}
-- <a href="{{ note.relative_url }}" class="wikilink">{{ note.title }}</a>
+- <a href="{{ note.relative_url }}.html" class="wikilink">{{ note.title }}</a>
 {% endfor %}
