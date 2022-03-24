@@ -1,4 +1,4 @@
-class Notes < SiteBuilder
+class Builders::Notes < SiteBuilder
   # I want to undo "permalinks: pretty" in notes/
   # but it's not so easy...
 
