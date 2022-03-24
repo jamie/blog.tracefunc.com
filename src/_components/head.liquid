@@ -7,5 +7,6 @@
 <meta name="author" content="{{ metadata.author }}">
 <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
 
-<link rel="stylesheet" href="{% webpack_path css %}" />
-<script src="{% webpack_path js %}" defer></script>
+<link rel="stylesheet" href="{% asset_path css %}" />
+<script src="{% asset_path js %}" defer></script>
+{% live_reload_dev_js %}
