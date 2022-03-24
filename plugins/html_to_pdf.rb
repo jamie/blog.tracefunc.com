@@ -5,7 +5,7 @@
 class HtmlToPdf < SiteBuilder
   def build
     hook :site, :post_write do |site|
-      site.pages.select { |page| page.data['print_pdf'] }.each do |page|
+      site.collections.pages.resources.select { |page| page.data['print_pdf'] }.each do |page|
         system(
           chrome,
           '--headless', '--disable-gpu', '--no-margins',

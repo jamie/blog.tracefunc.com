@@ -7,7 +7,7 @@ layout: page
     <h4 class="pt-0">Pages Linking Here</h4>
     <ul>
       {% for link in page.backlinks %}
-        <li><a href="{{ link.url }}" class="wikilink">{{ link.title }}</a></li>
+        <li><a href="{{ link.relative_url }}" class="wikilink">{{ link.title }}</a></li>
       {% endfor %}
     </ul>
   </div>

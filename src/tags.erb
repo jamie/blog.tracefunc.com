@@ -2,7 +2,7 @@
 layout: page
 title: Archives by Tag
 ---
-<% site_tags = site.posts.docs.map{|e|e.data['tags'] || []}.flatten.uniq.sort %>
+<% site_tags = collections.posts.resources.map{|e|e.data['tags'] || []}.flatten.uniq.sort %>
 <div class="article">
   <div class="meta">
   <% for tag in site_tags %>
@@ -15,7 +15,7 @@ title: Archives by Tag
   <table>
     <% last_tag = nil%>
     <% for tag in site_tags %>
-      <% for entry in site.posts.docs %>
+      <% for entry in collections.posts.resources %>
         <% next unless (entry.data['tags']||[]).include? tag %>
 
         <tr>
@@ -30,7 +30,7 @@ title: Archives by Tag
           <% end %>
 
           <td class="border px-4 py-2"><%= entry.date.strftime('%Y %b %e') %></td>
-          <td class="border px-4 py-2"><a href="<%= entry.url %>"><%= entry.data['title'] %></a></td>
+          <td class="border px-4 py-2"><a href="<%= entry.relative_url %>"><%= entry.data['title'] %></a></td>
         </tr>
       <% end %>
     <% end %>

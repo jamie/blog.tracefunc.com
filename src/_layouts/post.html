@@ -13,7 +13,7 @@ layout: default
   <div class="text-left">
     {% if page.previous %}
     <span class="text-xs md:text-sm font-normal text-gray-600">&lt; Previous Post</span><br>
-    <p><a href="{{ page.previous.url }}"
+    <p><a href="{{ page.previous.relative_url }}"
         class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
         {{ page.previous.title }}
       </a></p>
@@ -22,7 +22,7 @@ layout: default
   <div class="text-right">
     {% if page.next %}
     <span class="text-xs md:text-sm font-normal text-gray-600">Next Post &gt;</span><br>
-    <p><a href="{{ page.next.url }}"
+    <p><a href="{{ page.next.relative_url }}"
         class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
         {{ page.next.title }}
       </a></p>
