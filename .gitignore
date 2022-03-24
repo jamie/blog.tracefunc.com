@@ -13,6 +13,7 @@ vendor
 .sass-cache
 .npm
 .node_repl_history
+jit-refresh.css
 
 # Ignore bundler config.
 /.bundle
