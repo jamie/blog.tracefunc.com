@@ -13,7 +13,7 @@ jobs:
     - uses: ruby/setup-ruby@v1
     - uses: actions/setup-node@v2-beta
       with:
-        node-version: '13'
+        node-version: '18'
 
     - name: Install Chrome
       run: |
