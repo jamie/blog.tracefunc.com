@@ -21,7 +21,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 # and then run `bundle update bridgetown`
 gem "bridgetown", "~> 1.0.0"
 gem "bridgetown-feed", group: "bridgetown_plugins"
-gem "bridgetown-notable", group: "bridgetown_plugins"
+# gem "bridgetown-notable", group: "bridgetown_plugins"
 
 # Uncomment to add file-based dynamic routing to your project:
 # gem "bridgetown-routes", "~> 1.0.0", group: :bridgetown_plugins
