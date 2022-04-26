@@ -1,7 +1,7 @@
 ---
 title: Video Encoding
 created: 2020-06-28T04:40:13.716Z
-modified: 2021-07-12T17:20:23.792Z
+modified: 2022-03-30T18:50:47.263Z
 ---
 
 # Video Encoding
@@ -20,6 +20,8 @@ Amazon H.264 currently (2020) has the following maximum bitrates while streaming
 | 140m Film | 4725 |    6300 | 10500 |    15750 |
 
 Keep in mind that most videos will not be a constant bitrate, so actual streamed data will be lower.
+
+**Roku** provides some [guidelines](https://developer.roku.com/en-ca/docs/specs/media/streaming-specifications.md#encoding-guidelines) around a bitrate ladder, with H.264 1080p @ 5.8, 4.3, then 720p at 3.5, 2.75. Not all their devices support 1080p60 so recommends 720p60 or 1080p24/30. For 4k recommends HEVC/H.265 up to 25mbps.
 
 ## HEVC Notes
 

@@ -2,12 +2,14 @@
 title: Rails App Skeletons
 tags: [code]
 created: 2020-06-28T05:42:49.286Z
-modified: 2021-09-16T16:45:07.340Z
+modified: 2022-03-28T20:16:20.191Z
 ---
 
 # Rails App Skeletons
 
 Starter apps for [[Rails]] with a bunch of common decisions already made.
+
+There's an [Airtable](https://airtable.com/shrdbOTg9OCitVrTN/tblgEtLeFXmla3hgx) with a larger list, and last-updated dates.
 
 ### [Instant Rails](https://github.com/jasonswett/instant_rails) from Jason Swett
 - Devise
@@ -45,5 +47,5 @@ Starter apps for [[Rails]] with a bunch of common decisions already made.
 - Admin
 - Sidekiq
 
-### [Bullet Train](https://bullettrain.co/) $1500
+### [Bullet Train](https://bullettrain.co/) Free, Pro
 
