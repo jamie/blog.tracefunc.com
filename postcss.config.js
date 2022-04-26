@@ -1,22 +1,7 @@
 module.exports = {
-  plugins: {
-    'postcss-easy-import': {},
-    'postcss-mixins': {},
-    'postcss-color-function': {},
-    'tailwindcss': {},
-    'postcss-flexbugs-fixes': {},
-    'postcss-preset-env': {
-      autoprefixer: {
-        flexbox: 'no-2009'
-      },
-      stage: 2,
-      features: {
-        'nesting-rules': true,
-        'custom-media-queries': true
-      },
-    },
-    'cssnano' : {
-      preset: 'default'
-    }
-  }
-}
+  plugins: [
+    require("postcss-import"),
+    require("tailwindcss")("tailwind.config.js"),
+    require("autoprefixer")
+  ]
+};
