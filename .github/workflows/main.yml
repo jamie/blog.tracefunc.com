@@ -30,7 +30,7 @@ jobs:
     
     - name: Bridgetown Build
       run: |
-        BRIDGETOWN_ENV=production NODE_ENV=production yarn webpack-build && yarn build
+        BRIDGETOWN_ENV=production NODE_ENV=production bridgetown build
     
     - name: Bridgetown Deploy (Push to Github Pages)
       run: |
