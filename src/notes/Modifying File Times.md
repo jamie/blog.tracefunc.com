@@ -1,7 +1,7 @@
 ---
 title: Modifying File Times
-created: '2021-11-14T00:24:56.673Z'
-modified: '2021-11-14T02:43:59.762Z'
+created: 2021-11-14T00:24:56.673Z
+modified: 2021-11-14T02:43:59.762Z
 ---
 
 # Modifying File Times

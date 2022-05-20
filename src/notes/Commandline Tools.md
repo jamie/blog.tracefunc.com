@@ -1,7 +1,7 @@
 ---
 title: Commandline Tools
-created: '2022-04-13T04:53:13.528Z'
-modified: '2022-04-13T04:53:47.222Z'
+created: 2022-04-13T04:53:13.528Z
+modified: 2022-04-13T04:53:47.222Z
 ---
 
 # Commandline Tools
