@@ -1,7 +1,7 @@
 ---
 title: Railsconf 2022
 created: 2022-05-18T22:09:26.754Z
-modified: 2022-05-20T05:28:03.771Z
+modified: 2022-05-24T16:27:12.848Z
 ---
 
 # Railsconf 2022
@@ -119,6 +119,8 @@ Chris talked about Onboarding Ruby devs.
 Chris, Andrew, and Jason talked about things to keep in mind when starting your own podcast - TLDR; start small, be consistent, and layer on tech solutions only when you need it. And also have fun.
 
 ## Your test suite is making too many database calls!
+
+[slides](https://speakerdeck.com/joelq/your-test-suite-is-making-too-many-database-calls)
 
 Joël talks about slow tests (and plugs Aji's TDD Treasure Map talk from the previous timeslot). Focus is on creating too much test data.
 
