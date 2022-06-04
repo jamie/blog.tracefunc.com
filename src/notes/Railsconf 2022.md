@@ -1,12 +1,14 @@
 ---
 title: Railsconf 2022
 created: 2022-05-18T22:09:26.754Z
-modified: 2022-05-24T16:27:12.848Z
+modified: 2022-06-02T03:01:23.819Z
 ---
 
 # Railsconf 2022
 
 Talk notes & Reminders. Videos available next month for RailsConf Remote, and then a few months after on youtube.
+
+Joe Masilotti is [collecting slide decks here](https://masilotti.com/railsconf-2022/).
 
 ## Opening Keynote
 
@@ -155,9 +157,4 @@ Takeaways:
 ## End of the day Keynote
 
 Viadehi closed out the conference, giving a great reminder of Burnout being an actual thing, and encouraging everyone to make sure to take time to listen to their bodies, and be aware of how much overwork absolutely sucks.
-
-## Slides from other sessions I didn't attend
-
-- [Puny to Powerful PostgresSQL Rails Apps](https://andyatkinson.com/pg-puny-powerful)
-- [Open the gate a little: strategies to protect and share data](https://speakerdeck.com/ferperales/open-the-gate-a-little-strategies-to-protect-and-share-data) -- [sample repo](https://github.com/FerPerales/anon_app)
 

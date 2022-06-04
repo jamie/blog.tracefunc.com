@@ -1,10 +1,14 @@
 ---
 title: Rails Upgrade Notes
 created: 2020-08-19T23:59:48.985Z
-modified: 2021-09-01T18:04:42.641Z
+modified: 2022-05-26T00:18:43.770Z
 ---
 
 # Rails Upgrade Notes
+
+[Version by version guide](https://www.fastruby.io/blog/rails/upgrade/rails-upgrade-series.html), courtesy of FastRuby.io.
+
+---
 
 Good advice from [Arkency](https://blog.arkency.com/painless-rails-upgrades/):
 
