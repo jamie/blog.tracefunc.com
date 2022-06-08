@@ -38,3 +38,6 @@ yarn-debug.log*
 
 # Notable local config
 /src/.notable/.settings.json
+
+# Notable private notes
+/src/notes/!!!*

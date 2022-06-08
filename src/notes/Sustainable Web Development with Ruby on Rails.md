@@ -1,7 +1,7 @@
 ---
 title: Sustainable Web Development with Ruby on Rails
 created: 2022-06-02T17:43:42.611Z
-modified: 2022-06-03T21:49:01.764Z
+modified: 2022-06-06T15:52:39.415Z
 ---
 
 # Sustainable Web Development with Ruby on Rails
@@ -40,7 +40,14 @@ A similar argument can be made around Controllers - keeping your controller acti
 
 For my own perspective, while ActiveRecord doesn't do "functional" style programming well, you can at least keep to idempotent instead. If an AR class has validations (which can be repeated fine), data wrappers/formatters, and finders, you can treat it as being reasonably stable 
 
-## ...
+## Ch.6-12 Routes, HTML, Helpers, CSS, Javascript, View Testing
+
+The table of contents here does a great job summarizing the content - a lot of it skews to "sticking to Rails defaults, and working to keep things consistent is a great way to make sure any engineer can find their way around the codebase". Some specific notes:
+
+- Expose one instance variable per action -- my chief concern here is that if you've got a complex page that iterates a few has_many associations (profile page, with most recent posts, comments, likes) it can be a challenge to set up all the eager loading correctly chained off the primary object load. However, for modern Rails that does sound like a _great_ place to defer loads with Turbo Frames if you're serving HTML. Still awkward if you're building an API payload.
+
+- Only put helpers in `ApplicationHelper` -- it winds up all in a global namespace anyway so splitting helpers per controller is lying to yourself. 
+
+- Build a component library with previews/demos to document your design system -- I'm still not sure if it's worthwhile to go all-in on ViewComponent, but just making note that [doing this is supported natively there](https://viewcomponent.org/guide/previews.html).
 
 ...
-
