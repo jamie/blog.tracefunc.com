@@ -65,8 +65,8 @@ GEM
     faraday-em_synchrony (1.0.0)
     faraday-excon (1.1.0)
     faraday-httpclient (1.0.1)
-    faraday-multipart (1.0.3)
-      multipart-post (>= 1.2, < 3)
+    faraday-multipart (1.0.4)
+      multipart-post (~> 2)
     faraday-net_http (1.0.1)
     faraday-net_http_persistent (1.2.0)
     faraday-patron (1.0.0)
@@ -88,12 +88,12 @@ GEM
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     minitest (5.15.0)
-    multipart-post (2.1.1)
+    multipart-post (2.2.3)
     nio4r (2.5.8)
     public_suffix (4.0.7)
     puma (5.6.4)
       nio4r (~> 2.0)
-    rack (2.2.3)
+    rack (2.2.3.1)
     rack-indifferent (1.2.0)
       rack (>= 1.5)
     rake (13.0.6)
@@ -103,7 +103,7 @@ GEM
     rexml (3.2.5)
     roda (3.56.0)
       rack
-    rouge (3.28.0)
+    rouge (3.29.0)
     ruby2_keywords (0.0.5)
     serbea (1.0.1)
       activesupport (>= 6.0)
@@ -129,4 +129,4 @@ DEPENDENCIES
   puma (~> 5.6)
 
 BUNDLED WITH
-   2.2.29
+   2.3.15
