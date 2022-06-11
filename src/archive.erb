@@ -5,7 +5,7 @@ title: Archives by Date
 <div id="articles">
   <table class="table-auto border-b">
     <% year = nil %>
-    <% collections.posts.resources.reverse.each_with_index do |entry, i| %>
+    <% collections.posts.resources.each_with_index do |entry, i| %>
       <tr>
         <% if entry.date.year != year %>
           <% year = entry.date.year %>
