@@ -19,7 +19,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # If you need to upgrade/switch Bridgetown versions, change the line below
 # and then run `bundle update bridgetown`
-gem "bridgetown", "~> 1.0.0"
+gem "bridgetown", "~> 1.0"
 gem "bridgetown-feed", group: "bridgetown_plugins"
 # gem "bridgetown-notable", group: "bridgetown_plugins"
 

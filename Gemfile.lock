@@ -87,7 +87,7 @@ GEM
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    minitest (5.15.0)
+    minitest (5.16.1)
     multipart-post (2.2.3)
     nio4r (2.5.8)
     public_suffix (4.0.7)
@@ -101,7 +101,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rexml (3.2.5)
-    roda (3.56.0)
+    roda (3.57.0)
       rack
     rouge (3.29.0)
     ruby2_keywords (0.0.5)
@@ -117,16 +117,16 @@ GEM
       concurrent-ruby (~> 1.0)
     unicode-display_width (1.8.0)
     webrick (1.7.0)
-    zeitwerk (2.5.4)
+    zeitwerk (2.6.0)
 
 PLATFORMS
   ruby
   x86_64-darwin-21
 
 DEPENDENCIES
-  bridgetown (~> 1.0.0)
+  bridgetown (~> 1.0)
   bridgetown-feed
   puma (~> 5.6)
 
 BUNDLED WITH
-   2.3.15
+   2.3.16
