@@ -2,31 +2,41 @@
 layout: default
 ---
 
+<!-- <article class="blog-post">
+  <h2 class="blog-post-title mb-1">New feature</h2>
+  <p class="blog-post-meta">December 14, 2020 by <a href="#">Chris</a>
+  </p>
+  <p>This is some additional paragraph placeholder content. It has been written to fill the available space and
+    show how a longer snippet of text affects the surrounding content. We'll repeat it often to keep the
+    demonstration flowing, so be on the lookout for this exact same string of text.</p>
+  <ul>
+    <li>First list item</li>
+    <li>Second list item with a longer description</li>
+    <li>Third list item to close it out</li>
+  </ul>
+  <p>This is some additional paragraph placeholder content. It's a slightly shorter version of the other highly
+    repetitive body text used throughout.</p>
+</article> -->
+
 <div id="content" class="w-full px-4 md:px-6 text-xl text-gray-800 leading-normal" style="font-family:Georgia,serif;">
-  <div id="article">
+  <article id="article" class="blog-post">
     {% render "post", post: page, full: true %}
-  </div>
+  </article>
 </div>
 
-<!--Next & Prev Links-->
-<div class="font-sans flex justify-between content-center px-4 pb-12">
+<nav class="blog-pagination d-flex justify-content-between" aria-label="Pagination">
   <div class="text-left">
     {% if page.previous %}
-    <span class="text-xs md:text-sm font-normal text-gray-600">&lt; Previous Post</span><br>
-    <p><a href="{{ page.previous.relative_url }}"
-        class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
-        {{ page.previous.title }}
-      </a></p>
+    <a href="{{ page.previous.relative_url }}" class="btn btn-outline-primary rounded-pill">
+      Newer: {{ page.previous.title }}
+    </a>
     {% endif %}
   </div>
   <div class="text-right">
     {% if page.next %}
-    <span class="text-xs md:text-sm font-normal text-gray-600">Next Post &gt;</span><br>
-    <p><a href="{{ page.next.relative_url }}"
-        class="break-normal text-base md:text-sm text-teal-500 font-bold no-underline hover:underline">
-        {{ page.next.title }}
-      </a></p>
+    <a href="{{ page.next.relative_url }}" class="btn btn-outline-primary rounded-pill">
+      Older: {{ page.next.title }}
+    </a>
     {% endif %}
   </div>
-</div>
-<!--/Next & Prev Links-->
+</nav>

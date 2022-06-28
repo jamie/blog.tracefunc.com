@@ -7,11 +7,23 @@
   <body class="bg-gray-100 font-sans leading-normal tracking-normal {{ page.layout }} {{ page.page_class }}">
     {% render "navbar", metadata: site.metadata, page: page %}
 
-    <div class="container w-full md:max-w-3xl mx-auto pt-20 pb-10">
-      {{ content }}
-    </div>
+    <main class="container">
+      <div class="row g-5">
+        <div class="col-md-8">
+          {{ content }}
+        </div>
+        <div class="col-md-4">
+          <div class="position-sticky" style="top: 2rem;">
+            {% render "sidebar", metadata: site.metadata %}
+          </div>
+        </div>
+      </div>
+    </main>
 
-    {% render "footer", metadata: site.metadata %}
+    <footer class="blog-footer">
+      <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+    </footer>
+
     {% render "static_script" %}
   </body>
 
