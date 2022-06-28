@@ -1,7 +1,7 @@
 ---
 title: Sustainable Web Development with Ruby on Rails
 created: 2022-06-02T17:43:42.611Z
-modified: 2022-06-06T15:52:39.415Z
+modified: 2022-06-23T23:00:23.538Z
 ---
 
 # Sustainable Web Development with Ruby on Rails
@@ -49,5 +49,15 @@ The table of contents here does a great job summarizing the content - a lot of i
 - Only put helpers in `ApplicationHelper` -- it winds up all in a global namespace anyway so splitting helpers per controller is lying to yourself. 
 
 - Build a component library with previews/demos to document your design system -- I'm still not sure if it's worthwhile to go all-in on ViewComponent, but just making note that [doing this is supported natively there](https://viewcomponent.org/guide/previews.html).
+
+- Javascript is notorious for high churn in dependencies, be deliberate about what you take on.
+
+## Ch.13-17 Models, Database, and Business Logic
+
+Describes an architecture separate from my usual experience with Rails:
+
+- ActiveRecord models consist of validations, non-business-related finder scopes, and simple derived data readers (eg, `def fullname; "#{firstname} #{lastname}"; end`).
+- ActiveModel included in other classes provides domain objects usable by restful resources without requiring them to be backed by the database.
+
 
 ...
