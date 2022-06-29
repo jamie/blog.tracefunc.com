@@ -17,10 +17,11 @@ polish to be fit for general use.
 
 - [Ruby on Rails](http://rubyonrails.org/)
 - [ActiveMerchant](http://www.activemerchant.org/)
-- [vlad](http://blog.zenspider.com/releases/2015/06/vlad-version-2-6-5-has-been-released.html)
-- [ruby_parser](https://github.com/seattlerb/ruby_parser)
+- [Administrate](https://github.com/thoughtbot/administrate)
 - [memcache-client](http://github.com/mperham/memcache-client)
 - [recaptcha (ruby gem)](http://github.com/ambethia/recaptcha)
+- [ruby_parser](https://github.com/seattlerb/ruby_parser)
+- [vlad](http://blog.zenspider.com/releases/2015/06/vlad-version-2-6-5-has-been-released.html)
 
 
 ### Problems / Competitions
