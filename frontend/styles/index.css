@@ -1,23 +1,17 @@
 :root {
-  --system-font-serif: "Iowan Old Style", "Apple Garamond", "Baskerville", "Times New Roman", "Droid Serif", "Times", "Source Serif Pro", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --system-font-sans: -apple-system, BlinkMacSystemFont, "avenir next", avenir, "segoe ui", "helvetica neue", helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
-  --system-font-mono: Menlo, Consolas, Monaco, "Liberation Mono", "Lucida Console", monospace;
-}
-
-.font-sans {
-  font-family: var(--system-font-sans);
+  --bs-font-serif: "Iowan Old Style", "Apple Garamond", "Baskerville", "Times New Roman", "Droid Serif", "Times", "Source Serif Pro", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --bs-font-sans-serif: -apple-system, BlinkMacSystemFont, "avenir next", avenir, "segoe ui", "helvetica neue", helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
+  --bs-font-monospace: Menlo, Consolas, Monaco, "Liberation Mono", "Lucida Console", monospace;
 }
 
 /* bootstrap52_example_blog */
-/* stylelint-disable selector-list-comma-newline-after */
-
 .blog-header {
   border-bottom: 1px solid #e5e5e5;
   margin-bottom: 2em;
 }
 
 .blog-header-logo {
-  font-family: var(--system-font-serif);
+  font-family: var(--bs-font-serif);
   font-size: 2.25rem;
 }
 
@@ -26,7 +20,7 @@
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--system-font-serif) ;
+  font-family: var(--bs-font-serif) ;
 }
 
 .display-4 {
@@ -133,10 +127,6 @@ a.wikilink {
 }
 
 /* Consistent format for code blocks */
-.highlighter-rouge {
-  font-family: var(--system-font-mono);
-}
-
 div.highlighter-rouge {
   margin-left: -48px;
 }
