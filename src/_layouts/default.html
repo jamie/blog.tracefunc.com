@@ -4,17 +4,17 @@
     {% render "head", metadata: site.metadata, title: page.title %}
     {% feed_meta %}
   </head>
-  <body class="bg-gray-100 font-sans leading-normal tracking-normal {{ page.layout }} {{ page.page_class }}">
+  <body class="{{ page.layout }} {{ page.page_class }}">
     {% render "navbar", metadata: site.metadata, page: page %}
 
     <main class="container">
       <div class="row g-5">
-        <div class="col-md-8">
+        <div class="col-md-9">
           {{ content }}
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="position-sticky" style="top: 2rem;">
-            {% render "sidebar", metadata: site.metadata %}
+            {% render "sidebar", metadata: site.metadata, page: page %}
           </div>
         </div>
       </div>
@@ -24,7 +24,7 @@
       <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
     </footer>
 
-    {% render "static_script" %}
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 
 </html>

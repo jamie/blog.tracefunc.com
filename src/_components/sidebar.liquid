@@ -12,6 +12,17 @@
             3d print, or toy software project.</p>
 </div>
 
+{% if page.backlinks %}
+  <aside class="p-4">
+    <h4 class="fst-italic">Pages Linking Here</h4>
+    <ul class="list-unstyled">
+      {% for link in page.backlinks %}
+        <li class="pb-1"><a href="{{ link.relative_url }}" class="wikilink">{{ link.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </aside>
+{% endif %}
+
 <div class="p-4">
   <h4 class="fst-italic">Elsewhere</h4>
   <ol class="list-unstyled">

@@ -15,6 +15,7 @@ How this looks in practice is something like `./dig.sh ../my_repo 2011-04-01`. B
 
 The actual meat of the script is the last 3 lines, which gets a recursive directory listing as of the commit in question, filters to files that match a provided pattern, runs git blame across all of them, and counts the number of entries for each author.
 
+<!-- language: bash -->
     #!/bin/bash
 
     # ARGV: repo_path, date, commit
@@ -56,6 +57,7 @@ Next up is `dig_all.sh`, which is just a barebones orchestration script. Like th
 
 Once we've got all the data, I wanted to make a [bar chart race](https://app.flourish.studio/@flourish/bar-chart-race) out of it. `massage.rb` to the rescue, collating the raw data, and then outputting a CSV.
 
+<!-- language: ruby -->
     #!/usr/bin/env ruby
 
     require 'csv'
