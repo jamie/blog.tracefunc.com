@@ -200,7 +200,7 @@ module.exports = (outputFolder, esbuildOptions) => {
       ".ttf": "file",
       ".eot": "file",
     },
-    resolveExtensions: [".tsx",".ts",".jsx",".js",".css",".json",".js.rb"],
+    resolveExtensions: [".tsx", ".ts", ".jsx", ".js", ".css", ".json", ".js.rb"],
     nodePaths: ["frontend/javascript", "frontend/styles"],
     watch: process.argv.includes("--watch"),
     minify: process.argv.includes("--minify"),
