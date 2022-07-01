@@ -54,10 +54,19 @@ The table of contents here does a great job summarizing the content - a lot of i
 
 ## Ch.13-17 Models, Database, and Business Logic
 
-Describes an architecture separate from my usual experience with Rails:
+Chapters 13-16 describe a delegation of concerns that doesn't match my prior experience with Rails, and chapter 17 ties it all together with an end-to-end example demonstrating how the full stack fits together:
 
-- ActiveRecord models consist of validations, non-business-related finder scopes, and simple derived data readers (eg, `def fullname; "#{firstname} #{lastname}"; end`).
-- ActiveModel included in other classes provides domain objects usable by restful resources without requiring them to be backed by the database.
+- The controller acts as glue: turns params into a model, creates a service object and calls an operation on it, then checks that response to determine what to do next. This is tested with a system test for flow, both on success and failure. Assertions are purposefully mininal and focused on the core requirements of flow - on success, do we see content on the next screen that proves the success of the action? on failure, do we see content around expected error messages.
+- The controller presents one instance variable (it's resourceful, so the resource we're working with) except in cases of supporting "generic" data like options for a dropdown, so the view can be tested simply, and independently.
+- Business logic objects get their own home in app/services, and act as a "seam" where they present a straightforward and small API, allowing for independent refactoring on either side. They can be reused and moved around in the controller layer, and independently grown as business requirements change and accrete. These just use regular tests. Aside: it's very explicitly called out that service objects should have a clear method name, ie. `WidgetCreator#create_widget` as it makes it much easier to navigate the codebase (compared to alternatives where every service object has `.call`).
+- Models models consist of validations, non-business-related finder scopes, and simple derived data readers (eg, `def name; "#{firstname} #{lastname}"; end`). `ActiveModel` can be included in plain ruby classes to provide domain objects usable by restful resources without requiring them to be backed by the database. Standard testing, same as business objects.
+- The database is leveraged whenever plausable for data integrity - column sizing, unique constraints, foreign key constraints...
+
+Overall this reminds me somewhat of the [dry-rb](https://dry-rb.org/) family of gems in pushing responsibilities away from controller/model, but there's a very pragmatic approach of using Rails defaults where they are the most powerful/valuable. ActiveRecord validations are more business logic than anything, and they're only written in response to behaviour defined in the business tests, but using them rather than say dry-validation (or just one-off validation logic in service objects) means they hang around with the model, can be asserted against in response objects, work well with form helpers for error messaging, etc etc.
+
+## Ch.18-20 Controllers, Jobs, Other Boundary Classes
+
+If business logic and the data model are the core of the application, section II wraps up with a discussion on the various edges of the system.
 
 
 ...
