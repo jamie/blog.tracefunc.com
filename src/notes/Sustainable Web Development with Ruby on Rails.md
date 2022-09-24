@@ -1,7 +1,7 @@
 ---
 title: Sustainable Web Development with Ruby on Rails
 created: 2022-06-02T17:43:42.611Z
-modified: 2022-06-23T23:00:23.538Z
+modified: 2022-07-16T04:57:28.775Z
 ---
 
 # Sustainable Web Development with Ruby on Rails
@@ -69,4 +69,5 @@ Overall this reminds me somewhat of the [dry-rb](https://dry-rb.org/) family of 
 If business logic and the data model are the core of the application, section II wraps up with a discussion on the various edges of the system.
 
 
-...
+... Auth/auth, APIs, Process, Operations, Monoliths/Microservices/Shared DBs, Technical Leadership
+
