@@ -1,12 +1,12 @@
 ---
 title: Mentoring
 created: 2022-09-22T19:53:57.055Z
-modified: 2022-09-22T20:28:48.276Z
+modified: 2022-09-26T17:19:26.028Z
 ---
 
 # Mentoring
 
-# A Mentoring cycle
+## A Mentoring cycle
 
 Via [The Coaching Habit: 7 Great Questions](https://www.amazon.ca/Coaching-Habit-Less-Change-Forever/dp/0978440749)
 
@@ -30,6 +30,19 @@ Saying YES more slowly means being willing to stay curious before committing.
 
 7: The Learning Question – What was most useful for you?
 The Learning Question pairs with the Kickstart Question to make what Stanier calls the Coaching Bookends – ensuring conversations with you are of high value.
+
+## A bit more structure
+
+[via](https://www.fastcompany.com/40540798/eight-essential-rules-for-first-time-mentors)
+
+1. Work to understand and define the mentee's goals
+2. Ask questions about the big picture
+3. Be consistent in offering your time
+4. Keep an open mind to problem solving
+5. Make Referrals
+6. Remember that it's not about you
+7. Practice active listening
+8. Maintain confidentiality
 
 ## Learning Ruby
 

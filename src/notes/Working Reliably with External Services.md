@@ -1,7 +1,7 @@
 ---
 title: Working Reliably with External Services
 created: 2022-06-23T23:04:30.616Z
-modified: 2022-06-23T23:28:03.946Z
+modified: 2022-09-28T17:02:42.106Z
 ---
 
 # Working Reliably with External Services
@@ -23,5 +23,9 @@ Possible RailsConf talk proposal, talking about how you can adjust your applicat
   - Service object + Mock object
   - Test service object via record and replay (VCR), assert against canned responses
   - Test live responses & mock object responses against the same assertions in order to trust that the mock object is providing well-formed payloads
+
+---
+
+See also https://blog.pragmaticengineer.com/resiliency-in-distributed-systems/ where the summary of Ch 27 of [this book](https://understandingdistributed.systems/) is relevant to this content - covering timeouts, retries, and circuit breakers.
 
 
