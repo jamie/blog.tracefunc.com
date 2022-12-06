@@ -2,7 +2,7 @@
 title: Coding Style
 tags: [code]
 created: 2020-03-24T16:22:24.434Z
-modified: 2022-02-25T18:10:45.090Z
+modified: 2022-11-24T22:08:16.495Z
 ---
 
 # Coding Style
@@ -22,4 +22,10 @@ A full (manual) [configuration set](https://thedevpost.com/blog/rubocop-configur
 ### [[Javascript]]
 
 Use [Standard JS](https://standardjs.com/), which is built on top of eslint.
+
+### Git notes:
+
+Create a `.git-blame-ignore-revs` file with one commit hash per line (comments with `#`) to get [Github to ignore those commits] when doing `git blame` and related analysis. Run `git config blame.ignoreRevsFile .git-blame-ignore-revs` to get your local git to do likewise.
+
+Now whenever you do a few automated cleanups (one type per commit yeah?) just add that commit hash to the file, and enjoy the lack of noise in your git history.
 

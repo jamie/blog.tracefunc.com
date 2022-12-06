@@ -1,12 +1,16 @@
 ---
 title: Visual Studio Code
 created: 2022-04-28T21:06:40.214Z
-modified: 2022-04-28T21:25:48.563Z
+modified: 2022-10-12T19:32:48.961Z
 ---
 
 # Visual Studio Code
 
-Useful extensions:
+## HOWTO
+
+- [Ruby Debugger](https://dev.to/kanani_nirav/debugging-a-ruby-on-rails-application-in-visual-studio-code-20fk)
+
+## Useful extensions:
 
 ### Containers
 
