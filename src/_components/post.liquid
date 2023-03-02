@@ -1,14 +1,12 @@
-<div class="font-sans mb-8">
+<article>
   <h2><a href="{{ post.relative_url }}">{{ post.title }}</a></h2>
-  <p class="text-sm md:text-base font-normal text-gray-600">
+  <blockquote>
     {{ post.date | date_to_string:"ordinal" }}
     {% if post.tags.size > 0 %}
       | Tags:
-      {% for tag in post.tags %}
-        <a href="/tags/#{{ tag }}">{{ tag }}</a>
-      {% endfor %}
+      {% for tag in post.tags %}<a href="/tags/#{{ tag }}">{{ tag }}</a> {% endfor %}
     {% endif %}
-  </p>
+  </blockquote>
 
   {% if excerpt %}
     {{ post.summary }}
@@ -16,4 +14,4 @@
   {% else %}
     {{ post.content }}
   {% endif %}
-</div>
+</article>

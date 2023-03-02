@@ -1,5 +1,17 @@
-<div class="p-4 mb-3 mt-3 bg-light rounded">
-  <h4 class="fst-italic">About</h4>
+<aside>
+{% if page.backlinks %}
+  <div>
+    <h4>Backlinks</h4>
+    <ul>
+      {% for link in page.backlinks %}
+        <li><a href="{{ link.relative_url }}" class="wikilink">{{ link.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+<div>
+  <h4>About</h4>
   <picture class="float-end w-50 rounded-circle">
     <source srcset="/assets/memoji.webp" type="image/webp">
     <source srcset="/assets/memoji.jpeg" type="image/jpeg">
@@ -12,19 +24,8 @@
             3d print, or toy software project.</p>
 </div>
 
-{% if page.backlinks %}
-  <aside class="p-4">
-    <h4 class="fst-italic">Pages Linking Here</h4>
-    <ul class="list-unstyled">
-      {% for link in page.backlinks %}
-        <li class="pb-1"><a href="{{ link.relative_url }}" class="wikilink">{{ link.title }}</a></li>
-      {% endfor %}
-    </ul>
-  </aside>
-{% endif %}
-
-<div class="p-4">
-  <h4 class="fst-italic">Elsewhere</h4>
+<div>
+  <h4>Elsewhere</h4>
   <ol class="list-unstyled">
     <li>
       <a href="https://github.com/jamie/"">GitHub</a>
@@ -43,3 +44,4 @@
     </li>
   </ol>
 </div>
+</aside>

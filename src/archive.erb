@@ -2,6 +2,8 @@
 layout: page
 title: Archives by Date
 ---
+
+<h2>Posts by Date</h2>
 <div id="articles">
   <table class="table-auto border-b">
     <% year = nil %>
@@ -9,12 +11,12 @@ title: Archives by Date
       <tr>
         <% if entry.date.year != year %>
           <% year = entry.date.year %>
-          <th class="border-t border-l px-4 py-2"><%= year %></th>
+          <th><%= year %></th>
         <% else %>
-          <th class="border-l">&nbsp;</td>
+          <th>&nbsp;</td>
         <% end %>
-        <td class="border px-4 py-2"><%= entry.date.strftime('%b %e') %></td>
-        <td class="border px-4 py-2"><a href="<%= entry.relative_url %>"><%= entry.data['title'] %></a></td>
+        <td><%= entry.date.strftime('%b %e') %></td>
+        <td><a href="<%= entry.relative_url %>"><%= entry.data['title'] %></a></td>
       </tr>
     <% end %>
   </table>

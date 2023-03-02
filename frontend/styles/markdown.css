@@ -1,0 +1,34 @@
+/* Apply some styles globally to markdown-converted content */
+#content a {
+  color: #0d6efd;
+}
+
+a.wikilink {
+  color: #ffc107;
+}
+
+/* weird markdown html nesting */
+#content li p {
+  display: inline
+}
+
+/* Consistent format for code blocks */
+div.highlighter-rouge {
+  margin-left: -48px;
+}
+
+.highlighter-rouge .lineno {
+  min-width: 30px;
+  --text-opacity: 1;
+  color: #cbd5e0;
+  color: rgba(203, 213, 224, var(--text-opacity))
+}
+
+.highlighter-rouge .rouge-code {
+  min-width: 720px
+}
+
+.rouge-gutter,
+.rouge-code {
+  border-width: 0 !important
+}
