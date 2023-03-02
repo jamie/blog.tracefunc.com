@@ -26,6 +26,8 @@ gem "bridgetown-feed", group: "bridgetown_plugins"
 # Uncomment to add file-based dynamic routing to your project:
 # gem "bridgetown-routes", "~> 1.0.0", group: :bridgetown_plugins
 
+gem "rack", "~> 2.2" # Transitional for rack 3 compatibility
+
 # Puma is a Rack-compatible server used by Bridgetown
 # (you can optionally limit this to the "development" group)
 gem "puma", "~> 5.6"
