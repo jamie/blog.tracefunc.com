@@ -2,7 +2,7 @@
 title: Quality Gems
 tags: [Rails, Ruby]
 created: 2020-08-10T19:08:45.776Z
-modified: 2021-02-23T22:29:06.543Z
+modified: 2023-01-17T17:13:35.869Z
 ---
 
 # Quality Gems
@@ -29,4 +29,7 @@ And some TODOs that I want to try out.
 
 - [api_struct](https://github.com/rubygarage/api_struct) for writing API clients, as a step up from my usual bit of raw httprb and JSON->hash data bags on the response.
 
+## Evil Martians
+
+Posted an article about their [Gemfile of dreams](https://evilmartians.com/chronicles/gemfile-of-dreams-libraries-we-use-to-build-rails-apps) with a summary of the things they use frequently and why.
 
