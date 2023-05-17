@@ -1,7 +1,7 @@
 ---
 title: Project Management
 created: 2020-07-20T04:34:50.399Z
-modified: 2020-07-20T04:39:51.418Z
+modified: 2022-10-04T23:30:37.412Z
 ---
 
 # Project Management
@@ -31,3 +31,4 @@ modified: 2020-07-20T04:39:51.418Z
 - S: Should Have (required to meet internal standards of quality)
 - C: Could Have (stretch goals, time permitting)
 - W: Won't Have (explicitly out of scope)
+

@@ -1,7 +1,7 @@
 ---
 title: Rails Testing Strategy
 created: 2021-10-08T20:12:36.279Z
-modified: 2021-10-08T20:19:31.105Z
+modified: 2022-10-04T23:37:12.525Z
 ---
 
 # Rails Testing Strategy
@@ -21,4 +21,8 @@ modified: 2021-10-08T20:19:31.105Z
   - Request: rarely (usually redundant to system specs)
   - Helper: rarely
   - View/Routing/Mailer/Job: never
+
+### Minitest
+
+has a [style guide](https://minitest.rubystyle.guide/)
 
