@@ -1,7 +1,7 @@
 ---
 title: Rubik's Cube
 created: 2021-06-15T18:31:12.224Z
-modified: 2022-05-02T17:15:49.044Z
+modified: 2023-04-19T17:55:08.831Z
 ---
 
 # Rubik's Cube
@@ -93,5 +93,31 @@ Beginner method with few algorithms. Referenced several times is "Sexy move" `RU
 	  - if corners need to swap, sexy once to move corner up, rotate Down to the other corner, and sexy until placed, then rotate Down back and sexy until complete.
 		- if corners just need to rotate, sexy to rotate the first, then rotate Down and sexy the other one til correct, and rotate Down back to complete.
 
+### Speed Cubing Method
 
+https://lar5.com/cube/
 
+- Build 2x2x2 corner
+- Expand to 2x2x3
+- Orient unsolved faces as U and R
+- Fix "bad" edges, who orient "wrong" on to the two unsolved faces (whichever color they share)
+  - Correct FR and UL with `F'U'F`
+- Finish 2 layers, _only turning the unsolved faces_
+  - a. one corner + two edges
+  - b. final corner + edge
+- Orient cube so unsolved face is U
+- Position corners
+  - "Niklas" swaps UFR and UBR: `LU'R'UL'U'RU2`
+  - Swapping two diagonally opposite corners uses two Niklas.
+- Twist corners
+  - "Sune" selects a front corner, targeting its sticker on the front face, and rotates the other three corners.
+    - UFR: `BUB'UBU2B'U2`
+    - UFL: `BU'B'U'BU2B'U2`
+  - If 0 correct corners, target any U sticker
+  - If 1 correct corner, target the correct corner on the face with no U stickers
+  - If 2 correct corners, target non-U sticker of a twisted corner
+- Position edges
+  - Inspect top layer outer faces.
+  - If one edge is correct, orient it to B, and perform "Allan": `F2U' LR' F2 L'R U'F2` - This rotates counter-clockwise UL -> UF -> UR, to rotate clockwise change the `U'` turns to `U`.
+  - To swap two pairs of adjacent edges (F,R and L,B), "Bert": `F2B2 DR2 F2B2 L2 F2B2 D' F2B2`
+  - To swap two pairs of opposite edges, "Arne": `R2F2B2L2 D L2B2F2R2`
