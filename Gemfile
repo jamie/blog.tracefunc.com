@@ -31,3 +31,5 @@ gem "rack", "~> 2.2" # Transitional for rack 3 compatibility
 # Puma is a Rack-compatible server used by Bridgetown
 # (you can optionally limit this to the "development" group)
 gem "puma", "~> 5.6"
+
+gem "standard"

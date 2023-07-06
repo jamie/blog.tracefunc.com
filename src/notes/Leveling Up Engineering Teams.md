@@ -1,7 +1,7 @@
 ---
 title: Leveling Up Engineering Teams
 created: 2022-08-22T18:24:43.663Z
-modified: 2022-08-22T19:04:51.474Z
+modified: 2022-10-04T23:36:20.293Z
 ---
 
 # Leveling Up Engineering Teams
@@ -19,4 +19,6 @@ Some devex links:
 - [microsoft](https://microsoft.github.io/code-with-engineering-playbook/developer-experience/)
 - [Nylar](https://www.information-age.com/value-of-devex-how-starting-with-developers-can-boost-customer-experience-123499005/), maybe talking more about "Developer Experience" as an API consumer, rather than internally
 - [Humanitec](https://humanitec.com/blog/developer-experience) is a bit fluffy
+- [ClarityAI](https://medium.com/clarityai-engineering/the-experience-of-working-in-developer-experience-c51dfae1a973) shares some experience
+- [Martin Fowler](https://martinfowler.com/articles/developer-effectiveness.html) talks about "developer effectiveness" here and optimizing feedback loops, looking at Etsy and Spotify for examples in the wild
 
