@@ -3,7 +3,7 @@ layout: page
 title: Projects
 ---
 
-### Open Source
+## Open Source
 
 Minor projects, either small libraries or side projects that lack sufficient
 polish to be fit for general use.
@@ -13,7 +13,7 @@ polish to be fit for general use.
 - [webbylog](http://github.com/jamie/webbylog), a blog template for [webby](http://webby.rubyforge.org/). Functional, though I've since switched to [toto](http://github.com/cloudhead/toto).
 - [user_agent](http://github.com/jamie/user_agent), a simple server-side user agent parser
 
-#### Accepted Patches
+### Accepted Patches
 
 - [Ruby on Rails](http://rubyonrails.org/)
 - [ActiveMerchant](http://www.activemerchant.org/)
@@ -24,7 +24,7 @@ polish to be fit for general use.
 - [vlad](http://blog.zenspider.com/releases/2015/06/vlad-version-2-6-5-has-been-released.html)
 
 
-### Problems / Competitions
+## Problems / Competitions
 
 Competitions, or just random problem sets.
 

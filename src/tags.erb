@@ -2,6 +2,8 @@
 layout: page
 title: Archives by Tag
 ---
+
+<h2>Posts by Tag</h2>
 <% site_tags = collections.posts.resources.map{|e|e.data['tags'] || []}.flatten.uniq.sort %>
 <div class="article">
   <div class="meta">
@@ -13,7 +15,7 @@ title: Archives by Tag
 
 <hr/>
 
-<div id="articles">
+<figure>
   <table>
     <% last_tag = nil%>
     <% for tag in site_tags %>
@@ -37,4 +39,4 @@ title: Archives by Tag
       <% end %>
     <% end %>
   </table>
-</div>
+</figure>
