@@ -63,7 +63,7 @@ Finally, if you have any tasks that depend on environment, the easiest way to ge
 
 ## Generators
 
-I haven't looked into generators in too much depth, but the API between Rails::Generator::Base and Merb::GeneratorBase seem different enough to warrant not reusing the generation script.  If you conditionally define a generator based on the `defined?`ness of those two base classes, you should be able to reuse all your generation templates, and both Rails and Merb look in the same place for generators, so that should be the only adaptation necessary.
+I haven't looked into generators in too much depth, but the API between Rails\::Generator\::Base and Merb::GeneratorBase seem different enough to warrant not reusing the generation script.  If you conditionally define a generator based on the `defined?`ness of those two base classes, you should be able to reuse all your generation templates, and both Rails and Merb look in the same place for generators, so that should be the only adaptation necessary.
 
 ## ORM Integration
 

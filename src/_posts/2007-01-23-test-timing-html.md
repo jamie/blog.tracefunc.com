@@ -5,7 +5,7 @@ tags:   [programming, rails]
 
 Since [Geoff's][] gem wasn't working for me, I whipped up a test timing utility based off of it.
 
-Rather than hook into Test::Unit::TestSuite, I'm hooking into TestCase, and providing a global report via an at\_exit hook. Just add the following file to your lib folder, require it from test\_helper, and most of the time it will just sit there, quietly doing nothing. Call it into action by setting the environment variable TEST\_TIMER with a float, and it will output the elapsed time of any test taking longer than that.
+Rather than hook into Test\::Unit\::TestSuite, I'm hooking into TestCase, and providing a global report via an at\_exit hook. Just add the following file to your lib folder, require it from test\_helper, and most of the time it will just sit there, quietly doing nothing. Call it into action by setting the environment variable TEST\_TIMER with a float, and it will output the elapsed time of any test taking longer than that.
 
 Example run:
 

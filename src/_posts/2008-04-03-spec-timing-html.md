@@ -34,5 +34,5 @@ Then, simply run
 
     rake SLOW=0.1
 
-Two gotchas if you're using Rails though: instead of hooking S::E::ExampleGroup, you'll need to hook Spec::Rails::Example::RailsExampleGroup.  Second, if you have any spec failures the timings don't seem to get output, since spec/rails aborts execution after failing.
+Two gotchas if you're using Rails though: instead of hooking S\::E\::ExampleGroup, you'll need to hook Spec\::Rails\::Example\::RailsExampleGroup.  Second, if you have any spec failures the timings don't seem to get output, since spec/rails aborts execution after failing.
 

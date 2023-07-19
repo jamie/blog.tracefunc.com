@@ -30,20 +30,20 @@ module ActionController::Routing
 end
 ```
 
-The only other thing to do is include ActionController::Routing::ConditionConstants inside the block attached to draw so your connect calls can see the constants being defined - AC::Routing seems to have no problem seeing them, even though they're inside a module of their own.
+The only other thing to do is include ActionController\::Routing\::ConditionConstants inside the block attached to draw so your connect calls can see the constants being defined - AC::Routing seems to have no problem seeing them, even though they're inside a module of their own.
 
 Anyone interested in the hows and whys, feel free to read on...
 
 
 The goal then, is to come up with an object that can perform an arbitrary condition for use in routes. My usage is a simple lookup in one of my ActiveRecord models, but really you could do anything you wanted. So let's take a look through the generation of a route.
 
-First off, you create routes using the draw method of ActionController::Routing::Routes, which accepts a block detailing the routes you want to connect. Routes is actually not a class with a class method draw, but rather is an instance of AC::Routing::RouteSet. draw yields the RouteSet to the content block, so let's take a look at it for a moment.
+First off, you create routes using the draw method of ActionController\::Routing\::Routes, which accepts a block detailing the routes you want to connect. Routes is actually not a class with a class method draw, but rather is an instance of AC\::Routing\::RouteSet. draw yields the RouteSet to the content block, so let's take a look at it for a moment.
 
-The RouteSet#connect method takes a bunch of arguments, and passes them directly into the constructor of AC::Routing::Route. Route accepts two parameters: a path, and an options hash. The path can be either a string (which is split on '/') or an array. The options hash is populated with either defaults or conditions for the various parts of the path.
+The RouteSet#connect method takes a bunch of arguments, and passes them directly into the constructor of AC\::Routing\::Route. Route accepts two parameters: a path, and an options hash. The path can be either a string (which is split on '/') or an array. The options hash is populated with either defaults or conditions for the various parts of the path.
 
 While you can explicitly define :defaults and :conditions with their own subhashes, but Route is smart enough to do some thinking for you: if the value for a given key is\_a?(Regexp), it is treated as a condition, otherwise it is considered a default. Therefore, this is the first test that our custom condition must pass. Fortunately, it's trivial to write an is\_a? method on whatever class we end up writing that returns true for Regexp, so it's not a big stumbling block.
 
-Now, I have to admit I snuck a bit ahead of the game here - when Route was doing data massaging on the path, it is creating AC::Routing::Components to store each part of the path. There are actually four different subclasses of components, each created by the base Component class. The one we're interested in is DynamicComponent, which is created when the path looks like a symbol. ControllerComponent matches on the explicit symbol :controller so that it can deal with modules, so we don't need to worry about it.
+Now, I have to admit I snuck a bit ahead of the game here - when Route was doing data massaging on the path, it is creating AC\::Routing\::Components to store each part of the path. There are actually four different subclasses of components, each created by the base Component class. The one we're interested in is DynamicComponent, which is created when the path looks like a symbol. ControllerComponent matches on the explicit symbol :controller so that it can deal with modules, so we don't need to worry about it.
 
 This comes in later on in RouteSet#draw. After creating the various Routes, it calls methods named write\_generation and write\_recognition. write\_generation sets up rules for turning a params hash into an actual URL. write\_recognition does the other way, which is what we want.
 
