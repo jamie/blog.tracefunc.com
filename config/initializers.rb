@@ -33,11 +33,11 @@ Bridgetown.configure do |config|
       values: {layout: "post", render_with_liquid: false}
     },
     {
-      scope: {path: "_posts/drafts"},
+      scope: {path: "_posts/drafts/"},
       values: {published: false}
     },
     {
-      scope: {path: "notes"},
+      scope: {path: "notes/"},
       values: {notable: true, layout: "notable"}
     }
   ]
