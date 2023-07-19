@@ -5,10 +5,10 @@
 class HtmlToPdf < SiteBuilder
   def build
     hook :site, :post_write do |site|
-      site.collections.pages.resources.select { |page| page.data['print_pdf'] }.each do |page|
+      site.collections.pages.resources.select { |page| page.data["print_pdf"] }.each do |page|
         system(
           chrome,
-          '--headless', '--disable-gpu', '--no-margins',
+          "--headless", "--disable-gpu", "--no-margins",
           "--print-to-pdf=output#{page.data.print_pdf}",
           "output#{page.data.print_html}"
         )
@@ -17,11 +17,9 @@ class HtmlToPdf < SiteBuilder
   end
 
   def chrome
-    @chrome ||= begin
-      [
-        `which google-chrome`.chomp,
-        '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-      ].reject(&:empty?).first
-    end
+    @chrome ||= [
+      `which google-chrome`.chomp,
+      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    ].reject(&:empty?).first
   end
 end

@@ -21,7 +21,7 @@ module Builders
     end
 
     def slugify(title)
-      title.downcase.gsub(/[^a-z0-9]+/, '-')
+      title.downcase.gsub(/[^a-z0-9]+/, "-")
     end
   end
 end

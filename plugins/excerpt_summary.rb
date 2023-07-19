@@ -1,9 +1,9 @@
 class ExcerptSummary
   module RubyResource
     def summary_extension_output
-      return unless site.config['excerpt_separator']
+      return unless site.config["excerpt_separator"]
 
-      content.split(site.config['excerpt_separator']).first
+      content.split(site.config["excerpt_separator"]).first
     end
   end
 end

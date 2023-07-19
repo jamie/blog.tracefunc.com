@@ -2,7 +2,7 @@
 
 module Builders
   class Notable < SiteBuilder
-    LINK_PATTERN = %r!\[\[([^\]]+)\]\]!.freeze
+    LINK_PATTERN = %r{\[\[([^\]]+)\]\]}.freeze
 
     def build
       generator :attachments
@@ -19,7 +19,7 @@ module Builders
     def backlinks
       notable_pages.each do |page|
         pagename = page.data.title
-        backlinks = all_pages.select { |pg| pg.content =~ %r!\[\[#{pagename}\]\]!i }
+        backlinks = all_pages.select { |pg| pg.content =~ %r{\[\[#{pagename}\]\]}i }
         page.data[:backlinks] = backlinks if backlinks.any?
       end
     end
