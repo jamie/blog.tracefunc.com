@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<style>
+  /*
+    Thanks to https://voussoir.net/writing/css_for_printing for the baseline template
+
+    In this file, `section` is a page-unit, `article` is a card-unit, and
+    we're using flexbox on the section tag to keep things centered & snug.
+  */
+
+  /* Core styles */
+  html {
+    box-sizing: border-box;
+  }
+
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+
+  html,
+  body {
+    margin: 0;
+    background-color: lightblue;
+  }
+
+  header {
+    background-color: white;
+    max-width: 8.5in;
+    margin: 8px auto;
+    padding: 8px;
+  }
+
+  section {
+    background-color: white;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+  }
+
+  @media print {
+
+    html,
+    body {
+      background-color: white !important;
+    }
+
+    body>header {
+      display: none;
+    }
+
+    section,
+    article {
+      margin: 0 !important;
+    }
+  }
+
+  /* Page sizing, adjust portrait/landscape here, and adjust secion to match */
+  @page {
+    size: Letter landscape;
+    margin: 0;
+  }
+
+  section {
+    padding: 0.25in;
+    width: 10in;
+    height: 8.5in;
+    /* For centering the page on the screen during preparation */
+    margin: 8px auto;
+  }
+
+  /* Card sizing, initial style */
+  article {
+    background-color: white;
+    padding: 0.15in;
+    width: 3.5in;
+    height: 2.5in;
+    border: 1pt solid #555;
+  }
+
+  /* Custom styles */
+  li {
+    list-style-type: none;
+    margin-left: -2em;
+  }
+
+  li.crew::before {
+    content: "👤 ";
+  }
+
+  li.ship::before {
+    content: "🚀 ";
+  }
+
+  li.equip::before {
+    content: "🔧 ";
+  }
+
+  li.enemy::before {
+    content: "🔫 ";
+  }
+</style>
+
+<body>
+  <header>
+    <p>
+      PNP poker card template, letter size. Should print correctly on A4 at 100%.
+      See HTML comments for customization.
+    </p>
+    <p><button onclick="return window.print();">Print</button></p>
+  </header>
+
+  <section>
+    <article>
+      <h1>The Dynasty Seal</h1>
+      <ul>
+        <li class="crew">Light Sailor</li>
+        <li class="ship">The Determined</li>
+        <li class="equip">Extended Marketnet</li>
+        <li class="equip">Ray-Scatter Plating</li>
+        <li class="equip">Hidden Compartment</li>
+        <li class="enemy">Dynasty Guard: Genesis VII</li>
+      </ul>
+    </article>
+
+    <article>
+      <h1>Debts and Damage</h1>
+      <ul>
+        <li class="crew">Tech</li>
+        <li class="ship">Risky Business</li>
+        <li class="equip">Teleportation Pod</li>
+        <li class="equip">Escape Pod</li>
+        <li class="equip">Helioturbine</li>
+        <li class="enemy">Dynasty Forces: Yanfred Jima</li>
+      </ul>
+    </article>
+
+    <article>
+      <h1>Out of Route</h1>
+      <ul>
+        <li class="crew">Negotiator</li>
+        <li class="ship">Large Barge</li>
+        <li class="equip">Ram Collector Scoop</li>
+        <li class="equip">Heavy Plating</li>
+        <li class="equip">Solar Anchor</li>
+        <li class="enemy">Chaos Hunter: Mzerzo</li>
+      </ul>
+    </article>
+
+    <article>
+      <h1>Stunt Pilot</h1>
+      <ul>
+        <li class="crew">Stunt Pilot</li>
+        <li class="ship">Tumbug's Pride</li>
+        <li class="equip">Space Barnacles</li>
+        <li class="equip">Holographic Assitance Network</li>
+        <li class="equip">Evasive Rocketry</li>
+        <li class="enemy">Saboteur</li>
+      </ul>
+    </article>
+
+  </section>
+</body>
+
+</html>
