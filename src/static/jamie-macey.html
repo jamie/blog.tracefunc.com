@@ -168,6 +168,10 @@ print_pdf: /static/jamie-macey.pdf
         background: none;
       }
 
+      .nobreak {
+        page-break-inside: avoid;
+      }
+
       dl {
         page-break-after: always;
       }
@@ -219,7 +223,7 @@ print_pdf: /static/jamie-macey.pdf
 
     <blockquote>
       <p>
-        I am a results-oriented professional software developer with almost a
+        I am a results-oriented professional software developer with over a
         decade of experience in senior and team-lead positions on a variety of
         web applications and services. I am seeking a position that will allow
         me to both leverage my strengths and experience as well as pull out of
@@ -234,151 +238,164 @@ print_pdf: /static/jamie-macey.pdf
 
       <dt>Experience</dt>
       <dd class="links">
-        <h3>
-          <a href="http://www.versapay.com/">VersaPay</a>
-          <span>Toronto, ON, Remote</span>
-        </h3>
-        <p>Software Architect <span>2020-</span></p>
-        <ul>
-          <li>
-            Having long-term experience with this application, acted as
-            a subject-matter expert and code owner for our backend payment
-            processing systems, data flows, and APIs, as well as a mentor for
-            junior developers. In this role as SME, served as a primary internal
-            point of contact for our customer success team to answer technical
-            questions and investigate customer issues.
-          </li>
-          <li>
-            In support of the overall product as we deal with integrating a
-            merger of multiple companies, implemented a purpose-built secure
-            data storage system for our credit card and bank account data,
-            allowing for our separate products to share data in a PCI-safe
-            fashion, and led development of internal API integrations both as
-            a consumer and provider to act as a data bridge between our
-            client-facing embedded applications and our backend systems.
-          </li>
-          <li>
-            Led core infrastructure upgrades, from Rails 3.2 on Ruby 2.3 to
-            Rails 7.1 on Ruby 3.1, and evangelized for the adoption of
-            improved development tooling, such as 3rd-party licence auditing,
-            test coverage monitoring, improvements to our CI system, and
-            static code analysis running on commit.
-          </li>
-        </ul>
+        <div class="nobreak">
+          <h3>
+            <a href="http://www.versapay.com/">Versapay</a>
+            <span>Toronto, ON, Remote</span>
+          </h3>
+          <p>Software Architect <span>2020-</span></p>
+          <ul>
+            <li>
+              Having long-term experience with this application, acted as
+              a subject-matter expert and code owner for our backend payment
+              processing systems, data flows, and APIs, as well as a mentor for
+              junior developers. In this role as SME, served as a primary internal
+              point of contact for our customer success team to answer technical
+              questions and investigate customer issues.
+            </li>
+            <li>
+              In support of the overall product as we deal with integrating a
+              merger of multiple companies, implemented a purpose-built secure
+              data storage system for our credit card and bank account data,
+              allowing for our separate products to share data in a PCI-safe
+              fashion, and led development of internal API integrations both as
+              a consumer and provider to act as a data bridge between our
+              client-facing embedded applications and our backend systems.
+            </li>
+            <li>
+              Led core infrastructure upgrades, from Rails 3.2 on Ruby 2.3 to
+              Rails 7.1 on Ruby 3.1, and evangelized for the adoption of
+              improved development tooling, such as 3rd-party licence auditing,
+              test coverage monitoring, improvements to our CI system, and
+              static code analysis running on commit.
+            </li>
+          </ul>
+        </div>
 
-        <h3>
-          <a href="https://attendease.com/">Attendease</a>
-          <span>Vancouver, BC, Remote</span>
-        </h3>
-        <p>Senior Software Engineer <span>2019-2020</span></p>
-        <ul>
-          <li>
-            Primarily led performance/scalability improvement work, including
-            a user-emulating load test plan using Locust for full-stack
-            benchmarking and profiling, and a series of database and code
-            optimizations to increase our concurrent user capacity per server.
-          </li>
-        </ul>
+        <div class="nobreak">
+          <h3>
+            <a href="https://attendease.com/">Attendease</a>
+            <span>Vancouver, BC, Remote</span>
+          </h3>
+          <p>Senior Software Engineer <span>2019-2020</span></p>
+          <ul>
+            <li>
+              Primarily led performance/scalability improvement work, including
+              a user-emulating load test plan using Locust for full-stack
+              benchmarking and profiling, and a series of database and code
+              optimizations to increase our concurrent user capacity per server.
+            </li>
+          </ul>
+        </div>
 
-        <h3>
-          <a href="https://www.genesiscommunityrehab.com/">Genesis Community Rehab</a>
-          <span>Toronto, ON, Remote</span>
-        </h3>
-        <p>Software Consultant <span>2018-2019</span></p>
-        <ul>
-          <li>
-            Self-onboarded to a new application in an unfamiliar framework
-            (CakePHP), and implemented 3rd party integrations with Quickbooks
-            and provincial health claims portal to automate invoice data entry,
-            saving about a man-week of effort monthly.
-          </li>
-        </ul>
+        <div class="nobreak">
+          <h3>
+            <a href="https://www.genesiscommunityrehab.com/">Genesis Community Rehab</a>
+            <span>Toronto, ON, Remote</span>
+          </h3>
+          <p>Software Consultant <span>2018-2019</span></p>
+          <ul>
+            <li>
+              Self-onboarded to a new application in an unfamiliar framework
+              (CakePHP), and implemented 3rd party integrations with Quickbooks
+              and provincial health claims portal to automate invoice data entry,
+              saving about a man-week of effort monthly.
+            </li>
+          </ul>
+        </div>
 
-        <h3>
-          <a href="http://www.versapay.com/">VersaPay</a>
-          <span>Toronto, ON, Remote</span>
-        </h3>
-        <p>Senior Software Engineer <span>2012-2018</span></p>
-        <ul>
-          <li>
-            Maintained and developed new features for a funds-transfer web
-            application as the business has pivoted to a B2B Accounts
-            Receivable platform accepting millions in monthly payments from
-            tens of thousands of businesses.
-          </li>
-          <li>
-            Maintained and enhanced (solo) a PCI Level 1 certified credit card
-            payments gateway with connections to 7 merchant processors in 3
-            countries and currencies, as well as ACH/EFT bank payment
-            processing for 10+ banks.
-          </li>
-          <li>
-            Participated in annual PCI audits as our engineering contact.
-            Assessed and implemented mitigations for potential security
-            vulnerabilities brought up by a static code analysis vendor.
-          </li>
-          <li>
-            Led core infrastructure upgrades, from Rails 2.x on Ruby 1.9 to
-            Rails 3.2 on Ruby 2.3.
-          </li>
-        </ul>
+        <div class="nobreak">
+          <h3>
+            <a href="http://www.versapay.com/">Versapay</a>
+            <span>Toronto, ON, Remote</span>
+          </h3>
+          <p>Senior Software Engineer <span>2012-2018</span></p>
+          <ul>
+            <li>
+              Maintained and developed new features for a funds-transfer web
+              application as the business has pivoted to a B2B Accounts
+              Receivable platform accepting millions in monthly payments from
+              tens of thousands of businesses.
+            </li>
+            <li>
+              Maintained and enhanced (solo) a PCI Level 1 certified credit card
+              payments gateway with connections to 7 merchant processors in 3
+              countries and currencies, as well as ACH/EFT bank payment
+              processing for 10+ banks.
+            </li>
+            <li>
+              Participated in annual PCI audits as our engineering contact.
+              Assessed and implemented mitigations for potential security
+              vulnerabilities brought up by a static code analysis vendor.
+            </li>
+            <li>
+              Led core infrastructure upgrades, from Rails 2.x on Ruby 1.9 to
+              Rails 3.2 on Ruby 2.3.
+            </li>
+          </ul>
+        </div>
 
-        <h3>
-          <a href="http://www.avidlifemedia.com/">Avid Life Media</a>
-          <span>Toronto, ON, Remote</span>
-        </h3>
-        <p>Software Developer <span>2008-2012</span></p>
-        <ul>
-          <li>
-            Designed and led development of a dating platform in Merb that
-            powered 12 individual sites with over 2 million users; later, with
-            a specific focus on the billing section of the platform to support
-            5 payment gateways and process tens of thousands of monthly
-            purchases.
-          </li>
-          <li>
-            Planned and initiated a rearchitecting to a microservices
-            architecture, extracting components as service apps with the goal
-            of reducing effort required for a port to Rails 3.
-          </li>
-          <li>
-            Developed a patch for DataMapper and later ActiveRecord to route
-            read queries to a read-only database replica, allowing us to
-            cheaply scale our databases horizontally for more performance.
-          </li>
-        </ul>
+        <div class="nobreak">
+          <h3>
+            <a href="http://www.avidlifemedia.com/">Avid Life Media</a>
+            <span>Toronto, ON, Remote</span>
+          </h3>
+          <p>Software Developer <span>2008-2012</span></p>
+          <ul>
+            <li>
+              Designed and led development of a white-labeled dating platform in
+              Merb that powered 12 individual sites with over 2 million users;
+              later, with a specific focus on the billing section of the platform
+              to support 5 payment gateways and process tens of thousands of monthly
+              purchases.
+            </li>
+            <li>
+              Planned and initiated a rearchitecting to a microservices
+              architecture, extracting components as service apps with the goal
+              of reducing effort required for a port to Rails 3.
+            </li>
+            <li>
+              Developed a patch for DataMapper and later ActiveRecord to route
+              read queries to a read-only database replica, allowing us to
+              cheaply scale our databases horizontally for more performance.
+            </li>
+          </ul>
+        </div>
 
-        <h3>Quarter Turn <span>Toronto, ON</span></h3>
-        <p>Software Craftsman <span>2007-2008</span></p>
-        <ul>
-          <li>Co-founded Quarter Turn, a software consulting company.</li>
-          <li>
-            Worked on a number of Rails-based web applications using agile
-            methodologies.
-          </li>
-        </ul>
+        <div class="nobreak">
+          <h3>Quarter Turn <span>Toronto, ON</span></h3>
+          <p>Software Craftsman <span>2007-2008</span></p>
+          <ul>
+            <li>Co-founded Quarter Turn, a software consulting company.</li>
+            <li>
+              Worked on a number of Rails-based web applications using agile
+              methodologies.
+            </li>
+          </ul>
+        </div>
 
-        <h3>
-          <a href="http://bravenet.com/">Bravenet Web Services</a>
-          <span>Parksville, BC</span>
-        </h3>
-        <p>Software Developer <span>2003-2007</span></p>
-        <ul>
-          <li>
-            Spent two years maintaining a 100kloc PHP application, including
-            addition of new modules.
-          </li>
-          <li>
-            Successfully designed, developed and launched two internal pre-1.0
-            Ruby on Rails applications.
-          </li>
-          <li>
-            Led development on a Rails-based adserving system handling over
-            200m impressions per month; was responsible for both backend and
-            user-facing components; tackled scalability issues resulting in a
-            near-100x throughput increase.
-          </li>
-        </ul>
+        <div class="nobreak">
+          <h3>
+            <a href="http://bravenet.com/">Bravenet Web Services</a>
+            <span>Parksville, BC</span>
+          </h3>
+          <p>Software Developer <span>2003-2007</span></p>
+          <ul>
+            <li>
+              Spent two years maintaining a 100kloc PHP application, including
+              addition of new modules.
+            </li>
+            <li>
+              Successfully designed, developed and launched two internal pre-1.0
+              Ruby on Rails applications.
+            </li>
+            <li>
+              Led development on a Rails-based adserving system handling over
+              200m impressions per month; was responsible for both backend and
+              user-facing components; tackled scalability issues resulting in a
+              near-100x throughput increase.
+            </li>
+          </ul>
       </dd>
     </dl>
 
@@ -400,7 +417,7 @@ print_pdf: /static/jamie-macey.pdf
             to pick up new languages and environments quickly.
           </li>
           <li>
-            12 years Rails experience, as well as production deploys of
+            Almost 20 years Rails experience, as well as production deploys of
             Sinatra, Merb+DataMapper, and static websites generated by Jekyll
             and Middleman.
           </li>
@@ -426,75 +443,6 @@ print_pdf: /static/jamie-macey.pdf
 
       <dd class="clear"></dd>
 
-      <dt>Selected Code Samples</dt>
-      <dd>
-        <ul class="links">
-          <li>
-            <a href="https://gitlab.com/jamie_ca/advent_of_code">Advent of Code solutions</a>, Ruby and others
-            <p>
-              Algorithmic data analysis puzzles, now a yearly tradition. Ruby
-              solutions since inception, selected problems in other languages.
-            </p>
-          </li>
-          <li>
-            <a href="https://gitlab.com/jamie_ca/squarelogic">Puzzle Game Solver</a>, Ruby, ImageMagick, Tesseract
-            <p>
-              Automated solver for a Sudoku-like game, using an OCR library to
-              determine board state, a constraint-propagation library to
-              generate the solution, and work-in-progress mouse/keyboard
-              automation tools to actively solve the puzzle in the application
-              window.
-            </p>
-          </li>
-          <li>
-            <a href="https://gitlab.com/jamie_ca/househunter">Data Aggregation &amp; Mapping</a>, Ruby, Sinatra, SQLite,
-            Heroku, Google Maps API
-            <p>
-              A scratch-my-own-itch project to map local real estate listings,
-              filter by size (beds/baths) and price, and flag rejected
-              properties so they wouldn't reappear on future database updates.
-            </p>
-          </li>
-          <li>
-            <a href="https://github.com/jamie/vindicia">Credit Card Processor Gem</a>, Ruby, Savon
-            <p>
-              SOAP wrapper for a a credit card processor using Savon, with a
-              few overrides to work around some quirks of their specific SOAP
-              implementation. Used by a private ActiveMerchant gateway at a
-              previous employer.
-            </p>
-          </li>
-          <li>
-            <a href="https://gitlab.com/jamie_ca/now_playing">Now Playing</a>,
-            Javascript, React, D3.js
-            <p>
-              Movie times aggregator, as an initial project learning React.
-            </p>
-          </li>
-        </ul>
-      </dd>
-
-      <dd class="clear"></dd>
-
-      <dt>Hobbies</dt>
-      <dd>
-        <p>
-          I blog infrequently at
-          <a href="http://blog.tracefunc.com/">http://blog.tracefunc.com/</a>.
-        </p>
-        <p>
-          When not enjoying time with my family, I occupy my time with
-          strategy board games, video games, 3d printing, basic robotics, and
-          curling.
-        </p>
-      </dd>
-
-      <dd class="clear"></dd>
-
-      <dt class="short">References</dt>
-      <dd>Available on request</dd>
-
-      <dd class="clear"></dd>
     </dl>
   </div>
 </body>
