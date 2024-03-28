@@ -1,7 +1,7 @@
 ---
 title: Rubik's Cube
-created: 2021-06-15T18:31:12.224Z
-modified: 2023-04-19T17:55:08.831Z
+created: '2021-06-15T18:31:12.224Z'
+modified: '2024-03-28T16:23:17.288Z'
 ---
 
 # Rubik's Cube
@@ -11,7 +11,13 @@ Via [Cedric Beust](http://beust.com/rubik/), circa 2003. Aims to be easy to memo
 Cube handling notes:
 
 - The cube has three pairs of opposite faces: Up/Down, Front/Back, Left/Right. Reorient as needed.
-- Move syntax uses one letter to reference a side, and optional direction marker. For example, `T` rotates the Up face clockwise, `T'` rotates anticlockwise.
+- Move syntax uses one letter to reference a side, and optional direction marker. For example, `U` rotates the Up face clockwise, `U'` rotates anticlockwise.
+
+Quick reference, final layer (w/minor personal tweaks):
+- 8. `FUR U'R'F'` rotate front + right
+- 9. `URUR' URUUR'` swap front + right
+- 10. `ULU'R' UL'U'R` swap corners anticlockwise, except back left
+- 11. `RF'R'F RF'R'F` rotate front right, only manipulate top between corners
 
 The solve, first few steps left as an exercise to the reader:
 
