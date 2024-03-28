@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Git Archaeology - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="post ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h2><a href="/2020/04/22/git-archaeology-html/">Git Archaeology</a></h2>
+  <blockquote>
+    22nd Apr 2020
+    
+      | Tags:
+      <a href="/tags/#git">git</a> 
+    
+  </blockquote>
+
+  
+    <p>Recently at work we passed a major milestone on our codebase, and I wanted to see if I could run some analysis over time on authorship and see how long some early contributors’ work stuck around in the product.</p>
+
+<p>A bit of experimentation and random googling left me with these three scripts.</p>
+
+<!-- EXCERPT -->
+
+<p>The first is <code class="highlighter-rouge">dig.sh</code>, which will accept the path to the git repository to analyze (because I’m making a few dozen files, and don’t want to dirty the primary repo), a date to process, and optionally a commit to analyze. If a specific commit is not provided, it’ll look up the first commit before the provided date.</p>
+
+<p>How this looks in practice is something like <code class="highlighter-rouge">./dig.sh ../my_repo 2011-04-01</code>. Because we run a monorepo now, and have merged a few external repos together, this sometimes didn’t pick up a proper mainline commit, I occasionally had to come back on a manual pass and touch it up: <code class="highlighter-rouge">./dig.sh ../my_repo 2011-04-01 4dbdd82</code>.</p>
+
+<p>The actual meat of the script is the last 3 lines, which gets a recursive directory listing as of the commit in question, filters to files that match a provided pattern, runs git blame across all of them, and counts the number of entries for each author.</p>
+
+<!-- language: bash -->
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="rouge-code"><pre><span class="c">#!/bin/bash</span>
+
+<span class="c"># ARGV: repo_path, date, commit</span>
+
+<span class="nb">export </span><span class="nv">DIR</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>
+<span class="nb">cd</span> <span class="nv">$1</span>
+
+<span class="nb">export </span><span class="nv">DATE</span><span class="o">=</span><span class="nv">$2</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-n</span> <span class="s2">"</span><span class="nv">$3</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+  </span><span class="nb">export </span><span class="nv">COMMIT</span><span class="o">=</span><span class="nv">$3</span>
+<span class="k">else
+  </span><span class="nb">export </span><span class="nv">COMMIT</span><span class="o">=</span><span class="si">$(</span>git rev-list <span class="nt">-1</span> <span class="nt">--before</span><span class="o">=</span><span class="s2">"</span><span class="nv">$DATE</span><span class="s2">"</span> master<span class="si">)</span>
+<span class="k">fi
+
+</span><span class="nb">export </span><span class="nv">PATTERN</span><span class="o">=</span><span class="s1">'\t(app|lib)/.*\.(rb|js|erb|haml)$'</span>
+
+git ls-tree <span class="nt">-r</span> <span class="nv">$COMMIT</span> | egrep <span class="nt">-o</span> <span class="s2">"</span><span class="nv">$PATTERN</span><span class="s2">"</span> | <span class="k">while </span><span class="nb">read </span>f<span class="p">;</span> <span class="k">do
+  </span>git blame <span class="nt">-w</span> <span class="nt">-M</span> <span class="nt">-C</span> <span class="nt">-C</span> <span class="nt">--line-porcelain</span> <span class="nv">$COMMIT</span> <span class="nt">--</span> <span class="nv">$f</span><span class="p">;</span>
+<span class="k">done</span> | egrep <span class="nt">-a</span> <span class="s1">'^author '</span> | <span class="nb">sort</span> | <span class="nb">uniq</span> <span class="nt">-c</span> <span class="o">&gt;</span> <span class="nv">$DIR</span>/<span class="nv">$DATE</span>.txt
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Next up is <code class="highlighter-rouge">dig_all.sh</code>, which is just a barebones orchestration script. Like the above, you provide a repo path and branch, and it will sequentially run through history. Due to the growth in the repo over time, early years would take under 10 minutes/month to process, but months this year were running over 3 hours. Thus the start/end year arguments, so I could run a few scripts simultaneously - it’s impressively not disk-bound on my mac, I did some testing and could run 3 at once without significantly slowing the runtime.</p>
+
+<!-- language: bash -->
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="rouge-code"><pre><span class="c">#!/bin/bash</span>
+
+<span class="c"># ARGV: repo_path, HEAD_branch, start_year, end_year</span>
+
+<span class="k">for </span>year <span class="k">in</span> <span class="si">$(</span><span class="nb">seq</span> <span class="nv">$3</span> <span class="nv">$4</span><span class="si">)</span><span class="p">;</span> <span class="k">do
+  for </span>month <span class="k">in</span> <span class="si">$(</span><span class="nb">seq</span> <span class="nt">-w</span> 1 12<span class="si">)</span><span class="p">;</span> <span class="k">do
+    </span><span class="nb">export </span><span class="nv">DATE</span><span class="o">=</span><span class="nv">$year</span>-<span class="nv">$month</span><span class="nt">-01</span>
+    <span class="nb">export </span><span class="nv">COMMIT</span><span class="o">=</span><span class="si">$(</span><span class="nb">cd</span> <span class="nv">$1</span> <span class="o">&amp;&amp;</span> git rev-list <span class="nt">-1</span> <span class="nt">--before</span><span class="o">=</span><span class="s2">"</span><span class="nv">$DATE</span><span class="s2">"</span> <span class="nv">$2</span><span class="si">)</span>
+    <span class="k">if</span> <span class="o">[</span> <span class="nt">-n</span> <span class="s2">"</span><span class="nv">$COMMIT</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+      </span><span class="nb">echo</span> <span class="nv">$DATE</span> <span class="si">$(</span><span class="nb">uptime</span> | <span class="nb">cut</span> <span class="nt">-d</span><span class="s1">' '</span> <span class="nt">-f</span> 1<span class="si">)</span>
+      ./dig.sh <span class="nv">$1</span> <span class="nv">$DATE</span> <span class="nv">$COMMIT</span>
+    <span class="k">fi
+  done
+done</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Once we’ve got all the data, I wanted to make a <a href="https://app.flourish.studio/@flourish/bar-chart-race">bar chart race</a> out of it. <code class="highlighter-rouge">massage.rb</code> to the rescue, collating the raw data, and then outputting a CSV.</p>
+
+<!-- language: ruby -->
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre></td><td class="rouge-code"><pre><span class="c1">#!/usr/bin/env ruby</span>
+
+<span class="nb">require</span> <span class="s1">'csv'</span>
+<span class="nb">require</span> <span class="s1">'pp'</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="no">Dir</span><span class="p">[</span><span class="s1">'*.txt'</span><span class="p">].</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+  <span class="no">File</span><span class="p">.</span><span class="nf">readlines</span><span class="p">(</span><span class="n">file</span><span class="p">).</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+    <span class="n">date</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s1">'.'</span><span class="p">)</span>
+    <span class="n">count</span><span class="p">,</span> <span class="nb">name</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="nf">strip</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="s1">' author '</span><span class="p">)</span>
+
+    <span class="n">data</span><span class="p">[[</span><span class="nb">name</span><span class="p">,</span> <span class="n">date</span><span class="p">]]</span> <span class="o">=</span> <span class="n">count</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">names</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="nf">keys</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:first</span><span class="p">).</span><span class="nf">uniq</span><span class="p">.</span><span class="nf">sort</span>
+<span class="n">dates</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="nf">keys</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:last</span><span class="p">).</span><span class="nf">uniq</span><span class="p">.</span><span class="nf">sort</span>
+
+<span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">out</span> <span class="o">&lt;&lt;</span> <span class="p">[</span><span class="s1">''</span><span class="p">]</span> <span class="o">+</span> <span class="n">dates</span><span class="p">.</span><span class="nf">map</span><span class="p">{</span><span class="o">|</span><span class="n">d</span><span class="o">|</span> <span class="no">Date</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">d</span><span class="p">).</span><span class="nf">strftime</span><span class="p">(</span><span class="s2">"%b %Y"</span><span class="p">)</span> <span class="p">}</span>
+<span class="n">names</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="o">|</span>
+  <span class="n">shortname</span> <span class="o">=</span> <span class="nb">name</span><span class="p">.</span><span class="nf">match</span><span class="p">(</span><span class="sr">/^([^ ]+..)/</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+  <span class="n">out</span> <span class="o">&lt;&lt;</span> <span class="p">[</span><span class="n">shortname</span> <span class="o">+</span> <span class="s1">'.'</span><span class="p">]</span> <span class="o">+</span> <span class="n">dates</span><span class="p">.</span><span class="nf">map</span><span class="p">{</span> <span class="o">|</span><span class="n">d</span><span class="o">|</span> <span class="n">data</span><span class="p">[[</span><span class="nb">name</span><span class="p">,</span> <span class="n">d</span><span class="p">]]</span> <span class="o">||</span> <span class="s2">""</span> <span class="p">}</span>
+<span class="k">end</span>
+
+<span class="nb">puts</span> <span class="n">out</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:to_csv</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Et voila (names anonymized to protect the guilty):</p>
+
+<div class="flourish-embed flourish-bar-chart-race" data-src="visualisation/1993347" data-url="https://flo.uri.sh/visualisation/1993347/embed"><script src="https://public.flourish.studio/resources/embed.js"></script></div>
+
+  
+</article>
+
+</section>
+
+<nav aria-label="Pagination">
+  <ul>
+    
+    <li>
+      <a href="/2017/06/20/git-rebase-by-example-html/">
+        &laquo; Git Rebase by Example
+      </a>
+    </li>
+    
+    
+  </ul>
+</nav>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

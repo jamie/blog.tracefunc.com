@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Migrating Disqus - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="post ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h2><a href="/2009/12/22/migrating-disqus-html/">Migrating Disqus</a></h2>
+  <blockquote>
+    22nd Dec 2009
+    
+      | Tags:
+      <a href="/tags/#blog">blog</a> 
+    
+  </blockquote>
+
+  
+    <p>In changing this blog over to jekyll, my urls changed (there’s now a trailing slash). Easy enough to tell google about it, just set up redirects, but there’s no easy way to tell <a href="http://disqus.com/">Disqus</a> about it so my comments migrate over.</p>
+
+<p>The good news is that it’s pretty straightforward using their API, the only bad news is that I can’t delete the new threads auto-generated for the new urls, so I’m just moving them out of the way.</p>
+
+<p>I’m using the <a href="http://httparty.rubyforge.org">HTTParty</a> gem to wrap API access, like so:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+</pre></td><td class="rouge-code"><pre><span class="nb">require</span> <span class="s1">'rubygems'</span>
+<span class="nb">require</span> <span class="s1">'httparty'</span>
+<span class="nb">require</span> <span class="s1">'json'</span>
+
+<span class="k">class</span> <span class="nc">Disqus</span>
+  <span class="kp">include</span> <span class="no">HTTParty</span>
+  <span class="n">base_uri</span> <span class="s1">'disqus.com'</span>
+  <span class="nb">format</span> <span class="ss">:json</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">'1.1'</span><span class="p">)</span>
+    <span class="vi">@key</span> <span class="o">=</span> <span class="n">key</span>
+    <span class="vi">@version</span> <span class="o">=</span> <span class="n">version</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">auth</span>
+    <span class="p">{</span><span class="ss">:user_api_key</span> <span class="o">=&gt;</span> <span class="vi">@key</span><span class="p">,</span> <span class="ss">:api_version</span> <span class="o">=&gt;</span> <span class="vi">@version</span><span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">opts</span><span class="o">=</span><span class="p">{})</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="nf">class</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="s2">"/api/</span><span class="si">#{</span><span class="n">action</span><span class="si">}</span><span class="s2">/"</span><span class="p">,</span> <span class="ss">:query</span> <span class="o">=&gt;</span> <span class="n">opts</span><span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">auth</span><span class="p">))</span>
+    <span class="n">result</span><span class="p">[</span><span class="s2">"message"</span><span class="p">]</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">opts</span><span class="o">=</span><span class="p">{})</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="nf">class</span><span class="p">.</span><span class="nf">post</span><span class="p">(</span><span class="s2">"/api/</span><span class="si">#{</span><span class="n">action</span><span class="si">}</span><span class="s2">/"</span><span class="p">,</span> <span class="ss">:body</span> <span class="o">=&gt;</span> <span class="n">opts</span><span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">auth</span><span class="p">).</span><span class="nf">to_params</span><span class="p">)</span>
+    <span class="nb">p</span> <span class="n">result</span>
+    <span class="n">result</span><span class="p">[</span><span class="s2">"message"</span><span class="p">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Do note that I’m adding trailing slashes to the api calls to avoid a redirect. Doesn’t matter for the GET, but the redirect on POST was causing issues.</p>
+
+<p>With this in hand, I’m grabbing my forum, looping through the threads, and renaming any that have comments (a whopping 3 of them).</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+</pre></td><td class="rouge-code"><pre><span class="n">key</span> <span class="o">=</span> <span class="s2">"secret"</span> <span class="c1"># get yours at http://disqus.com/api/get_my_key/</span>
+<span class="n">disqus</span> <span class="o">=</span> <span class="no">Disqus</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+<span class="n">forum</span> <span class="o">=</span> <span class="n">disqus</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="ss">:get_forum_list</span><span class="p">).</span><span class="nf">first</span> <span class="c1"># I just have one</span>
+<span class="n">forum_api_key</span> <span class="o">=</span> <span class="n">disqus</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="ss">:get_forum_api_key</span><span class="p">,</span> <span class="ss">:forum_id</span> <span class="o">=&gt;</span> <span class="n">forum</span><span class="p">[</span><span class="s2">"id"</span><span class="p">])</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># manual pagination, eww</span>
+<span class="kp">loop</span> <span class="k">do</span>
+  <span class="n">threads</span> <span class="o">=</span> <span class="n">disqus</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="ss">:get_thread_list</span><span class="p">,</span> <span class="ss">:forum_id</span> <span class="o">=&gt;</span> <span class="n">forum</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],</span> <span class="ss">:start</span> <span class="o">=&gt;</span> <span class="n">start</span><span class="p">)</span>
+  <span class="k">break</span> <span class="k">if</span> <span class="n">threads</span><span class="p">.</span><span class="nf">empty?</span>
+
+  <span class="n">threads</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">thread</span><span class="o">|</span>
+    <span class="n">posts</span> <span class="o">=</span> <span class="n">disqus</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="ss">:get_thread_posts</span><span class="p">,</span> <span class="ss">:thread_id</span> <span class="o">=&gt;</span> <span class="n">thread</span><span class="p">[</span><span class="s2">"id"</span><span class="p">])</span>
+    <span class="k">next</span> <span class="k">if</span> <span class="o">!</span><span class="n">posts</span><span class="p">.</span><span class="nf">empty?</span>
+    
+    <span class="n">target_url</span> <span class="o">=</span> <span class="n">thread</span><span class="p">[</span><span class="s2">"url"</span><span class="p">]</span><span class="o">+</span><span class="s2">"/"</span>
+
+    <span class="c1"># There's another thread in the way...</span>
+    <span class="k">if</span> <span class="n">other_thread</span> <span class="o">=</span> <span class="n">disqus</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span>
+      <span class="ss">:get_thread_by_url</span><span class="p">,</span> 
+      <span class="ss">:forum_api_key</span> <span class="o">=&gt;</span> <span class="n">forum_api_key</span><span class="p">,</span>
+      <span class="ss">:url</span> <span class="o">=&gt;</span> <span class="n">target_url</span>
+    <span class="p">)</span>
+      <span class="c1"># free up the url we want to use</span>
+      <span class="n">disqus</span><span class="p">.</span><span class="nf">post</span><span class="p">(</span>
+        <span class="ss">:update_thread</span><span class="p">,</span>
+        <span class="ss">:forum_api_key</span> <span class="o">=&gt;</span> <span class="n">forum_api_key</span><span class="p">,</span>
+        <span class="ss">:thread_id</span> <span class="o">=&gt;</span> <span class="n">other_thread</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],</span>
+        <span class="ss">:url</span> <span class="o">=&gt;</span> <span class="n">target_url</span> <span class="o">+</span> <span class="s1">'old'</span>
+      <span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="c1"># update thread url</span>
+    <span class="n">disqus</span><span class="p">.</span><span class="nf">post</span><span class="p">(</span>
+      <span class="ss">:update_thread</span><span class="p">,</span>
+      <span class="ss">:forum_api_key</span> <span class="o">=&gt;</span> <span class="n">forum_api_key</span><span class="p">,</span>
+      <span class="ss">:thread_id</span> <span class="o">=&gt;</span> <span class="n">thread</span><span class="p">[</span><span class="s2">"id"</span><span class="p">],</span>
+      <span class="ss">:url</span> <span class="o">=&gt;</span> <span class="n">target_url</span>
+    <span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">start</span> <span class="o">+=</span> <span class="mi">25</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Et voilà, old comments are in the right place now.</p>
+
+  
+</article>
+
+</section>
+
+<nav aria-label="Pagination">
+  <ul>
+    
+    <li>
+      <a href="/2009/12/04/jekyll-custom-liquid-tags-html/">
+        &laquo; Jekyll: Custom Liquid Tags
+      </a>
+    </li>
+    
+    
+    <li class="float-right">
+      <a href="/2011/01/19/isolating-rails-html/">
+        Isolating Rails &raquo;
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Rails and Seaside? - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="post ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h2><a href="/2007/05/06/rails-and-seaside-html/">Rails and Seaside?</a></h2>
+  <blockquote>
+    6th May 2007
+    
+      | Tags:
+      <a href="/tags/#programming">programming</a> <a href="/tags/#rails">rails</a> <a href="/tags/#seaside">seaside</a> 
+    
+  </blockquote>
+
+  
+    <p>I’m coming late to the <a href="http://www.loudthinking.com/arc/000609.html">controversy</a>, I know. I was talking with a co-worker about Rails and Seaside the other day, and after describing the Seaside structure and philosophy compared to Rails I got to thinking that there’s really not as much overlap as some people think between the two.</p>
+
+<p>Rails, at least since v1.2, has a focus on information. It says, I have a bunch of knowledge I’d like to share with the world. Working with routes makes accessing that information fairly uniform, and also allows for deep linking - a reference to that piece of information that won’t change. It recognizes that while it’s possible to provide access to this information with simple flat files, if you want to provide dynamic views, or frequently updating data, or even provide for display customizations, Rails has facilities for getting you most of the way there.</p>
+
+<p>Seaside, on the other hand, has more of a focus on the application. It provides for a workflow, and pauses in that workflow every so often to display a web page to the user. It says, I want to let you get something done, here, go to it. It provides a framework that lets you write an application similar to a desktop application, but which uses a web browser for its UI and can provide a centralized storage system for the data it manipulates.</p>
+
+<p>Just looking at these, it’s easy to see where one framework shines and the other would require more work to get there.</p>
+
+<p>Anything working with a data-centric view or large-scale multi-user behaviour could run very well in Rails. The Blog example is ubiquitous, but also a forum, or news site, or many other applications involving user feedback and the option to deep-link to pages.</p>
+
+<p>Sites with a more workflow-driven, single-user view would do well by Seaside. For example, I think doing an internet banking front-end in Seaside would be excellent. One user working through steps for a number of actions (think of paying a bill - usually 3-4 page loads in sequence), without the need to reference any specific page in the system. Users log in, and can essentially ignore the URL in the address bar for the duration of their visit.</p>
+
+<p>While both kinds of applications can (and have) been done with the other framework, it seems silly to bolt on extraneous features (like meaningful URLs in Seaside, or managing serious page flow in Rails) when you could switch and play to the strengths of the framework. Given the somewhat orthogonal strengths of Seaside and Rails, I can only see the increased choice they bring as a good thing.</p>
+
+
+  
+</article>
+
+</section>
+
+<nav aria-label="Pagination">
+  <ul>
+    
+    <li>
+      <a href="/2007/04/04/ruby-of-the-future-html/">
+        &laquo; Ruby of the Future
+      </a>
+    </li>
+    
+    
+    <li class="float-right">
+      <a href="/2007/05/29/rejectconf-talk-rcov-hack-html/">
+        RejectConf Talk - RCov Hack &raquo;
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

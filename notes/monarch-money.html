@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Monarch Money - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="notable ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h1 id="monarch-money">Monarch Money</h1>
+
+<p>I’m a long-time user of <a href="https://www.ynab.com/">YNAB</a> to manage my accounts across a few banks. I recently (Nov 2023)saw some news about <a href="https://www.monarchmoney.com/">Monarch Money</a> and kicked the tires.</p>
+
+<p>First, importing existing YNAB history is reasonably straightforward via a pass on the exported CSV file:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+</pre></td><td class="rouge-code"><pre><span class="c1">### Prerequisites</span>
+<span class="c1"># 1. Create accounts in Monarch exactly match the name in YNAB</span>
+<span class="c1"># 2. Run this script to split your "Main Budget - Register" into individual</span>
+<span class="c1">#    files per account, which will also reformat the columns to match Monarch.</span>
+<span class="c1"># 3. Import each file into Monarch, it should auto match the account.</span>
+
+<span class="nb">require</span> <span class="s2">"csv"</span>
+
+<span class="c1"># YNAB: "Account","Flag","Date","Payee","Category Group/Category","Category Group","Category","Memo","Outflow","Inflow","Cleared"</span>
+<span class="c1"># Monarch: "Date","Merchant","Category","Account","Original Statement","Notes","Amount","Tags"</span>
+
+<span class="c1"># BOM is messing up CSV.read something fierce, so I'm skipping the header</span>
+<span class="c1"># row and writing it manually.</span>
+<span class="no">UNICODE_BOM</span> <span class="o">=</span> <span class="p">[</span><span class="mi">239</span><span class="p">,</span> <span class="mi">187</span><span class="p">,</span> <span class="mi">191</span><span class="p">].</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:chr</span><span class="p">).</span><span class="nf">join</span><span class="p">.</span><span class="nf">force_encoding</span><span class="p">(</span><span class="s2">"UTF-8"</span><span class="p">)</span> <span class="c1"># 0xEFBBBF</span>
+<span class="no">YNAB_HEADERS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Account"</span><span class="p">,</span> <span class="s2">"Flag"</span><span class="p">,</span> <span class="s2">"Date"</span><span class="p">,</span> <span class="s2">"Payee"</span><span class="p">,</span> <span class="s2">"Category Group/Category"</span><span class="p">,</span> <span class="s2">"Category Group"</span><span class="p">,</span> <span class="s2">"Category"</span><span class="p">,</span> <span class="s2">"Memo"</span><span class="p">,</span> <span class="s2">"Outflow"</span><span class="p">,</span> <span class="s2">"Inflow"</span><span class="p">,</span> <span class="s2">"Cleared"</span><span class="p">]</span>
+<span class="no">MONARCH_HEADERS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Date"</span><span class="p">,</span> <span class="s2">"Merchant"</span><span class="p">,</span> <span class="s2">"Category"</span><span class="p">,</span> <span class="s2">"Account"</span><span class="p">,</span> <span class="s2">"Original Statement"</span><span class="p">,</span> <span class="s2">"Notes"</span><span class="p">,</span> <span class="s2">"Amount"</span><span class="p">,</span> <span class="s2">"Tags"</span><span class="p">]</span>
+
+<span class="n">ynab</span> <span class="o">=</span> <span class="no">CSV</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span>
+  <span class="no">Dir</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="s2">"Main*Register.csv"</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+  <span class="ss">headers: </span><span class="no">YNAB_HEADERS</span><span class="p">,</span>
+  <span class="ss">skip_lines: </span><span class="no">UNICODE_BOM</span><span class="p">,</span>
+  <span class="ss">liberal_parsing: </span><span class="kp">true</span>
+<span class="p">)</span>
+
+<span class="n">output</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">ynab</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+  <span class="n">output</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">"Account"</span><span class="p">]]</span> <span class="o">||=</span> <span class="p">[]</span>
+  <span class="n">output</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">"Account"</span><span class="p">]]</span> <span class="o">&lt;&lt;</span> <span class="p">{</span>
+    <span class="s2">"Date"</span> <span class="o">=&gt;</span> <span class="no">Date</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"Date"</span><span class="p">]).</span><span class="nf">strftime</span><span class="p">(</span><span class="s2">"%Y-%m-%d"</span><span class="p">),</span>
+    <span class="s2">"Merchant"</span> <span class="o">=&gt;</span> <span class="n">row</span><span class="p">[</span><span class="s2">"Payee"</span><span class="p">],</span>
+    <span class="s2">"Category"</span> <span class="o">=&gt;</span> <span class="n">row</span><span class="p">[</span><span class="s2">"Category"</span><span class="p">],</span>
+    <span class="s2">"Account"</span> <span class="o">=&gt;</span> <span class="n">row</span><span class="p">[</span><span class="s2">"Account"</span><span class="p">],</span>
+    <span class="s2">"Original Statement"</span> <span class="o">=&gt;</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="s2">"Notes"</span> <span class="o">=&gt;</span> <span class="n">row</span><span class="p">[</span><span class="s2">"Memo"</span><span class="p">],</span>
+    <span class="s2">"Amount"</span> <span class="o">=&gt;</span> <span class="o">-</span><span class="n">row</span><span class="p">[</span><span class="s2">"Outflow"</span><span class="p">].</span><span class="nf">delete</span><span class="p">(</span><span class="s2">"$"</span><span class="p">).</span><span class="nf">to_f</span> <span class="o">+</span> <span class="n">row</span><span class="p">[</span><span class="s2">"Inflow"</span><span class="p">].</span><span class="nf">delete</span><span class="p">(</span><span class="s2">"$"</span><span class="p">).</span><span class="nf">to_f</span><span class="p">,</span>
+    <span class="s2">"Tags"</span> <span class="o">=&gt;</span> <span class="s2">""</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+
+<span class="n">output</span><span class="p">.</span><span class="nf">keys</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">account</span><span class="o">|</span>
+  <span class="no">CSV</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="s2">"Monarch - </span><span class="si">#{</span><span class="n">account</span><span class="si">}</span><span class="s2">.csv"</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">csv</span><span class="o">|</span>
+    <span class="n">csv</span> <span class="o">&lt;&lt;</span> <span class="no">MONARCH_HEADERS</span>
+    <span class="n">output</span><span class="p">[</span><span class="n">account</span><span class="p">].</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+      <span class="n">csv</span> <span class="o">&lt;&lt;</span> <span class="n">row</span><span class="p">.</span><span class="nf">values</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>After which, you probably want to tweak category definitions from the settings, and then you can search the Transactions list by category name to migrate over. Alternately, clone your YNAB before exporting, and rename categories to match Monarch’s default set.</p>
+
+<p>Some issues I came across while checking things out:</p>
+
+<ul>
+  <li>Investments <em>really</em> want to be automatic, you can’t create an Investments account and manually run the balance as far as I can tell - I wound up creating it as an Other account.</li>
+  <li>No bank linking outside of the US at the moment, and no support for imports other than CSV, so no Quicken or Quickbooks compatibility, which are both common across the 5-6 financial institutions I’ve used in Canada.</li>
+</ul>
+
+<p>Good things to call out, though:</p>
+
+<ul>
+  <li>Automatic recurring billing detection worked great (it even picked up my weekly shopping trip even though it was highly variable amounts).</li>
+  <li>Love the sankey chart for cash flow, wish it had a middle split to go from inflows -&gt; category groups -&gt; category.</li>
+</ul>
+
+
+</article>
+
+</section>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

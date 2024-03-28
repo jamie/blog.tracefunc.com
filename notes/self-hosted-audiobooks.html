@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Self-hosted Audiobooks - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="notable ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h1 id="self-hosted-audiobooks">Self-hosted Audiobooks</h1>
+
+<p>(Note: Cribbed a bunch of this from <a href="https://github.com/seanap/Plex-Audiobook-Guide">seanap’s guide on GitHub</a>)</p>
+
+<h2 id="converting-mp3s-to-chapterized-m4bs">Converting MP3s to Chapterized M4Bs</h2>
+
+<ul>
+  <li>AudioBookBinder for Mac
+    <ul>
+      <li>Website (bluezbox.com) no longer exists that I can see?</li>
+      <li><a href="https://apps.apple.com/us/app/audiobook-binder/id413969927?mt=12">Mac App Store</a></li>
+      <li>Standalone, <a href="https://macdownload.informer.com/audiobookbinder/">Mac Informer</a></li>
+      <li>Note: Defaults to write m4b in <code class="highlighter-rouge">~/Documents/Audiobooks</code>, which is a good staging ground for tagging</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="uniform-tags">Uniform Tags</h2>
+
+<ul>
+  <li><a href="https://mp3tag.app/">Mp3tag</a> for Mac</li>
+  <li>Add an <a href="https://github.com/seanap/Audible.com-Search-by-Album">Audible Scraper</a> as a custom Web Source</li>
+  <li>Possibly need to manually update <code class="highlighter-rouge">SERIES</code> and <code class="highlighter-rouge">SERIES-PART</code>/<code class="highlighter-rouge">MOVEMENT</code>, <code class="highlighter-rouge">ALBUMSORT</code> “Series Number - Title”, <code class="highlighter-rouge">CONTENTGROUP</code>/<code class="highlighter-rouge">SUBTITLE</code> “Series, Book #Number” for custom orderings.</li>
+  <li>Files on disk: I actually like the <a href="https://www.audiobookshelf.org/docs#book-directory-structure">Audio Bookshelf</a> scheme for consistency:
+    <ul>
+      <li><code class="highlighter-rouge">Author/Vol X - Year - Title {Narrator}/Title: Subtitle.m4b</code> but many of those are optional,</li>
+      <li><code class="highlighter-rouge">Author/Title/Title - Author.m4b</code> a typical use case for me, allowing filename search by author (and Plex is still reasonably happy) - Do keep the <code class="highlighter-rouge">Title</code> folder regardless for compatibility with MP3s (and also multi-file M4Bs with big fantasy epics)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="plex-setup">Plex Setup</h2>
+
+<ul>
+  <li>Install <a href="https://github.com/djdembeck/Audnexus.bundle">AudNexus Metadata Agent for Plex</a></li>
+  <li>Configure metadata agents:
+    <ul>
+      <li><code class="highlighter-rouge">Settings &gt; Agents &gt; Artists &gt; Audiobooks</code> and put Audnexus above Local Media Assets</li>
+      <li><code class="highlighter-rouge">Settings &gt; Agents &gt; Albums &gt; Audiobooks</code> and put Audnexus above Local Media Assets</li>
+    </ul>
+  </li>
+  <li>Create Audiobook Library (<code class="highlighter-rouge">Music</code>)
+    <ul>
+      <li>Advanced settings:</li>
+      <li>Agent: Audnexus Agents</li>
+      <li>Keep existing genres? (New agent pulls 4-6 meaningful genres)</li>
+      <li>Album Sorting - <code class="highlighter-rouge">By Name</code> (uses ALBUMSORT)</li>
+      <li><code class="highlighter-rouge">Uncheck</code> Prefer Local Media</li>
+      <li><code class="highlighter-rouge">Check</code> Store Track Progress</li>
+      <li><code class="highlighter-rouge">Uncheck</code> Author Bio</li>
+      <li>Genres - <code class="highlighter-rouge">None</code></li>
+      <li>Album Art - <code class="highlighter-rouge">Local Files Only</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="playback-on-iphone">Playback on iPhone</h2>
+
+<ul>
+  <li><a href="https://apps.apple.com/us/app/prologue/id1459223267">Prologue</a> looks like a great option that talks directly to Plex. Download for offline playback and collection support is a one-time purchase.</li>
+  <li>Alternately, manage files outside of Plex and use <a href="https://apps.apple.com/us/app/bookplayer/id1138219998">BookPlayer</a>.</li>
+</ul>
+
+
+</article>
+
+</section>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

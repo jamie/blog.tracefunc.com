@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Async-Observer with RabbitMQ - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="post ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h2><a href="/2008/08/08/async-observer-with-rabbitmq-html/">Async-Observer with RabbitMQ</a></h2>
+  <blockquote>
+    8th Aug 2008
+    
+      | Tags:
+      <a href="/tags/#ruby">ruby</a> <a href="/tags/#rails">rails</a> <a href="/tags/#merb">merb</a> 
+    
+  </blockquote>
+
+  
+    <p><strong>Update:</strong> This code is stale, I’ve extracted a gem of it and posted on <a href="http://github.com/jamie/async-observer-amqp">github</a>.</p>
+
+<p><a href="http://github.com/kr/async-observer/tree">Async-observer</a> is great.  Fast, easy to use API, and it Just Works.  The downside is that the backend, Beanstalkd, doesn’t support persistent messages in case the server crashes.  I hear it’s on the roadmap, though.</p>
+
+<p>However, there’s another messaging backend, <a href="http://www.rabbitmq.com/">RabbitMQ</a>, that seems just as easy to get set up, and does support persistent messages.  So, how to get these two bits of tech working together?  Well, if you’re hosting your app on <a href="http://code.macournoyer.com/thin/">Thin</a> (or another app server that runs in <a href="http://rubyeventmachine.com/">EventMachine</a>), it’s pretty straightforward.</p>
+
+<p>First, install the <a href="http://github.com/tmm1/amqp">amqp</a> ruby library to connect to rabbit, and then add a tiny bit of setup.</p>
+
+<p>In config/environment.rb:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre></td><td class="rouge-code"><pre><span class="nb">require</span> <span class="s1">'mq'</span>
+<span class="k">class</span> <span class="nc">BeanstalkPoolImpersonator</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">opts</span><span class="o">=</span><span class="p">{})</span>
+    <span class="vi">@opts</span> <span class="o">=</span> <span class="n">opts</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">connect</span>
+    <span class="n">connection</span> <span class="o">=</span> <span class="no">AMQP</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="vi">@opts</span><span class="p">)</span>
+    <span class="vi">@channel</span> <span class="o">=</span> <span class="n">channel</span> <span class="o">=</span> <span class="no">MQ</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">use</span><span class="p">(</span><span class="n">queue</span><span class="p">)</span>
+    <span class="vi">@queue</span> <span class="o">=</span> <span class="no">MQ</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="vi">@channel</span><span class="p">,</span> <span class="n">queue</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">yput</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">pri</span><span class="p">,</span> <span class="n">delay</span><span class="p">,</span> <span class="n">ttr</span><span class="p">)</span>
+    <span class="nb">p</span> <span class="p">[</span><span class="n">obj</span><span class="p">,</span> <span class="n">pri</span><span class="p">,</span> <span class="n">delay</span><span class="p">,</span> <span class="n">ttr</span><span class="p">]</span>
+    <span class="vi">@queue</span><span class="p">.</span><span class="nf">publish</span><span class="p">(</span><span class="no">YAML</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">last_server</span>
+    <span class="ss">:last_server_stub</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">subscribe</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">blk</span><span class="p">)</span>
+    <span class="vi">@queue</span><span class="p">.</span><span class="nf">subscribe</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">blk</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Then, instead of connecting via <code class="highlighter-rouge">Beanstalk::Pool.new</code>, do this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="no">AsyncObserver</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">queue</span> <span class="o">=</span> <span class="no">BeanstalkPoolImpersonator</span><span class="p">.</span><span class="nf">new</span><span class="p">()</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>You can pass an options hash to the <code class="highlighter-rouge">new</code> call, providing user, pass, vhost, host, or port as necessary.</p>
+
+<p>Then, in your workers, load up the async_observer worker class, and extend like so:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">RabbitWorker</span> <span class="o">&lt;</span> <span class="no">AsyncObserver</span><span class="o">::</span><span class="no">Worker</span>
+  <span class="k">def</span> <span class="nf">run</span><span class="p">()</span>
+    <span class="no">EM</span><span class="p">.</span><span class="nf">run</span> <span class="k">do</span>
+      <span class="no">AsyncObserver</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">queue</span><span class="p">.</span><span class="nf">connect</span>
+      <span class="no">AsyncObserver</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">queue</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="s1">'1.0'</span><span class="p">)</span>
+      <span class="no">AsyncObserver</span><span class="o">::</span><span class="no">Queue</span><span class="p">.</span><span class="nf">queue</span><span class="p">.</span><span class="nf">subscribe</span> <span class="k">do</span> <span class="o">|</span><span class="n">headers</span><span class="p">,</span> <span class="n">msg</span><span class="o">|</span>
+        <span class="n">job</span> <span class="o">=</span> <span class="no">OpenStruct</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:ybody</span> <span class="o">=&gt;</span> <span class="no">YAML</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="ss">:body</span> <span class="o">=&gt;</span> <span class="n">msg</span><span class="p">,</span> <span class="ss">:stats</span> <span class="o">=&gt;</span> <span class="p">[])</span>
+        <span class="n">job</span><span class="p">.</span><span class="nf">id</span> <span class="o">=</span> <span class="n">headers</span><span class="p">.</span><span class="nf">properties</span><span class="p">[</span><span class="ss">:delivery_tag</span><span class="p">]</span>
+        <span class="n">safe_dispatch</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Create the new worker the same way you would for the AO::Worker, and you’re set:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>    <span class="no">RabbitWorker</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="nb">binding</span><span class="p">).</span><span class="nf">run</span><span class="p">()</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Note: I’m maintaining a <a href="https://github.com/jamie/async-observer">merb port</a> of async-observer on github.</p>
+
+<p>Note 2: This worker is somewhat fragile, if the RabbitMQ server goes down it will just hang forever waiting for more jobs.  I’ll need to figure out a solution to that before we move this into production (and I wrap it up in a gem), but I thought I’d get this out and about now.</p>
+
+  
+</article>
+
+</section>
+
+<nav aria-label="Pagination">
+  <ul>
+    
+    <li>
+      <a href="/2008/07/16/specing-layouts-html/">
+        &laquo; Specing Layouts
+      </a>
+    </li>
+    
+    
+    <li class="float-right">
+      <a href="/2008/11/25/gem-cleanup-html/">
+        Gem Cleanup &raquo;
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

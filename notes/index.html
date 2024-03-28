@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Notes - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="page ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <h2 id="notes">Notes</h2>
+
+<p>I’ve started keeping a knowledge base of miscellaneous notes and thoughts,
+presented here. Still a work in progress.</p>
+
+<ul>
+  <li>
+    <p><a href="/notes/12factor.html" class="wikilink">12Factor</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/actionmailer.html" class="wikilink">ActionMailer</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/activejob.html" class="wikilink">ActiveJob</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/activerecord-models-diagramming.html" class="wikilink">ActiveRecord Models Diagramming</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/activerecord.html" class="wikilink">ActiveRecord</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/bullet-test.html" class="wikilink">Bullet test</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/css-libraries.html" class="wikilink">CSS Libraries</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/css-in-javascript.html" class="wikilink">CSS in Javascript</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/career-advice.html" class="wikilink">Career Advice</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/circuit-breaker.html" class="wikilink">Circuit Breaker</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/code-climate.html" class="wikilink">Code Climate</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/code-profiling.html" class="wikilink">Code Profiling</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/code-quality.html" class="wikilink">Code Quality</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/codex-replay-sample.html" class="wikilink">Codex Replay Sample</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/coding-style.html" class="wikilink">Coding Style</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/commandline-tools.html" class="wikilink">Commandline Tools</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/competitive-programming.html" class="wikilink">Competitive Programming</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/computer-science.html" class="wikilink">Computer Science</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/d3.html" class="wikilink">D3</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/desktop-backups.html" class="wikilink">Desktop Backups</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/docker-compose.html" class="wikilink">Docker Compose</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/docker-home-lab.html" class="wikilink">Docker Home Lab</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/dotfiles.html" class="wikilink">Dotfiles</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/exception-trackers.html" class="wikilink">Exception Trackers</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/ff14.html" class="wikilink">FF14</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/fast-test-strategy.html" class="wikilink">Fast Test Strategy</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/fonts-for-code.html" class="wikilink">Fonts for Code</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/git-bisect.html" class="wikilink">Git Bisect</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/git-desktop-clients.html" class="wikilink">Git Desktop Clients</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/git.html" class="wikilink">Git</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/github-actions.html" class="wikilink">Github Actions</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/github-codespaces.html" class="wikilink">Github Codespaces</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/gloomhaven.html" class="wikilink">Gloomhaven</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/goldstream-campground.html" class="wikilink">Goldstream Campground</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/graphviz.html" class="wikilink">Graphviz</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/html-boilerplate.html" class="wikilink">HTML Boilerplate</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/html-printing.html" class="wikilink">HTML Printing</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/http-benchmarking.html" class="wikilink">HTTP Benchmarking</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/issue-tracking.html" class="wikilink">Issue Tracking</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/javascript-in-rails.html" class="wikilink">Javascript In Rails</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/javascript-testing.html" class="wikilink">Javascript Testing</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/job-interview-prep.html" class="wikilink">Job Interview Prep</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/job-levels.html" class="wikilink">Job Levels</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/job-search.html" class="wikilink">Job Search</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/k3s.html" class="wikilink">K3S</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/leveling-up-engineering-teams.html" class="wikilink">Leveling Up Engineering Teams</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/library-code-conventions.html" class="wikilink">Library Code Conventions</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/linux-apps.html" class="wikilink">Linux Apps</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/linux-distributions.html" class="wikilink">Linux Distributions</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/local-development-tooling.html" class="wikilink">Local Development Tooling</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/local-shell.html" class="wikilink">Local Shell</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/mentoring.html" class="wikilink">Mentoring</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/microservice-mistakes.html" class="wikilink">Microservice Mistakes</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/middleman.html" class="wikilink">Middleman</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/modern-javascript-frameworks.html" class="wikilink">Modern Javascript Frameworks</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/modifying-file-times.html" class="wikilink">Modifying File Times</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/modular-rails-infrastructure.html" class="wikilink">Modular Rails Infrastructure</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/monarch-money.html" class="wikilink">Monarch Money</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/music-resources.html" class="wikilink">Music Resources</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/new-rails.html" class="wikilink">New Rails</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/nix.html" class="wikilink">Nix</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/notes.html" class="wikilink">Notes</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/oganika.html" class="wikilink">Oganika</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/pnp-tabletop-simulator.html" class="wikilink">PNP Tabletop Simulator</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/postcss.html" class="wikilink">PostCSS</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/postgres.html" class="wikilink">Postgres</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/project-management.html" class="wikilink">Project Management</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/quality-gems.html" class="wikilink">Quality Gems</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/queendomino.html" class="wikilink">Queendomino</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rest-api-design.html" class="wikilink">REST API Design</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-api-documentation.html" class="wikilink">Rails API Documentation</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-app-skeletons.html" class="wikilink">Rails App Skeletons</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-authentication.html" class="wikilink">Rails Authentication</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-books.html" class="wikilink">Rails Books</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-browser-testing.html" class="wikilink">Rails Browser Testing</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-deferred-content.html" class="wikilink">Rails Deferred Content</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-isolation.html" class="wikilink">Rails Isolation</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-job-queues.html" class="wikilink">Rails Job Queues</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-performance-notes.html" class="wikilink">Rails Performance Notes</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-service-objects.html" class="wikilink">Rails Service Objects</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-stacks.html" class="wikilink">Rails Stacks</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-system-testing.html" class="wikilink">Rails System Testing</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-testing-performance.html" class="wikilink">Rails Testing Performance</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-testing-strategy.html" class="wikilink">Rails Testing Strategy</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-time-testing.html" class="wikilink">Rails Time Testing</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-unused-code.html" class="wikilink">Rails Unused Code</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-upgrade-notes.html" class="wikilink">Rails Upgrade Notes</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails-on-docker.html" class="wikilink">Rails on Docker</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rails.html" class="wikilink">Rails</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/railsconf-2022.html" class="wikilink">Railsconf 2022</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/reactive-rails.html" class="wikilink">Reactive Rails</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/reading-list.html" class="wikilink">Reading List</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/release-automation.html" class="wikilink">Release Automation</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/remote-work.html" class="wikilink">Remote Work</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/roll20-character-tokens.html" class="wikilink">Roll20 Character Tokens</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/root-organizer.html" class="wikilink">Root Organizer</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rubik-s-cube.html" class="wikilink">Rubik’s Cube</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rubocop.html" class="wikilink">RuboCop</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/ruby-gems.html" class="wikilink">Ruby Gems</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/ruby-testing.html" class="wikilink">Ruby Testing</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/ruby-typing.html" class="wikilink">Ruby Typing</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/ruby-upgrade-notes.html" class="wikilink">Ruby Upgrade Notes</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/ruby.html" class="wikilink">Ruby</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/rubymine.html" class="wikilink">RubyMine</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/self-hosted-audiobooks.html" class="wikilink">Self-hosted Audiobooks</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/shell-scripts.html" class="wikilink">Shell Scripts</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/spirit-island.html" class="wikilink">Spirit Island</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/static-site-generators.html" class="wikilink">Static Site Generators</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/stimulus-js.html" class="wikilink">Stimulus JS</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/subnautica-bases.html" class="wikilink">Subnautica Bases</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/sustainable-web-development-with-ruby-on-rails.html" class="wikilink">Sustainable Web Development with Ruby on Rails</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/technical-books.html" class="wikilink">Technical Books</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/text-chat.html" class="wikilink">Text Chat</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/the-coaching-habit.html" class="wikilink">The Coaching Habit</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/the-high-velocity-edge.html" class="wikilink">The High Velocity Edge</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/tiny-epic-dinosaurs.html" class="wikilink">Tiny Epic Dinosaurs</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/tracking-unused-code.html" class="wikilink">Tracking Unused Code</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/unconventional-rails.html" class="wikilink">Unconventional Rails</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/video-encoding.html" class="wikilink">Video Encoding</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/virtualization.html" class="wikilink">Virtualization</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/visual-studio-code.html" class="wikilink">Visual Studio Code</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/web-hosting.html" class="wikilink">Web Hosting</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/webpacker.html" class="wikilink">Webpacker</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/what-comes-after-mvc.html" class="wikilink">What Comes After MVC</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/working-reliably-with-external-services.html" class="wikilink">Working Reliably with External Services</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/zettelkasten.html" class="wikilink">Zettelkasten</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/zoom-party-games.html" class="wikilink">Zoom Party Games</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/dip.html" class="wikilink">dip</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/fzf.html" class="wikilink">fzf</a></p>
+  </li>
+  <li>
+    <p><a href="/notes/ios-e-reader-apps.html" class="wikilink">iOS E-Reader Apps</a></p>
+  </li>
+</ul>
+
+
+</section>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>
