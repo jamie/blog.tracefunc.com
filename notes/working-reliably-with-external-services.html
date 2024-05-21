@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Working Reliably with External Services - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="notable ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h1 id="working-reliably-with-external-services">Working Reliably with External Services</h1>
+
+<p>Possible RailsConf talk proposal, talking about how you can adjust your application to deal with potentially-unreliable external services.</p>
+
+<ul>
+  <li>Dealing with slow requests
+    <ul>
+      <li>problem: requests to them timing out can lead to requests to you timing out</li>
+      <li>consider backgrounding the request, and having your app poll itself for task completion</li>
+      <li>If you can work out a reasonable average response time but spikes unpredictably, consider lowering default request timeout closer to that to cut off the slow requests sooner - a request that averages at 0.5-2 sec and peaks up to 20 sec does not need to execute with a 30sec connection timeout.</li>
+    </ul>
+  </li>
+  <li>Dealing with service outages
+    <ul>
+      <li><strong>Circuit Breakers</strong> can keep your app healthy and responsive - after X errors in a row, internally flag the service as being in an error state, but trickle occasional requests to it to check for recovery. By avoiding external calls while you identify an outage, you can inform users of the issues while keeping your page loads fast.
+        <ul>
+          <li>Circuit Breaker can be set up to work for network timeouts, certain error responses, etc.</li>
+        </ul>
+      </li>
+      <li>If requests are queued while the service is in an error state, consider <strong>Rate Limiters</strong> around that service to keep from overloading it once it reports as healthy</li>
+      <li>More generally, if you’ve got background jobs making external requests which automatically requeue after an error, see if your background job system can introduce <strong>Jitter</strong> on retries to spread the load out</li>
+    </ul>
+  </li>
+  <li>Testing external services
+    <ul>
+      <li>Service object + Mock object</li>
+      <li>Test service object via record and replay (VCR), assert against canned responses</li>
+      <li>Test live responses &amp; mock object responses against the same assertions in order to trust that the mock object is providing well-formed payloads</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<p>See also https://blog.pragmaticengineer.com/resiliency-in-distributed-systems/ where the summary of Ch 27 of <a href="https://understandingdistributed.systems/">this book</a> is relevant to this content - covering timeouts, retries, and circuit breakers.</p>
+
+
+</article>
+
+</section>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

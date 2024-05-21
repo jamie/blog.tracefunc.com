@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>No More Bundle Exec - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="post ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h2><a href="/2012/09/06/no-more-bundle-exec-html/">No More Bundle Exec</a></h2>
+  <blockquote>
+    6th Sep 2012
+    
+      | Tags:
+      <a href="/tags/#programming">programming</a> <a href="/tags/#ruby">ruby</a> 
+    
+  </blockquote>
+
+  
+    <blockquote>
+  <p>Update 2023: Just use <a href="https://direnv.net/">direnv</a> with <code class="highlighter-rouge">layout ruby</code>.</p>
+</blockquote>
+
+<p><a href="http://gembundler.com/">Bundler</a> is pretty darn good. Installing all your gems globally sucks. <code class="highlighter-rouge">bundle install --path</code> does a great job of fixing that but it means you need to <code class="highlighter-rouge">bundle exec</code> any shell commands you want to run, which again sucks. There are lots of <a href="https://rvm.io/gemsets/basics/">attempts</a> to <a href="https://github.com/mpapis/rubygems-bundler">fix this</a>, but they’re all fairly convoluted.</p>
+
+<!-- EXCERPT -->
+
+<p>I’m a fan of simpler solutions wherever possible. I use <a href="http://www.zsh.org/">zsh</a> as my shell, which has a <a href="http://zsh.sourceforge.net/Doc/Release/Command-Execution.html">handler</a> you can hook into if the command you’re trying to run is not found. It’s a simple matter to hook that into a custom shell script from your <code class="highlighter-rouge">~/.zshrc</code>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>function command_not_found_handler() {
+    ~/bin/command-not-found $*
+}
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>I know <a href="http://www.gnu.org/software/bash/manual/bashref.html">bash</a> supports this kind of handler (<a href="http://www.ubuntu.com/">Ubuntu</a> uses it to provide command helpers for not-yet-installed programs) but I don’t know the exact details. Alas, my favorite shell ever, <a href="http://ridiculousfish.com/shell/">fish</a>, only provides the executable to its corresponding helper, so while it can suggest an alternate command, it can’t auto-correct it.</p>
+
+<p>My script happens to be in <a href="http://www.ruby-lang.org/en/">Ruby</a>, but it could just as easily be a standard shell script as all I’m doing is some file existence tests:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="rouge-code"><pre><span class="c1">#!/usr/bin/env ruby</span>
+
+<span class="c1"># ARGV is the entire command we wanted to run, but we</span>
+<span class="c1"># really only care about the actual executable for fallbacks</span>
+<span class="n">command</span> <span class="o">=</span> <span class="no">ARGV</span><span class="p">.</span><span class="nf">first</span>
+
+<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+  <span class="vg">$stderr</span><span class="p">.</span><span class="nf">puts</span> <span class="s2">"Running </span><span class="si">#{</span><span class="n">cmd</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2"> instead"</span>
+  <span class="nb">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">case</span>
+<span class="k">when</span> <span class="no">File</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="s2">"./.bundle/config"</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="no">File</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="s2">"./bin/</span><span class="si">#{</span><span class="n">command</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+  <span class="n">run</span><span class="p">(</span><span class="s2">"bundle exec </span><span class="si">#{</span><span class="no">ARGV</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">' '</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="k">else</span>
+  <span class="nb">exit</span> <span class="mi">127</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Now, as long as you’re being sure to <code class="highlighter-rouge">bundle install --binstubs</code> it should Just Work. And because it only functions if you’re in a directory that’s been bundled, you don’t run into the security risks that you would by trying to get ./bin added to your <code class="highlighter-rouge">$PATH</code> directly.</p>
+
+<p>Lastly, the <code class="highlighter-rouge">case</code> statement instead of an <code class="highlighter-rouge">if</code> is a bit redundant in the simple case above, I’ve actually got a few more filters for things like <a href="https://github.com/jbarnette/isolate">isolate</a> and <a href="http://git-scm.com/">git</a> - don’t forget to quote anything that might need space literals:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="rouge-code"><pre><span class="c1"># Paste git repo url to clone it</span>
+<span class="k">when</span> <span class="n">command</span> <span class="o">=~</span> <span class="sr">/^git(@|:\/\/).*\.git$/</span>
+  <span class="n">run</span><span class="p">(</span><span class="s2">"git clone </span><span class="si">#{</span><span class="n">command</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># paste compressed url to download+extract it</span>
+<span class="k">when</span> <span class="n">command</span> <span class="o">=~</span> <span class="sr">/^(?:ftp|https?):\/\/.+\.t(?:ar\.)?gz$/</span>
+  <span class="n">run</span><span class="p">(</span><span class="s2">"curl </span><span class="si">#{</span><span class="n">command</span><span class="p">.</span><span class="nf">inspect</span><span class="si">}</span><span class="s2"> | tar xzv"</span><span class="p">)</span>
+
+<span class="k">when</span> <span class="no">File</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="s2">"./tmp/isolate/ruby-1.8/bin/</span><span class="si">#{</span><span class="n">command</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+  <span class="n">run</span><span class="p">(</span><span class="s2">"rake isolate:sh['</span><span class="si">#{</span><span class="no">ARGV</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="s1">' '</span><span class="p">)</span><span class="si">}</span><span class="s2">']"</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+  
+</article>
+
+</section>
+
+<nav aria-label="Pagination">
+  <ul>
+    
+    <li>
+      <a href="/2012/05/15/joining-git-repositories-html/">
+        &laquo; Joining Git Repositoires
+      </a>
+    </li>
+    
+    
+    <li class="float-right">
+      <a href="/2015/06/04/building-an-object-graph-in-rails-html/">
+        Building an Object Graph in Rails &raquo;
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

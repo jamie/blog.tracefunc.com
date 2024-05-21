@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Video Encoding - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="notable ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h1 id="video-encoding">Video Encoding</h1>
+
+<h2 id="bitrates">Bitrates</h2>
+
+<p>Amazon H.264 currently (2020) has the following maximum bitrates while streaming:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th style="text-align: right">720p</th>
+      <th style="text-align: right">720p HQ</th>
+      <th style="text-align: right">1080p</th>
+      <th style="text-align: right">1080p HQ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>bitrate</td>
+      <td style="text-align: right">4.5</td>
+      <td style="text-align: right">6</td>
+      <td style="text-align: right">10</td>
+      <td style="text-align: right">15</td>
+    </tr>
+    <tr>
+      <td>MB/min</td>
+      <td style="text-align: right">34</td>
+      <td style="text-align: right">45</td>
+      <td style="text-align: right">75</td>
+      <td style="text-align: right">112</td>
+    </tr>
+    <tr>
+      <td>30m TV</td>
+      <td style="text-align: right">1012</td>
+      <td style="text-align: right">1350</td>
+      <td style="text-align: right">2250</td>
+      <td style="text-align: right">3375</td>
+    </tr>
+    <tr>
+      <td>60m TV</td>
+      <td style="text-align: right">2025</td>
+      <td style="text-align: right">2700</td>
+      <td style="text-align: right">4500</td>
+      <td style="text-align: right">6750</td>
+    </tr>
+    <tr>
+      <td>90m Film</td>
+      <td style="text-align: right">3037</td>
+      <td style="text-align: right">4050</td>
+      <td style="text-align: right">6750</td>
+      <td style="text-align: right">10125</td>
+    </tr>
+    <tr>
+      <td>140m Film</td>
+      <td style="text-align: right">4725</td>
+      <td style="text-align: right">6300</td>
+      <td style="text-align: right">10500</td>
+      <td style="text-align: right">15750</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Keep in mind that most videos will not be a constant bitrate, so actual streamed data will be lower.</p>
+
+<p><strong>Roku</strong> provides some <a href="https://developer.roku.com/en-ca/docs/specs/media/streaming-specifications.md#encoding-guidelines">guidelines</a> around a bitrate ladder, with H.264 1080p @ 5.8, 4.3, then 720p at 3.5, 2.75. Not all their devices support 1080p60 so recommends 720p60 or 1080p24/30. For 4k recommends HEVC/H.265 up to 25mbps.</p>
+
+<h2 id="hevc-notes">HEVC Notes</h2>
+
+<p><a href="https://kokomins.wordpress.com/2019/10/10/anime-encoding-guide-for-x265-and-why-to-never-use-flac/">Some recommendations specifically for Anime</a> - TLDR; Handbrake, Main 10 profile, <code class="highlighter-rouge">slow</code> preset:</p>
+
+<ul>
+  <li>1 Setting to rule them all:
+crf=19-20, <code class="highlighter-rouge">limit-sao:bframes=8:psy-rd=1:aq-mode=3</code></li>
+  <li>Flat, slow anime (slice of life, everything is well lit):
+crf=19-20, <code class="highlighter-rouge">bframes=8:psy-rd=1:aq-mode=3:aq-strength=0.8:deblock=1,1</code></li>
+  <li>Some dark scene, some battle scene (shonen, historical, etc.):
+crf=18-19 (motion + fancy FX), <code class="highlighter-rouge">limit-sao:bframes=8:psy-rd=1.5:psy-rdoq=2:aq-mode=3</code>
+crf=20 (non-complex, motion only alternative), <code class="highlighter-rouge">bframes=8:psy-rd=1:psy-rdoq=1:aq-mode=3:qcomp=0.8</code></li>
+  <li>Movie-tier dark scene, complex grain/detail:
+<code class="highlighter-rouge">crf=16-18, no-sao:bframes=8:psy-rd=1.5:psy-rdoq=4:aq-mode=3:ref=6</code></li>
+  <li>I have infinite storage, a supercomputer, and I want details:
+preset=veryslow, crf=14, <code class="highlighter-rouge">no-sao:no-strong-intra-smoothing:bframes=8:psy-rd=2:psy-rdoq=5:aq-mode=3:deblock=-1,-1:ref=6</code></li>
+</ul>
+
+<p>Audio: Avoid FLAC (save the data rate for video quality) and reencode, prefer Opus to AAC. If already in a lossy format, just copy it.</p>
+<ul>
+  <li>Opus: 192kbps stereo, 384kbps for 5.1.</li>
+  <li>AAC (Apple): <code class="highlighter-rouge">-V 109</code> stereo, <code class="highlighter-rouge">-V 100</code> for 5.1.</li>
+  <li>Fraunhofer FDK AAC (build your own Handbrake with non-free, <a href="https://handbrake.fr/docs/en/latest/developer/build-windows.html">docs</a>): <code class="highlighter-rouge">-m 5</code></li>
+</ul>
+
+
+</article>
+
+</section>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>How to crash Ruby - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="post ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h2><a href="/2007/01/03/how-to-crash-ruby-html/">How to crash Ruby</a></h2>
+  <blockquote>
+    3rd Jan 2007
+    
+      | Tags:
+      <a href="/tags/#programming">programming</a> <a href="/tags/#ruby">ruby</a> 
+    
+  </blockquote>
+
+  
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">BrokenError</span> <span class="o">&lt;</span> <span class="no">StandardError</span>
+  <span class="k">def</span> <span class="nf">backtrace</span>
+    <span class="k">raise</span><span class="p">(</span><span class="no">StandardError</span><span class="p">.</span><span class="nf">new</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">begin</span>
+  <span class="k">raise</span> <span class="no">BrokenError</span><span class="p">.</span><span class="nf">new</span>
+<span class="k">rescue</span> <span class="n">e</span>
+  <span class="nb">puts</span> <span class="s1">'rescued'</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Because of the exception in the backtrace generation, processing just dies. If you have an at_exit block, it will still be run, so I suppose I’m not really crashing the ruby interpreter, I suppose, but it comes close.</p>
+
+<p>Found this one out migrating a rails app from 1.1.6 to 1.2. Instead of doing this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="n">render</span> <span class="s1">'controller/action'</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>the deprecation warning suggests the following:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="n">render</span> <span class="ss">:file</span> <span class="o">=&gt;</span> <span class="s1">'controller/action'</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Unfortunately, this causes the error if you’re still trying to run in 1.1.6. A more complete fix is to make sure to add use_full_path to the render call to prevent an older TemplateError from horking, like so:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre><span class="n">render</span> <span class="ss">:file</span> <span class="o">=&gt;</span> <span class="s1">'controller/action'</span><span class="p">,</span> <span class="ss">:use_full_path</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+  
+</article>
+
+</section>
+
+<nav aria-label="Pagination">
+  <ul>
+    
+    <li>
+      <a href="/2006/12/31/camping-for-railers-html/">
+        &laquo; Camping for Railers
+      </a>
+    </li>
+    
+    
+    <li class="float-right">
+      <a href="/2007/01/09/upgrading-to-1-2-part-1-deprecations-html/">
+        Upgrading to 1.2, Part 1: Deprecations &raquo;
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

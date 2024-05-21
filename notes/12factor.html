@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>12Factor - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="notable ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h1 id="12factor">12Factor</h1>
+
+<p><a href="https://12factor.net/">Main website</a> of some architectural wisdom that came out of Heroku, back in the day (2011).</p>
+
+<p><a href="https://www.oreilly.com/library/view/beyond-the-twelve-factor/9781492042631/">Beyond the Twelve Factor</a> expands it a few points, with a <a href="https://domenicoluciani.com/2021/10/30/15-factor-app.html">summary</a>:</p>
+
+<h3 id="1-codebase">1. Codebase</h3>
+
+<ul>
+  <li>A version control system like Git always tracks the fifteen-factor app.</li>
+  <li>If we have multiple codebases, it’s not an app but a distributed system.</li>
+  <li>If multiple apps share the same code, it violates the fifteen-factor. The solution is to add the shared code as a dependency.</li>
+  <li>There is only one codebase per app, but there are many deploys of the app. The app is the same across all deploys, but different versions may be active in each deploy.</li>
+</ul>
+
+<h3 id="2-dependencies">2. Dependencies</h3>
+
+<ul>
+  <li>A fifteen-factor app declares all dependencies, completely and exactly, via a dependency declaration manifest. It simplifies the setup for developers new to the app. The new developers will set up everything by running the app’s code with a deterministic build command.</li>
+  <li>A fifteen-factor app doesn’t rely on the implicit existence of any system tools. If the app needs to shell out to a system tool, that tool should be vendored into the app.</li>
+</ul>
+
+<h3 id="3-config">3. Config</h3>
+
+<ul>
+  <li>Never store constants in the code. To be fifteen-factor compliant requires a strict separation of config from code.</li>
+  <li>Config varies across deploys; code doesn’t.</li>
+  <li>Always prefer storing the config in environment variables; environment variables are easy to change between deploys without changing any code.</li>
+  <li>Environment variables are fully orthogonal to other environment variables; they are never grouped but independently managed for each deployment.</li>
+</ul>
+
+<h3 id="4-backing-services">4. Backing Services</h3>
+
+<ul>
+  <li>Backing Service: any service the app consumes over the network as part of its normal operation.</li>
+  <li>Systems administrators who deploy the app’s runtime manage the backing services.</li>
+  <li>There are local and third-party services, and a fifteen-factor app doesn’t make any distinction between them.</li>
+  <li>Deploy a fifteen-factor app should swap out a local backing service with one managed by a third party without any changes to the app’s code.</li>
+  <li>Each particular backing service is a resource, called attached-resource.</li>
+</ul>
+
+<h3 id="5-build-release-run">5. Build, release, run</h3>
+
+<ul>
+  <li>The build stage is a process that converts a code repo into an executable bundle known as a build.</li>
+  <li>The release stage takes the build and combines it with the deploy’s current config.</li>
+  <li>The run stage runs the app in the execution environment.</li>
+  <li>Each stage is strongly separated.</li>
+</ul>
+
+<h3 id="6-processes">6. Processes</h3>
+
+<ul>
+  <li>Fifteen-factor processes are stateless and share-nothing. We have to use a stateful backing service whether we want to store any data.</li>
+  <li>We can use the memory space or filesystem as a temporary, single-transaction cache.</li>
+  <li>Never use sticky sessions. Never assume that anything cached in memory or disk will be available on a future request or job.</li>
+</ul>
+
+<h3 id="7-port-binding">7. Port binding</h3>
+
+<ul>
+  <li>The fifteen-factor app is completely self-contained.</li>
+  <li>The web application exports HTTP as a service by binding to a specific port and listening to requests coming in on that port.</li>
+  <li>Note also that the port-binding approach means that one app can become the backing service for another app.</li>
+</ul>
+
+<h3 id="8-concurrency">8. Concurrency</h3>
+
+<ul>
+  <li>Processes are first-class citizens.</li>
+  <li>We should design our application to distribute workload across multiple processes. Individual processes can leverage a concurrency model like Thread internally.</li>
+  <li>Fifteen-factor app processes should never daemonize or write PID files, instead, rely on the operating system’s process manager.</li>
+</ul>
+
+<h3 id="9-disposability">9. Disposability</h3>
+
+<ul>
+  <li>The application should be disposable; it means that we can start or stop it at any moment.</li>
+  <li>We should aim to minimize startup time. The process should take a few seconds from the time the launch command is executed until the process is up and ready to receive requests or jobs.</li>
+  <li>Processes should also be robust against sudden death. A fifteen-factor app is designed to handle unexpected terminations.</li>
+</ul>
+
+<h3 id="10-devprod-parity">10. Dev/prod parity</h3>
+
+<ul>
+  <li>The fifteen-factor app is designed for continuous deployment by keeping the gap between development and production small.</li>
+  <li>The time between deploys should be just hours than weeks.</li>
+  <li>The author of the code and who deploy the application is the same person.</li>
+  <li>Dev env and prod env should be as similar as possible.</li>
+</ul>
+
+<h3 id="11-logs">11. Logs</h3>
+
+<ul>
+  <li>Logs are the stream of aggregated, time-ordered events collected from the output streams of all running processes and backing services.</li>
+  <li>Fifteen-factor app never concerns itself with routing or storage of its output stream. The application should write its event stream, unbuffered to the standard output.</li>
+  <li>The stream can be sent to a log indexing and analysis system like Splunk to find past events, graph trends, and active alerting.</li>
+</ul>
+
+<h3 id="12-admin-processes">12. Admin processes</h3>
+
+<ul>
+  <li>One-off admin processes should be run in an identical environment as the regular long-running processes of the app.</li>
+  <li>Admin code must ship with application code to avoid synchronization issues.</li>
+</ul>
+
+<h3 id="13-api-first">13. API First</h3>
+
+<ul>
+  <li>We should define the service contract first to help our consumers understand what to send and receive, defining a common contract.</li>
+  <li>This approach enables consumers and service developers to work in parallel.</li>
+  <li>It helps avoid bottlenecks and facilitates the virtualization of the APIs so the consumers can run the tests against the mocks.</li>
+</ul>
+
+<h3 id="14-telemetry">14. Telemetry</h3>
+
+<ul>
+  <li>Monitoring our microservices, containers, and env help us to scale, self-heal and manage alerts for end-users and platform operators.</li>
+  <li>We can use machine learning towards those metrics to derive future business strategies.</li>
+  <li>We can observe the application’s performance, stream of events and data, health checks, when the application starts, scales, and so on.</li>
+</ul>
+
+<h3 id="15-authentication">15. Authentication</h3>
+
+<ul>
+  <li>Make sure all security policies are in place. Developers tend to underestimate the importance that security has.</li>
+  <li>APIs should be secured using OAuth, RBAC, etc.</li>
+  <li>Web content should be exposed externally on HTTPS</li>
+  <li>MFA</li>
+  <li>Database protection</li>
+</ul>
+
+
+</article>
+
+</section>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Git Rebase by Example - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="post ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h2><a href="/2017/06/20/git-rebase-by-example-html/">Git Rebase by Example</a></h2>
+  <blockquote>
+    20th Jun 2017
+    
+      | Tags:
+      <a href="/tags/#git">git</a> 
+    
+  </blockquote>
+
+  
+    <p>Today at work, I determined that my current work in progress branch was going to want to be merged into production ahead of our next scheduled merge/deploy of master. To make it easier to merge into our production branch for a hot-fix deploy, I want to have the branch based off production instead of master.</p>
+
+<!-- EXCERPT -->
+
+<p>So, I could do this manually:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>$ git reset HEAD~ # move HEAD commit back to staging
+$ git stash save # move uncommited changes to stash
+# repeat until all my changes are in stash
+$ git checkout production
+$ git stash pop
+$ git commit ...
+# again, repeat until complete
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>However, this is a pain in the neck because it’s all manual, and it loses the commit metadata (timestamps, but also author info if you’re moving commits from multiple people). Also, because I prefer small merges to big merges, I’ve merged master into my branch a few times, and that means deciding to commit or wipe commits.</p>
+
+<p>Instead, let’s git do all the work, and use <code class="highlighter-rouge">git rebase</code> to move my commits to their new home, and also filter out those merges.</p>
+
+<p>Before getting started, we should backup my branch, by just doing a <code class="highlighter-rouge">git checkout -b wip-rebase</code>. Then, to confirm exactly what my changes were we can run <code class="highlighter-rouge">git cherry -v origin/master</code>. This will list all the commits on the current branch that are not on the specified branch.</p>
+
+<p>Then, I want to start by getting rid of all my extra merges, and filter the branch to just these outbound changes. For this we’ll do an interactive rebase: <code class="highlighter-rouge">git rebase -i acfad~</code>, where acfad is the commit hash at the top of my change list (you can also just use a visual git browser or whatever to find the base commit for your changes). This will pop open an editor, and let me decide exactly how I want to handle each commit.</p>
+
+<p>This is a powerful tool, and all its options are beyond the scope of this article, but it will let you do anything from editing a commit message, to combining or reordering commits, to executing shell commands between specific commits.</p>
+
+<p>Here, we’re just dropping commits, so we can scroll down the editor here and any commit that wasn’t listed in our <code class="highlighter-rouge">git cherry</code> output we can change the <code class="highlighter-rouge">pick</code> to <code class="highlighter-rouge">drop</code>. Or, even easier, delete the line.</p>
+
+<p>Now save and quit the editor, and git will do its job. We can verify with another <code class="highlighter-rouge">git cherry -v origin/master</code> and compare output now with earlier output. Note that our oldest commits are unchanged, but the commit hash for the newer ones is changed. This is because the hash of a commit depends on the hashes of its parents, and by deleting merged commits from our history we are of course unable to use them as parents anymore. Also, looking directly at the <code class="highlighter-rouge">git log</code> we can see that deleting all commits from one branch of a merge commit will also delete the merge itself. For our purposes, as long as the commit messages in both <code class="highlighter-rouge">git cherry</code> outputs are the same, then we’re doing fine.</p>
+
+<p>Now that the busy work is behind us, we can get to the actual goal of moving the commits. The command for this will be <code class="highlighter-rouge">git rebase --onto origin/production acfad~</code> – again we’re referring to the parent of the first commit in our branch.</p>
+
+<p>This is the part that works exactly as I described above, git is “rewinding head to replay your work on top of it”. As with any merge (applying a commit in a changed context) you can expect to see some conflicts and can resolve them as usual. However when done, instead of commiting we’ll move on with <code class="highlighter-rouge">git rebase --continue</code>. If at any time things get confused and you make a mistake, <code class="highlighter-rouge">git rebase --abort</code> will roll you back to your branch as it was before rebasing.</p>
+
+<p>Once you’re done with the conflicts, <code class="highlighter-rouge">git</code> will finalize the rebase behind the scenes, and leave you back at your current branch having updated the root parent, and touched all the commits on the way down. We can confirm this with a final <code class="highlighter-rouge">git cherry -v origin/master</code>.</p>
+
+<p>Now is a good time to run specs (or let CI work that for you) and do whatever other testing you need to confirm everything functions as it should.</p>
+
+  
+</article>
+
+</section>
+
+<nav aria-label="Pagination">
+  <ul>
+    
+    <li>
+      <a href="/2015/06/04/building-an-object-graph-in-rails-html/">
+        &laquo; Building an Object Graph in Rails
+      </a>
+    </li>
+    
+    
+    <li class="float-right">
+      <a href="/2020/04/22/git-archaeology-html/">
+        Git Archaeology &raquo;
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

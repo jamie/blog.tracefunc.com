@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Joining Git Repositoires - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="post ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h2><a href="/2012/05/15/joining-git-repositories-html/">Joining Git Repositoires</a></h2>
+  <blockquote>
+    15th May 2012
+    
+      | Tags:
+      <a href="/tags/#git">git</a> 
+    
+  </blockquote>
+
+  
+    <p>At work, we provide an API for our app and maintain web-based
+documentation for said API. We originally had the documentation in a
+separate git repo, but as it makes much more sense to maintain the docs
+directly alongside the code it documents we wanted to merge the two
+repositories. This was done in two steps.</p>
+
+<!-- EXCERPT -->
+
+<h3 id="moving-files">Moving files</h3>
+
+<p>First, we need to prep the docs repo such that the content is in a
+reasonable location, rather than the root directory. This is done fairly
+easily with <code class="highlighter-rouge">git filter-branch</code> (zsh):</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre>% <span class="nb">mkdir</span> <span class="nt">-p</span> doc/api_docs
+% git checkout <span class="nt">-b</span> for_transplant <span class="c"># work in a branch for safety</span>
+% <span class="k">for </span>file <span class="k">in</span> &lt;files/dirs to move&gt;<span class="p">;</span>
+    <span class="k">do </span>git filter-branch <span class="nt">--tree-filter</span> <span class="se">\</span>
+      <span class="s2">"test -e </span><span class="nv">$file</span><span class="s2"> &amp;&amp; mv </span><span class="nv">$file</span><span class="s2"> doc/api_docs || echo skip"</span> <span class="se">\</span>
+      HEAD<span class="p">;</span>
+    <span class="k">done</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>This goes through out commit history, and runs through each commit
+moving old content into a subdirectory. It’s slow in that it does a full
+history pass for each file, but I didn’t care to figure out how to move
+everything <em>except</em> the docs directory.</p>
+
+<h3 id="merging-the-repos">Merging the repos</h3>
+
+<p>First, for clarity, let’s make a new branch based off of the original
+commit in our destination repo:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre></td><td class="rouge-code"><pre>% git log <span class="nt">--oneline</span> | <span class="nb">tail</span> <span class="nt">-n</span> 1
+e7c9feb Initial commit
+% git checkout e7c9feb
+% git checokut <span class="nt">-b</span> doc_import
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>First, prepare the main repo for the incoming transplant by cloning a
+bare copy (git refuses to pull an external repo into a normal checkout).</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>% git clone <span class="nt">--bare</span> git@github.com:example/myapp.git myapp-bare
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>We can then pull in the commit objects from the other repository:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>% <span class="nb">cd </span>myapp-bare
+% git fetch <span class="nt">-f</span> ../api_doc_site for_transplant:api_docs
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The -f tells git to ignore the different initial commits, and then we
+explicitly specify the remote and local branches to move commits to. You
+might need to resolve a merge conflict at this point, if for example
+both repositories committed a different <code class="highlighter-rouge">.gitignore</code> in their initial
+commit.</p>
+
+<p>We can now go back to our regular repo and pull those branches in:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre>% <span class="nb">cd</span> ../myapp
+% git remote add bare ../myapp-bare
+% git pull bare api_docs
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Finally, merging that branch into master gets things all up-to-date, and
+we can start unified work while maintaining the full original history of
+the documentation.</p>
+
+
+  
+</article>
+
+</section>
+
+<nav aria-label="Pagination">
+  <ul>
+    
+    <li>
+      <a href="/2011/11/19/parsing-json-in-sql-html/">
+        &laquo; Parsing JSON in SQL
+      </a>
+    </li>
+    
+    
+    <li class="float-right">
+      <a href="/2012/09/06/no-more-bundle-exec-html/">
+        No More Bundle Exec &raquo;
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

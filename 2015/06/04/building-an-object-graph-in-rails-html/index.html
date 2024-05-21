@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Building an Object Graph in Rails - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="post ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h2><a href="/2015/06/04/building-an-object-graph-in-rails-html/">Building an Object Graph in Rails</a></h2>
+  <blockquote>
+    4th Jun 2015
+    
+      | Tags:
+      <a href="/tags/#ruby">ruby</a> <a href="/tags/#rails">rails</a> 
+    
+  </blockquote>
+
+  
+    <p>I was needing to do some object cleanup in our rails app the other day, and purge some malformed objects, so I put together a quick script using some ActiveRecord reflection to walk the object chain.</p>
+
+<!-- EXCERPT -->
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+</pre></td><td class="rouge-code"><pre><span class="c1"># Squelch SQL logs, if you're running from rails console</span>
+<span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">logger</span><span class="p">.</span><span class="nf">level</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># Output formatters. Trailing ':' on both, plus the staggered indent</span>
+<span class="c1"># of 4n and 4n+2 makes the output valid YAML, if automated analysis</span>
+<span class="c1"># is called for.</span>
+<span class="k">def</span> <span class="nf">puts_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">indent</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"    "</span><span class="o">*</span><span class="n">indent</span> <span class="o">+</span> <span class="n">node</span><span class="p">.</span><span class="nf">class</span><span class="p">.</span><span class="nf">name</span> <span class="o">+</span> <span class="s2">"#"</span> <span class="o">+</span> <span class="n">node</span><span class="p">.</span><span class="nf">id</span><span class="p">.</span><span class="nf">to_s</span> <span class="o">+</span> <span class="s2">":"</span>
+<span class="k">end</span>
+<span class="k">def</span> <span class="nf">puts_assoc</span><span class="p">(</span><span class="n">assoc</span><span class="p">,</span> <span class="n">indent</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"    "</span><span class="o">*</span><span class="n">indent</span> <span class="o">+</span> <span class="s2">"  "</span> <span class="o">+</span> <span class="n">assoc</span><span class="p">.</span><span class="nf">to_s</span> <span class="o">+</span> <span class="s2">":"</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">puts_tree</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">seen</span><span class="o">=</span><span class="p">[],</span> <span class="n">indent</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+  <span class="n">puts_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">indent</span><span class="p">)</span>
+
+  <span class="k">unless</span> <span class="n">seen</span><span class="p">.</span><span class="nf">include?</span> <span class="n">node</span>
+    <span class="c1"># seen maintains a list of nodes to avoid mutual recursion</span>
+    <span class="n">seen</span> <span class="o">&lt;&lt;</span> <span class="n">node</span>
+    <span class="n">node</span><span class="p">.</span><span class="nf">class</span><span class="p">.</span><span class="nf">reflections</span><span class="p">.</span><span class="nf">keys</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">assoc</span><span class="o">|</span>
+      <span class="c1"># To see all locations an object is referenced, get rid of the</span>
+      <span class="c1"># "- seen" here. I only cared about which objects were present</span>
+      <span class="c1"># anywhere in the tree, so this was fine.</span>
+      <span class="n">associated</span> <span class="o">=</span> <span class="no">Array</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="n">assoc</span><span class="p">))</span> <span class="o">-</span> <span class="n">seen</span>
+      <span class="k">next</span> <span class="k">if</span> <span class="n">associated</span><span class="p">.</span><span class="nf">empty?</span>
+
+      <span class="c1"># Print an entry for the association, then recurse</span>
+      <span class="n">puts_assoc</span><span class="p">(</span><span class="n">assoc</span><span class="p">,</span> <span class="n">indent</span><span class="p">)</span>
+      <span class="n">associated</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">subnode</span><span class="o">|</span>
+        <span class="n">puts_tree</span><span class="p">(</span><span class="n">subnode</span><span class="p">,</span> <span class="n">seen</span><span class="p">,</span> <span class="n">indent</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="c1"># Also outputs a footer listing all seen objects once, take it or leave it</span>
+  <span class="k">if</span> <span class="n">indent</span><span class="p">.</span><span class="nf">zero?</span>
+    <span class="nb">puts</span>
+    <span class="n">seen</span><span class="p">.</span><span class="nf">each</span> <span class="p">{</span><span class="o">|</span><span class="n">node</span><span class="o">|</span> <span class="n">puts_node</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">indent</span><span class="p">)}</span>
+  <span class="k">end</span>
+
+  <span class="kp">nil</span> <span class="c1"># return nil to avoid flooding terminal in rails console</span>
+<span class="k">end</span>
+
+<span class="c1"># Usage: call with the root node for the object graph</span>
+<span class="n">puts_tree</span><span class="p">(</span><span class="no">User</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Worked like a charm, and made it easy to compare my bad object with other good ones. Just be careful of any global objects (a common shared subscription package, for instance, that <code class="highlighter-rouge">has_many :users</code>) that could lead to traversing your entire database, or logging associations that could overwhelm your output on older or heavily used objects. Subtracting a blacklist from reflection keys on line 18 would do the trick there.</p>
+
+  
+</article>
+
+</section>
+
+<nav aria-label="Pagination">
+  <ul>
+    
+    <li>
+      <a href="/2012/09/06/no-more-bundle-exec-html/">
+        &laquo; No More Bundle Exec
+      </a>
+    </li>
+    
+    
+    <li class="float-right">
+      <a href="/2017/06/20/git-rebase-by-example-html/">
+        Git Rebase by Example &raquo;
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>
