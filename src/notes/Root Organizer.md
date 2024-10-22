@@ -17,6 +17,43 @@ Core box internals are 278x215mm, ~66mm depth. With the Otter card offer off on 
 
 As to depth, faction boards/rules 20mm, single map 17mm, and 25mm-deep trays will actually fit everything inside.
 
+### Components
+
+Considering going all-in on multi-box set. With 90mm long trays at full 66mm depth, can slot in a deck of cards horizontally, or make faction boxes with a handful of cards + all their meeples and tokens. Base game box would fit 24 trays (3x8) at 25mm spacing. Actually would have a similar vibe to just stuffing it full of deck boxes, depending on if 25x90x66 is sufficient volume for everything.
+
+- **Base Game**
+  - Marquise de Cat
+  - Eyrie (6 cards)
+  - Woodland Alliance
+  - Vagabond (15 quest cards, multiple character cards, with Vagabond Pack)
+- **Riverfolk**
+  - Lizard Cult
+  - Riverfolk Company (card holder)
+- **Underworld**
+  - Underground Duchy
+  - Corvid Conspiracy
+- **Marauder**
+  - Lord of the Hundreds (8 cards, 1 die)
+  - Keepers in Iron
+- **Homeland**
+  - Twilight Council
+  - Lilypad Diaspora
+  - Knaves of Deepwood (overlap w/ Vagabond?)
+- Other
+  - 4 dice, 4 ruins, 12 clearing items
+  - Base shared deck
+  - Exiles & Partisans shared deck
+  - Squires & Disciples shared deck (from Homeland)
+  - Landmarks
+  - Hirelings (Base + Marauder, Riverfolk, Underworld, Homeland hirelings)
+  - Resin Clearings?
+
+First box then would have 12 factions (assuming Knaves and Vagabonds share a tray), 3 decks, landmarks, a few hirelings (meeple swap for faction hirelings, so we just need to stock up the neutral hirelings), and misc components (dice etc). That's maybe 18-20 trays worth, could afford to spend extra space on the resin clearings.
+
+Second box would then be for maps (3 now with Homeland expansion!) and faction boards? Is that an argument in favor of the cardstock faction boards to save space?
+
+I think the riverfolk card block and tunnels can fit alongside the map boards, which would be convenient for space.
+
 ### Tray Sizing
 
 * Baseline 95mm long, 25mm deep, varying width as follows:
