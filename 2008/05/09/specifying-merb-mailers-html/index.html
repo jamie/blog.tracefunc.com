@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Specifying Merb Mailers - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="post ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h2><a href="/2008/05/09/specifying-merb-mailers-html/">Specifying Merb Mailers</a></h2>
+  <blockquote>
+    9th May 2008
+    
+      | Tags:
+      <a href="/tags/#programming">programming</a> <a href="/tags/#merb">merb</a> <a href="/tags/#specs">specs</a> 
+    
+  </blockquote>
+
+  
+    <p>This helper is based on some other controller/view helpers I’ve been working on and planning on blogging soon, with a nod to the specs present in the merb-mailer library itself.</p>
+
+<p>I’m still considering the idea of separate specs for UserMailer and its views, but I think the overhead is too much for mailers, compared to the benefits we get for regular controllers/views.  I think this is a result of the way the send_mail helper functions.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="rouge-code"><pre><span class="c1"># in a controller</span>
+<span class="n">send_mail</span> <span class="no">UserMailer</span><span class="p">,</span> <span class="ss">:hello</span><span class="p">,</span> <span class="p">{</span>
+  <span class="ss">:from</span> <span class="o">=&gt;</span> <span class="s2">"greeter@example.com"</span><span class="p">,</span>
+  <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="vi">@person</span><span class="p">.</span><span class="nf">email</span><span class="p">,</span>
+  <span class="ss">:subject</span> <span class="o">=&gt;</span> <span class="s2">"Greetings"</span>
+<span class="p">},</span> <span class="p">{</span>
+  <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="vi">@person</span><span class="p">.</span><span class="nf">name</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The controller spec can simply stub/mock the send_mail call as appropriate.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre></td><td class="rouge-code"><pre><span class="c1"># spec/spec_helper.rb</span>
+<span class="no">Merb</span><span class="o">::</span><span class="no">Mailer</span><span class="p">.</span><span class="nf">delivery_method</span> <span class="o">=</span> <span class="ss">:test_send</span>
+<span class="k">def</span> <span class="nf">describe_mail</span><span class="p">(</span><span class="n">mailer</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+  <span class="n">describe</span> <span class="s2">"/</span><span class="si">#{</span><span class="n">mailer</span><span class="p">.</span><span class="nf">to_s</span><span class="p">.</span><span class="nf">downcase</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">template</span><span class="si">}</span><span class="s2">"</span> <span class="k">do</span>
+    <span class="n">before</span> <span class="ss">:each</span> <span class="k">do</span>
+      <span class="vi">@mailer_class</span><span class="p">,</span> <span class="vi">@template</span> <span class="o">=</span> <span class="n">mailer</span><span class="p">,</span> <span class="n">template</span>
+      <span class="vi">@assigns</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">deliver</span><span class="p">(</span><span class="n">send_params</span><span class="o">=</span><span class="p">{},</span> <span class="n">mail_params</span><span class="o">=</span><span class="p">{})</span>
+      <span class="n">mail_params</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:from</span> <span class="o">=&gt;</span> <span class="s2">"from@example.com"</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="s2">"to@example.com"</span><span class="p">,</span> <span class="ss">:subject</span> <span class="o">=&gt;</span> <span class="s2">"Subject Line"</span><span class="p">}.</span><span class="nf">merge</span><span class="p">(</span><span class="n">mail_params</span><span class="p">)</span>
+      <span class="vi">@mailer_class</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">send_params</span><span class="p">).</span><span class="nf">dispatch_and_deliver</span> <span class="vi">@template</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">,</span> <span class="n">mail_params</span>
+      <span class="vi">@mail</span> <span class="o">=</span> <span class="no">Merb</span><span class="o">::</span><span class="no">Mailer</span><span class="p">.</span><span class="nf">deliveries</span><span class="p">.</span><span class="nf">last</span>
+    <span class="k">end</span>
+
+    <span class="nb">instance_eval</span> <span class="o">&amp;</span><span class="n">block</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># spec/mailers/user\_mailer\_spec.rb</span>
+<span class="nb">require</span> <span class="no">File</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">dirname</span><span class="p">(</span><span class="kp">__FILE__</span><span class="p">),</span><span class="s1">'..'</span><span class="p">,</span><span class="s1">'spec_helper'</span><span class="p">)</span>
+
+<span class="n">describe_mail</span> <span class="no">UserMailer</span><span class="p">,</span> <span class="ss">:hello</span> <span class="k">do</span>
+  <span class="n">it</span> <span class="s2">"should say hello"</span> <span class="k">do</span>
+    <span class="n">deliver</span> <span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">"Jamie"</span>
+    <span class="vi">@mail</span><span class="p">.</span><span class="nf">text</span><span class="p">.</span><span class="nf">should</span> <span class="o">==</span> <span class="s2">"Hello Jamie"</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>I’m a big fan of custom rspec describers, as above.  The fact that before and after blocks are transparently inherited is a <em>huge</em> win over test/unit, where you’d need to explicitly call super.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="rouge-code"><pre><span class="c1"># app/mailers/user_mailer.rb</span>
+<span class="k">class</span> <span class="nc">UserMailer</span> <span class="o">&lt;</span> <span class="no">Merb</span><span class="o">::</span><span class="no">MailController</span>
+  <span class="k">def</span> <span class="nf">hello</span>
+    <span class="n">render_mail</span>
+  <span class="k">end</span>  
+<span class="k">end</span>
+
+<span class="c1"># app/mailers/views/user_mailer/hello.text.erb</span>
+<span class="no">Hello</span> <span class="o">&lt;</span><span class="sx">%= params[:name] %&gt;
+</span></pre></td></tr></tbody></table></code></pre></div></div>
+
+
+  
+</article>
+
+</section>
+
+<nav aria-label="Pagination">
+  <ul>
+    
+    <li>
+      <a href="/2008/04/24/using-datamapper-0-9-html/">
+        &laquo; Using Datamapper 0.9
+      </a>
+    </li>
+    
+    
+    <li class="float-right">
+      <a href="/2008/06/21/rails-rest-helpers-fail-html/">
+        Rails REST Helpers Fail &raquo;
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

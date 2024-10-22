@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>New Rails - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="notable ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h1 id="new-rails">New Rails</h1>
+
+<h2 id="new-features-rails-5-and-4">New Features, Rails 5 (and 4!)</h2>
+
+<h3 id="what-were-doing-already">What We’re Doing Already</h3>
+
+<ul>
+  <li>Spring preloader</li>
+  <li>Strong Parameters</li>
+  <li>Web console on error screens</li>
+</ul>
+
+<h3 id="what-we-can-do-right-now">What We Can Do Right Now</h3>
+
+<ul>
+  <li><code class="highlighter-rouge">rails</code> CLI: <code class="highlighter-rouge">rake</code> commands still work but are deprecated, we can now just use <code class="highlighter-rouge">rails db:migrate</code> etc.</li>
+  <li>Bundled secrets: We can encrypt secrets per-environment in the repo, reducing the amount of deploy-time orchestration necessary (and keeping production passwords &amp; API keys out of our AWS images)
+    <ul>
+      <li>Config/secrets.yml (4.1, don’t use)</li>
+      <li>Encrypted Secrets (5.1, don’t use)</li>
+      <li>Credentials (5.2, do use)</li>
+    </ul>
+  </li>
+  <li>Pending Migration Errors: If you have a pending migration in dev, you get an exception screen</li>
+  <li>Form helpers: <code class="highlighter-rouge">form_tag</code> (143) and <code class="highlighter-rouge">form_for</code> (154) can now both be replaced by <code class="highlighter-rouge">form_with</code> - they’re not going away (quite yet) but form_with has a much more consistent API.</li>
+  <li>ActiveRecord Attributes API: basically, built-in support for logic like our <code class="highlighter-rouge">has_money</code> helper, but for arbitrary or custom data types.</li>
+</ul>
+
+<h3 id="what-we-can-do-with-work">What We Can Do With Work</h3>
+
+<h4 id="frontend">Frontend</h4>
+
+<ul>
+  <li>ActionMailer previews: lets us define some stub data to render cleanly, and then get a preview in-browser (with multiple variants if needed) - <em>and</em> have a full list of all previews readily available.</li>
+  <li>Turbolinks: plays some javascript tricks to get faster page loads (skips parsing/loading CSS/JS from scratch every request). Somewhat obsoleted in Rails 6/7 with Hotwire/Turbo (added feature: works with forms), would need us to do some work cleaning up some of our listener lifecycles to not have resource leaks.</li>
+  <li>Yarn/Webpack support: especially if we want to start dabbling with some judicious React components, pulling our JS out of the asset pipeline into native javascript tooling will be nice. Like Turbolinks, would need some work massaging our existing frontend code over.</li>
+</ul>
+
+<h4 id="backend">Backend</h4>
+
+<ul>
+  <li>ActiveJob (still using a shim, but now we’re rails5+ we’ve got some better options available to us. GoodJob on Postgres has a good feel in Vault, but we’ll need to manage the migration carefully.</li>
+  <li>ActionCable: gives us the ability to easily provide realtime updates to pages - imagine sitting on an invoice screen and then seeing it change status as the customer pays it.</li>
+  <li>ActiveStorage: A standard API (pair of models) to code against for file/large blob attachments. Would be useful to move over and replace our own S3 logic, but also to get rid of our legacy filesystem-based attachments (Paperclip) that require us to have a network share.</li>
+  <li>System Tests - write capybara directly, use Chrome, get failure screenshots, etc. No cucumber needed.</li>
+</ul>
+
+<h4 id="caching">Caching</h4>
+
+<ul>
+  <li>Russian Doll Caching: formalize our model hierarchy, set up triggers so object saves lower down propagate timestamps up the tree, and use object ID + timestamp as a cache key. Then we can cache a bunch of things (complex rendering, calculations) with a simple expiration policy.</li>
+  <li>Redis Cache Store: Fresh in Rails 5.2, a rails-native adapter for Redis to do the caching.</li>
+  <li>Declarative ETags: if we have the above, we can also set up some browser hints to let us avoid entire page loads on our backend for specific resources - think Invoice/Customer details screens.</li>
+</ul>
+
+
+</article>
+
+</section>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

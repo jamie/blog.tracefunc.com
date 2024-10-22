@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Rubik&#39;s Cube - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="notable ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h1 id="rubiks-cube">Rubik’s Cube</h1>
+
+<p>Via <a href="http://beust.com/rubik/">Cedric Beust</a>, circa 2003. Aims to be easy to memorize (few small moves).</p>
+
+<p>Cube handling notes:</p>
+
+<ul>
+  <li>The cube has three pairs of opposite faces: Up/Down, Front/Back, Left/Right. Reorient as needed.</li>
+  <li>Move syntax uses one letter to reference a side, and optional direction marker. For example, <code class="highlighter-rouge">U</code> rotates the Up face clockwise, <code class="highlighter-rouge">U'</code> rotates anticlockwise.</li>
+</ul>
+
+<p>Quick reference, final layer (w/minor personal tweaks):</p>
+<ul>
+  <li>
+    <ol>
+      <li><code class="highlighter-rouge">FUR U'R'F'</code> rotate front + right</li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li><code class="highlighter-rouge">URUR' URUUR'</code> swap front + right</li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li><code class="highlighter-rouge">ULU'R' UL'U'R</code> swap corners anticlockwise, except back left</li>
+    </ol>
+  </li>
+  <li>
+    <ol>
+      <li><code class="highlighter-rouge">RF'R'F RF'R'F</code> rotate front right, only manipulate top between corners</li>
+    </ol>
+  </li>
+</ul>
+
+<p>The solve, first few steps left as an exercise to the reader:</p>
+
+<ol>
+  <li>Pick a colour to start, this is Up.</li>
+  <li>Solve Up edges.</li>
+  <li>Solve 3 Up corners.</li>
+  <li>Solve 3 middle edges, using the remaining Up corner as a “working” column.</li>
+  <li>Solve last Up corner.</li>
+  <li>Flip the cube, original Up colour is now Down.</li>
+  <li>Finish middle layer. Align last cube to match front colour and then:
+Move Up front to right front <code class="highlighter-rouge">URU'R' U'F'UF</code>
+Move Up front to left front <code class="highlighter-rouge">U'L'UL UFU'F'</code></li>
+  <li>Orient Up edges.
+Flip front + right: <code class="highlighter-rouge">FUR U'R'F'</code>
+Flip front + back: <code class="highlighter-rouge">FRU R'U'F'</code></li>
+  <li>Position Up edges. Rotate Up to try and match two, then,
+Swap left + back: <code class="highlighter-rouge">UR'UUR UR'UR</code></li>
+  <li>Position Up corners. Sequence leaves back left untouched.
+   Swap front left -&gt; front right -&gt; back right: <code class="highlighter-rouge">ULU'R' UL'U'R</code></li>
+  <li>Orient Up corners. Keep the cube positioned with a consistent side as front, repeat sequence until oriented and then rotate Up layer only to bring a different corner to front-right. Parity will fix the rest of the cube when you’re done.
+   Rotate front right: <code class="highlighter-rouge">RF'R'F RF'R'F</code></li>
+</ol>
+
+<h3 id="chinese-cube-instructions">Chinese Cube Instructions</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="rouge-code"><pre>- Solve Down edges, corners
+- Middle layer edges: align edge to match Front or Right
+  - Up Front to Front Right: FUFUFU'F'U'F'
+  - Up Right to Front Right: R'U'R'U'R'URUR
+  - Flip Front Right: RU2R' U RU2R' U F'U'F
+- Up Cross
+  - Flip Up Front &amp; Up Back: FRUR'U'F'
+  - Flip Up Front &amp; Up Right: FURU'R'F'
+- Up Face
+  - Rotate 3 CCW, lock Up Back Left: R'U'RU'R'U2R
+  - Rotate 3 CW, lock Up Front Left: RUR'URU2R' 
+- Swap Up Corners
+  - "Headlights" right face to front face: R2F2R'B'RF2R'BR'
+  - "Headlights" front face to right face: RB'RF2R'BRF2R2
+- Swap Up Edges
+  - Lock Up Back, swap CCW: RU'RURURU'R'U'R2
+  - Lock Up Back, swap CW: L'UL'U'L'U'L'ULUL2
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>TBD: Use <a href="https://ruwix.com/online-rubiks-cube-solver-program/">this</a> to generate some diagrams, and format this a bit more robustly.</p>
+
+<h3 id="heise-method"><a href="https://www.ryanheise.com/cube/heise_method.html">Heise Method</a></h3>
+
+<p>No “algorithms” per se, focuses on building an intuitive feeling on how the cube works.</p>
+
+<ul>
+  <li>Make four 2x2 squares</li>
+  <li>Match squares and orient edges</li>
+  <li>Solve remaining edges and any 2 corners</li>
+  <li>Solve last 3 corners</li>
+</ul>
+
+<h3 id="8355-method"><a href="https://www.speedsolving.com/wiki/index.php/8355_Method">8355 Method</a></h3>
+
+<p>Beginner method with few algorithms. Referenced several times is “Sexy move” <code class="highlighter-rouge">RUR'U'</code>.</p>
+
+<ul>
+  <li>Cross on Down</li>
+  <li>3 Down corners
+    <ul>
+      <li>Position target corner in U above its desired location in D, and repeat sexy move until placed and oriented.</li>
+    </ul>
+  </li>
+  <li>3 E-slice edges, using <a href="https://www.speedsolving.com/wiki/index.php/Keyhole_F2L">Keyhole method</a>
+    <ul>
+      <li>Position a target edge piece such that its Up color matches the Front face
+        <ul>
+          <li>Position keyhole under the desired location</li>
+          <li>Keyhole up/away from target, rotate Up to place target on the keyhole, return keyhole down.</li>
+          <li>This is either <code class="highlighter-rouge">RU'R'</code> if keyhole is to the right, or <code class="highlighter-rouge">L'UL</code> if keyhole is to the left.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Remaining edges
+    <ul>
+      <li>Keep keyhole in front-right
+        <ul>
+          <li>Rotate Up to aim keyhole edge correctly relative to other correct Up edges</li>
+          <li>Rotate <code class="highlighter-rouge">F'</code> or <code class="highlighter-rouge">R</code> into place, rotate U to position another incorrect edge in that position, and restore keyhole with <code class="highlighter-rouge">F</code> or <code class="highlighter-rouge">R'</code></li>
+          <li>To swap the last two edges, position the gap for the final Up edge as expected based on its orientation in the keyhole, and then either FR/UF: <code class="highlighter-rouge">UF'UFU'FUF</code>, or FR/UR: <code class="highlighter-rouge">U'RU'R'U'RU'R'</code>. (Intuitively, you’re moving the gap to last spot, and then bubbling the edges back and forth to fit them all in place.)</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Final 5 corners
+    <ul>
+      <li><strong>Flip cube Up/Down</strong></li>
+      <li>If the keyhole corner UFR belongs in Down, rotate D until it is above its correct position, and repeat sexy move until placed and oriented. This will break the top of the cube, but only temporarily - just keep the orientation correct.
+        <ul>
+          <li>Rotate D to place next corner, and repeat.</li>
+          <li>When only 2 corners remain unplaced, repeat sexy move until the rest of the cube fixes itself, then <strong>rotate cube so unsolved corners are on Down layer</strong>.</li>
+          <li>Using a solved corner as the keyhole, repeat above to solve the cube:
+            <ul>
+              <li>if corners need to swap, sexy once to move corner up, rotate Down to the other corner, and sexy until placed, then rotate Down back and sexy until complete.
+                <ul>
+                  <li>if corners just need to rotate, sexy to rotate the first, then rotate Down and sexy the other one til correct, and rotate Down back to complete.</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="speed-cubing-method">Speed Cubing Method</h3>
+
+<p>https://lar5.com/cube/</p>
+
+<ul>
+  <li>Build 2x2x2 corner</li>
+  <li>Expand to 2x2x3</li>
+  <li>Orient unsolved faces as U and R</li>
+  <li>Fix “bad” edges, who orient “wrong” on to the two unsolved faces (whichever color they share)
+    <ul>
+      <li>Correct FR and UL with <code class="highlighter-rouge">F'U'F</code></li>
+    </ul>
+  </li>
+  <li>Finish 2 layers, <em>only turning the unsolved faces</em>
+    <ul>
+      <li>a. one corner + two edges</li>
+      <li>b. final corner + edge</li>
+    </ul>
+  </li>
+  <li>Orient cube so unsolved face is U</li>
+  <li>Position corners
+    <ul>
+      <li>“Niklas” swaps UFR and UBR: <code class="highlighter-rouge">LU'R'UL'U'RU2</code></li>
+      <li>Swapping two diagonally opposite corners uses two Niklas.</li>
+    </ul>
+  </li>
+  <li>Twist corners
+    <ul>
+      <li>“Sune” selects a front corner, targeting its sticker on the front face, and rotates the other three corners.
+        <ul>
+          <li>UFR: <code class="highlighter-rouge">BUB'UBU2B'U2</code></li>
+          <li>UFL: <code class="highlighter-rouge">BU'B'U'BU2B'U2</code></li>
+        </ul>
+      </li>
+      <li>If 0 correct corners, target any U sticker</li>
+      <li>If 1 correct corner, target the correct corner on the face with no U stickers</li>
+      <li>If 2 correct corners, target non-U sticker of a twisted corner</li>
+    </ul>
+  </li>
+  <li>Position edges
+    <ul>
+      <li>Inspect top layer outer faces.</li>
+      <li>If one edge is correct, orient it to B, and perform “Allan”: <code class="highlighter-rouge">F2U' LR' F2 L'R U'F2</code> - This rotates counter-clockwise UL -&gt; UF -&gt; UR, to rotate clockwise change the <code class="highlighter-rouge">U'</code> turns to <code class="highlighter-rouge">U</code>.</li>
+      <li>To swap two pairs of adjacent edges (F,R and L,B), “Bert”: <code class="highlighter-rouge">F2B2 DR2 F2B2 L2 F2B2 D' F2B2</code></li>
+      <li>To swap two pairs of opposite edges, “Arne”: <code class="highlighter-rouge">R2F2B2L2 D L2B2F2R2</code></li>
+    </ul>
+  </li>
+</ul>
+
+</article>
+
+</section>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

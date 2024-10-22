@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Sustainable Web Development with Ruby on Rails - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="notable ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+  <div>
+    <h4>Backlinks</h4>
+    <ul>
+      
+        <li><a href="/notes/reading-list" class="wikilink">Reading List</a></li>
+      
+    </ul>
+  </div>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h1 id="sustainable-web-development-with-ruby-on-rails">Sustainable Web Development with Ruby on Rails</h1>
+
+<p>Notes from <a href="https://sustainable-rails.com/">David Copeland’s book on Rails app development</a>.</p>
+
+<p>I’ve been doing Rails &gt;15 years, and it’s totally worth the $50 in general advice from a number of locations.</p>
+
+<h2 id="ch2-rails-application-architecture">Ch.2 Rails Application Architecture</h2>
+
+<p>A reminder that you can treat the application as somewhat of a layer cake:</p>
+
+<ul>
+  <li>Boundaries accept input and arrange output: controllers, and mailers, but also jobs, rake tasks (to kick off scheduled jobs), and connections to external services (David calls out ActiveStorage, but writing or importing any adapter class to talk externally counts)</li>
+  <li>Views present information, be it ERB, JSON, or XML, and includes other presentation details like CSS/JS for web pages. This layer is fairly tightly constrained to have calls from controllers and mailers, but possibly also has some overlap with building payloads for external services</li>
+  <li>Models include but are not limited to DB-backed ActiveRecord - a lot of people are happy without a dedicated “service layer” for business logic and just put a lot of plain ruby objects inside app/models.</li>
+  <li>And finally everything else: configuration, dependencies, tests, seed data…</li>
+</ul>
+
+<p>Finally, talking about pros and cons: there’s a huge number of decisions to be made when designing an application from scratch, and Rails making 95% of those right out of the gate, and making them work <em>very well</em> together (see eg. form helpers tight integration with ActiveRecord models) is a huge productivity boon not only starting an app but ongoing. The major downsides are a strong focus on the “database-backed web application”, so you can’t really use Rails effectively for a desktop app, and that it doesn’t provide strong guidance for business logic (which is discussed further in many other chapters).</p>
+
+<h2 id="ch4-start-your-app-off-right">Ch.4 Start Your App Off Right</h2>
+
+<p>Walks through some choices setting up a new rails app, with plenty of actual code examples. Suggests:</p>
+
+<ul>
+  <li>Use Unix ENV to configure everything - get rid of database.yml (just use <code class="highlighter-rouge">DATABASE_URL</code>) and credentials files (provide <code class="highlighter-rouge">SECRET_KEY_BASE</code> and you’ll be fine without). Dotenv with <code class="highlighter-rouge">.env.development</code> and <code class="highlighter-rouge">.env.test</code> gets the job done locally, and production you provide separately (Heroku/Render just edit them in the UI, kubernetes or something you’d provide in your orchestration configs).</li>
+  <li><code class="highlighter-rouge">bin/setup</code> replacing the default with a custom script (and documentation, including a help subcommand) to get a functional dev environment from scratch given you have required services (like Postgres) running. NB: this should be idempotent, so coming back to an app you haven’t worked on in a while is the same process as picking it up for the first time.</li>
+  <li><code class="highlighter-rouge">bin/run</code> starts the app - in his example explicitly providing <code class="highlighter-rouge">--binding=0.0.0.0</code> to work inside docker</li>
+  <li><code class="highlighter-rouge">bin/ci</code> runs tests and quality checks in a similar fashion to CI</li>
+</ul>
+
+<p>There’s two benefits to setting an app up like this. Firstly, relying on ENV for configuration and a few scripts in <code class="highlighter-rouge">bin</code> are universal - if you wind up in a polyglot environment you can stick to that convention for easier onboarding. Secondly, <em>all</em> these things act as executable documentation that rarely gets out of date - <code class="highlighter-rouge">setup</code> explicitly calls out how you pull in dependencies and bootstrap config for a new machine, <code class="highlighter-rouge">ci</code> calls out all your test code (which might be run piecemeal on an actual CI server for parallelism), and <code class="highlighter-rouge">run</code> abstracts away being tied to just Rails so if you need say an external job process it can spin that up too.</p>
+
+<h2 id="ch5-business-logic-does-not-go-in-active-records">Ch.5 Business Logic (Does Not Go in Active Records)</h2>
+
+<p>Makes a good argument around reach and churn - business logic is more exposed to churn and changing behaviour over time, compared to core data models (like User, if your app requires folks to log in). If you leave ActiveRecord objects to just core data responsibilities (validation, helpers for form builders, associations, etc) and push business logic up to separate classes then those classes where changes would have the broadest impact will change less frequently. This means individual changes become easier to reason about as they have a smaller blast radius.</p>
+
+<p>A similar argument can be made around Controllers - keeping your controller actions focused on params, success checks, and control flow (rendering/redirects) by pushing batches of logic down to a service layer keeps your controllers simpler, and lets you unit test your business logic at that service layer which is easier and faster to run.</p>
+
+<p>For my own perspective, while ActiveRecord doesn’t do “functional” style programming well, you can at least keep to idempotent instead. If an AR class has validations (which can be repeated fine), data wrappers/formatters, and finders, you can treat it as being reasonably stable</p>
+
+<h2 id="ch6-12-routes-html-helpers-css-javascript-view-testing">Ch.6-12 Routes, HTML, Helpers, CSS, Javascript, View Testing</h2>
+
+<p>The table of contents here does a great job summarizing the content - a lot of it skews to “sticking to Rails defaults, and working to keep things consistent is a great way to make sure any engineer can find their way around the codebase”. Some specific notes:</p>
+
+<ul>
+  <li>
+    <p>Expose one instance variable per action – my chief concern here is that if you’ve got a complex page that iterates a few has_many associations (profile page, with most recent posts, comments, likes) it can be a challenge to set up all the eager loading correctly chained off the primary object load. However, for modern Rails that does sound like a <em>great</em> place to defer loads with Turbo Frames if you’re serving HTML. Still awkward if you’re building an API payload.</p>
+  </li>
+  <li>
+    <p>Only put helpers in <code class="highlighter-rouge">ApplicationHelper</code> – it winds up all in a global namespace anyway so splitting helpers per controller is lying to yourself.</p>
+  </li>
+  <li>
+    <p>Build a component library with previews/demos to document your design system – I’m still not sure if it’s worthwhile to go all-in on ViewComponent, but just making note that <a href="https://viewcomponent.org/guide/previews.html">doing this is supported natively there</a>.</p>
+  </li>
+  <li>
+    <p>Javascript is notorious for high churn in dependencies, be deliberate about what you take on.</p>
+  </li>
+</ul>
+
+<h2 id="ch13-17-models-database-and-business-logic">Ch.13-17 Models, Database, and Business Logic</h2>
+
+<p>Chapters 13-16 describe a delegation of concerns that doesn’t match my prior experience with Rails, and chapter 17 ties it all together with an end-to-end example demonstrating how the full stack fits together:</p>
+
+<ul>
+  <li>The controller acts as glue: turns params into a model, creates a service object and calls an operation on it, then checks that response to determine what to do next. This is tested with a system test for flow, both on success and failure. Assertions are purposefully mininal and focused on the core requirements of flow - on success, do we see content on the next screen that proves the success of the action? on failure, do we see content around expected error messages.</li>
+  <li>The controller presents one instance variable (it’s resourceful, so the resource we’re working with) except in cases of supporting “generic” data like options for a dropdown, so the view can be tested simply, and independently.</li>
+  <li>Business logic objects get their own home in app/services, and act as a “seam” where they present a straightforward and small API, allowing for independent refactoring on either side. They can be reused and moved around in the controller layer, and independently grown as business requirements change and accrete. These just use regular tests. Aside: it’s very explicitly called out that service objects should have a clear method name, ie. <code class="highlighter-rouge">WidgetCreator#create_widget</code> as it makes it much easier to navigate the codebase (compared to alternatives where every service object has <code class="highlighter-rouge">.call</code>).</li>
+  <li>Models models consist of validations, non-business-related finder scopes, and simple derived data readers (eg, <code class="highlighter-rouge">def name; "#{firstname} #{lastname}"; end</code>). <code class="highlighter-rouge">ActiveModel</code> can be included in plain ruby classes to provide domain objects usable by restful resources without requiring them to be backed by the database. Standard testing, same as business objects.</li>
+  <li>The database is leveraged whenever plausable for data integrity - column sizing, unique constraints, foreign key constraints…</li>
+</ul>
+
+<p>Overall this reminds me somewhat of the <a href="https://dry-rb.org/">dry-rb</a> family of gems in pushing responsibilities away from controller/model, but there’s a very pragmatic approach of using Rails defaults where they are the most powerful/valuable. ActiveRecord validations are more business logic than anything, and they’re only written in response to behaviour defined in the business tests, but using them rather than say dry-validation (or just one-off validation logic in service objects) means they hang around with the model, can be asserted against in response objects, work well with form helpers for error messaging, etc etc.</p>
+
+<h2 id="ch18-20-controllers-jobs-other-boundary-classes">Ch.18-20 Controllers, Jobs, Other Boundary Classes</h2>
+
+<p>If business logic and the data model are the core of the application, section II wraps up with a discussion on the various edges of the system.</p>
+
+<p>… Auth/auth, APIs, Process, Operations, Monoliths/Microservices/Shared DBs, Technical Leadership</p>
+
+
+</article>
+
+</section>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

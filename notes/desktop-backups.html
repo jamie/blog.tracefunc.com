@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Desktop Backups - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="notable ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h1 id="desktop-backups">Desktop Backups</h1>
+
+<p>I use <a href="https://support.apple.com/en-us/HT201250">Time Machine</a> for backups on the local network, and <a href="https://www.arqbackup.com/">Arq</a> for offsite.</p>
+
+<p>For both, I need to exclude a few extra locations that are either transient, or easy to replicate.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">/Applications</code>, <code class="highlighter-rouge">~/Applications</code> - Application binaries</li>
+  <li><code class="highlighter-rouge">/Library</code> MacOS system settings</li>
+  <li><code class="highlighter-rouge">/System</code> MacOS operating system</li>
+  <li><code class="highlighter-rouge">/private/var</code> System cache, swap files</li>
+  <li><code class="highlighter-rouge">~/Downloads</code> Transient storage</li>
+  <li><code class="highlighter-rouge">~/Library/Application Support/Steam</code> Games</li>
+  <li><code class="highlighter-rouge">~/Library/Arq</code> Metadata about backups, will re-download from cloud storage if I need to restore backups from Arq</li>
+  <li><code class="highlighter-rouge">~/Movies</code> Transient storage when travelling</li>
+  <li><code class="highlighter-rouge">~/VirtualBox VMs</code> Disk images, should manually back up anything in there</li>
+  <li><code class="highlighter-rouge">~/.asdf</code> Binaries</li>
+  <li><code class="highlighter-rouge">~/.homebrew</code>, <code class="highlighter-rouge">/usr/local</code> Binaries</li>
+  <li><code class="highlighter-rouge">~/code</code> Programming projects, if it’s not in git it doesn’t exist (Github counts as offsite backup) - excluding the whole thing means I don’t need to deal with <code class="highlighter-rouge">direnv</code>/<code class="highlighter-rouge">logs</code>/<code class="highlighter-rouge">node_modules</code>/<code class="highlighter-rouge">vendor/cache</code>/whatever else individually, and some of those get out of hand pretty quickly.</li>
+</ul>
+
+<h3 id="arq-6">Arq 6</h3>
+
+<p>The new Arq 6 has a different backup selector. By default it backs up <code class="highlighter-rouge">/Applications</code>, <code class="highlighter-rouge">/Users</code>, and <code class="highlighter-rouge">/Library/Application Support</code>, and has an extensive exclusion list (including Cache, Downloads, …).</p>
+
+<p>For my own preferences, <code class="highlighter-rouge">/Library/Application Support</code> is only a few hundred MB so I kept it in, and added the following excluded items:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">Applications</code> (covers both paths)</li>
+  <li><code class="highlighter-rouge">VirtualBox VMs</code></li>
+  <li><code class="highlighter-rouge">.direnv</code></li>
+  <li><code class="highlighter-rouge">.asdf</code></li>
+  <li><code class="highlighter-rouge">Movies</code></li>
+  <li><code class="highlighter-rouge">Library/Application Support/Steam</code></li>
+  <li><code class="highlighter-rouge">com.docker.docker</code> (where it keeps its containers)</li>
+  <li><code class="highlighter-rouge">node_modules</code> for Javascript</li>
+  <li><code class="highlighter-rouge">vendor/cache</code> and <code class="highlighter-rouge">vendor/gems</code> for Ruby</li>
+</ul>
+
+<h3 id="arq-7">Arq 7</h3>
+
+<p>Now has an available default backup option of non-system files, being <code class="highlighter-rouge">/Users</code> with these exclusions:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+</pre></td><td class="rouge-code"><pre>.DocumentRevisions-V100
+.MobileBackups
+.MobileBackups.trash
+.Spotlight-V100
+.TemporaryItems
+.Trash
+.Trashes
+.dbfseventsd
+.dropbox
+.dropbox.cache
+.fseventsd
+.hotfiles.btree
+.vol
+Backups.backupdb
+Cache
+Caches
+Library/Metadata/CoreSpotlight
+Downloads
+DerivedData
+node_modules
+Logs
+iTunes/iTunes Media/Downloads
+iTunes/iTunes Media/Podcasts
+iTunes/Album Artwork
+iTunes/Previous iTunes Libraries
+Library/Application Support/CrashReporter
+Library/Application Support/Dropbox
+Library/Application Support/Google
+Library/Application Support/MobileSync/Backup
+Library/Containers/com.apple.mail/Data/Library/Mail Downloads
+Library/Containers/com.apple.mail/Data/DataVaults
+Library/Developer
+Library/Google/GoogleSoftwareUpdate
+Library/Metadata/CoreSpotlight
+Library/Mobile Documents
+Library/Mirrors
+Library/PubSub/Database
+Library/PubSub/Downloads
+Library/PubSub/Feeds
+Library/Safari/Favicon Cache
+Library/Safari/Icons.db
+Library/Safari/Touch Icons Cache
+Library/Safari/WebpageIcons.db
+Library/Safari/HistoryIndex.sk
+MailData/AvailableFeeds
+MailData/BackingStoreUpdateJournal
+MailData/Envelope Index
+MailData/Envelope Index-journal
+MailData/Envelope Index-shm
+MailData/Envelope Index-wal
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>I have added:</p>
+
+<ul>
+  <li>Skip items excluded by Time Machine rules</li>
+  <li><code class="highlighter-rouge">Applications</code></li>
+  <li><code class="highlighter-rouge">VirtualBox VMs</code></li>
+  <li><code class="highlighter-rouge">.direnv</code></li>
+  <li><code class="highlighter-rouge">.asdf</code></li>
+  <li><code class="highlighter-rouge">Movies</code></li>
+  <li><code class="highlighter-rouge">Library/Application Support/Steam</code></li>
+  <li><code class="highlighter-rouge">com.docker.docker</code> (where it keeps its containers)</li>
+  <li><code class="highlighter-rouge">vendor/cache</code> and <code class="highlighter-rouge">vendor/gems</code> for Ruby</li>
+</ul>
+
+<p>TODO: I can probably prune some more space here (<code class="highlighter-rouge">Library/Group Containers</code> looks like it might be iCloud related and I can redownload, <code class="highlighter-rouge">Library/Caches/Homebrew</code> is good to clear out, and <code class="highlighter-rouge">Library/Arq</code> just seems too self-referential to be worth backing up?)</p>
+
+
+</article>
+
+</section>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

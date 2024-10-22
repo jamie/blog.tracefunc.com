@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Subnautica Bases - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="notable ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h1 id="subnautica-bases">Subnautica Bases</h1>
+
+<h2 id="hull-integrity">Hull Integrity</h2>
+
+<p>Bases start at 10 integrity, and gain/lose based on construction.</p>
+
+<ul>
+  <li>Foundation (2xT, 2xPB) grants +2, placed on sea floor.</li>
+  <li>Reinforcement (3xT, 1xLI) grants +7, placed on a hull edge (blocks window, connectors)</li>
+</ul>
+
+<p>Regular compartments, hatch, and window cost -1; glass compartments cost -2; vertical connectors cost -0.5.</p>
+
+<ul>
+  <li>Multipurpose Room -1.25</li>
+  <li>Observatory -3</li>
+  <li>Moonpool -5</li>
+  <li>Scanner Room -1</li>
+  <li>Water Filtration Machine -1</li>
+</ul>
+
+<h2 id="power-generation">Power Generation</h2>
+
+<p>External power (solar, thermal) can transmit ~20m to a base, otherwise need to use Power Transmitters to hop connections, which have a 100m range. Internal power (bio, nuclear) is built in the centre of a multipurpose room. A power source can only power one base, but a base can be powered by more than one source.</p>
+
+<p>Generation/use comparisons are in Energy Per Minute.</p>
+
+<ul>
+  <li>Solar (2xQZ, 2xT, 1xCU): Stores 75 energy, generates based on time of day + depth. 15.3 EPM at peak (daylight, 0m depth), approx 200 energy/day. Drops to 12 EPM at 45m, 9 at 100m, 6 at 150m, and 3 at 200m. A day is 15 minutes, night is 5 minutes, and power collection is reduced around dawn/dusk.</li>
+  <li>Thermal (5xT, 2xMag, 1xAGel): Stores 250 energy, generates based on water temperature, 1.32 EPM per degree above 25C. That is: 10 EPM at 33 degrees, 20 EPM at 40, 40 EPM at 55, 60 EPM at 71.</li>
+  <li>Bioreactor (3xT, 1xWireKit, 1xLub): Stores 500 energy, generates 50 EPM while supplied with organic matter. Some good choices (high density, or easy collection - small items can fit 4) for energy are:
+    <ul>
+      <li>Acid Mushroom (210, small)</li>
+      <li>Creepvine Sample (210)</li>
+      <li>Bulbo Tree Sample (420) - farmed for 72 food + 90 water/tree</li>
+      <li>Marblemelon (420) - farmed for 36 food + 42 water/four plants</li>
+      <li>Small Marblemelon (280, small) - farmed for 33 food + 21 water/four plants</li>
+      <li>Bladderfish (210, small) - farmed for 20 water</li>
+      <li>Reginald (490, small) - farmed for 44 food</li>
+      <li>Oculus (630, small) - farmed for 30 food</li>
+    </ul>
+  </li>
+  <li>Nuclear (3xPB, 1xAdvWireKit, 1xPlasIngot): Stores 2500 energy, generates 250 EPM while supplied with Reactor Rods. A single reactor rod (1xT, 1xPB, 1xGlass, 3xUran) provides 20k energy.</li>
+</ul>
+
+<h2 id="power-draw">Power Draw</h2>
+
+<ul>
+  <li>Fabricator: 5 energy per use</li>
+  <li>Battery Charger: 9 EPM per battery (up to 4), to battery capacity of 100 energy</li>
+  <li>Power Cell Charger: 30 EPM per power cell (up to 2), to power cell capacity of 200 energy</li>
+  <li>Modification Station: ? energy per use</li>
+  <li>Water Filtration Machine: 51 EPM, requires 1600 energy going from empty to full</li>
+  <li>Spotlight: 12 EPM</li>
+  <li>Floodlight: 12 EPM</li>
+  <li>Scanner Room: 30 EPM while scanning
+    <ul>
+      <li>Camera Drones: recharge at ?</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="useful-small-bases">Useful Small Bases</h2>
+
+<h3 id="shallow-waystation">Shallow Waystation</h3>
+
+<p>Aiming for 100m or shallower, to still have efficient power. Can be deeper near a spire or something, with power relays.</p>
+
+<p>Expected cost 19xT, 3xQZ, 3xCU, 1xAU, 1xTableCoral, additional storage at 2xT</p>
+
+<ul>
+  <li>Multipurpose Room with Hatch</li>
+  <li>Solar panel</li>
+  <li>Fabricator</li>
+  <li>Radio</li>
+  <li>Interior Growbed, 4x Bulbo Trees or 16 Marblemelon</li>
+  <li>Wall Storage</li>
+  <li>Beacon</li>
+</ul>
+
+<h3 id="deep-waystation">Deep Waystation</h3>
+
+<p>As above, except:</p>
+<ul>
+  <li>- Solar Panels</li>
+  <li>+ Multipurpose Room (additional, for the power to not crowd out growbeds)</li>
+  <li>+ Bioreactor</li>
+  <li>optional: a third multipurpose room + alien containment for breeding Oculus, as you can place 4 at a go for 2500 energy</li>
+</ul>
+
+<h3 id="recharger">Recharger</h3>
+
+<p>Both the battery charger and power cell charger can suck up 400 energy on a charge, a 300 energy buffer ought to be sufficient for one duty cycle, but beyond that consider a full 400 for each charger.</p>
+
+<ul>
+  <li>Solar Panel (2xT, 2xQZ, 1xCU)</li>
+  <li>Battery Charger (1xT, 2xCU, 2xAG)</li>
+  <li>Power Cell Charger (2xT, 3xAU, 2xAG, 2xRuby)</li>
+</ul>
+
+<h3 id="scanning-station">Scanning Station</h3>
+
+<ul>
+  <li>Scanner Room (5xT, 2xCU, 1xAU, 1xTableCoral)</li>
+</ul>
+
+<h3 id="vehicle-bay">Vehicle Bay</h3>
+
+<ul>
+  <li>Moonpool (10xT, 2xPB, 1xCreepvinePod)</li>
+  <li>Depending on other modules, may need additional Foundation/Reinforcement</li>
+</ul>
+
+<h3 id="science-lab">Science Lab</h3>
+
+<p>I know I’ll need one eventually. Multiple alien containment rooms, probably.</p>
+
+
+</article>
+
+</section>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

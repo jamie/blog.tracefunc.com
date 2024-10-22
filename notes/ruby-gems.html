@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Ruby Gems - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="notable ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h1 id="ruby-gems">Ruby Gems</h1>
+
+<p>Just a general collection of gems I’ve known and loved (or want to try out).</p>
+
+<h3 id="comparisons">Comparisons</h3>
+
+<ul>
+  <li><a href="https://diff.coditsu.io">Coditsu</a> will produce a diff between versions of a gem. Great if you want to see what’s changed, or need to do serious auditing of dependencies - run a bundle update, and then hit this for all the changes in Gemfile.lock</li>
+  <li><a href="http://railsdiff.org/">RailsDiff</a> will produce a diff between the output of <code class="highlighter-rouge">rails new</code>, handy for making sure you’re picking up new default configs as you roll the update train.</li>
+</ul>
+
+<h3 id="code-coverage">Code Coverage</h3>
+
+<ul>
+  <li>Debride finds uncalled methods</li>
+  <li>Rcov measures coverage while running tests</li>
+  <li>Coverband measures coverage in production</li>
+</ul>
+
+<h3 id="commandline">Commandline</h3>
+
+<ul>
+  <li><a href="https://github.com/cli/cli#installation-and-upgrading">Github has a CLI</a></li>
+</ul>
+
+<h3 id="database">Database</h3>
+
+<ul>
+  <li><a href="https://github.com/flyerhzm/bullet/tree/5.4.3#bullet">Bullet</a> detects N+1 queries</li>
+</ul>
+
+<h3 id="debuggers">Debuggers</h3>
+
+<ul>
+  <li><a href="https://github.com/deivid-rodriguez/byebug/blob/master/GUIDE.md">Byebug</a> is my go-to for tracing, to <code class="highlighter-rouge">step</code> into function calls, skip to <code class="highlighter-rouge">next</code> line, and <code class="highlighter-rouge">continue</code> execution.</li>
+  <li><a href="http://pry.github.io/">Pry</a> is the other really popular one.</li>
+  <li><a href="https://rubyjard.org/">Jard</a> looks interesting, provides a multi-window debugger environment, with a GUI stack trace, local variable dumps, threads, etc.</li>
+  <li>Ruby is also getting a <a href="https://dev.to/st0012/a-sneak-peek-of-ruby-s-new-debugger-5caa">native debugger in 3.1</a> with more interesting breakpoints/callbacks that might prove useful for IDE integration.</li>
+</ul>
+
+<h3 id="worker-queues">Worker Queues</h3>
+
+<p>All these queues support ActiveJob in Rails</p>
+
+<ul>
+  <li><a href="https://github.com/que-rb/que">Que</a> leans heavily on Postgres-specific features for queue management, keeps it in the DB</li>
+  <li><a href="https://github.com/resque/resque">Resque</a> is Redis-backed, includes a management site</li>
+  <li><a href="https://github.com/mperham/sidekiq">Sidekiq</a> also Redis-backed, includes management site, and includes a <a href="https://sidekiq.org/products/pro.html">Pro</a> paid offering with some additional enterprisey features</li>
+</ul>
+
+
+</article>
+
+</section>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

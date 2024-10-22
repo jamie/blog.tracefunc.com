@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Microservice Mistakes - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="notable ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h1 id="microservice-mistakes">Microservice Mistakes</h1>
+
+<p>via <a href="https://www.youtube.com/watch?v=p2GlRToY5HI">J. Tower at NDC London 2023</a></p>
+
+<p>Ideal microservices architecture is fronted with an API Gateway, and comprised of multiple fully-independent applications (with their own DB) that communicate via an event bus (avoiding inter-application requests).</p>
+
+<p>Does call out that a “Modular Monolith” can also gain many benefits of microservices with the monolith divided interally into clear modules, but stil deployed as a single unit.</p>
+
+<p>J’s top 10 microservice mistakes:</p>
+
+<ol>
+  <li><strong>Assuming Microservices are Always Better</strong>
+  There’s an inherent tradeoff between High-Availability (microservices) and Immediate Consistency (monoliths).</li>
+  <li><strong>Shared Data Store or Models</strong>
+  Multiple applications talking to one database with shared tables, schema changes will lead to a <em>world</em> of pain. Similarly if you’ve got “common” data model objects.</li>
+  <li><strong>Microservices that are Too Big</strong>
+  See <em>Domain-Driven Design</em> by Eric Evans. J’s simple rule: smallest possible microservices without chatty communication between services. “If a services needs to send events for everything it does, it might be too chatty.”</li>
+  <li><strong>Microservices that are Too Small</strong>
+  Also don’t go to far the other way.</li>
+  <li><strong>Starting from Scratch</strong>
+  Migrating monolith -&gt; microservices has advantages in existing code and relationships, people who know the system &amp; domain, a system that works, and a baseline to compare with.
+  Migration approaches: “Big bang” (only works for small projects), “Evolutionary” (extract service, improve performance, repeat), “Strangler Fig” (Facade in front, slowly migrate code underneath).</li>
+  <li><strong>Coupling Through Cross-Cutting Concerns</strong>
+  Eg. distributed logging is hard.</li>
+  <li><strong>Use of Synchronous Communication</strong>
+  Propagates slowness/outages across services.</li>
+  <li><strong>Breaking Changes to Event Contracts</strong>
+  Be strict about event changes: New fields are optional only with defaults, unrecognized fields are ignored but forwarded, consumers of optional fields use defaults when missing, and if any of the above can’t be satisfied you need a new event type.</li>
+  <li><strong>Not Automating Build and Release</strong>
+  (This is CI/CD/Devops.) Manual build/release is time consuming and prone to human error.</li>
+  <li><strong>Unencapsulated Services</strong>
+  Small, stable APIs help enable you to make changes to your implementation without impacting API consumers.</li>
+  <li><strong>Mismatched Teams</strong> (bonus!)
+  Conway’s Law: Whatever your team builds is going to look like the org chart, one team mob programming microservices will likely lean toward monoliths.</li>
+</ol>
+
+
+</article>
+
+</section>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

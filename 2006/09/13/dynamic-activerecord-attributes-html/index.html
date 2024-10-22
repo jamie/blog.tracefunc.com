@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Dynamic ActiveRecord Attributes - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="post ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h2><a href="/2006/09/13/dynamic-activerecord-attributes-html/">Dynamic ActiveRecord Attributes</a></h2>
+  <blockquote>
+    13th Sep 2006
+    
+      | Tags:
+      <a href="/tags/#programming">programming</a> <a href="/tags/#rails">rails</a> 
+    
+  </blockquote>
+
+  
+    <p>Chris Abad wrote yesterday about his experience with <a href="http://blog.integralimpressions.com/articles/2006/09/12/dynamically-adding-attributes-to-your-model">dynamic attributes</a>, and I thought I’d share mine.</p>
+
+<p>I’m doing something similar to collect data POSTed to a form, but my data is slightly more structured than Chris’. I have a few fields that I expect to be populated most of the time, and the possiblity of arbitrary fields being set as well. My models look like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="rouge-code"><pre><span class="n">create_table</span> <span class="s2">"leads"</span><span class="p">,</span> <span class="ss">:force</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+  <span class="n">t</span><span class="p">.</span><span class="nf">column</span> <span class="s2">"email"</span><span class="p">,</span> <span class="ss">:string</span><span class="p">,</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="s2">""</span><span class="p">,</span> <span class="ss">:null</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+  <span class="n">t</span><span class="p">.</span><span class="nf">column</span> <span class="s2">"firstname"</span><span class="p">,</span> <span class="ss">:string</span>
+  <span class="n">t</span><span class="p">.</span><span class="nf">column</span> <span class="s2">"lastname"</span><span class="p">,</span> <span class="ss">:string</span>
+  <span class="n">t</span><span class="p">.</span><span class="nf">column</span> <span class="s2">"ip"</span><span class="p">,</span> <span class="ss">:string</span><span class="p">,</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="s2">""</span><span class="p">,</span> <span class="ss">:null</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+<span class="k">end</span>
+<span class="n">create_table</span> <span class="s2">"lead_infos"</span><span class="p">,</span> <span class="ss">:force</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+  <span class="n">t</span><span class="p">.</span><span class="nf">column</span> <span class="s2">"lead_id"</span><span class="p">,</span> <span class="ss">:integer</span><span class="p">,</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">:null</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+  <span class="n">t</span><span class="p">.</span><span class="nf">column</span> <span class="s2">"name"</span><span class="p">,</span> <span class="ss">:string</span><span class="p">,</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="s2">""</span><span class="p">,</span> <span class="ss">:null</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+  <span class="n">t</span><span class="p">.</span><span class="nf">column</span> <span class="s2">"value"</span><span class="p">,</span> <span class="ss">:string</span><span class="p">,</span> <span class="ss">:default</span> <span class="o">=&gt;</span> <span class="s2">""</span><span class="p">,</span> <span class="ss">:null</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Lead, of course, <code class="highlighter-rouge">has_many :lead_infos</code>. Thus, I can assume that most leads will have an email, first and last name, and an IP address. The name fields are optional, but common enough to warrant being in the main table (also makes for easier lookups and duplicate checking). Other things, like address, city, zip, etc. I want to hang on to if provided, so I store them as a LeadInfo.</p>
+
+<p>I’m in the same boat as Chris though, as I want to provide uniform access to the data points in a Lead, as well as its LeadInfos, using the ‘name’ field as a key. Chris added an <code class="highlighter-rouge">after_find</code> hook that moved all the correct data in, but since I’m such a fan of metaprogramming, I decided that I would use <code class="highlighter-rouge">method_missing</code> like so:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre></td><td class="rouge-code"><pre><span class="k">class</span> <span class="nc">Lead</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">has_many</span> <span class="ss">:lead_infos</span><span class="p">,</span> <span class="ss">:dependent</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+
+  <span class="k">def</span> <span class="nf">method_missing</span><span class="p">(</span><span class="n">methodname</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">begin</span>
+      <span class="k">super</span>
+    <span class="k">rescue</span> <span class="no">NameError</span>
+      <span class="nb">name</span> <span class="o">=</span> <span class="n">methodname</span><span class="p">.</span><span class="nf">to_s</span><span class="p">.</span><span class="nf">chomp</span><span class="p">(</span><span class="s1">'='</span><span class="p">)</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">methodname</span><span class="p">.</span><span class="nf">to_s</span> <span class="o">=~</span> <span class="sr">/=$/</span><span class="p">)</span>
+        <span class="no">LeadInfo</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="nb">name</span><span class="p">,</span> <span class="ss">:value</span> <span class="o">=&gt;</span> <span class="n">args</span><span class="p">.</span><span class="nf">first</span><span class="p">,</span> <span class="ss">:lead_id</span> <span class="o">=&gt;</span> <span class="nb">self</span><span class="p">.</span><span class="nf">id</span><span class="p">)</span>
+        <span class="nb">self</span>
+      <span class="k">else</span>
+        <span class="no">LeadInfo</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="ss">:first</span><span class="p">,</span> <span class="ss">:conditions</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="s1">'name = ?'</span><span class="p">,</span> <span class="nb">name</span><span class="p">])</span> <span class="n">or</span> <span class="k">raise</span>
+        <span class="n">lead_infos</span><span class="p">.</span><span class="nf">find_by_name</span><span class="p">(</span><span class="nb">name</span><span class="p">).</span><span class="nf">value</span> <span class="k">rescue</span> <span class="s1">''</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="o">...</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Walking through this, I first make sure to call super so that ActiveRecord’s method_missing gets run first. If it can’t find anything to do, then it is the Lead’s turn to try.</p>
+
+<p>We start by stripping a trailing = if it exists to get the correct name to use. If the = existed, it’s being used as a setter, so we just create the new LeadInfo record based off the current Lead, and return self so that we can chain calls if we desire.</p>
+
+<p>Otherwise, it’s a getter, so I first verify that there is at least one LeadInfo with the supplied name - if not, then something is very wrong and we want to re-raise the NameError. Elsewise we so a search for the given value and return it, or an empty string if it is not set (the empty string catch-all is specific for the things I’m doing with this bit of hackery, so might not be applicable to everybody).</p>
+
+<p>The performance difference between my code and Chris’ is that I take 2 DB queries for each access to the LeadInfo data, but only when you ask for it. I’m not caching the result (which would take some strain away) because my use of it is solely one access each time I load the Lead from the DB, so caching wouldn’t help me. On the other hand, if I do a grand find of a bunch of leads (and in a few places in my code that’s quite a lot) I’m not getting hit with extra db hits that I’m not going to use most of the time.</p>
+
+<p>There’s benefits to both what I’ve done and what Chris has done, so anyone reading these can take their pick :)</p>
+
+<h2 id="comments">Comments</h2>
+
+<p>Nice write up. I was going to go the MethodMissing route if it weren’t for my requirement to have all the attributes insterted into the objects attributes hash. I think you’re write about the catch-all being specific to you. Most people would probably want to re-raise the error and deal with that appropriately elsewhere.</p>
+
+<ul>
+  <li>Chris Abad, at 18:45, Sep 13 2006</li>
+</ul>
+
+  
+</article>
+
+</section>
+
+<nav aria-label="Pagination">
+  <ul>
+    
+    <li>
+      <a href="/2006/06/08/rapid-prototyping-with-openstruct-html/">
+        &laquo; Rapid Prototyping with OpenStruct
+      </a>
+    </li>
+    
+    
+    <li class="float-right">
+      <a href="/2006/09/25/recursiveness-html/">
+        Recursiveness &raquo;
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

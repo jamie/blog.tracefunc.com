@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Rapid Prototyping with OpenStruct - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="post ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h2><a href="/2006/06/08/rapid-prototyping-with-openstruct-html/">Rapid Prototyping with OpenStruct</a></h2>
+  <blockquote>
+    8th Jun 2006
+    
+      | Tags:
+      <a href="/tags/#programming">programming</a> <a href="/tags/#ruby">ruby</a> 
+    
+  </blockquote>
+
+  
+    <p>I was doing a bit of data processing the other night. A little copying here, a bit of typing there, formatting into YAML, then loaded into a Ruby script. Loop through the hashes YAML loaded, and try to make some sense out of it.</p>
+
+<p>I’m happy to say that I wound up doing the most comfortable thing for munging the data, and it turned out pretty well: OpenStruct.
+For those who don’t know about it (require ‘ostruct’), OpenStruct is exactly as the name says. It’s a struct, in that it just holds data, but it is open for extending after you’ve created it. One can almost treat it like a Hash, but with method calls instead of indexing. (In fact, this week’s <a href="http://www.rubyquiz.com/quiz81.html">RubyQuiz</a> was converting YAML-loaded Hashes to OpenStructs)</p>
+
+<p>What I was doing was looping through the Hashes, and creating OpenStructs on the fly to hold the data. At the same time, I was back-referring to previous OpenStructs and appending data to them. I didn’t think much of it until I thought to myself that I needed to do some calculations on the data, and the most logical spot for it was in one of my OpenStruct objects.</p>
+
+<p>I was disappointed for a moment because I knew the methods didn’t fit in OpenStruct itself, when I realized that it was just time to refactor a bit - take the OpenStructs that were holding the data, promote them to instances of a concrete class, and fit the logic in there.</p>
+
+<p>A quick class def, a handful of attr_accessors, rename the OpenStruct instantiation to my new class, and I was off again, none worse for the wear. Ahh, duck typing, I couldn’t have done it without you.</p>
+
+
+  
+</article>
+
+</section>
+
+<nav aria-label="Pagination">
+  <ul>
+    
+    <li>
+      <a href="/2006/05/16/fun-with-routes-html/">
+        &laquo; Fun with Routes
+      </a>
+    </li>
+    
+    
+    <li class="float-right">
+      <a href="/2006/09/13/dynamic-activerecord-attributes-html/">
+        Dynamic ActiveRecord Attributes &raquo;
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

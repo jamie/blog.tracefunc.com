@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Heroku - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="post ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h2><a href="/2009/11/09/heroku-html/">Heroku</a></h2>
+  <blockquote>
+    9th Nov 2009
+    
+      | Tags:
+      <a href="/tags/#programming">programming</a> 
+    
+  </blockquote>
+
+  
+    <p><a href="http://heroku.com">Heroku</a> kicks ass. Very nifty tech running the show, and a really simple interface for deploying - just push up your git repository.</p>
+
+<p>I run this blog through <a href="http://webby.rubyforge.org">webby</a>, which translates some boring old markdown into html so that I can serve it as static files. I like that amount of snappiness.  Heroku wants to run something ruby - rails, merb, or barebones rack.</p>
+
+<p>Turns out, setting up rack to pass static files through is pretty easy, and since I think it just uses send_file behind the scenes, it should be all set up for Heroku to cache it in their Varnish layer, if I ever happen to get a traffic spike.</p>
+
+<p>All you need is a config.ru file like so, and then be sure to include the generated output dir in your git repository:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="rouge-code"><pre><span class="c1"># I don't have file extensions on entry permalinks</span>
+<span class="no">Rack</span><span class="o">::</span><span class="no">Mime</span><span class="o">::</span><span class="no">MIME_TYPES</span><span class="p">.</span><span class="nf">merge!</span><span class="p">(</span><span class="s2">""</span> <span class="o">=&gt;</span> <span class="s2">"text/html"</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">DefaultIndexFile</span>
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+    <span class="vi">@app</span> <span class="o">=</span> <span class="n">app</span>
+    <span class="k">yield</span> <span class="nb">self</span> <span class="k">if</span> <span class="nb">block_given?</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+    <span class="n">env</span><span class="p">[</span><span class="s1">'PATH_INFO'</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="s1">'index.html'</span> <span class="k">if</span> <span class="n">env</span><span class="p">[</span><span class="s1">'PATH_INFO'</span><span class="p">]</span> <span class="o">=~</span> <span class="sr">/\/$/</span>
+    <span class="vi">@app</span><span class="p">.</span><span class="nf">call</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">use</span> <span class="no">DefaultIndexFile</span>
+
+<span class="n">run</span> <span class="no">Rack</span><span class="o">::</span><span class="no">File</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s1">'output'</span><span class="p">)</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+  
+</article>
+
+</section>
+
+<nav aria-label="Pagination">
+  <ul>
+    
+    <li>
+      <a href="/2009/06/21/installing-wifi-without-internet-html/">
+        &laquo; Installing Wifi without Internet
+      </a>
+    </li>
+    
+    
+    <li class="float-right">
+      <a href="/2009/12/01/hoptoad-v2-in-merb-html/">
+        Hoptoad v2 in Merb &raquo;
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

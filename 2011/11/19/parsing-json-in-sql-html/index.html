@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Parsing JSON in SQL - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="post ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h2><a href="/2011/11/19/parsing-json-in-sql-html/">Parsing JSON in SQL</a></h2>
+  <blockquote>
+    19th Nov 2011
+    
+      | Tags:
+      <a href="/tags/#ruby">ruby</a> <a href="/tags/#rails">rails</a> <a href="/tags/#sql">sql</a> 
+    
+  </blockquote>
+
+  
+    <p><strong>The Problem:</strong> You have a database column with some data serialzed as JSON
+in it that you’d like to pull out into its own column to index it.</p>
+
+<p><strong>The Solution:</strong> Run a data migration to pull the value out. Table has 5
+million rows and you don’t want to round trip all that data through
+ActiveRecord? Just parse the json directly with some SQL:</p>
+
+<!-- EXCERPT -->
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+</pre></td><td class="rouge-code"><pre><span class="k">def</span> <span class="nf">json</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">field</span><span class="o">=</span><span class="s1">'params'</span><span class="p">)</span>
+  <span class="n">key_json</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\"</span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="se">\"</span><span class="s2">:"</span>
+
+  <span class="c1"># key start/end locations, including ""</span>
+  <span class="n">k_a</span> <span class="o">=</span> <span class="s2">"LOCATE('</span><span class="si">#{</span><span class="n">key_json</span><span class="si">}</span><span class="s2">', </span><span class="si">#{</span><span class="n">field</span><span class="si">}</span><span class="s2">)"</span>
+  <span class="n">k_z</span> <span class="o">=</span> <span class="s2">"LOCATE('</span><span class="se">\"</span><span class="s2">', </span><span class="si">#{</span><span class="n">field</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">k_a</span><span class="si">}</span><span class="s2">+1)"</span> <span class="c1"># this is terminating "</span>
+
+  <span class="c1"># is there a space after colons?</span>
+  <span class="n">spad</span> <span class="o">=</span> <span class="s2">"IF(LOCATE('</span><span class="se">\"</span><span class="s2">: ', </span><span class="si">#{</span><span class="n">field</span><span class="si">}</span><span class="s2">), 1, 0)"</span>
+
+  <span class="c1"># is value a string?</span>
+  <span class="n">val_string</span> <span class="o">=</span> <span class="s2">"LOCATE(CONCAT('</span><span class="si">#{</span><span class="n">key_json</span><span class="si">}</span><span class="s2">', IF(</span><span class="si">#{</span><span class="n">spad</span><span class="si">}</span><span class="s2">,' ',''), '</span><span class="se">\"</span><span class="s2">'), </span><span class="si">#{</span><span class="n">field</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">k_a</span><span class="si">}</span><span class="s2">)"</span>
+  <span class="n">qpad</span> <span class="o">=</span> <span class="s2">"IF(</span><span class="si">#{</span><span class="n">val_string</span><span class="si">}</span><span class="s2">, 1, 0)"</span>
+
+  <span class="c1"># value start/end locations, excluding "" if present</span>
+  <span class="n">v_a</span> <span class="o">=</span> <span class="s2">"(</span><span class="si">#{</span><span class="n">k_z</span><span class="si">}</span><span class="s2">+1 + 1 + </span><span class="si">#{</span><span class="n">spad</span><span class="si">}</span><span class="s2"> + </span><span class="si">#{</span><span class="n">qpad</span><span class="si">}</span><span class="s2">)"</span> <span class="c1"># 1 for colon, spad for optional space, qpad for possible quote</span>
+
+  <span class="n">end_if_string</span> <span class="o">=</span> <span class="s2">"LOCATE('</span><span class="se">\"</span><span class="s2">', </span><span class="si">#{</span><span class="n">field</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">v_a</span><span class="si">}</span><span class="s2">)"</span>
+  <span class="n">end_if_not_string</span> <span class="o">=</span> <span class="s2">"IF(LOCATE(',', </span><span class="si">#{</span><span class="n">field</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">v_a</span><span class="si">}</span><span class="s2">), LOCATE(',', </span><span class="si">#{</span><span class="n">field</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">v_a</span><span class="si">}</span><span class="s2">), LOCATE('}', </span><span class="si">#{</span><span class="n">field</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">v_a</span><span class="si">}</span><span class="s2">))"</span>
+
+  <span class="n">v_z</span> <span class="o">=</span> <span class="s2">"IF(</span><span class="si">#{</span><span class="n">val_string</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">end_if_string</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">end_if_not_string</span><span class="si">}</span><span class="s2">)"</span>
+
+  <span class="n">value_string</span> <span class="o">=</span> <span class="s2">"SUBSTRING(</span><span class="si">#{</span><span class="n">field</span><span class="si">}</span><span class="s2"> FROM </span><span class="si">#{</span><span class="n">v_a</span><span class="si">}</span><span class="s2"> FOR (</span><span class="si">#{</span><span class="n">v_z</span><span class="si">}</span><span class="s2"> - </span><span class="si">#{</span><span class="n">v_a</span><span class="si">}</span><span class="s2">))"</span>
+  <span class="s2">"IF(</span><span class="si">#{</span><span class="n">k_a</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">value_string</span><span class="si">}</span><span class="s2">, NULL)"</span>
+<span class="k">end</span>
+
+<span class="n">up</span> <span class="k">do</span>
+  <span class="n">execute</span> <span class="s2">"
+    UPDATE model_table
+    SET status = </span><span class="si">#{</span><span class="n">json</span><span class="p">(</span><span class="s1">'status'</span><span class="p">)</span><span class="si">}</span><span class="s2">
+  "</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The generated sql looks pretty gnarly but mysql ran through it stupidly fast.
+I shudder to think how long it’d take activerecord to load and update each record individually.</p>
+
+
+  
+</article>
+
+</section>
+
+<nav aria-label="Pagination">
+  <ul>
+    
+    <li>
+      <a href="/2011/01/19/isolating-rails-html/">
+        &laquo; Isolating Rails
+      </a>
+    </li>
+    
+    
+    <li class="float-right">
+      <a href="/2012/05/15/joining-git-repositories-html/">
+        Joining Git Repositoires &raquo;
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

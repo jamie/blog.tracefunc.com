@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Railsconf 2022 - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="notable ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h1 id="railsconf-2022">Railsconf 2022</h1>
+
+<p>Talk notes &amp; Reminders. Videos available next month for RailsConf Remote, and then a few months after on youtube.</p>
+
+<p>Joe Masilotti is <a href="https://masilotti.com/railsconf-2022/">collecting slide decks here</a>.</p>
+
+<h2 id="opening-keynote">Opening Keynote</h2>
+
+<p>Xavier Noria kicked off with a technical talk around Rails autoloading and Zeitwerk, the new-rails-6/default-rails7 autoloader for rails.</p>
+
+<h2 id="breaking-up-with-the-bundle">Breaking up with the Bundle</h2>
+
+<p>Joel from Github talking about the state of their CSS bundle, they’ve been finding it was a pain point, suffering through visual regressions because of essentially selector bleed.</p>
+
+<p>The Github solution is ViewComponents &amp; <a href="https://primer.style/">Primer</a> component library, which is a ruby-focused solution to keep styles strongly scoped while staying maintainable.</p>
+
+<p>Over the past few years they haven’t been aggressively working at eliminating custom CSS, but they’ve done a good job plateauing it and keeping the problem from getting worse.</p>
+
+<h2 id="react-ing-to-hotwire">React-ing to Hotwire</h2>
+
+<p><a href="https://github.com/esmale/react-ing-to-hotwire">slides</a></p>
+
+<p>David talked about his experience going from a team of 3x Rails + 2x JS devs on a “typical” Rails+React app, after losing 3 employees including both JS devs, and discovering that React isn’t <em>just</em> react, but also a web of other dependencies.</p>
+
+<p>To reduce maintenance burden, they started replacing React with Turbo+Stimulus to keep “rails-standard” and found it a good tradeoff.</p>
+
+<h2 id="workshop-upgrading-rails-the-dual-boot-way">(Workshop) Upgrading Rails: The Dual-Boot Way</h2>
+
+<p><a href="https://www.fastruby.io/rc2022">Workshop notes</a></p>
+
+<p>Worked through an example open-source application running Rails 5.2, setting up the next-rails gem to check compatibility, and then dual boot the app (and specs) with conditional config/logic changes.</p>
+
+<h2 id="end-of-the-day-keynote">End of the day keynote</h2>
+
+<p>Aaron started with a bit of a digression into JIT compilers, talked about one in Ruby, and how he wrote some tests that run on both x86 and ARM processors without conditionals (spoilers: ASM hijinx).</p>
+
+<p>He then switched over to ….</p>
+
+<h2 id="keynote">Keynote</h2>
+
+<p>Eileen gave a summary of the Rails Governance Model, and the breakdown of the various teams (Core, Security, Issues, etc) and responsibilities, and talked about her journey to being on the Rails Core team.</p>
+
+<p>She then made a plea to attendees: contribute back (and/or encourage your company to contribute back). Getting caught up to date on dependencies means you’re not suffering bugs that have already been fixed, and at that point you can take any local monkeypatches/workarounds and get them upstream to solve problems for others – this also reduces your maintenance burden on local patches every upgrade.</p>
+
+<h2 id="rails-performance-guidebook-from-0-to-1b-requestsday">Rails performance guidebook: from 0 to 1B requests/day</h2>
+
+<p>Cristian talked about various topics on rails performance, coming from his work at Zendesk. Highlights:</p>
+
+<ul>
+  <li>When you have a cache or something for denormalized data, after doing an update you can pre-populate the cache with the modified data (possibly async) in preparation for reads</li>
+  <li>Have large amounts of old data with infrequent read usage? Consider cold storage. Zendesk’s “ticket” model is 86% in cold storage in S3, keeping their primary table (still very large) manageable.</li>
+</ul>
+
+<h2 id="unboxing-rails-7-whats-new-in-the-latest-major-version">Unboxing Rails 7: what’s new in the latest major version</h2>
+
+<p><a href="https://speakerdeck.com/claudiob/unboxing-rails-7">slides</a></p>
+
+<p>Claudio covers some of the less-high-profile changes in Rails 7</p>
+
+<h2 id="test-double-lab">Test Double Lab</h2>
+
+<p>Tyler at Test Double helped me out with root-cause analysis on conflict between Cucumber and a backported Turbo into a Rails 5.2 codebase. Cool guy.</p>
+
+<p>Also pointed me at <a href="Danger">https://danger.systems/ruby/</a>, which runs on CI and can flag violations of conventions (which you can custom design with ruby code).</p>
+
+<h2 id="bringing-your-rails-monolith-along-as-the-business-grows">Bringing your Rails Monolith along as the business grows</h2>
+
+<p>Sponsor: Ontra</p>
+
+<p>Carrick talks about his experience at Ontra, dealing with a growing Rails monolith (and React frontend).</p>
+
+<p>They put a companywide focus on keeping good code quality, and empowering teams to work in upgrades as they hit them. But pragmatically, they only upgrade code when they touch it rather than trying for a big-bang migrate-the-world approach.</p>
+
+<p>They also called out RSpec as being a great tool, but using it for all their frontend tests is slow and they’re moving to Ember Tests instead (API tests ofc still rspec).</p>
+
+<h2 id="ooops-you-named-it-wrong">Ooops! You named it wrong!</h2>
+
+<p>Ian and Melissa gave an entertaining tag-team talk covering cases of bad names they’ve seen, and approaches they’ve taken to rename things to bring more clarity to their codebases.</p>
+
+<p>Biggest takeaway is the larger the blast radius the harder change is (worst case: you’ve got multiple collaborating apps with common terminology), but it can still be done with care and coordination if it’s a valuable enough change.</p>
+
+<p>Regarding data model changes (column or even table renames) the multi-deploy approach is still best:</p>
+
+<ul>
+  <li>Create new column/table</li>
+  <li>Start writing to both locations</li>
+  <li>Backfill data from old to new location</li>
+  <li>Adjust reads to new location</li>
+  <li>Stop writes (and get ActiveRecord to ignore the column)</li>
+  <li>Drop old column/table</li>
+</ul>
+
+<p>Also, <a href="https://github.com/ankane/strong_migrations">Strong Migrations</a> is invaluable in reminding you to play it safe.</p>
+
+<h2 id="keynote-1">Keynote</h2>
+
+<p>Crystal talked about non-technical empowerment topics. Brought up the Drama Triangle of accuser/rescuer/victim roles when problems come up, and how it’s better to empower people by changing the script to challenger/coach/creator. (google for those terms leads to a few articles, I haven’t read any though)</p>
+
+<h2 id="laying-the-culture-and-technical-foundation-for-big-rails">Laying the culture and technical foundation for Big Rails</h2>
+
+<p><a href="https://speakerdeck.com/alexevanczuk/100-railsconf-laying-the-cultural-and-technical-foundation-for-big-rails?slide=8">slide deck</a></p>
+
+<p><a href="https://engineering.gusto.com/laying-the-cultural-and-technical-foundation-for-big-rails/">companion blog post</a></p>
+
+<p>Alex from Gusto talked about the changes they’ve been making to their Rails monolith to help with maintainability and development velocity. Callouts were packwerk to split out code in packages, setting up package ownership, and gradually adopting strict dependency management.</p>
+
+<h2 id="your-service-layer-neednt-be-fancy-it-just-needs-to-exist">Your Service Layer Needn’t be Fancy, It Just Needs to Exist</h2>
+
+<p>3 micro talks from engineers at Chime:</p>
+
+<p>David talked about their proactive security &amp; engineering culture w/ Monocle. Automation can be proactive, saves many hours of eng time. Chime built Monocle in-house as a rails app, which does a nightly analysis of each of their many services, doing things like run brakeman/bundler audit/docker image checks, and then presents a breakdown browseable from the app (&amp; a status badge on the app’s readme).</p>
+
+<p>Brian talked about secure &amp; observable software w/ ActiveSupport. ActiveSupport<mark>Notifications is built-in instrumentation, separates concerns of instrumentation collection, logging, and business logic: instrument to collect, monotonic_subscribe for reporting – see also ActiveSupport</mark>LogSubscriber and ParameterFilter.</p>
+
+<p>Chris talked about Onboarding Ruby devs.</p>
+
+<h2 id="start-your-ruby-podcast-today">Start your Ruby Podcast Today</h2>
+
+<p>Chris, Andrew, and Jason talked about things to keep in mind when starting your own podcast - TLDR; start small, be consistent, and layer on tech solutions only when you need it. And also have fun.</p>
+
+<h2 id="your-test-suite-is-making-too-many-database-calls">Your test suite is making too many database calls!</h2>
+
+<p><a href="https://speakerdeck.com/joelq/your-test-suite-is-making-too-many-database-calls">slides</a></p>
+
+<p>Joël talks about slow tests (and plugs Aji’s TDD Treasure Map talk from the previous timeslot). Focus is on creating too much test data.</p>
+
+<ul>
+  <li>Test Code: Shared/common test setup can create redundant objects not necessary for tests. (VPY note: see the complexity in many of our specs that create object chains user/account/sender/customer/invoices…) Especially calls out cases where tests in a file use diverse subsets of data but all wind up instantiating the same amount of data. Also, <code class="highlighter-rouge">update</code> in setup data is a code smell for underlying data problems.
+    <ul>
+      <li>Fixes: find slow specs, <code class="highlighter-rouge">tail -f test.log</code> and run single spec to check queries.</li>
+    </ul>
+  </li>
+  <li>Support code: Factories with chained objects are <em>expensive</em>. Best practice: minimal base factory, and use traits to explicitly opt in (<code class="highlighter-rouge">create(:user, :with_account)</code>).
+    <ul>
+      <li>Fixes: <code class="highlighter-rouge">ActiveSupport::Notifications.subscribe("factory_bot.run_factory")</code> and log invocations, times. Also TestProf gem can report. Rails console in <code class="highlighter-rouge">test</code> env, log level <code class="highlighter-rouge">debug</code>, and create a factory to see list of inserts.</li>
+    </ul>
+  </li>
+  <li>Application code: Callbacks create more data (and/or trigger follow-on updates).
+    <ul>
+      <li>Fixes: Much harder than other fixes, but pain in tests can also be a symptom of pain for other devs in app code.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Case study: AS::Notifications subscribe to log all factories, plot frequency by time, and found one taking 4sec but called infrequently. Then dug in to find out what it was doing (spoilers: weird association setup in the factory was wasteful).</p>
+
+<h2 id="learn-it-do-it-teach-it-how-to-unstick-our-middle-devs">Learn it, Do it, Teach it: How to Unstick Our Middle Devs</h2>
+
+<p>Chelsea talking about how we can encourage junior/midlevel devs on their path to seniors.</p>
+
+<ul>
+  <li>Learn it: keep a habit of learning new things</li>
+  <li>Do it: you don’t learn by following rules, you learn by doing, and making mistakes</li>
+  <li>Teach it: to teach is to learn twice over - forcing ideas into words crystallizes thinking</li>
+</ul>
+
+<p>Make an environment that allows people at all skill levels (especially junior) to present / cross-train on topics, which helps solidify the speaker’s knowledge way better than just passively taking in a lesson.</p>
+
+<p>Skill trifecta to accelerate learning - Standup / Retro / Pairing</p>
+
+<p>Mentoring can be a huge benefit on both sides - even at smaller differences in career path (as low as 3mo-6mo) there’s a benefit to the mentor.</p>
+
+<p>Takeaways:</p>
+<ul>
+  <li>When we teach we will learn,</li>
+  <li>Assess through explanation</li>
+  <li>Mentorship at all levels</li>
+</ul>
+
+<h2 id="end-of-the-day-keynote-1">End of the day Keynote</h2>
+
+<p>Viadehi closed out the conference, giving a great reminder of Burnout being an actual thing, and encouraging everyone to make sure to take time to listen to their bodies, and be aware of how much overwork absolutely sucks.</p>
+
+
+</article>
+
+</section>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

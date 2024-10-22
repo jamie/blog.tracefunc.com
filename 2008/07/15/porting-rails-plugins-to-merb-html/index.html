@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Porting Rails Plugins to Merb - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="post ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h2><a href="/2008/07/15/porting-rails-plugins-to-merb-html/">Porting Rails Plugins to Merb</a></h2>
+  <blockquote>
+    15th Jul 2008
+    
+      | Tags:
+      <a href="/tags/#rails">rails</a> <a href="/tags/#merb">merb</a> 
+    
+  </blockquote>
+
+  
+    <p>We’re about to start up a new project at work, and we’ve decided to go with <a href="http://merbivore.com/">Merb</a> (yay!) rather than <a href="http://rubyonrails.com/">Rails</a>. Before we get started, though, we wanted to make sure that we’d be able to integrate well with the various plugins available for Rails.</p>
+
+<p>The first two libraries we wanted to use were <a href="http://github.com/fauna/ultrasphinx/">ultrasphinx</a>, an interface to the <a href="http://sphinxsearch.com/">Sphinx</a> fulltext search engine, and <a href="http://github.com/kr/async-observer/">async-observer</a>, an abstraction library using the <a href="http://xph.us/software/beanstalkd/">beanstalkd</a> work queue library to delay actions to be processed at a later time, rather than while processing the page.</p>
+
+<p>The good news is that both of the projects are available on GitHub, which means easy forks, and easy contributions back to the source if my changes are as good as I think they are.</p>
+
+<p>So, today I’d like to talk about the basic changes you’ll need to make to a Rails plugin so that it will play nicely with Merb, and a few of the extra hooks that come into play.  In the near future, I hope to provide a bit of a primer on adapting a plugin that uses ActiveRecord so that it will also work with Datamapper.  Preview tip from that post, if you’re calling any methods provided by ActiveRecord, <em>please</em> make an adapter class/module to pass those methods through, as it makes ports like these <em>much</em> easier.</p>
+
+<h2 id="basics">Basics</h2>
+
+<p>To get your plugin to get picked up properly, Rails requires an <code class="highlighter-rouge">init.rb</code> file in the plugin root.  The equivalent for Merb is a file named after your plugin, in the <code class="highlighter-rouge">/lib</code> directory.  Copying <code class="highlighter-rouge">/init.rb</code> to <code class="highlighter-rouge">/lib/async_observer.rb</code> worked for that one, Ultrasphinx is somewhat better behaved in that its init.rb just required ultrasphinx, so both Rails and Merb worked for me out of the box.</p>
+
+<p>If you depend on anything in Merb, you’ll need to add to the docs that applications should add the plugin dependency inside a <code class="highlighter-rouge">Merb::BootLoader.before_app_loads</code> block - otherwise nothing in Merb is defined yet.  This is of particular importance if you want to switch behaviour based on whether the Rails or Merb constants are defined.  As Rails handles loading plugins itself, there’s no concern for keeping things special for Rails.</p>
+
+<p>If you plan on dealing with the app directory structure or environment, an easy way to do it is:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="rouge-code"><pre><span class="k">if</span> <span class="k">defined?</span><span class="p">(</span><span class="no">Rails</span><span class="p">)</span>
+  <span class="no">ROOT</span> <span class="o">=</span> <span class="no">RAILS_ROOT</span>
+  <span class="no">ENV</span> <span class="o">=</span> <span class="no">RAILS_ENV</span>
+<span class="k">elsif</span> <span class="k">defined?</span><span class="p">(</span><span class="no">Merb</span><span class="p">)</span>
+  <span class="no">ROOT</span> <span class="o">=</span> <span class="no">Merb</span><span class="p">.</span><span class="nf">root</span>
+  <span class="no">ENV</span> <span class="o">=</span> <span class="p">(</span><span class="no">Merb</span><span class="p">.</span><span class="nf">env</span> <span class="o">==</span> <span class="s1">'rake'</span> <span class="p">?</span> <span class="s1">'development'</span> <span class="p">:</span> <span class="no">Merb</span><span class="p">.</span><span class="nf">env</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>The additional rake environment transparently proxies to the development db connection, so if you just want to compare your plugin’s interpretation of <code class="highlighter-rouge">ENV</code> the above will make that cleaner.</p>
+
+<h2 id="rake-tasks">Rake Tasks</h2>
+
+<p>Rails automatically loads any files matching <code class="highlighter-rouge">tasks/*.rake</code> in the plugin dir.</p>
+
+<p>Merb needs to be told explicitly, relative to the lib directory.  The canonical example from the docs is:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="rouge-code"><pre><span class="k">if</span> <span class="k">defined?</span><span class="p">(</span><span class="no">Merb</span><span class="o">::</span><span class="no">Plugins</span><span class="p">)</span>
+  <span class="no">Merb</span><span class="o">::</span><span class="no">Plugins</span><span class="p">.</span><span class="nf">add_rakefiles</span> <span class="s2">"merb_sequel"</span> <span class="o">/</span> <span class="s2">"merbtasks"</span>
+<span class="k">end</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Unfortunately, it seems that it wants specified a single file with a <code class="highlighter-rouge">.rb</code> extension, which is incompatible with the Rails Way.  The easiest fix I’ve found is to add a file called <code class="highlighter-rouge">tasks.rb</code> under <code class="highlighter-rouge">/lib</code>, inside which you just manually require the individual rake files:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre></td><td class="rouge-code"><pre>    <span class="nb">load</span> <span class="no">File</span><span class="p">.</span><span class="nf">expand_path</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">dirname</span><span class="p">(</span><span class="kp">__FILE__</span><span class="p">),</span> <span class="s1">'..'</span><span class="p">,</span> <span class="s1">'..'</span><span class="p">,</span> <span class="s1">'tasks'</span><span class="p">,</span> <span class="s1">'merb_sequel.rake'</span><span class="p">))</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+<p>Do note that the <code class="highlighter-rouge">load</code> is necessary, <code class="highlighter-rouge">require</code> doesn’t pick the file up properly.</p>
+
+<p>Finally, if you have any tasks that depend on environment, the easiest way to get compatability with both frameworks is to add <code class="highlighter-rouge">task :environment =&gt; :merb_env</code> to your <code class="highlighter-rouge">merbtasks.rb</code> file.</p>
+
+<h2 id="generators">Generators</h2>
+
+<p>I haven’t looked into generators in too much depth, but the API between Rails::Generator::Base and Merb::GeneratorBase seem different enough to warrant not reusing the generation script.  If you conditionally define a generator based on the <code class="highlighter-rouge">defined?</code>ness of those two base classes, you should be able to reuse all your generation templates, and both Rails and Merb look in the same place for generators, so that should be the only adaptation necessary.</p>
+
+<h2 id="orm-integration">ORM Integration</h2>
+
+<p>Check back next time, as I write up my experience writing an ActiveRecord shim for the latest DataMapper.  It’s vaguely ugly.  I <em>highly</em> recommend if you’re working on a plugin now that interacts with models to abstract any access to the database into a module, and include it appropriately.  This goes double if you’re using any AR magic ;)</p>
+
+
+  
+</article>
+
+</section>
+
+<nav aria-label="Pagination">
+  <ul>
+    
+    <li>
+      <a href="/2008/07/15/porting-rails-plugins-to-datamapper-html/">
+        &laquo; Porting Rails Plugins to DataMapper
+      </a>
+    </li>
+    
+    
+    <li class="float-right">
+      <a href="/2008/07/16/specing-layouts-html/">
+        Specing Layouts &raquo;
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Root Organizer - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="notable ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h1 id="root-organizer">Root Organizer</h1>
+
+<p>Organizing some 3d printed trays for <a href="https://boardgamegeek.com/boardgame/237182/root">Root</a> to fit current expansions in the main box.</p>
+
+<p>TODO: Use <a href="https://github.com/IdoMagal/The-Boardgame-Insert-Toolkit/">this OpenSCAD library</a>!!!</p>
+
+<h3 id="measurements">Measurements</h3>
+
+<p>Core box internals are 278x215mm, ~66mm depth. With the Otter card offer off on the long side of the box (sadly won’t fit across a short edge, I’m totally considering trimming it a few mm), I can fit two rows of 95mm trays.</p>
+
+<p>As to depth, faction boards/rules 20mm, single map 17mm, and 25mm-deep trays will actually fit everything inside.</p>
+
+<h3 id="components">Components</h3>
+
+<p>Considering going all-in on multi-box set. With 90mm long trays at full 66mm depth, can slot in a deck of cards horizontally, or make faction boxes with a handful of cards + all their meeples and tokens. Base game box would fit 24 trays (3x8) at 25mm spacing. Actually would have a similar vibe to just stuffing it full of deck boxes, depending on if 25x90x66 is sufficient volume for everything.</p>
+
+<ul>
+  <li><strong>Base Game</strong>
+    <ul>
+      <li>Marquise de Cat</li>
+      <li>Eyrie (6 cards)</li>
+      <li>Woodland Alliance</li>
+      <li>Vagabond (15 quest cards, multiple character cards, with Vagabond Pack)</li>
+    </ul>
+  </li>
+  <li><strong>Riverfolk</strong>
+    <ul>
+      <li>Lizard Cult</li>
+      <li>Riverfolk Company (card holder)</li>
+    </ul>
+  </li>
+  <li><strong>Underworld</strong>
+    <ul>
+      <li>Underground Duchy</li>
+      <li>Corvid Conspiracy</li>
+    </ul>
+  </li>
+  <li><strong>Marauder</strong>
+    <ul>
+      <li>Lord of the Hundreds (8 cards, 1 die)</li>
+      <li>Keepers in Iron</li>
+    </ul>
+  </li>
+  <li><strong>Homeland</strong>
+    <ul>
+      <li>Twilight Council</li>
+      <li>Lilypad Diaspora</li>
+      <li>Knaves of Deepwood (overlap w/ Vagabond?)</li>
+    </ul>
+  </li>
+  <li>Other
+    <ul>
+      <li>4 dice, 4 ruins, 12 clearing items</li>
+      <li>Base shared deck</li>
+      <li>Exiles &amp; Partisans shared deck</li>
+      <li>Squires &amp; Disciples shared deck (from Homeland)</li>
+      <li>Landmarks</li>
+      <li>Hirelings (Base + Marauder, Riverfolk, Underworld, Homeland hirelings)</li>
+      <li>Resin Clearings?</li>
+    </ul>
+  </li>
+</ul>
+
+<p>First box then would have 12 factions (assuming Knaves and Vagabonds share a tray), 3 decks, landmarks, a few hirelings (meeple swap for faction hirelings, so we just need to stock up the neutral hirelings), and misc components (dice etc). That’s maybe 18-20 trays worth, could afford to spend extra space on the resin clearings.</p>
+
+<p>Second box would then be for maps (3 now with Homeland expansion!) and faction boards? Is that an argument in favor of the cardstock faction boards to save space?</p>
+
+<p>I think the riverfolk card block and tunnels can fit alongside the map boards, which would be convenient for space.</p>
+
+<h3 id="tray-sizing">Tray Sizing</h3>
+
+<ul>
+  <li>Baseline 95mm long, 25mm deep, varying width as follows:
+    <ul>
+      <li>Cats - 60mm *</li>
+      <li>Birds - 40mm</li>
+      <li>Mice - 35mm</li>
+      <li>Vagabond - 40mm, better if bigger + has more dividers, also needs 8.5mm of cards</li>
+      <li>Lizard - 55mm</li>
+      <li>Otter - 35mm</li>
+      <li>Crow - 35mm</li>
+      <li>Mole - 55mm (or 70mm incl. cards, 27mm height) (5.5mm of cards)</li>
+      <li>Resin Clearing Markers - 90mm max</li>
+      <li>Exile Deck + Eyrie + Faction Overviews - 70mm</li>
+      <li>Dice</li>
+      <li>Shop Items</li>
+      <li>Tower/Raft</li>
+      <li>Tunnels - 102mm, awkward.</li>
+      <li>Alt. Exile Deck - 70mm</li>
+    </ul>
+  </li>
+  <li>Layout (275mm width x 2 rows of 95mm):
+    <ul>
+      <li>275mm: Exile Deck, Cats, Birds, Mice, Otter, Crow</li>
+      <li>270mm: Vagabond+Cards, Lizard, Mole, Clearing
+        <ul>
+          <li>Maybe could bump clearing another 5mm and squeeze in dice/shop around them? Also possible to flex on height? Still leaves tower/raft unaccounted for, and tunnels with nowhere to live.</li>
+          <li>Tunnels sideways need 30.2mm (so 31mm total height on trays) which would free up a lot of space restrictions. 35mm height would I think let us get clearing markers vertically. Yellow/red fit a 55mm tray but want a 45/50mm subdivision. Orange with a 35/60mm subdivision leaves plenty of room for dice/shop/tower/raft. That only bumps up overall width from current resin measure +20mm. Tunnels still an awkward item for inside a tray.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="round-two">Round Two</h4>
+
+<p>Baseline 95mm long, 35mm deep, 2x 275mm rows</p>
+
+<p>Overall 3x25, 3x35, 3x45 for factions+resin, 105, 70, 20? for remaining components. Still need to account for vagabond cards.</p>
+
+<ul>
+  <li>Row 1, 270mm
+    <ul>
+      <li>Exile Deck + Eyrie + Faction Overviews - 70mm, could print 75mm and include shop items?</li>
+      <li>Cats - 45mm</li>
+      <li>Mole - 45mm</li>
+      <li>Birds - 35mm</li>
+      <li>Mice - 25mm</li>
+      <li>Otter - 25mm</li>
+      <li>Crow - 25mm</li>
+    </ul>
+  </li>
+  <li>Row 2, 255mm
+    <ul>
+      <li>Resin Clearing Markers - 45mm (!!!)</li>
+      <li>Lizard - 35mm</li>
+      <li>Vagabond - 25mm, but 35mm with a divider is better - 40mm for 9x figs, nesting trays for 12 ruin/16 start/16 influence (or maybe look into actual use, and one tray for 1 Vaga, with a lower tray for a 2 Vaga game?). Divider only needs to go part way, and then nesting tray can sit atop it.</li>
+      <li>Alt. Exile Deck - <del>70mm</del> 105mm TODO: Test this
+        <ul>
+          <li>Tunnels on top</li>
+          <li>Extra Dice in extra 35mm</li>
+        </ul>
+      </li>
+      <li>Spare 20mm? TODO: Test this
+        <ul>
+          <li>Dice</li>
+          <li>Shop Items</li>
+          <li>Tower/Raft</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="round-three---marauders-and-hirelings">Round Three - Marauders and Hirelings</h3>
+
+<p>Need to account for two new factions, plus mercenaries. At this point worth considering deeper trays across two boxes. One box with factions (individual trays, plus all faction boards on top), speculating 25-26mm for faction boards gives 40mm tray depth (up from 35 in round two) <em>and</em> not needing to account for clearings/decks/dice. Maybe swing hireling pieces, or trade extra height for clockwork player boards? Then the second box with both map boards, clearings, decks, dice, landmarks, etc. Keeping in mind that expansion boxes are not as deep as the main box. Push comes to shove maybe keep hirelings (and clockwork?) in the hireling box :)</p>
+
+<h3 id="wip-todos">WIP TODOS</h3>
+
+<ul>
+  <li>Print alternate trays at 35mm height, re-measure factions? Also maybe consider switching from two rows @ 95mm to three rows at 65mm wide?
+    <ul>
+      <li>10 total factions, warrior counts at 2x25, 3x20, 3x15, 2x10 - that’s x155 total, box has capacity for 5.5mm per. Currently aiming to scale 3mm per, so cats would have 65mm by 75mm available. Slightly larger compared to Round 2’s 45x95 (area 4875 vs 4275) and taller to boot.
+        <ul>
+          <li>25 Cats/Lizards/(Duchy given lots of tokens)</li>
+          <li>20 Birds/Rats</li>
+          <li>15 Badgers/Crows/Otters</li>
+          <li>10 Alliance/Vagabond</li>
+        </ul>
+      </li>
+      <li>Also worth considering that Eyrie, Vagabond, Duchy, and Hundreds all have some cards - those plus Otter’s card stand would be a nice-to-have to fit in the base box.</li>
+      <li>Finally, also consider the draft cards and mercenary mats - I don’t think it’s actually worth managing the space for distinct mercenary meeples (just repurpose the faction meeples), but unique mercenaries like the moose should be included. Maybe embiggen the Vagabond tray?</li>
+    </ul>
+  </li>
+  <li>Another idea: Splitting the box into a 3x3 grid makes each grid large enough to hold cards. This allows those that include cards (birds/rats/duchy/vagabond) to have their own cards in their tray, meeples and tokens on top; another tray for the actual deck + drafting cards, and a half-size tray for dice &amp; global items
+    <ul>
+      <li>10 factions + deck + dice/items implies splitting 3 fullsize trays to half size, might be easier to run 5x full size and 6x two-thirds size, 65x60.</li>
+      <li>And actually, looks like making one tray half-wide but double-tall (landscape) would be a good side for closed tunnels on the mountain map, while also holding other common components like dice, default items, etc.</li>
+    </ul>
+  </li>
+  <li>Figure out where subdivisions make sense inside trays, to separate the warriors/tokens.</li>
+  <li>Measure up what impact we’d have putting the tunnel tokens alongside the edge of the box, beside the Otter’s card holder, if we need to shrink tray lengths.</li>
+</ul>
+
+<p>From various thinking above, best design currently looks like splitting the box area 3x3 to be individually big enough for the common card deck + drafting/setup cards, and factions that require cards to function, subdivided to appropriate sizes.</p>
+
+<p>That would be Eyrie (leaders), Vagabond (vagabonds and quests), the Duchy (nobles), and Lord of Hundreds (moods), all of which have enough meeples and tokens to justify the large bin space.</p>
+
+<p>That leaves the other 4 sections of primary subdivision to hold the remaining 6 factions, and common components (dice, landmarks, etc).</p>
+
+<p>HOWEVER, there’s no way we’ll fit all the faction boards + maps in a single box anyway, so maybe it’s better to just size factions as-needed, make sure we’ve got room in the core box for all the minis (incl. hirelings), and then leave an expansion box to manage the two maps and all the common components (hireling boards, resin clearing markers, both decks, etc).</p>
+
+<h3 id="component-measurements">Component Measurements</h3>
+
+<p>Global</p>
+<ul>
+  <li>4 Dice</li>
+  <li>12 Items (sq)</li>
+</ul>
+
+<p>Cards: 63x88mm</p>
+
+<p>Lake/Mountain Maps</p>
+<ul>
+  <li>1 Ferry</li>
+  <li>1 Tower</li>
+  <li>6 Closed Paths</li>
+</ul>
+
+<p>Buildings/Tokens 10.6/5mm thick
+All factions: 1 VP token (18.3mm sq)</p>
+
+<p>Marquise de Cat</p>
+<ul>
+  <li>25 Warriors (9mm, 16.7mm, 22mm)</li>
+  <li>27 Tokens: 18 buildings, 9 wood</li>
+</ul>
+
+<p>Eyrie</p>
+<ul>
+  <li>20 Warriors (9mm, 18.1mm, 22mm)</li>
+  <li>7 Buildings</li>
+  <li>4 cards</li>
+</ul>
+
+<p>Alliance</p>
+<ul>
+  <li>10 Warriors (9mm, 19.5mm, 19mm)</li>
+  <li>13 Tokens: 3 bases, 10 outrage</li>
+</ul>
+
+<p>Vagabond</p>
+<ul>
+  <li>9 Meeples: 9 Vagabond Pawns (var.)</li>
+  <li>17 S items (sq)</li>
+  <li>8 R items (sq)</li>
+  <li>12 (14) Relationships (sq)</li>
+  <li>4 Ruins</li>
+  <li>Many cards</li>
+</ul>
+
+<p>Lizard Cult</p>
+<ul>
+  <li>25 Warriors (8.3mm, 17.5mm, 19.5mm)</li>
+  <li>16 Buildings</li>
+</ul>
+
+<p>Riverfolk Company</p>
+<ul>
+  <li>15 Warriors (7.9mm, 16mm, 20mm)</li>
+  <li>9 Tokens</li>
+  <li>3 gems</li>
+</ul>
+
+<p>Corvids</p>
+<ul>
+  <li>15 Warriors (9.2mm, 16.8mm, 19.2mm)</li>
+  <li>8 Tokens</li>
+</ul>
+
+<p>The Duchy</p>
+<ul>
+  <li>29 Meeples: 20 warriors, 9 crowns</li>
+  <li>10 Tokens: 6 buildings, 3 tokens, 1 burrow (large)</li>
+  <li>9 cards</li>
+</ul>
+
+<p>Keepers in Iron</p>
+<ul>
+  <li>15 Meeples: 15 warriors</li>
+  <li>21 Tokens: 12 relic, 3 caravan, 5 waystation, 1 mission</li>
+</ul>
+
+<p>Lord of the Hundreds</p>
+<ul>
+  <li>21 Meeples: 20 warriors, 1 warlord</li>
+  <li>11 Tokens: 6 storage, 5 mob</li>
+  <li>8 cards</li>
+  <li>1 dice</li>
+</ul>
+
+
+</article>
+
+</section>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

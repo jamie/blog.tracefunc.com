@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Using Datamapper 0.9 - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="post ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h2><a href="/2008/04/24/using-datamapper-0-9-html/">Using Datamapper 0.9</a></h2>
+  <blockquote>
+    24th Apr 2008
+    
+      | Tags:
+      <a href="/tags/#datamapper">datamapper</a> <a href="/tags/#merb">merb</a> 
+    
+  </blockquote>
+
+  
+    <p>So, DataMapper 0.3 was behaving weirdly for me, and I thought I’d try upgrading to 0.9 to see how things are there.  Overall I’m quite liking it, but there’s a few catches:</p>
+
+<ul>
+  <li>
+    <p>It’s incompatible with Vlad for deployment, haven’t looked into it but something in DM is making the ‘repository’ value unsettable, which Vlad uses to determine the checkout path.</p>
+  </li>
+  <li>
+    <p>Legacy connections beware, there doesn’t seem to be a current alternative for set_table_name at the moment.</p>
+  </li>
+  <li>
+    <p>:memory: is no longer a good name for your test database when using sqlite.  Use a fully-qualified connection string like sqlite://:memory: instead.</p>
+  </li>
+  <li>
+    <p>DataMapper<mark>Persistence has been renamed DataMapper</mark>Resource.  Include it in models.</p>
+  </li>
+  <li>
+    <p>Validations are an add-on now, include DataMapper::Validate in your model (or even re-open DM:Resource and include it there).</p>
+  </li>
+  <li>
+    <p>Properties now take a class instead of a symbol (you can guess at all the main ones), and require the id to be specified like so: <code class="highlighter-rouge">property :id,   Fixnum, :serial =&gt; true</code></p>
+  </li>
+  <li>
+    <p>Associations are renamed, has_one is now one_to_one, has_many is one_to_many or many_to_many, etc.  Haven’t delved in deep yet though, so I’m not sure how to define who gets the foreign key.</p>
+  </li>
+  <li>
+    <p>New migration code is just now getting in to dm-core, and auto_migrate! is a thing of the past.  Sucks for those of us using sqlite in-memory test databases that need a fresh migration every time.</p>
+  </li>
+</ul>
+
+<p>My installation Rakefile follows, just stuff it in an empty directory and it’ll do everything from there. Much thanks to <a href="http://atmos.org/">Atmos</a> for a good starting point and some setup help.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+</pre></td><td class="rouge-code"><pre><span class="n">desc</span> <span class="s2">"Fetch and Install DM and Merb"</span>
+<span class="n">task</span> <span class="ss">:install_all</span> <span class="k">do</span> 
+  <span class="n">config</span> <span class="o">=</span> <span class="no">CONFIG</span><span class="p">[</span><span class="s1">'dm'</span><span class="p">]</span>
+  <span class="n">fetch</span> <span class="n">config</span><span class="p">[</span><span class="ss">:user</span><span class="p">],</span> <span class="n">config</span><span class="p">[</span><span class="ss">:repos</span><span class="p">]</span>
+  <span class="n">install</span> <span class="n">config</span><span class="p">[</span><span class="ss">:install</span><span class="p">]</span>
+  <span class="n">config</span> <span class="o">=</span> <span class="no">CONFIG</span><span class="p">[</span><span class="s1">'merb'</span><span class="p">]</span>
+  <span class="n">fetch</span> <span class="n">config</span><span class="p">[</span><span class="ss">:user</span><span class="p">],</span> <span class="n">config</span><span class="p">[</span><span class="ss">:repos</span><span class="p">]</span>
+  <span class="n">install</span> <span class="n">config</span><span class="p">[</span><span class="ss">:install</span><span class="p">]</span>
+<span class="k">end</span>
+
+<span class="n">desc</span> <span class="s2">"Uninstall DM and Merb"</span>
+<span class="n">task</span> <span class="ss">:uninstall_all</span> <span class="k">do</span>
+  <span class="n">uninstall</span> <span class="no">CONFIG</span><span class="p">[</span><span class="s1">'dm'</span><span class="p">][</span><span class="ss">:gems</span><span class="p">]</span>  
+  <span class="n">uninstall</span> <span class="no">CONFIG</span><span class="p">[</span><span class="s1">'merb'</span><span class="p">][</span><span class="ss">:gems</span><span class="p">]</span>  
+<span class="k">end</span>
+
+<span class="n">desc</span> <span class="s2">"Download latest sources for :project from git"</span>
+<span class="n">task</span> <span class="ss">:fetch</span><span class="p">,</span> <span class="ss">:project</span> <span class="k">do</span> <span class="o">|</span><span class="n">task</span><span class="p">,</span> <span class="n">args</span><span class="o">|</span>
+  <span class="n">config</span> <span class="o">=</span> <span class="no">CONFIG</span><span class="p">[</span><span class="n">args</span><span class="p">[</span><span class="ss">:project</span><span class="p">]]</span>
+  <span class="n">fetch</span> <span class="n">config</span><span class="p">[</span><span class="ss">:user</span><span class="p">],</span> <span class="n">config</span><span class="p">[</span><span class="ss">:repos</span><span class="p">]</span>
+<span class="k">end</span>
+
+<span class="n">desc</span> <span class="s2">"Install :project from git"</span>
+<span class="n">task</span> <span class="ss">:install</span><span class="p">,</span> <span class="ss">:project</span> <span class="k">do</span> <span class="o">|</span><span class="n">task</span><span class="p">,</span> <span class="n">args</span><span class="o">|</span>
+  <span class="n">config</span> <span class="o">=</span> <span class="no">CONFIG</span><span class="p">[</span><span class="n">args</span><span class="p">[</span><span class="ss">:project</span><span class="p">]]</span>
+  <span class="n">install</span> <span class="n">config</span><span class="p">[</span><span class="ss">:install</span><span class="p">]</span>
+<span class="k">end</span>
+
+<span class="n">desc</span> <span class="s2">"Uninstall :project"</span>
+<span class="n">task</span> <span class="ss">:uninstall</span><span class="p">,</span> <span class="ss">:project</span> <span class="k">do</span> <span class="o">|</span><span class="n">task</span><span class="p">,</span> <span class="n">args</span><span class="o">|</span>
+  <span class="n">config</span> <span class="o">=</span> <span class="no">CONFIG</span><span class="p">[</span><span class="n">args</span><span class="p">[</span><span class="ss">:project</span><span class="p">]]</span>
+  <span class="n">uninstall</span> <span class="n">config</span><span class="p">[</span><span class="ss">:gems</span><span class="p">]</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">fetch</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">repos</span><span class="p">)</span>
+  <span class="n">base</span> <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">expand_path</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
+  <span class="no">Dir</span><span class="p">.</span><span class="nf">chdir</span> <span class="n">base</span> <span class="k">do</span>
+    <span class="n">repos</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">repo</span><span class="o">|</span>
+      <span class="n">repo_dir</span> <span class="o">=</span> <span class="s2">"</span><span class="si">#{</span><span class="n">base</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">repo</span><span class="si">}</span><span class="s2">"</span>
+      <span class="k">unless</span> <span class="no">File</span><span class="p">.</span><span class="nf">directory?</span><span class="p">(</span><span class="n">repo_dir</span><span class="p">)</span>
+        <span class="sx">%x{git clone git://github.com/</span><span class="si">#{</span><span class="n">user</span><span class="si">}</span><span class="sx">/</span><span class="si">#{</span><span class="n">repo</span><span class="si">}</span><span class="sx">.git }</span>
+      <span class="k">end</span>
+      <span class="no">Dir</span><span class="p">.</span><span class="nf">chdir</span><span class="p">(</span><span class="n">repo_dir</span><span class="p">)</span> <span class="p">{</span> <span class="sx">%x{git pull}</span> <span class="p">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="n">modules</span><span class="p">)</span>
+  <span class="n">base</span> <span class="o">=</span> <span class="no">File</span><span class="p">.</span><span class="nf">expand_path</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
+  <span class="n">modules</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">lib</span><span class="o">|</span>
+    <span class="no">Dir</span><span class="p">.</span><span class="nf">chdir</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="n">base</span><span class="si">}</span><span class="s2">/</span><span class="si">#{</span><span class="n">lib</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="k">do</span>
+      <span class="n">cmd</span> <span class="o">=</span> <span class="s2">"sudo rake install 2&gt;/dev/null |"</span> <span class="o">+</span>
+            <span class="s2">" grep -v '^</span><span class="se">\(</span><span class="s2">in' |"</span> <span class="o">+</span>
+            <span class="s2">" grep -v '^[0-9] gem' |"</span> <span class="o">+</span>
+            <span class="s2">" grep -v '^[IUc</span><span class="se">\.</span><span class="s2"> ]'"</span>
+      <span class="nb">puts</span> <span class="sx">%x{</span><span class="si">#{</span><span class="n">cmd</span><span class="si">}</span><span class="sx">}</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">uninstall</span><span class="p">(</span><span class="n">gems</span><span class="p">)</span>
+  <span class="n">gems</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="o">|</span>
+    <span class="nb">puts</span> <span class="sx">%x{yes | sudo gem uninstall </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="sx"> -aI}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="no">CONFIG</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'dm'</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="ss">:user</span> <span class="o">=&gt;</span> <span class="s1">'sam'</span><span class="p">,</span>
+    <span class="ss">:repos</span> <span class="o">=&gt;</span> <span class="sx">%w(
+      do
+      dm-core
+      dm-more)</span><span class="p">,</span>
+    <span class="ss">:install</span> <span class="o">=&gt;</span> <span class="sx">%w(
+      do/data_objects
+      do/do_sqlite3
+      do/do_mysql
+      do/do_postgres
+      dm-core
+      dm-more/merb_datamapper
+      dm-more/dm-migrations
+      dm-more/dm-serializer
+      dm-more/dm-validations
+    )</span><span class="p">,</span>
+    <span class="ss">:gems</span> <span class="o">=&gt;</span> <span class="sx">%w(
+      data_objects
+      do_sqlite3
+      do_mysql
+      do_postgres
+      dm-core
+      merb_datamapper
+      dm-migrations
+      dm-serializer
+      dm-validations
+    )</span>
+  <span class="p">},</span>
+  <span class="s1">'merb'</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="ss">:user</span> <span class="o">=&gt;</span> <span class="s1">'wycats'</span><span class="p">,</span>
+    <span class="ss">:repos</span> <span class="o">=&gt;</span> <span class="sx">%w(
+      merb-core
+      merb-more
+      merb-plugins
+      merb-plugins/merb_param_protection)</span><span class="p">,</span>
+    <span class="ss">:install</span> <span class="o">=&gt;</span> <span class="sx">%w(
+      merb-core
+      merb-more
+      merb-plugins
+    )</span><span class="p">,</span>
+    <span class="ss">:gems</span> <span class="o">=&gt;</span> <span class="sx">%w(
+      merb
+      merb-action-args
+      merb-assets
+      merb-builder
+      merb-cache
+      merb-core
+      merb-gen
+      merb-haml
+      merb-mailer
+      merb-more
+      merb-parts
+      merb_activerecord
+      merb_datamapper
+      merb_helpers
+      merb_param_protection
+      merb_rspec
+      merb_sequel
+      merb_stories
+      merb_test_unit
+    )</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></div></div>
+
+  
+</article>
+
+</section>
+
+<nav aria-label="Pagination">
+  <ul>
+    
+    <li>
+      <a href="/2008/04/20/snippet-col-html/">
+        &laquo; Snippet: col
+      </a>
+    </li>
+    
+    
+    <li class="float-right">
+      <a href="/2008/05/09/specifying-merb-mailers-html/">
+        Specifying Merb Mailers &raquo;
+      </a>
+    </li>
+    
+  </ul>
+</nav>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>

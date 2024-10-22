@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>What Comes After MVC - set_trace_func</title>
+
+<!-- Meta -->
+<meta name="description" content="Just a random coder writing about technology, web development, and various other geeky topics." />
+<meta name="author" content="Jamie Macey">
+<link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/index.xml" />
+
+<!-- Favicons -->
+<!-- 
+<link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.2/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.2/assets/img/favicons/safari-pinned-tab.svg" color="#712cf9">
+<link rel="icon" href="/docs/5.2/assets/img/favicons/favicon.ico">
+-->
+
+<!-- Style -->
+<link rel="stylesheet" href="/_bridgetown/static/index.J6BIDSPS.css" />
+
+<!-- Script -->
+<!-- <script src="/_bridgetown/static/index.PJZZ2K4I.js" defer></script> -->
+
+
+    <link type="application/atom+xml" rel="alternate" href="https://blog.tracefunc.com/index.xml" title="set_trace_func" />
+  </head>
+  <body class="notable ">
+    <header>
+  <nav>
+    <ul>
+      <li><h1><a href="/">set_trace_func</a></h1></li>
+      <!-- The following float right, and are defined right-to-left -->
+      <li class="float-right"><a href="/notes/">Notes</a></li>
+      <li class="float-right"><a href="/projects/">Projects</a></li>
+      <li class="float-right"><a href="/tags/">Tags</a></li>
+      <li class="float-right"><a href="/archive/">Archive</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+    <main>
+      <aside>
+
+
+<div>
+  <h4>About</h4>
+  <picture class="float-end w-50 rounded-circle">
+    <source srcset="/assets/memoji.webp" type="image/webp">
+    <source srcset="/assets/memoji.jpeg" type="image/jpeg">
+    <img src="/assets/memoji.png" alt="Avatar of Author" loading="lazy" class="w-100">
+  </picture>
+
+  <p>Jamie Macey is a senior software engineer with over 15 years experience
+            in the Ruby and Rails ecosystems, largely on the back-end.</p>
+  <p class="mb-0">Husband, father, gamer, and all-around geek. Ask about my latest
+            3d print, or toy software project.</p>
+</div>
+
+<div>
+  <h4>Elsewhere</h4>
+  <ol class="list-unstyled">
+    <li>
+      <a href="https://github.com/jamie/"">GitHub</a>
+    </li>
+    <li style="display: none;">
+      <a rel="me" href="https://ruby.social/@jamie_ca">Mastodon</a>
+    </li>
+    <li>
+      <a href="/static/jamie-macey/">Resume</a>
+    </li>
+    <li>
+      <a href="https://www.linkedin.com/in/jamiemacey/">Linkedin</a>
+    </li>
+    <li>
+      <a href="mailto:jamie.blog@tracefunc.com">Contact</a>
+    </li>
+  </ol>
+</div>
+</aside>
+
+      <section>
+  <article>
+  <h1 id="what-comes-after-mvc">What Comes After MVC</h1>
+
+<p>Via a Railsconf talk, <a href="https://www.youtube.com/watch?v=uFpXKLSREQo">What Comes After MVC</a> by Peter Harkins.</p>
+
+<p>Advice: most of these extractions can be applied partially, but the farther we go the better our code looks.</p>
+
+<p>Goal: Split code based on two axes, mutability &amp; side effects.</p>
+
+<p>Immutable means: when we call methods on it with the same arguments, we get the same results.</p>
+
+<p>No side effect means: when we call methods, no other objects change.</p>
+
+<h3 id="value---immutable-no-side-effects">Value - immutable, no side effects</h3>
+
+<ul>
+  <li><em>Mostly</em> a constructor + query/converstion methods.</li>
+  <li>Also useful to have comparisons (<code class="highlighter-rouge">==</code>, <code class="highlighter-rouge">&lt;=&gt;</code>) and typecasts (<code class="highlighter-rouge">to_s</code>, <code class="highlighter-rouge">to_str</code>, <code class="highlighter-rouge">to_a</code>, <code class="highlighter-rouge">inspect</code>, etc). Delegate if that makes sense. Use <a href="https://github.com/dry-rb/dry-equalizer">dry-equalizer</a> or similar if that helps.</li>
+  <li>Should be able to freeze after initialize without breaking anything. See also <a href="https://github.com/dkubb/adamantium">adamantium</a> for an improved auto-freeze.</li>
+</ul>
+
+<p>Extract values from ActiveRecord models to make them easier to reason about, and group similar behaviours. Don’t have your values call or return ActiveRecord objects - they’re implicitly mutable.</p>
+
+<p>Consider overriding getter/setter methods for an attribute to auto-promote primitives (strings, ints, timestamps, etc) to value objects. Rails 5 <a href="https://api.rubyonrails.org/classes/ActiveRecord/Attributes/ClassMethods.html">attributes API</a> helps here, but is a bit wordy.</p>
+
+<p>Testing:</p>
+<ul>
+  <li>no let</li>
+  <li>no stub</li>
+  <li>no factory</li>
+  <li>no mocks</li>
+  <li>assert on results</li>
+</ul>
+
+<h3 id="entity---mutable-no-side-effects">Entity - mutable, no side effects</h3>
+
+<ul>
+  <li>Job is to have an identity, and wrap up values.</li>
+  <li>Often has very little code, because it doesn’t <em>do</em> much (on account of no side effects).</li>
+  <li>Overall similar to an AR model, but without <em>any</em> side effects.</li>
+</ul>
+
+<p>Extracting Entities from ActiveRecord:</p>
+<ul>
+  <li>Find identity (probably primary key).</li>
+  <li>Extract Values</li>
+  <li>Drive out side effects to Adapters &amp; Shells.</li>
+</ul>
+
+<p>Controvertial Opinion: ActiveRecord models shouldn’t call their or other models queries (scopes, find, where) or lifecycle methods (create, save, reload) - eg. any methods with side effects.</p>
+
+<p>Testing:</p>
+<ul>
+  <li>few lets for Values</li>
+  <li>maybe factories</li>
+  <li>maybe stub entites, but not Values</li>
+  <li>assert on results</li>
+  <li>assert on object state</li>
+</ul>
+
+<h3 id="adapter---immutable-side-effects">Adapter - immutable, side effects</h3>
+
+<p>(named after Hexagonal pattern)</p>
+
+<ul>
+  <li>Wraps interaction with the external world (includes your own database!)</li>
+  <li>Usually a pretty thin wrapper.</li>
+</ul>
+
+<p>Testing:</p>
+<ul>
+  <li>few lets for Values</li>
+  <li>often stubs</li>
+  <li>asserts on mocks for outgoing queries/commands</li>
+  <li>asserts on results are probbaly not worth much</li>
+</ul>
+
+<h3 id="shell---mutable-side-effects">Shell - mutable, side effects</h3>
+
+<ul>
+  <li>Sequence of transformations, imperative code. Sometimes can get away with functional composition of individual steps. (Elixir’s <code class="highlighter-rouge">|&gt;</code> embodies this concept very succinctly.)</li>
+  <li>Rails Controller actions can be compared to a Shell.</li>
+  <li>General shape: talk to adapters, coordinate Values and Entities to do work.</li>
+  <li>Harder to reason about, try to keep small.</li>
+</ul>
+
+<p>Testing:</p>
+<ul>
+  <li>fixtures with real-world data</li>
+  <li>might need factories to create enough Entities</li>
+  <li>expect on results, state, and mocks</li>
+  <li>Integration: one happy path to ensure objects glue together properly, and regression tests as necessary for confidence</li>
+  <li>if you have one integrated test, can stub Adapters later</li>
+</ul>
+
+<h3 id="other---mutable-side-effects">Other - mutable, side effects</h3>
+
+<p>This is typical Rails code.</p>
+
+<p>See also talks:</p>
+<ul>
+  <li>Boundaries by Gary Bernhardt</li>
+  <li>Magic Tricks of Testing by Sandi Metz</li>
+  <li>Integrated Tests are a Scam by JB Rainsberger</li>
+  <li>Domain Driven Design by Eric Evans</li>
+</ul>
+
+<h3 id="closing-notes">Closing Notes</h3>
+
+<p>Immutable objects cannot call mutable objects, effect-free code cannot call code with side effects. Thus:</p>
+
+<ul>
+  <li>Values may only depend on other values.</li>
+  <li>Entities might collaborate with other entities, and also encapsulate values.</li>
+  <li>Adapters may use values, but are unlikely to depend on other adapters.</li>
+  <li>Shells (and other, legacy code) can continue to do whatever it wants.</li>
+</ul>
+
+<p>The benefit of extracting Values, Entities, and Adapters out of the regular ball of code is so that we can have smaller pieces of code that are (a) easy to reason about, and (b) easy to test.</p>
+
+<p>Empirical truth: once your tests start using ActiveRecord, they slow down <em>immensely</em>.</p>
+
+
+</article>
+
+</section>
+
+    </main>
+
+    <footer>
+  <p>Styled with <a href="https://classless.de/">Classless.css</a>.</p>
+</footer>
+
+
+    <script data-goatcounter="https://tracefunc.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+
+</html>
