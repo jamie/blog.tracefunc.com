@@ -1,7 +1,7 @@
 ---
 title: RuboCop
-created: 2022-02-24T22:28:57.406Z
-modified: 2022-02-25T18:13:51.899Z
+created: '2022-02-24T22:28:57.406Z'
+modified: '2024-11-05T05:11:50.323Z'
 ---
 
 # RuboCop
@@ -37,7 +37,7 @@ AllCops:
     - 'vendor/**/*'
 ```
 
-Note that the [`rubocop-shopify`](https://ruby-style-guide.shopify.dev/) dependency is purely a style choice (and my default preference), sticking with Rubocop's baseline, or or use [AirBNB's plugin](https://github.com/airbnb/ruby/tree/master/rubocop-airbnb), or whatever. [StandardRB](https://github.com/testdouble/standard) is another option that likes to run its own binary, but can run through standard rubocop tooling with [this config](https://github.com/testdouble/standard#usage-via-rubocop).
+Note that the [`rubocop-shopify`](https://ruby-style-guide.shopify.dev/) dependency is purely a style choice (and my default preference), sticking with Rubocop's baseline, or or use [AirBNB's plugin](https://github.com/airbnb/ruby/tree/master/rubocop-airbnb), or whatever. [StandardRB](https://github.com/testdouble/standard) is another option that likes to run its own binary, but can run through standard rubocop tooling with [this config](https://github.com/standardrb/standard?tab=readme-ov-file#running-standards-rules-via-rubocop).
 
 If you're adding to an existing codebase, `rubocop --auto-gen-config` will scan your code and create a file of known violations to whitelist, which you can then incrementally remove and correct. This will require you update your .rubocop.yml to recognize it:
 
