@@ -1,19 +1,23 @@
 ---
-title: Local Development Tooling
 tags: [commandline]
-created: 2020-05-14T17:09:03.258Z
-modified: 2023-05-02T22:19:56.035Z
+title: Local Development Tooling
+created: '2020-05-14T17:09:03.258Z'
+modified: '2025-01-08T00:29:41.447Z'
 ---
 
 # Local Development Tooling
 
 Just a summary of the tools I'm using to manage my local development environment.
 
-- [[yadm]] is a [dotfiles manager](https://yadm.io/) that helps me keep my overall shell environment in sync across machines. I'm using alternates for linux support (and should be using it with hostname for a few things due to my work laptop currently being more managed than I usually deal with), encryption (SSH keys), and bootstraps for fresh setup.
+### 2020
 
-- [[asdf]] is a [manager for version managers](https://asdf-vm.com/#/). I primarily work in [[Ruby]], but dabble all over, and it makes a lot of sense to replace rvm/rbenv, nvm, pyenv, etc with a single tool that has a consistent interface. Specifically, this is good for locking a project to a runtime version, without needing to juggle anything systemwide.
+[yadm](https://yadm.io/), [asdf](https://asdf-vm.com/#/), [direnv](https://direnv.net/).
 
-- [[direnv]] is a complement to asdf, but it [manages your shell environment](https://direnv.net/) - I've only just started toying around with it, but even just `layout ruby` to get it to automatically isolate my gems and set up paths so I don't need to `bundle exec` anything anymore is great. It also lets me set up some environment variables to get alternate debug info out of our [[Rails]] app without dirtying up my global shell.
+### 2025
+
+- [[chezmoi]] is a [dotfiles manager](https://www.chezmoi.io/) that helps me keep my overall shell environment in sync across machines. It's a minor improvement over yadm, templates are slightly better for mac/linux and personal/work alternates, and I have a preference for file copies over symlinks - if I just have a one-off config change on one machine, I can still do a config sync without needing to juggle git merges.
+
+- [[mise]] is a [manager for version managers](https://mise.jdx.dev/), as well as a shell environment manager. I primarily work in [[Ruby]], but dabble all over, and it makes a lot of sense to replace rvm/rbenv, nvm, pyenv, etc with a single tool that has a consistent interface - and mise is an improvement over [asdf](https://asdf-vm.com/) in that it's zero-config out of the box and smart enough to not need to manually juggle plugin setup. `mise install` in a [[Rails]] project will just do the right thing, setting up the ruby & node versions the repo is already tagged with. It _also_ handles environment variables, and while I like the simplicity of `layout ruby` coming from [direnv](https://direnv.net/), it's easy enough to work with a [mise preset script](https://github.com/jamie/dotfiles/blob/main/home/dot_config/mise/tasks/preset/executable_ruby) to bootstrap project dirs.
 
 ## To investigate
 
