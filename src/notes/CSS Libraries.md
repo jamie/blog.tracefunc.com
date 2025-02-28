@@ -1,7 +1,7 @@
 ---
 title: CSS Libraries
-created: 2020-07-14T04:51:34.486Z
-modified: 2020-07-14T05:03:21.623Z
+created: '2020-07-14T04:51:34.486Z'
+modified: '2024-09-13T17:34:33.345Z'
 ---
 
 # CSS Libraries
@@ -25,4 +25,10 @@ A very different route, Tailwind provides a large number of utility classes that
 There's definitely some drawbacks as regards consistency between larger components, but modern HTML (or Javascript for that matter) usually handles that abstraction just fine.
 
 There are a few community-sourced component libraries available, but [Tailwind UI](https://tailwindui.com) by the Tailwind authors is growing constantly more robust.
+
+### Minimal (or classless)
+
+Bunch of options, someone even put together a live-switching demo site https://dohliam.github.io/dropin-minimal-css/
+
+I am partial to Pico CSS and Vanilla CSS.
 
