@@ -2,7 +2,7 @@
 
 module Builders
   class Notable < SiteBuilder
-    LINK_PATTERN = %r{\[\[([^\]]+)\]\]}.freeze
+    LINK_PATTERN = %r{\[\[([^\]]+)\]\]}
 
     def build
       generator :attachments
