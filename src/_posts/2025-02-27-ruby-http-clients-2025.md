@@ -16,6 +16,8 @@ We needed to make an HTTP call with:
 
 After massaging our request enough to get it working with Net::HTTP, I thought I'd give some other options a shot for comparison.
 
+<!-- EXCERPT -->
+
 There was [a blog post by honeyryderchuck](https://honeyryderchuck.gitlab.io/2023/10/15/state-of-ruby-http-clients-use-httpx.html)
 a bit over a year ago that did a big shootout, and I'm running through the subset of those that I've actually used:
 Net::HTTP, [Faraday](), [HTTP](), and [HTTPX]().
