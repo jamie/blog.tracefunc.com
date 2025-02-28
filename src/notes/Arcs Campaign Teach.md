@@ -1,4 +1,7 @@
+---
+---
 ## Concepts
+
 ### Act Structure
 - Play three acts, of 3/3/4 chapters. Acts do not end early due to power thresholds, play all chapters.
 - Act 1, players receive a Fate and perform initial setup.
