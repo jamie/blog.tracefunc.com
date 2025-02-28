@@ -58,8 +58,8 @@ client.post(criteria, transactions_csv).body
 ```
 
 This sets up a class to hold the URL and authentication, and a generic helper for the Authorization header.
-Then we set up our form data blob (to be rendered to JSON) and file data - note that Net::HTTP expects an actual File
-object for the file upload (and Faraday wrapping Net::HTTP needs the same), but in this example we'd be generating it live from database records and so we expect to wrap it in a StringIO.
+Then we set up our form data blob (to be rendered to JSON) and file data - note that Net\::HTTP expects an actual File
+object for the file upload (and Faraday wrapping Net\::HTTP needs the same), but in this example we'd be generating it live from database records and so we expect to wrap it in a StringIO.
 
 The baseline implementation then, is Net::HTTP.
 To get multipart form support, we need the `multipart-post` gem, and `require 'net/http/post/multipart'`.
@@ -184,5 +184,5 @@ I think in the end my preference is HTTPX, which on a technical level edges out 
 (And to be fair, HTTP's FormData providing just one Part class makes it fairly straightforward to convert an HTTPX-style raw hash into an appropriate Multipart format, if you prefer that API.)
 Both are good choices for a batteries-included addition to your Gemfile.
 
-Net::HTTP and Faraday are both a bit more rigid to work with, though if it wasn't for Net::HTTP still needing another gem for multipart support, I'd still give it consideration despite its warts due to being already available in the standard library.
+Net\::HTTP and Faraday are both a bit more rigid to work with, though if it wasn't for Net\::HTTP still needing another gem for multipart support, I'd still give it consideration despite its warts due to being already available in the standard library.
 Especially for a library (the fewer dependencies your library has, the easier it is on users of that library to manage upgrades due to fewer dependency version conflicts).
