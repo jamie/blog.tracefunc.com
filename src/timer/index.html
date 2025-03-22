@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Multi Timer">
+    <meta name="theme-color" content="#939393">
+    <meta name="description" content="A multi-player timer with four sections">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    <title>Multi Timer</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            position: relative;
+        }
+
+        .section {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .top-left {
+            background-color: #FFD700; /* Gold */
+        }
+
+        .top-right {
+            background-color: #939393; /* Medium Gray */
+        }
+
+        .bottom-left {
+            background-color: #1E3A8A; /* Medium-dark Blue */
+        }
+
+        .bottom-right {
+            background-color: #800000; /* Maroon */
+        }
+
+        .center-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20vh;
+            height: 20vh;
+            border-radius: 50%;
+            background-color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        @keyframes pulse {
+            0% {
+                background-color: rgba(0, 0, 0, 0.2);
+            }
+            50% {
+                background-color: rgba(0, 0, 0, 0.4);
+            }
+            100% {
+                background-color: rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        .timer-button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 12vw;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+            padding: 20px;
+            border-radius: 10px;
+            transition: background-color 0.2s;
+            width: 80%;
+            height: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .timer-button:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .timer-button.active {
+            animation: pulse 2s infinite;
+        }
+
+        .timer-button.paused {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body data-controller="pause">
+    <div class="section top-left" data-controller="timer" data-timer-section-value="top-left">
+        <button class="timer-button" data-timer-target="display" data-action="click->timer#click">5:00</button>
+    </div>
+    <div class="section top-right" data-controller="timer" data-timer-section-value="top-right">
+        <button class="timer-button" data-timer-target="display" data-action="click->timer#click">5:00</button>
+    </div>
+    <div class="section bottom-left" data-controller="timer" data-timer-section-value="bottom-left">
+        <button class="timer-button" data-timer-target="display" data-action="click->timer#click">5:00</button>
+    </div>
+    <div class="section bottom-right" data-controller="timer" data-timer-section-value="bottom-right">
+        <button class="timer-button" data-timer-target="display" data-action="click->timer#click">5:00</button>
+    </div>
+    <div class="center-button" data-pause-target="button" data-action="click->pause#click">Pause</div>
+
+    <script type="module">
+        import { Application, Controller } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js"
+        window.Stimulus = Application.start()
+
+        // Timer Controller
+        class TimerController extends Controller {
+            static targets = ["display"]
+            static values = {
+                duration: { type: Number, default: 300 }, // 5 minutes in seconds
+                section: String
+            }
+
+            connect() {
+                this.timeLeft = this.durationValue
+                this.isActive = false
+                this.displayTarget.classList.remove('active')
+                this.timerInterval = setInterval(() => this.update(), 1000)
+            }
+
+            start() {
+                this.isActive = true
+                this.timeLeft += 90
+                this.displayTarget.classList.add('active')
+            }
+
+            stop() {
+                this.isActive = false
+                this.displayTarget.classList.remove('active')
+            }
+
+            update() {
+                if (this.timeLeft > 0 && this.isActive) {
+                    this.timeLeft--
+                }
+                this.draw()
+            }
+
+            draw() {
+                const minutes = Math.floor(this.timeLeft / 60)
+                const seconds = this.timeLeft % 60
+                this.displayTarget.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`
+            }
+
+            click() {
+                // Start this timer and stop all others
+                this.start()
+                this.application.controllers.forEach(controller => {
+                    if (controller.identifier === "timer" && controller !== this) {
+                        controller.stop()
+                    }
+                })
+            }
+        }
+
+        // Pause Controller
+        class PauseController extends Controller {
+            static targets = ["button"]
+            static values = {
+                isRunning: { type: Boolean, default: true }
+            }
+
+            connect() {
+            }
+
+            click() {
+                this.application.controllers.forEach(controller => {
+                    if (controller.identifier === "timer") {
+                        controller.stop()
+                    }
+                })
+            }
+        }
+
+        // Register controllers
+        Stimulus.register("timer", TimerController)
+        Stimulus.register("pause", PauseController)
+    </script>
+</body>
+</html> 

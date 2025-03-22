@@ -1,0 +1,16 @@
+{
+    "name": "Multi Timer",
+    "short_name": "Multi Timer",
+    "description": "A multi-player timer with four sections",
+    "start_url": "/timer/",
+    "display": "standalone",
+    "background_color": "#939393",
+    "theme_color": "#939393",
+    "icons": [
+        {
+            "src": "favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ]
+} 
