@@ -63,7 +63,9 @@ This sets up a class to hold the URL and authentication, and a generic helper fo
 Then we set up our form data blob (to be rendered to JSON) and file data - note that Net\::HTTP expects an actual File
 object for the file upload (and Faraday wrapping Net\::HTTP needs the same), but in this example we'd be generating it live from database records and so we expect to wrap it in a StringIO.
 
-The baseline implementation then, is Net::HTTP.
+### Net::HTTP
+
+Our baseline implementation is Net::HTTP.
 To get multipart form support, we need the `multipart-post` gem, and `require 'net/http/post/multipart'`.
 
 As part of our API experimentation we also tried `http-form_data`, which is part of the HTTP project, but that needed a bunch of boilerplate to get set up, but `multipart-post` winds up being fairly clean.
@@ -97,6 +99,8 @@ def post_net_http(criteria, transactions_csv)
 end
 ```
 
+### Faraday
+
 As mentioned, Faraday is a wrapper around Net::HTTP and so winds up looking fairly similar.
 It needs a separate `faraday-multipart` gem for multipart support, but doesn't need special hand-holding to manage part content-types.
 Also, actually setting up the connection object is much more readable.
@@ -129,6 +133,8 @@ def post_faraday(criteria, transactions_csv)
 end
 ```
 
+### HTTP (the gem)
+
 For HTTP The Gem, despite being a separate gem at least the multipart form support is tagged as a dependency so it's available by default.
 It's a slight step down from the others in that you need to juggle two different classes while assembling the form data, but otherwise it's nearly identical to Faraday.
 On the plus side, it's smart enough to handle a String file part as well as an IO, and the HTTP gem chained API calls are always pleasant to work with.
@@ -154,6 +160,8 @@ def post_http(criteria, transactions_csv)
   http.post("https://#{@host}#{@path}", form:)
 end
 ```
+
+### HTTPX
 
 Finally, HTTPX: no separate gem for multipart, it's supported out of the box.
 No wrapper classes, just a nested hash.
@@ -182,9 +190,12 @@ def post_httpx(criteria, transactions_csv)
 end
 ```
 
-I think in the end my preference is HTTPX, which on a technical level edges out HTTP mostly on account of being pure ruby and so slightly easier to deploy.
-(And to be fair, HTTP's FormData providing just one Part class makes it fairly straightforward to convert an HTTPX-style raw hash into an appropriate Multipart format, if you prefer that API.)
-Both are good choices for a batteries-included addition to your Gemfile.
+### Thoughts
 
-Net\::HTTP and Faraday are both a bit more rigid to work with, though if it wasn't for Net\::HTTP still needing another gem for multipart support, I'd still give it consideration despite its warts due to being already available in the standard library.
-Especially for a library (the fewer dependencies your library has, the easier it is on users of that library to manage upgrades due to fewer dependency version conflicts).
+**Net\::HTTP** is a gnarly mess of an API, and depends on another gem so I can't even really say "it's available and built-in." Do not like.
+
+**Faraday** is a bit verbose, but building the multipart section is highly orthogonal and easy to see what's going on.
+
+**HTTP** is very similar to Faraday for multipart - simpler in that there's only one Part class, but needs a Multipart wrapper at toplevel instead of just a Hash. I'm a huge fan of the rest of its API for actually making requests, though, and is my overall preference for overall usability and readability. (Also, it's pretty straightforward to write a wrapper that builds HTTP FormData objects out of the same simple hash HTTPX wants.)
+
+**HTTPX** is a bit worse API than HTTP (`with(headers: ...)` being nonobvious) but gets bonus points for being pure Ruby. Lack of support by `vcr` for mocking tests (as of this writing) is a big bummer though - if not for that it'd get my top nod.
