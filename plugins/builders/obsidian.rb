@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Builders
-  class Notable < SiteBuilder
+  class Obsidian < SiteBuilder
     LINK_PATTERN = %r{\[\[([^\]]+)\]\]}
 
     def build
@@ -11,8 +11,13 @@ module Builders
     end
 
     def attachments
+      # Converts obsidian ![[filename]] image tags with proper path for html output.
       notable_pages.each do |page|
-        page.content.gsub!("(@attachment/", "(/attachments/")
+        page.content.gsub!(/!\[\[([^\]]+)\]\]/) { |match|
+          filename = $1
+          title = filename.split(".").first
+          "![#{title}](/attachments/#{filename.gsub(" ", "%20")})"
+        }
       end
     end
 

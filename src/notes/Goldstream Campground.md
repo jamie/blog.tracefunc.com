@@ -1,6 +1,5 @@
 ---
 title: Goldstream Campground
-attachments: [Goldstream Campground Map.png]
 created: 2021-09-07T01:12:59.826Z
 modified: 2021-10-20T03:10:44.409Z
 ---
@@ -9,7 +8,7 @@ modified: 2021-10-20T03:10:44.409Z
 
 - [BC Parks site](https://bcparks.ca/explore/parkpgs/goldstream/)
 
-![site map](@attachment/Goldstream Campground Map.png)
+![[Goldstream Campground Map.png]]
 
 Best sites:
 

@@ -1,6 +1,5 @@
 ---
 title: Git Desktop Clients
-attachments: [Fork.png, Git Tower.png, Github Desktop.png, Kraken.png]
 created: 2023-03-16T05:29:33.573Z
 modified: 2023-03-16T06:15:08.954Z
 ---
@@ -13,7 +12,7 @@ All the below support history/branch/stash browsing, viewing changes, staging ch
 
 ## Github Desktop 
 
-![](@attachment/Github%20Desktop.png)
+![[Github Desktop.png]]
 
 - Does not stage changes directly in underlying git, just keeps it in-app
 - Does not appear to have a tree view option for files
@@ -22,21 +21,21 @@ All the below support history/branch/stash browsing, viewing changes, staging ch
 
 ## Fork
 
-![](@attachment/Fork.png)
+![[Fork.png]]
 
 - No "pull-request" level github integration that I can see
 - Most compact tree view
 
 ## Git Tower
 
-![](@attachment/Git%20Tower.png)
+![[Git%20Tower.png]]
 
 - Does not separate Unstaged vs Staged files, UI mirrors 2-column `git status` output
 - No syntax highlighting in diff view
 
 ## Kraken
 
-![](@attachment/Kraken.png)
+![[Kraken.png]]
 
 - Defaults to a very wide commit history panel, need to click individual files to switch to diff view
 - Tree views collapsed by default, either use path view or get used to Expand All
