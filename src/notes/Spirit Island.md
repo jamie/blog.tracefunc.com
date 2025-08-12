@@ -1,8 +1,8 @@
 ---
-title: Spirit Island
 tags: [boardgame]
-created: 2020-09-16T03:10:09.312Z
-modified: 2021-05-04T22:29:47.450Z
+title: Spirit Island
+created: '2020-09-16T03:10:09.312Z'
+modified: '2025-04-22T01:51:46.676Z'
 ---
 
 # Spirit Island
@@ -13,7 +13,7 @@ branch box: 160x280x50
 Island Boards:
   bounding box: 220x280, complex; 15mm deep
 
-Spirit Boards: 230x153x (24)53mm
+Spirit Boards: 230x153x (37); 53mm
 Invader Board:
   base: 147x161x8mm
   branch: 161x210x5mm

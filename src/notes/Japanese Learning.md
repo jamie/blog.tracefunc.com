@@ -1,0 +1,2 @@
+
+- [Cure Dolly](https://www.youtube.com/playlist?list=PLg9uYxuZf8x_A-vcqqyOFZu06WlhnypWj) has a youtube channel on Japanese from first principles, it's been [transcribed here](https://kellenok.github.io/cure-script/) for text-learners.
