@@ -13,6 +13,8 @@ modified: 2021-03-22T16:16:23.414Z
 
 - Double-check: auto code reloading from dependent gems (see https://format-express.dev/blog/embed-a-gem-in-a-rails-project-and-enable-autoreload#setup-autoreload)
 
+- Another take [described here](https://ptrchm.com/posts/ruby-on-rails-event-driven-modular-monolith/) keeps minimal models in toplevel, then has a domains (modules, whatever) folder for each concern. Business logic lives in domains, queries use Repository pattern, and inter-domain communication is done as much as possible via pub/sub with Events (they use RailsEventStore but anything would work fine). Includes a how-to guide at the end to start migrating.
+
 ### Github Actions
 
 Github actions can set an output variable by printing to stdout: `::set-output name=variable::value`
