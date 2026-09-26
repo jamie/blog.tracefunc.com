@@ -31,5 +31,5 @@ And some TODOs that I want to try out.
 
 ## Evil Martians
 
-Posted an article about their [Gemfile of dreams](https://evilmartians.com/chronicles/gemfile-of-dreams-libraries-we-use-to-build-rails-apps) with a summary of the things they use frequently and why.
+Posted an article about their [Gemfile of dreams](https://evilmartians.com/chronicles/gemfile-of-dreams-libraries-we-use-to-build-rails-apps) with a summary of the things they use frequently and why. (Note: this got an update April 2026)
 

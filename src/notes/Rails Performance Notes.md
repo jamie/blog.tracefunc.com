@@ -42,3 +42,7 @@ From "The Easy Mode Stack" - Nate's defaults until you outgrow them or acquire s
 - DB Layer Config: AWS RDS provides a lot of visibility
 - Server config: Puma for threadsafe. If AWS, always use newest generation (ie, prefer m5.large to m4.large)
 
+# Boot Time Optimization
+
+https://evilmartians.com/chronicles/get-in-human-cut-rails-boot-time-with-require-profiler-and-this-guide
+

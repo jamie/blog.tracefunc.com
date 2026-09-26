@@ -199,3 +199,32 @@ Lord of the Hundreds
 - 1 dice
 
 
+## 2026 Rework
+
+https://counterslayer.com/
+
+- Box interior: 134mm by 215mm, 52mm depth
+- Warriors: 9.2mm thick, 26mm square
+- Tokens: 2.1mm thick, 20.1mm square
+- Dice: 16mm cube
+- Hirelings
+	- 1 die (1 extra)
+	- 12 tokens
+	- 3 unlock markers 36x55mm
+- Cats: 12
+- Frogs: 10+5
+- Ducks: 9+4
+- Moles: 8+3
+- Badgers: 6+6
+- Bats: 8
+- Rats 6 + one die
+- Crows: 5
+- Musicians: 5
+- Birds: 5
+- Alliance: 4
+- Lizards: 4
+- Porcupines: 4
+- Bear: 1+3
+- Otters 33 tall 40 wide
+- Moose 32 tall, 29.5 wide
+- Landmarks 51mm wide, stack 9 edge on
