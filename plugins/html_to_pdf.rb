@@ -2,7 +2,7 @@
 # build step. Pages need to define `print_html` (path in /output where
 # the html file resides) and `print_pdf` (destination path) in frontmatter
 # to get picked up by this process.
-class HtmlToPdf < SiteBuilder
+class HTMLToPdf < SiteBuilder
   def build
     hook :site, :post_write do |site|
       site.collections.pages.resources.select { |page| page.data["print_pdf"] }.each do |page|

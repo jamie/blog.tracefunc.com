@@ -8,8 +8,8 @@
 # uncomment the gem dependency in your Gemfile as well):
 # require "bridgetown-routes"
 
-class RodaApp < Bridgetown::Rack::Roda
-  # Add additional Roda configuration here if needed
+class RodaApp < Roda
+  plugin :bridgetown_server
 
   # Uncomment to use Bridgetown SSR:
   # plugin :bridgetown_ssr
@@ -18,7 +18,6 @@ class RodaApp < Bridgetown::Rack::Roda
   # plugin :bridgetown_routes
 
   route do |r|
-    # Load Roda routes in server/routes (and src/_routes via `bridgetown-routes`)
-    Bridgetown::Rack::Routes.start! self
+    r.bridgetown
   end
 end
