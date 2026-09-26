@@ -1,4 +1,4 @@
-const build = require("./config/esbuild.defaults.js")
+import build from "./config/esbuild.defaults.js"
 
 // Update this if you need to configure a destination folder other than `output`
 const outputFolder = "output"
@@ -26,6 +26,8 @@ const outputFolder = "output"
 // ```
 // const esbuildOptions = { publicPath: "/my_subfolder/_bridgetown/static" }
 // ```
-const esbuildOptions = {}
+const esbuildOptions = {
+  nodePaths: ["frontend/javascript", "frontend/styles"],
+}
 
 build(outputFolder, esbuildOptions)

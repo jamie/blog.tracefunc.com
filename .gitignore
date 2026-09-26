@@ -28,13 +28,8 @@ jit-refresh.css
 .DS_Store
 .obsidian
 
-# Yarn
-yarn-error.log
-yarn-debug.log*
-.pnp/
-.pnp.js
-# Yarn Integrity file
-.yarn-integrity
+# npm
+npm-debug.log*
 
 # Notable local config
 /src/.notable/.settings.json

@@ -17,18 +17,18 @@ This repo contains half-written and pre-publication articles, don't judge.
 - [GCC](https://gcc.gnu.org/install/)
 - [Make](https://www.gnu.org/software/make/)
 - [Ruby](https://www.ruby-lang.org/en/downloads/)
-  - `>= 2.7`
+  - `>= 3.1.4`
 - [Bridgetown Gem](https://rubygems.org/gems/bridgetown)
   - `gem install bridgetown -N`
 - [Node](https://nodejs.org)
-  - `>= 12`
-- [Yarn](https://yarnpkg.com)
+  - `>= 20.6`
+- [npm](https://www.npmjs.com)
 
 ## Install
 
 ```sh
 cd bridgetown-site-folder
-bundle install && yarn install
+bundle install && npm install
 ```
 > Learn more: [Bridgetown Getting Started Documentation](https://www.bridgetownrb.com/docs/).
 
