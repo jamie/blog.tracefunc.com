@@ -28,8 +28,9 @@ gem "bridgetown-feed"
 
 gem "rack", "~> 3.0"
 
-# Puma is a Rack-compatible server used by Bridgetown
-# (you can optionally limit this to the "development" group)
-gem "puma", "~> 6.0"
+group :development do
+  # Puma is a Rack-compatible server used by Bridgetown for local preview
+  gem "puma", "~> 6.0"
 
-gem "standard"
+  gem "standard"
+end
