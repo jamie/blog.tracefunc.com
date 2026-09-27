@@ -30,7 +30,8 @@ Cloudflare has a few hiccups to get a clean build of Bridgetown going. Cloudflar
 
 - Go to **Workers & Pages** and connect the Git repository.
 - Make sure that the Worker name is the same as `name` in `wrangler.jsonc`.
-- Build command: `bundle install && npm install && bundle exec bridgetown deploy`
+- Note: dependency install from project defaults looks to Just Work, npm and bundler both do their business by default.
+- Build command: `bundle exec bridgetown deploy`
 - Deploy command `npx wrangler deploy`
 - Add a Variable `BRIDGETOWN_ENV=production`
 - Push to the main branch. Make sure that the build and the deploy are successful.
@@ -38,8 +39,9 @@ Cloudflare has a few hiccups to get a clean build of Bridgetown going. Cloudflar
 
 ## Ruby Specifics
 
-There's a build image at https://developers.cloudflare.com/workers/ci-cd/builds/build-image/ and it's _pretty_ out of date. And also documented wrong. As of Sep 2026, that means:
-- ruby 3.4.7 (October last year)
-- bundler 2.6.7 (April last year)
+There's a build image at https://developers.cloudflare.com/workers/ci-cd/builds/build-image/ and it's _pretty_ out of date. And also documented wrong, sigh, despite the page showing a last-update of July 30. As of Sep 2026, that means:
 
-Including `.ruby-version` in your project, even if it's pointing at 3.4.4, will result in a fresh ruby install which takes about 5 minutes. Very annoying, doesn't look like 
+- ruby 3.4.7 (documented as 3.4.4)
+- bundler 2.6.9
+
+If you're not using the built-in ruby version, it'll pull it down and presumably compile from scratch every time? Adds about 5 minutes to a deploy anyways. Bundler versioning is less of an issue, I pull down 4.0.20 in ~3 seconds. To which also: npm dependencies get a build cache, bundler does not.
