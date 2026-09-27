@@ -36,8 +36,13 @@ local allSteps = new Mapping {
             "**/*.less",
             "**/*.json",
         )
-        // Generated and managed by Bridgetown; not meant to be hand-edited.
-        exclude = List("config/esbuild.defaults.js")
+        exclude = List(
+            // Generated and managed by Bridgetown; not meant to be hand-edited.
+            "config/esbuild.defaults.js",
+            // Third-party libraries, vendored as-is.
+            "frontend/styles/classless.css",
+            "frontend/styles/syntax.css",
+        )
         check = "node_modules/.bin/prettier --check {{files}}"
         fix = "node_modules/.bin/prettier --write {{files}}"
     }
