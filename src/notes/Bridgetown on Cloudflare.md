@@ -36,3 +36,10 @@ Cloudflare has a few hiccups to get a clean build of Bridgetown going. Cloudflar
 - Push to the main branch. Make sure that the build and the deploy are successful.
 	- The `routes` block in `wrangler.jsonc` will trigger creating a subdomain record, if you already have one defined (ie, you're migrating hosting to Cloudflare) the deploy will fail - you'll need to delete the existing CNAME before running a build.
 
+## Ruby Specifics
+
+There's a build image at https://developers.cloudflare.com/workers/ci-cd/builds/build-image/ and it's _pretty_ out of date. And also documented wrong. As of Sep 2026, that means:
+- ruby 3.4.7 (October last year)
+- bundler 2.6.7 (April last year)
+
+Including `.ruby-version` in your project, even if it's pointing at 3.4.4, will result in a fresh ruby install which takes about 5 minutes. Very annoying, doesn't look like 
