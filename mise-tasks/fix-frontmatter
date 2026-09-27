@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="Add an empty YAML frontmatter block to any .md file in src/ missing one"
+set -euo pipefail
+exec "${MISE_PROJECT_ROOT:-$(dirname "$0")/..}/bin/ensure-frontmatter" --fix "$@"

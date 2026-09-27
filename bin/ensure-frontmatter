@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# Checks (or fixes) that .md files have a YAML frontmatter block, even an
+# empty one. Obsidian doesn't require frontmatter, but the blog engine does.
+#
+# Usage:
+#   bin/ensure-frontmatter --check [file ...]
+#   bin/ensure-frontmatter --fix   [file ...]
+#
+# With no files given, scans every .md file under src/.
+set -euo pipefail
+
+cd "${MISE_PROJECT_ROOT:-$(dirname "$0")/..}"
+
+mode="${1:-}"
+case "$mode" in
+  --check|--fix) shift ;;
+  *)
+    echo "Usage: $0 --check|--fix [file ...]" >&2
+    exit 2
+    ;;
+esac
+
+if [[ $# -gt 0 ]]; then
+  files=("$@")
+else
+  files=()
+  while IFS= read -r -d '' f; do
+    files+=("$f")
+  done < <(find src -iname "*.md" -print0)
+fi
+
+has_frontmatter() {
+  local file="$1"
+  [[ "$(head -n 1 "$file")" == "---" ]] && tail -n +2 "$file" | grep -qx -- "---"
+}
+
+missing=()
+for file in "${files[@]}"; do
+  [[ -f "$file" ]] || continue
+  has_frontmatter "$file" || missing+=("$file")
+done
+
+if [[ "$mode" == "--check" ]]; then
+  if [[ ${#missing[@]} -eq 0 ]]; then
+    echo "All ${#files[@]} checked file(s) have frontmatter."
+    exit 0
+  fi
+  echo "Missing or unclosed frontmatter in ${#missing[@]} file(s):"
+  for f in "${missing[@]}"; do
+    echo "  $f"
+  done
+  exit 1
+fi
+
+# --fix
+for file in "${missing[@]}"; do
+  tmp=$(mktemp)
+  { printf -- '---\n---\n\n'; cat "$file"; } > "$tmp"
+  mv "$tmp" "$file"
+  echo "Added empty frontmatter to $file"
+done
+
+exit 0
