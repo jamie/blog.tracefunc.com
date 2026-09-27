@@ -37,7 +37,7 @@ If you're not using the built-in ruby version, it'll pull it down and presumably
 - Go to **Workers & Pages** and connect the Git repository.
 - Make sure that the Worker name is the same as `name` in `wrangler.jsonc`.
 - Note: dependency install from project defaults looks to Just Work, npm and bundler both do their business by default.
-- Build command: `bundle exec bridgetown deploy`
+- Build command: `bundle install && bundle exec bridgetown deploy` (bundler runs on build image setup, but needs another nudge when building)
 - Deploy command `npx wrangler deploy`
 - Add a Variable `BRIDGETOWN_ENV=production`
 - Push to the main branch. Make sure that the build and the deploy are successful.
