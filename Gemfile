@@ -30,7 +30,7 @@ gem "rack", "~> 3.0"
 
 group :development do
   # Puma is a Rack-compatible server used by Bridgetown for local preview
-  gem "puma", "~> 6.0"
+  gem "puma"
 
   gem "standard"
 end
