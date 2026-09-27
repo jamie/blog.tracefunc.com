@@ -7,7 +7,7 @@
     "esbuild": "node esbuild.config.js --minify",
     "esbuild-dev": "node esbuild.config.js --watch"
   },
-  "devDependencies": {
+  "dependencies": {
     "esbuild": "^0.28.2",
     "postcss": "^8.5.28",
     "postcss-flexbugs-fixes": "^5.0.2",
