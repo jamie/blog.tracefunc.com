@@ -31,6 +31,9 @@ jit-refresh.css
 # npm
 npm-debug.log*
 
+# Wrangler
+.wrangler
+
 # Notable local config
 /src/.notable/.settings.json
 

@@ -1,0 +1,12 @@
+{
+  // This name must be the same as the Worker name in the dashboard.
+  "name": "blog-tracefunc-com",
+  "compatibility_date": "2026-09-26",
+  "assets": {
+    "directory": "./output",
+    "not_found_handling": "404-page"
+  },
+  "routes": [
+    { "pattern": "blog.tracefunc.com", "custom_domain": true }
+  ]
+}

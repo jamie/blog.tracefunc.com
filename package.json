@@ -15,5 +15,8 @@
     "postcss-load-config": "^6.0.1",
     "postcss-preset-env": "^11.5.4",
     "read-cache": "^1.0.2"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
   }
 }
