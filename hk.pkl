@@ -1,0 +1,60 @@
+amends "package://github.com/jdx/hk/releases/download/v2.2.0/hk@2.2.0#/Config.pkl"
+// Using a coding agent? See https://hk.jdx.dev/agents
+
+local allSteps = new Mapping {
+    // eslint/prettier are project devDependencies, not global installs, so
+    // they need to be invoked from node_modules/.bin rather than bare PATH
+    // lookups (which is what hk's builtin eslint/prettier steps assume).
+    ["eslint"] = new Step {
+        glob = List("**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx")
+        // Generated and managed by Bridgetown; not meant to be hand-edited.
+        exclude = List("config/esbuild.defaults.js")
+        check = "node_modules/.bin/eslint {{files}}"
+        fix = "node_modules/.bin/eslint --fix {{files}}"
+    }
+    // standardrb's .direnv/bin binstub uses `#!/usr/bin/env ruby`, which can
+    // resolve to a stray Ruby on PATH instead of the pinned mise version.
+    // `bundle exec` always uses the correct one, since `bundle` itself has a
+    // hardcoded interpreter path baked into its shebang.
+    ["standard_rb"] = new Step {
+        types = List("ruby")
+        check = "bundle exec standardrb {{files}}"
+        fix = "bundle exec standardrb --fix {{files}}"
+    }
+    ["prettier"] = new Step {
+        // Code files only -- prettier's markdown formatting would rewrite
+        // every blog post and Obsidian note in src/.
+        glob = List(
+            "**/*.js",
+            "**/*.jsx",
+            "**/*.mjs",
+            "**/*.cjs",
+            "**/*.ts",
+            "**/*.tsx",
+            "**/*.css",
+            "**/*.scss",
+            "**/*.less",
+            "**/*.json",
+        )
+        // Generated and managed by Bridgetown; not meant to be hand-edited.
+        exclude = List("config/esbuild.defaults.js")
+        check = "node_modules/.bin/prettier --check {{files}}"
+        fix = "node_modules/.bin/prettier --write {{files}}"
+    }
+    ["frontmatter"] = new Step {
+        glob = List("src/**/*.md")
+        check = "bin/ensure-frontmatter --check {{files}}"
+        fix = "bin/ensure-frontmatter --fix {{files}}"
+        stage = List("src/**/*.md")
+    }
+}
+
+steps = allSteps
+
+hooks {
+    ["pre-commit"] {
+        fix = true
+        stash = "git"
+        steps = allSteps
+    }
+}
