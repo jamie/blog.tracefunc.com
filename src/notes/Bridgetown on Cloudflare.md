@@ -3,6 +3,8 @@ Cloudflare has a few hiccups to get a clean build of Bridgetown going. Cloudflar
 
 - Node version in `.node-version` (for example, `24.18.0`).
 - Ruby version in `.ruby-version` - for cloudflare, this needs to be a bare version number, not rbenv `ruby@4.0.0` style.
+- See https://developers.cloudflare.com/workers/ci-cd/builds/build-image/ for specific supported supported versions that are available without eg. compiling ruby from scratch each deploy.
+	- Sep 2026, docs say ruby@3.4.4 is in the build image, but it's still installing from scratch each deploy.
 - Aside: if you've got plugins that read files from disk, they need an explicit encoding as the Cloudflare build image defaults to US-ASCII. `File.read(path, encoding: "utf-8")` or similar.
   Run locally as `LANG=C LC_ALL=C BRIDGETOWN_ENV=production bin/bridgetown build` to surface those errors.
 -  If you use npm 11, approve the install scripts that the build needs (for example, `npm approve-scripts esbuild`). Commit the change to `package.json`.
