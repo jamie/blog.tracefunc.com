@@ -9,7 +9,7 @@ a.wikilink {
 
 /* weird markdown html nesting */
 #content li p {
-  display: inline
+  display: inline;
 }
 
 /* Consistent format for code blocks */
@@ -21,14 +21,14 @@ div.highlighter-rouge {
   min-width: 30px;
   --text-opacity: 1;
   color: #cbd5e0;
-  color: rgba(203, 213, 224, var(--text-opacity))
+  color: rgba(203, 213, 224, var(--text-opacity));
 }
 
 .highlighter-rouge .rouge-code {
-  min-width: 720px
+  min-width: 720px;
 }
 
 .rouge-gutter,
 .rouge-code {
-  border-width: 0 !important
+  border-width: 0 !important;
 }
